@@ -1,0 +1,4566 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Project Eclipse\n"
+"Language: vi\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+# Title
+msgid "TITLE_CONTINUE"
+msgstr "Tiếp tục"
+
+msgid "TITLE_NEW_GAME"
+msgstr "Game mới"
+
+msgid "TITLE_QUIT"
+msgstr "Thoát"
+
+# Hub
+msgid "HUB_BACK"
+msgstr "‹ Quay lại"
+
+msgid "HUB_TAB_HOME"
+msgstr "Trang chủ"
+
+msgid "HUB_TAB_BATTLE"
+msgstr "Chiến đấu"
+
+msgid "HUB_TAB_CHARACTERS"
+msgstr "Nhân vật"
+
+msgid "HUB_TAB_RECRUIT"
+msgstr "Chiêu mộ"
+
+msgid "HUB_TAB_SETTINGS"
+msgstr "Cài đặt"
+
+msgid "HUB_WIP"
+msgstr "(đang phát triển)"
+
+msgid "HUB_TEST_STAGE"
+msgstr "Màn thử nghiệm"
+
+# Stage
+msgid "STAGE_HINT"
+msgstr "A/D chạy · Space nhảy · J đánh (giữ: nạp; trên không; rơi cao: lao) · L/Shift né · U kỹ năng · I vũ khí · O tuyệt kỹ · Q/E đổi nhân vật · Esc Hub · F3 ẩn"
+
+# Trạng thái (StatusDef)
+msgid "STATUS_BURN"
+msgstr "Cháy"
+
+msgid "STATUS_SLOW"
+msgstr "Chậm"
+
+msgid "STATUS_LIGHTNING_MARK"
+msgstr "Dấu Sét"
+
+msgid "STATUS_JUDGMENT"
+msgstr "Phán quyết"
+
+msgid "STATUS_CURSE"
+msgstr "Nguyền"
+
+msgid "STATUS_EARTH_GUARD"
+msgstr "Giáp Địa"
+
+msgid "STATUS_ROOT"
+msgstr "Trói"
+
+msgid "STATUS_STUN"
+msgstr "Choáng"
+
+msgid "STATUS_SAND_BLIND"
+msgstr "Mù cát"
+
+msgid "STATUS_SHIELD"
+msgstr "Khiên"
+
+msgid "STATUS_TAUNT"
+msgstr "Khiêu khích"
+
+msgid "STATUS_WIND_STEP"
+msgstr "Gió Trợ Bước"
+
+msgid "STATUS_ATTACK_SPEED_UP"
+msgstr "Tăng tốc đánh"
+
+msgid "DEBUG_PARTY_DOWN"
+msgstr "(gục)"
+
+msgid "DEBUG_PARTY_LINK"
+msgstr "LIÊN KẾT"
+
+# Nhân vật (tên tạm)
+msgid "CHAR_FIRE_01"
+msgstr "Enkiba"
+
+msgid "CHAR_WIND_01"
+msgstr "Kazeyumi"
+
+msgid "CHAR_LIGHTNING_01"
+msgstr "Raikiba"
+
+msgid "CHAR_LIGHT_01"
+msgstr "Hikarine"
+
+msgid "CHAR_DARK_01"
+msgstr "Yomigari"
+
+msgid "CHAR_EARTH_01"
+msgstr "Iwagane"
+
+msgid "DUMMY_HP"
+msgstr "Máu"
+
+msgid "DEBUG_COMBAT"
+msgstr "HP %d/%d  EN %d  UG %d  Né %d  Kỹ năng %s  Vũ khí %s"
+
+msgid "STATUS_HEAT"
+msgstr "Nhiệt"
+
+msgid "STATUS_MELT"
+msgstr "Nung chảy"
+
+msgid "STATUS_PHOENIX"
+msgstr "Hỏa Hoàng"
+
+msgid "STATUS_HOT_BREATH"
+msgstr "Hơi Nóng"
+
+msgid "ENEMY_SLIME_01"
+msgstr "Slime"
+
+msgid "SKILL_FIRE_01_ULTIMATE"
+msgstr "Viêm Hoàng Tuyệt Trảm"
+
+msgid "HUD_COMBO"
+msgstr "%d COMBO"
+
+# Phản ứng nguyên tố (mục 8.4)
+msgid "REACTION_FIRE_WIND"
+msgstr "Hỏa Lốc"
+
+msgid "REACTION_FIRE_LIGHTNING"
+msgstr "Quá Tải"
+
+msgid "REACTION_FIRE_LIGHT"
+msgstr "Nhật Thiêu"
+
+msgid "REACTION_FIRE_DARK"
+msgstr "Thiêu Hồn"
+
+msgid "REACTION_FIRE_EARTH"
+msgstr "Dung Nham"
+
+msgid "REACTION_WIND_LIGHTNING"
+msgstr "Bão Sét"
+
+msgid "REACTION_WIND_LIGHT"
+msgstr "Thanh Phong"
+
+msgid "REACTION_WIND_DARK"
+msgstr "Lốc Oán"
+
+msgid "REACTION_WIND_EARTH"
+msgstr "Bão Cát"
+
+msgid "REACTION_LIGHTNING_LIGHT"
+msgstr "Thần Phạt"
+
+msgid "REACTION_LIGHTNING_DARK"
+msgstr "Điện Hồn"
+
+msgid "REACTION_LIGHTNING_EARTH"
+msgstr "Từ Chấn"
+
+msgid "REACTION_LIGHT_DARK"
+msgstr "Nhật Thực"
+
+msgid "REACTION_LIGHT_EARTH"
+msgstr "Thánh Giáp"
+
+msgid "REACTION_DARK_EARTH"
+msgstr "Địa Táng"
+
+# Vật phẩm, trang bị (M5)
+msgid "ITEM_MAT_EXP_SMALL"
+msgstr "Sách kinh nghiệm nhỏ"
+
+msgid "ITEM_MAT_EXP_MEDIUM"
+msgstr "Sách kinh nghiệm vừa"
+
+msgid "ITEM_MAT_EXP_LARGE"
+msgstr "Sách kinh nghiệm lớn"
+
+msgid "ITEM_MAT_ENHANCE_ORE"
+msgstr "Quặng cường hóa"
+
+msgid "ITEM_MAT_ENHANCE_CRYSTAL"
+msgstr "Tinh thể cường hóa"
+
+msgid "EQUIP_EQ_WEAPON_IRON"
+msgstr "Lõi vũ khí sắt"
+
+msgid "EQUIP_EQ_WEAPON_FLAME"
+msgstr "Lõi vũ khí hỏa tinh"
+
+msgid "EQUIP_EQ_ARMOR_LEATHER"
+msgstr "Giáp da"
+
+msgid "EQUIP_EQ_ARMOR_GUARDIAN"
+msgstr "Giáp hộ vệ"
+
+msgid "EQUIP_EQ_ACC_RING"
+msgstr "Nhẫn tinh anh"
+
+msgid "EQUIP_EQ_ACC_HOURGLASS"
+msgstr "Đồng hồ cát"
+
+msgid "CURRENCY_GOLD"
+msgstr "Vàng"
+
+msgid "CURRENCY_GEMS"
+msgstr "Ngọc"
+
+msgid "SLOT_WEAPON"
+msgstr "Vũ khí"
+
+msgid "SLOT_ARMOR"
+msgstr "Giáp"
+
+msgid "SLOT_ACCESSORY"
+msgstr "Phụ kiện"
+
+msgid "BOSS_GOLEM_01"
+msgstr "Golem Đá Cổ"
+
+msgid "HUB_STAGE_01"
+msgstr "Màn 1"
+
+msgid "STAGE_01_NAME"
+msgstr "Thung lũng tro tàn"
+
+msgid "STAGE_OBJ_ADVANCE"
+msgstr "Tiến lên →"
+
+msgid "STAGE_OBJ_WAVE"
+msgstr "Đợt %d/%d · còn %d kẻ địch"
+
+msgid "STAGE_OBJ_BOSS"
+msgstr "Hạ gục boss"
+
+msgid "STAGE_CHECKPOINT"
+msgstr "Đã cắm điểm neo"
+
+msgid "STAGE_WAVE_CLEARED"
+msgstr "Đã dẹp xong"
+
+msgid "STAGE_BOSS_PHASE"
+msgstr "Pha %d"
+
+msgid "RESULT_VICTORY"
+msgstr "CHIẾN THẮNG"
+
+msgid "RESULT_DEFEAT"
+msgstr "THẤT BẠI"
+
+msgid "RESULT_DEFEAT_HINT"
+msgstr "Cả đội đã gục. Thử lại nhé."
+
+msgid "RESULT_TIME"
+msgstr "Thời gian: %s"
+
+msgid "RESULT_BEST_TIME"
+msgstr "(kỷ lục mới)"
+
+msgid "RESULT_REWARDS"
+msgstr "Phần thưởng"
+
+msgid "RESULT_FIRST_CLEAR"
+msgstr "Thưởng qua màn lần đầu"
+
+msgid "RESULT_EQUIPMENT"
+msgstr "Trang bị ×%d"
+
+msgid "RESULT_LEVEL_UP"
+msgstr "%s lên %d cấp"
+
+msgid "RESULT_RETRY"
+msgstr "Chơi lại"
+
+msgid "RESULT_TO_HUB"
+msgstr "Về Hub"
+
+msgid "UI_BACK"
+msgstr "Quay lại"
+
+msgid "SETTINGS_TITLE"
+msgstr "Cài đặt"
+
+msgid "SETTINGS_LANGUAGE"
+msgstr "Ngôn ngữ"
+
+msgid "LANGUAGE_VI"
+msgstr "Tiếng Việt"
+
+msgid "LANGUAGE_EN"
+msgstr "English"
+
+msgid "SETTINGS_VOLUME_MASTER"
+msgstr "Âm lượng chung"
+
+msgid "SETTINGS_VOLUME_MUSIC"
+msgstr "Nhạc nền"
+
+msgid "SETTINGS_VOLUME_SFX"
+msgstr "Hiệu ứng"
+
+msgid "SETTINGS_FULLSCREEN"
+msgstr "Toàn màn hình"
+
+msgid "CREDITS_TITLE"
+msgstr "Credits và giấy phép"
+
+msgid "CREDITS_ROLE"
+msgstr "Vai trò"
+
+msgid "CREDITS_LICENSE"
+msgstr "Giấy phép"
+
+msgid "CREDITS_COPYRIGHT"
+msgstr "Bản quyền"
+
+msgid "CREDITS_SOURCE"
+msgstr "Nguồn"
+
+msgid "PAUSE_TITLE"
+msgstr "TẠM DỪNG"
+
+msgid "PAUSE_RESUME"
+msgstr "Tiếp tục"
+
+msgid "PAUSE_SETTINGS"
+msgstr "Cài đặt"
+
+msgid "PAUSE_QUIT"
+msgstr "Thoát màn"
+
+msgid "PAUSE_QUIT_CONFIRM"
+msgstr "Thoát về Hub? Tiến độ màn này sẽ mất."
+
+msgid "PAUSE_QUIT_YES"
+msgstr "Thoát"
+
+msgid "PAUSE_QUIT_NO"
+msgstr "Ở lại"
+
+msgid "BATTLE_PARTY_TITLE"
+msgstr "Đội hình"
+
+msgid "BATTLE_PARTY_HINT"
+msgstr "Bấm để thêm / bỏ nhân vật (tối đa 3, theo thứ tự bấm)."
+
+msgid "BATTLE_STAGES_TITLE"
+msgstr "Màn chơi"
+
+msgid "BATTLE_STAGE_CLEARED"
+msgstr "đã qua"
+
+msgid "BATTLE_STAGE_BEST"
+msgstr "kỷ lục %s"
+
+msgid "BATTLE_STAGE_NEW"
+msgstr "chưa qua"
+
+msgid "HOME_STAGES_CLEARED"
+msgstr "Số màn đã qua: %d"
+
+msgid "CHAR_MAX_LEVEL"
+msgstr "tối đa"
+
+msgid "CHAR_CRIT_RATE"
+msgstr "Chí mạng"
+
+msgid "CHAR_CRIT_DAMAGE"
+msgstr "Sát thương chí mạng"
+
+msgid "CHAR_EQUIP_NEXT"
+msgstr "Đổi món"
+
+msgid "CHAR_ENHANCE"
+msgstr "Cường hóa"
+
+msgid "CHAR_UNEQUIP"
+msgstr "Tháo"
+
+msgid "RECRUIT_CLOSED"
+msgstr "Chiêu mộ chưa mở."
+
+msgid "RECRUIT_PULL"
+msgstr "Chiêu mộ ×%d (%d ngọc)"
+
+msgid "RECRUIT_HARD_PITY"
+msgstr "chắc chắn trong %d lượt (đã quay %d)"
+
+msgid "RECRUIT_SOFT_PITY"
+msgstr "từ lượt %d: +%.1f%% mỗi lượt"
+
+msgid "RECRUIT_GUARANTEE"
+msgstr "trượt rate-up thì lần sau chắc chắn trúng"
+
+msgid "RECRUIT_DUPLICATE"
+msgstr "trùng"
+
+msgid "RECRUIT_HISTORY"
+msgstr "Lịch sử: %d lượt"
+
+msgid "REASON_NOT_ENOUGH"
+msgstr "Không đủ vàng hoặc nguyên liệu."
+
+msgid "REASON_MAX_LEVEL"
+msgstr "Đã đạt cấp tối đa."
+
+msgid "REASON_UNKNOWN_ITEM"
+msgstr "Vật phẩm không dùng được ở đây."
+
+msgid "REASON_NOT_OWNED"
+msgstr "Chưa có món này."
+
+msgid "REASON_UNKNOWN_CHARACTER"
+msgstr "Chưa sở hữu nhân vật này."
+
+msgid "REASON_INVALID"
+msgstr "Thao tác không hợp lệ."
+
+msgid "REASON_NOT_ENOUGH_CURRENCY"
+msgstr "Không đủ ngọc."
+
+msgid "REASON_INVALID_BANNER"
+msgstr "Banner không hợp lệ."
+
+msgid "REASON_BAD_COUNT"
+msgstr "Số lượt không hợp lệ."
+
+# Vật phẩm, trang bị (M5)
+msgid "EQUIP_EQ_STIGMA_TOP_ELITE"
+msgstr "Ấn Tinh Anh (Đầu)"
+
+msgid "EQUIP_EQ_STIGMA_MID_HIDE"
+msgstr "Ấn Da Thú (Thân)"
+
+msgid "EQUIP_EQ_STIGMA_MID_GUARDIAN"
+msgstr "Ấn Hộ Vệ (Thân)"
+
+msgid "EQUIP_EQ_STIGMA_BOT_HOURGLASS"
+msgstr "Ấn Đồng Hồ Cát (Chân)"
+
+msgid "SLOT_STIGMA_TOP"
+msgstr "Vết thánh Đầu"
+
+msgid "SLOT_STIGMA_MID"
+msgstr "Vết thánh Thân"
+
+msgid "SLOT_STIGMA_BOT"
+msgstr "Vết thánh Chân"
+
+# Vật phẩm, trang bị (M5)
+msgid "EQUIP_EQ_WEAPON_BOW_GALE"
+msgstr "Cung gió lốc"
+
+msgid "EQUIP_EQ_WEAPON_BLADES_SPARK"
+msgstr "Song đao tia lửa"
+
+msgid "WEAPON_TYPE_SWORD"
+msgstr "Kiếm"
+
+msgid "WEAPON_TYPE_BOW"
+msgstr "Cung"
+
+msgid "WEAPON_TYPE_DUAL_BLADES"
+msgstr "Song đao"
+
+msgid "WEAPON_TYPE_STAFF"
+msgstr "Trượng"
+
+msgid "WEAPON_TYPE_SCYTHE"
+msgstr "Lưỡi hái"
+
+msgid "WEAPON_TYPE_GREATSWORD"
+msgstr "Đại kiếm"
+
+msgid "REASON_LEVEL_CAP"
+msgstr "Đã chạm giới hạn cấp người chơi."
+
+msgid "REASON_WRONG_WEAPON"
+msgstr "Nhân vật không dùng được loại vũ khí này."
+
+msgid "RECRUIT_SOFT_PITY_FLAT"
+msgstr "từ lượt %d: +%.1f%%"
+
+msgid "RECRUIT_MULTI_GUARANTEE"
+msgstr "quay %d lượt chắc chắn có ít nhất 1 bậc này"
+
+msgid "GACHA_TIER_CHAR_S"
+msgstr "Nhân vật S"
+
+msgid "GACHA_TIER_CHAR_A"
+msgstr "Nhân vật A"
+
+msgid "GACHA_TIER_CHAR_B"
+msgstr "Nhân vật B"
+
+msgid "GACHA_TIER_MATERIALS"
+msgstr "Nguyên liệu, vàng"
+
+msgid "BANNER_CHAR_KAEL"
+msgstr "Chiêu mộ: Raikiba"
+
+msgid "CAPTAIN_LEVEL"
+msgstr "Cấp người chơi %d"
+
+msgid "CHAR_TAB_LEVEL"
+msgstr "Tăng cấp"
+
+msgid "CHAR_TAB_WEAPON"
+msgstr "Vũ khí"
+
+msgid "CHAR_TAB_STIGMA"
+msgstr "Vết Thánh"
+
+msgid "CHAR_TAB_SKILL"
+msgstr "Skill"
+
+msgid "CHAR_UI_BRIEF"
+msgstr "Sơ lược"
+
+msgid "CHAR_UI_CHANGE"
+msgstr "Đổi"
+
+msgid "CHAR_UI_CONVERT"
+msgstr "Chuyển đổi"
+
+msgid "CHAR_UI_DEMO"
+msgstr "Minh họa"
+
+msgid "CHAR_UI_DETAIL_STATS"
+msgstr "Chỉ số chi tiết"
+
+msgid "CHAR_UI_EMPTY"
+msgstr "Chưa trang bị"
+
+msgid "CHAR_UI_EQUIP"
+msgstr "Trang bị"
+
+msgid "CHAR_UI_FAVORITE"
+msgstr "Yêu thích"
+
+msgid "CHAR_UI_FILTER"
+msgstr "Lọc"
+
+msgid "CHAR_UI_FRAGMENTS"
+msgstr "Mảnh nhân vật"
+
+msgid "CHAR_UI_FRAGMENT_HINT"
+msgstr "Mảnh nhận được khi chiêu mộ trùng nhân vật."
+
+msgid "CHAR_UI_GLOSSARY"
+msgstr "Giải thích từ ngữ"
+
+msgid "CHAR_UI_GRID"
+msgstr "Lưới"
+
+msgid "CHAR_UI_INSPECT"
+msgstr "Quan sát"
+
+msgid "CHAR_UI_LEVEL_UP"
+msgstr "Tăng cấp"
+
+msgid "CHAR_UI_MAXED"
+msgstr "Đầy cấp"
+
+msgid "CHAR_UI_NOTHING"
+msgstr "Không có gì để chọn."
+
+msgid "CHAR_UI_NOT_YET"
+msgstr "Chức năng này chưa có trong bản thử."
+
+msgid "CHAR_UI_NO_SET_BONUS"
+msgstr "Hiệu ứng bộ: chưa có (chờ dữ liệu bộ vết thánh)."
+
+msgid "CHAR_UI_OUTFIT"
+msgstr "Trang phục"
+
+msgid "CHAR_UI_PHOTO"
+msgstr "Chụp ảnh"
+
+msgid "CHAR_UI_PORTRAIT"
+msgstr "Chân dung"
+
+msgid "CHAR_UI_PROMOTE"
+msgstr "Đi tăng cấp"
+
+msgid "CHAR_UI_PROMOTION"
+msgstr "Tiến cấp"
+
+msgid "CHAR_UI_PROMOTION_BONUS"
+msgstr "Thưởng tiến cấp: +%d%% chỉ số"
+
+msgid "CHAR_UI_SKILLS"
+msgstr "Skill Nhân Vật"
+
+msgid "CHAR_UI_SOURCE"
+msgstr "Nguồn"
+
+msgid "CHAR_UI_STIGMA_ART"
+msgstr "Vết thánh %s"
+
+msgid "CHAR_UI_STIGMA_HEADER"
+msgstr "Vết Thánh"
+
+msgid "CHAR_UI_STRATEGY"
+msgstr "Chiến thuật"
+
+msgid "CHAR_UI_SWAP"
+msgstr "Đổi nhân vật"
+
+msgid "CHAR_UI_TUTORIAL"
+msgstr "Hướng dẫn"
+
+msgid "CHAR_UI_UPGRADE_SKILL"
+msgstr "Nâng cấp — %d vàng"
+
+msgid "CHAR_UI_USE"
+msgstr "Dùng"
+
+msgid "CHAR_UI_VIEW"
+msgstr "Xem"
+
+msgid "STAT_HP"
+msgstr "HP"
+
+msgid "STAT_ATK"
+msgstr "ATK"
+
+msgid "STAT_DEF"
+msgstr "DEF"
+
+msgid "STAT_CRIT"
+msgstr "Tỉ lệ bạo kích"
+
+msgid "STAT_CRIT_DAMAGE"
+msgstr "Sát thương bạo kích"
+
+msgid "STAT_CDR"
+msgstr "Giảm hồi chiêu"
+
+msgid "STAT_EN"
+msgstr "EN tối đa"
+
+msgid "ELEMENT_FIRE"
+msgstr "Hỏa"
+
+msgid "ELEMENT_LIGHTNING"
+msgstr "Lôi"
+
+msgid "ELEMENT_WIND"
+msgstr "Phong"
+
+msgid "ELEMENT_LIGHT"
+msgstr "Quang"
+
+msgid "ELEMENT_DARK"
+msgstr "Ám"
+
+msgid "ELEMENT_EARTH"
+msgstr "Địa"
+
+msgid "SLOT_SHORT_WEAPON"
+msgstr "VK"
+
+msgid "SLOT_SHORT_STIGMA_TOP"
+msgstr "Đầu"
+
+msgid "SLOT_SHORT_STIGMA_MID"
+msgstr "Thân"
+
+msgid "SLOT_SHORT_STIGMA_BOT"
+msgstr "Chân"
+
+msgid "SKILL_GROUP_NORMAL"
+msgstr "Tấn công thường"
+
+msgid "SKILL_GROUP_SPECIAL"
+msgstr "Tấn công đặc biệt"
+
+msgid "SKILL_GROUP_DODGE"
+msgstr "Né tránh"
+
+msgid "SKILL_GROUP_SKILL"
+msgstr "Kĩ năng thường"
+
+msgid "SKILL_GROUP_WEAPON"
+msgstr "Kĩ năng vũ khí"
+
+msgid "SKILL_GROUP_ULTIMATE"
+msgstr "Tuyệt kỹ"
+
+msgid "SKILL_GROUP_SWITCH_IN"
+msgstr "Vào sân"
+
+msgid "SKILL_GROUP_PASSIVE"
+msgstr "Bị động"
+
+msgid "SUBSKILL_NORMAL"
+msgstr "Đòn %d"
+
+msgid "SUBSKILL_HOLD"
+msgstr "Nhấn giữ — mức %d"
+
+msgid "SUBSKILL_AIR"
+msgstr "Trên không — đòn %d"
+
+msgid "SUBSKILL_LANDING"
+msgstr "Đáp đất"
+
+msgid "SUBSKILL_DODGE"
+msgstr "Né"
+
+msgid "SUBSKILL_SKILL"
+msgstr "Kĩ năng"
+
+msgid "SUBSKILL_WEAPON"
+msgstr "Vũ khí"
+
+msgid "SUBSKILL_ULTIMATE"
+msgstr "Tuyệt kỹ"
+
+msgid "SUBSKILL_SWITCH_IN"
+msgstr "Vào sân"
+
+msgid "SUBSKILL_SWITCH_IN_LINKED"
+msgstr "Vào sân liên kết"
+
+msgid "SKILLTXT_DAMAGE"
+msgstr "Sát thương: %s ATK (%d vùng đánh)"
+
+msgid "SKILLTXT_EN"
+msgstr "Tốn %d EN"
+
+msgid "SKILLTXT_UG"
+msgstr "Tốn %d UG"
+
+msgid "SKILLTXT_CD"
+msgstr "Hồi chiêu %ss"
+
+msgid "SKILLTXT_STATUSES"
+msgstr "Áp: %s"
+
+msgid "SKILLTXT_TIMING"
+msgstr "Pha: chuẩn bị %d ms · hiệu lực %d ms · hồi %d ms"
+
+msgid "SKILLTXT_INVULN"
+msgstr "Bất tử %d–%d ms"
+
+msgid "SKILLTXT_SUPER_ARMOR"
+msgstr "Giáp cứng (không bị khựng)"
+
+msgid "SKILLTXT_MOVE"
+msgstr "Di chuyển tối đa %d px"
+
+msgid "SKILLTXT_NEXT_LEVEL"
+msgstr "Cấp %d: sát thương +%d%% so với cấp trước."
+
+msgid "SKILLTXT_NOT_IN_SLICE"
+msgstr "Kỹ năng này chưa có dữ liệu trong bản thử."
+
+msgid "SKILLTXT_NO_PASSIVE"
+msgstr "Chưa có mô tả bị động."
+
+msgid "GLOSS_DURATION"
+msgstr "kéo dài %ss"
+
+msgid "GLOSS_TICK"
+msgstr "%s ATK mỗi %ss"
+
+msgid "GLOSS_MOVE_SLOW"
+msgstr "giảm %s tốc độ di chuyển"
+
+msgid "GLOSS_DEF_REDUCTION"
+msgstr "giảm %s DEF"
+
+msgid "GLOSS_DAMAGE_TAKEN_UP"
+msgstr "nhận thêm %s sát thương"
+
+msgid "GLOSS_DAMAGE_TAKEN_DOWN"
+msgstr "nhận ít hơn %s sát thương"
+
+msgid "GLOSS_DAMAGE_DEALT_DOWN"
+msgstr "gây ít hơn %s sát thương"
+
+msgid "GLOSS_DAMAGE_DEALT_UP"
+msgstr "gây thêm %s sát thương"
+
+msgid "GLOSS_SHIELD_MAX_HP"
+msgstr "khiên bằng %s HP tối đa"
+
+msgid "GLOSS_MOVE_SPEED_UP"
+msgstr "tăng %s tốc độ di chuyển"
+
+msgid "GLOSS_ATTACK_SPEED_UP"
+msgstr "tăng %s tốc độ tấn công"
+
+msgid "GLOSS_TICK_BONUS"
+msgstr "tăng %s sát thương theo nhịp"
+
+msgid "GLOSS_STACKS"
+msgstr "tối đa %d tầng"
+
+msgid "GLOSS_BLOCKS_ACTIONS"
+msgstr "không thể hành động"
+
+msgid "GLOSS_BLOCKS_MOVEMENT"
+msgstr "không thể di chuyển"
+
+msgid "SKILL_FIRE_01_NORMAL"
+msgstr "Hỏa Trảm"
+
+msgid "SKILL_FIRE_01_DODGE"
+msgstr "Lướt Lửa"
+
+msgid "SKILL_FIRE_01_PASSIVE"
+msgstr "Lửa Bùng Cháy"
+
+msgid "SKILL_FIRE_01_SPECIAL"
+msgstr "Liệt Hỏa Tích Lực"
+
+msgid "SKILL_FIRE_01_SKILL"
+msgstr "Liệt Diễm Luân"
+
+msgid "SKILL_FIRE_01_WEAPON"
+msgstr "Thiên Hỏa Nhất Kích"
+
+msgid "SKILL_FIRE_01_PASSIVE_DESC"
+msgstr "Mỗi đòn trúng mục tiêu đang Cháy: +1 tầng Nhiệt, mỗi tầng +%s ATK. Đủ tầng: Kĩ năng thường hoặc Kĩ năng vũ khí kế tiếp +%s sát thương. Từ %d tầng Nhiệt, Tuyệt kỹ +%s sát thương."
+
+msgid "SKILL_LIGHTNING_01_NORMAL"
+msgstr "Lôi Nhận Liên Hoàn"
+
+msgid "SKILL_LIGHTNING_01_DODGE"
+msgstr "Thiểm Điện"
+
+msgid "SKILL_LIGHTNING_01_PASSIVE"
+msgstr "Tích Điện Quá Tải"
+
+msgid "SKILL_LIGHTNING_01_SPECIAL"
+msgstr "Lôi Quang Loạn Vũ"
+
+msgid "SKILL_LIGHTNING_01_SKILL"
+msgstr "Chớp Giật Liên Hoàn"
+
+msgid "SKILL_LIGHTNING_01_WEAPON"
+msgstr "Song Lôi Phi Nhận"
+
+msgid "SKILL_LIGHTNING_01_ULTIMATE"
+msgstr "Lôi Thần Quyết"
+
+msgid "SKILL_LIGHTNING_01_PASSIVE_DESC"
+msgstr "Mục tiêu đủ Dấu Sét thì Bùng nổ Sét: %s ATK (mỗi mục tiêu cách nhau %ss). Sau mỗi Bùng nổ, Raikiba +%s tốc độ tấn công trong %ss."
+
+msgid "SKILL_WIND_01_NORMAL"
+msgstr "Phong Tiễn"
+
+msgid "SKILL_WIND_01_DODGE"
+msgstr "Lộn Gió Lùi"
+
+msgid "SKILL_WIND_01_PASSIVE"
+msgstr "Gió Thuận"
+
+msgid "SKILL_WIND_01_SPECIAL"
+msgstr "Xuyên Phong Tiễn"
+
+msgid "SKILL_WIND_01_SKILL"
+msgstr "Phong Vực"
+
+msgid "SKILL_WIND_01_WEAPON"
+msgstr "Liên Châu Phong Tiễn"
+
+msgid "SKILL_WIND_01_ULTIMATE"
+msgstr "Bão Tiễn Thiên Không"
+
+msgid "SKILL_WIND_01_PASSIVE_DESC"
+msgstr "Né hoàn hảo — Gió Trợ Bước: +%s tốc độ di chuyển trong %ss, hồi %d EN. (Phần Gió Thuận cho cả đội chưa có trong bản thử.)"
+
+msgid "SKILL_LIGHT_01_NORMAL"
+msgstr "Quang Châm"
+
+msgid "SKILL_LIGHT_01_ULTIMATE"
+msgstr "Thiên Sứ Giáng Lâm"
+
+msgid "SKILL_DARK_01_NORMAL"
+msgstr "Ảnh Liêm"
+
+msgid "SKILL_DARK_01_ULTIMATE"
+msgstr "Đêm Vĩnh Hằng"
+
+msgid "SKILL_EARTH_01_NORMAL"
+msgstr "Đại Địa Trảm"
+
+msgid "SKILL_EARTH_01_ULTIMATE"
+msgstr "Sơn Băng Địa Liệt"
+
+# Vật phẩm, trang bị (M5)
+msgid "EQUIP_EQ_STIGMA_TOP_BLAZE"
+msgstr "Ấn Viêm Hoàng (Đầu)"
+
+msgid "EQUIP_EQ_STIGMA_MID_BLAZE"
+msgstr "Ấn Viêm Hoàng (Thân)"
+
+msgid "EQUIP_EQ_STIGMA_BOT_BLAZE"
+msgstr "Ấn Viêm Hoàng (Chân)"
+
+msgid "EQUIP_EQ_STIGMA_BOT_SANDAL"
+msgstr "Ấn Dép Cỏ (Chân)"
+
+msgid "BANNER_CHAR_AETHER"
+msgstr "Chiêu mộ: Enkiba"
+
+msgid "BANNER_EQUIP_AETHER"
+msgstr "Tiếp tế: vũ khí & vết thánh của Enkiba"
+
+msgid "BANNER_STARTER"
+msgstr "Chiêu mộ đầu tiên (miễn phí)"
+
+msgid "GACHA_TIER_WEAPON_4"
+msgstr "Vũ khí 4★"
+
+msgid "GACHA_TIER_STIGMA_4"
+msgstr "Vết thánh 4★"
+
+msgid "GACHA_TIER_WEAPON_3"
+msgstr "Vũ khí 3★"
+
+msgid "GACHA_TIER_STIGMA_3"
+msgstr "Vết thánh 3★"
+
+msgid "REASON_STARTER_USED"
+msgstr "Đã dùng lượt miễn phí này"
+
+# Tên giáp, bộ lọc (owner 2026-11-13)
+msgid "SUIT_FIRE_01"
+msgstr "Hỏa Diễm Mãnh Liệt"
+
+msgid "SUIT_WIND_01"
+msgstr "Đôi Cánh Của Gió"
+
+msgid "SUIT_LIGHTNING_01"
+msgstr "Nanh Của Lôi Thần"
+
+msgid "SUIT_LIGHT_01"
+msgstr "Ánh Sáng Thiên Giới"
+
+msgid "SUIT_DARK_01"
+msgstr "Lưỡi Hái Hắc Ám"
+
+msgid "SUIT_EARTH_01"
+msgstr "Thần Kiếm Nham Thạch"
+
+msgid "BANNER_CHAR_TERRA"
+msgstr "Chiêu mộ: Iwagane — Thần Kiếm Nham Thạch"
+
+msgid "BANNER_EQUIP_TERRA"
+msgstr "Tiếp tế: vũ khí & vết thánh của Iwagane"
+
+msgid "CHAR_UI_FILTER_TITLE"
+msgstr "Lọc nhân vật"
+
+msgid "CHAR_UI_FILTER_RANK"
+msgstr "Hạng giáp"
+
+msgid "CHAR_UI_FILTER_ELEMENT"
+msgstr "Nguyên tố"
+
+msgid "CHAR_UI_FILTER_PERSON"
+msgstr "Nhân vật"
+
+msgid "CHAR_UI_FILTER_CLEAR"
+msgstr "Bỏ lọc"
+
+msgid "CHAR_UI_FILTER_COUNT"
+msgstr "Đang hiện %d/%d giáp"
+
+msgid "CHAR_UI_FILTER_EMPTY"
+msgstr "Không có giáp nào khớp bộ lọc."
+
+msgid "PARTY_SAME_PERSON"
+msgstr "Hai giáp của cùng một nhân vật không thể ra trận cùng lúc."
+
+# Vật phẩm, trang bị (M5)
+msgid "EQUIP_EQ_WEAPON_GREATSWORD_MAGMA"
+msgstr "Đại kiếm Dung Nham"
+
+msgid "EQUIP_EQ_STIGMA_TOP_BEDROCK"
+msgstr "Ấn Nham Thạch (Đầu)"
+
+msgid "EQUIP_EQ_STIGMA_MID_BEDROCK"
+msgstr "Ấn Nham Thạch (Thân)"
+
+msgid "EQUIP_EQ_STIGMA_BOT_BEDROCK"
+msgstr "Ấn Nham Thạch (Chân)"
+
+msgid "RECRUIT_UI_TITLE"
+msgstr "Chiêu mộ"
+
+msgid "RECRUIT_UI_SHOP"
+msgstr "Cửa hàng"
+
+msgid "RECRUIT_UI_DETAILS"
+msgstr "Chi tiết"
+
+msgid "RECRUIT_UI_HISTORY"
+msgstr "Lịch sử"
+
+msgid "RECRUIT_UI_WISH"
+msgstr "Chiêu mộ ×%d"
+
+msgid "RECRUIT_UI_TAGLINE"
+msgstr "Tăng xác suất!"
+
+msgid "RECRUIT_UI_GUARANTEE_BOX"
+msgstr "Mỗi %d lượt chắc chắn có ít nhất 1: %s"
+
+msgid "RECRUIT_UI_NOTE"
+msgstr "Nhân vật hạng S của sự kiện chỉ nhận được trong banner này. Xem Chi tiết để biết tỉ lệ."
+
+msgid "RECRUIT_UI_TIME_LEFT"
+msgstr "Thời gian còn lại"
+
+msgid "RECRUIT_UI_TIME_FMT"
+msgstr "%d ngày %d giờ %d phút"
+
+msgid "RECRUIT_UI_PERMANENT"
+msgstr "Không giới hạn thời gian"
+
+msgid "RECRUIT_UI_ENDED"
+msgstr "Đã kết thúc"
+
+msgid "RECRUIT_UI_PITY"
+msgstr "Bảo đảm %s: %d/%d lượt"
+
+msgid "RECRUIT_UI_UP"
+msgstr "UP!"
+
+msgid "RECRUIT_UI_STIGMA_SET"
+msgstr "+ %d vết thánh đề cử"
+
+msgid "RECRUIT_UI_DETAILS_TITLE"
+msgstr "Chi tiết banner"
+
+msgid "RECRUIT_UI_HISTORY_TITLE"
+msgstr "Lịch sử chiêu mộ"
+
+msgid "RECRUIT_UI_HISTORY_EMPTY"
+msgstr "Chưa có lượt chiêu mộ nào."
+
+msgid "RECRUIT_UI_RESULT_TITLE"
+msgstr "Kết quả"
+
+msgid "RECRUIT_UI_CONFIRM"
+msgstr "Xác nhận"
+
+msgid "BANNER_KIND_CHAR"
+msgstr "Banner nhân vật"
+
+msgid "BANNER_KIND_EQUIP"
+msgstr "Banner trang bị thường"
+
+msgid "BANNER_TITLE_TERRA"
+msgstr "Nham Thạch Thức Tỉnh"
+
+msgid "BANNER_TITLE_EQUIP_TERRA"
+msgstr "Vũ Khí & Ấn Nham Thạch"
+
+msgid "RECRUIT_UI_NOTE_EQUIP"
+msgstr "Vũ khí và vết thánh đề cử có tỉ lệ tăng. Xem Chi tiết để biết tỉ lệ."
+
+msgid "DEBUG_GIFT_OPEN"
+msgstr "Quà thử nghiệm (debug)"
+
+msgid "DEBUG_GIFT_TITLE"
+msgstr "Quà thử nghiệm"
+
+msgid "DEBUG_GIFT_WARN"
+msgstr "Chỉ có trong bản debug. Quà được gửi thẳng vào save đang dùng."
+
+msgid "DEBUG_GIFT_STATUS"
+msgstr "Ngọc %d  ·  Vàng %d  ·  Cấp người chơi %d  ·  %d nhân vật  ·  %d trang bị"
+
+msgid "DEBUG_GIFT_PRESETS"
+msgstr "Gói quà mẫu (sửa ở data/debug/gift_presets.json)"
+
+msgid "DEBUG_GIFT_NO_PRESETS"
+msgstr "Không có gói quà mẫu (thiếu data/debug/gift_presets.json)."
+
+msgid "DEBUG_GIFT_CUSTOM"
+msgstr "Quà tùy chọn"
+
+msgid "DEBUG_GIFT_SEND"
+msgstr "Gửi"
+
+msgid "DEBUG_GIFT_HINT"
+msgstr "Cú pháp: gems=N  gold=N  item:<id>=N  equip:<id>=N  char:<id>  frag:<id>=N  captain=<cấp>  preset:<tên>. item / equip / char / frag nhận all (mọi ID)."
+
+msgid "DEBUG_GIFT_OK"
+msgstr "Đã gửi:"
+
+msgid "DEBUG_GIFT_ERRORS"
+msgstr "Không gửi được (chưa đổi gì):"
+
+msgid "DEBUG_GIFT_EMPTY"
+msgstr "Quà trống: chưa có gì để gửi."
+
+msgid "DEBUG_GIFT_LINE_CHAR_UNLOCK"
+msgstr "Mở khóa nhân vật: %s"
+
+msgid "DEBUG_GIFT_LINE_FRAG"
+msgstr "Mảnh %s +%d"
+
+msgid "DEBUG_GIFT_LINE_CAPTAIN"
+msgstr "Cấp người chơi tối thiểu %d"
+
+msgid "DEBUG_GIFT_LINE_CAPTAIN_EXP"
+msgstr "EXP người chơi +%d"
+
+msgid "STATUS_STORM_BLESSING"
+msgstr "Bão Tiễn"
+
+msgid "STATUS_FAIR_WIND"
+msgstr "Gió Thuận (EN)"
+
+msgid "STATUS_FAIR_WIND_HASTE"
+msgstr "Gió Thuận"
+
+msgid "STATUS_WIND_DOMAIN"
+msgstr "Trong Phong Vực"
+
+msgid "STATUS_WIND_DOMAIN_HASTE"
+msgstr "Phong Vực"
+
+msgid "STATUS_OVERLOAD"
+msgstr "Quá Tải"
+
+msgid "STATUS_SANCTUARY"
+msgstr "Thánh Vực"
+
+msgid "STATUS_NIGHT_KING"
+msgstr "Dạ Vương"
+
+msgid "STATUS_STONE_BONE"
+msgstr "Cốt Đá"
+
+msgid "STATUS_GUARD"
+msgstr "Thủ Thế"
+
+msgid "STATUS_HARD_ARMOR"
+msgstr "Giáp Cứng"
+
+msgid "STATUS_ARMOR_BREAK"
+msgstr "Phá Giáp"
+
+msgid "STATUS_STONE_GOD"
+msgstr "Thạch Thần"
+
+msgid "UI_MENU"
+msgstr "Menu"
+
+msgid "UI_COMING_SOON"
+msgstr "Sắp ra mắt"
+
+msgid "UI_OK"
+msgstr "Xác nhận"
+
+msgid "UI_CANCEL"
+msgstr "Hủy"
+
+msgid "HUB_HEX_EQUIPMENT"
+msgstr "Trang bị"
+
+msgid "HUB_HEX_COMPANION"
+msgstr "Người cộng tác"
+
+msgid "HUB_HEX_SORTIE"
+msgstr "Xuất kích"
+
+msgid "HUB_HEX_CHARACTER"
+msgstr "Nhân vật"
+
+msgid "HUB_HEX_SUPPLY"
+msgstr "Tiếp tế"
+
+msgid "HUB_BADGE_SOON"
+msgstr "Sắp có!"
+
+msgid "HUB_PLAYER_CARD_HINT"
+msgstr "Chạm để xem thông tin"
+
+msgid "PLAYER_DEFAULT_NAME"
+msgstr "Đội trưởng"
+
+msgid "BAG_TITLE"
+msgstr "Túi đồ"
+
+msgid "BAG_TAB_WEAPON"
+msgstr "Vũ khí"
+
+msgid "BAG_TAB_STIGMA"
+msgstr "Vết thánh"
+
+msgid "BAG_TAB_MATERIAL"
+msgstr "Nguyên liệu"
+
+msgid "BAG_TAB_FRAGMENT"
+msgstr "Mảnh"
+
+msgid "BAG_EMPTY"
+msgstr "Chưa có %s. Nhận từ Tiếp tế, sự kiện hoặc phần thưởng màn."
+
+msgid "BAG_IN_USE"
+msgstr "Đang dùng"
+
+msgid "BAG_NOT_IN_USE"
+msgstr "Chưa ai dùng"
+
+msgid "BAG_DETAIL_HINT"
+msgstr "Chạm một thẻ để xem chi tiết."
+
+msgid "BAG_SLOT_WEAPON"
+msgstr "Vũ khí"
+
+msgid "BAG_SLOT_STIGMA_TOP"
+msgstr "Vết thánh Đầu"
+
+msgid "BAG_SLOT_STIGMA_MID"
+msgstr "Vết thánh Thân"
+
+msgid "BAG_SLOT_STIGMA_BOT"
+msgstr "Vết thánh Chân"
+
+msgid "BAG_FRAGMENT_DETAIL"
+msgstr "Mảnh %s ×%d  ·  cần %d để tiến cấp"
+
+msgid "SUPPLY_TITLE"
+msgstr "Tiếp tế"
+
+msgid "SUPPLY_SHOP_TITLE"
+msgstr "Shop"
+
+msgid "SUPPLY_SHOP_DESC"
+msgstr "Bán vũ khí, vết thánh và tài nguyên."
+
+msgid "SUPPLY_SHOP_GO"
+msgstr "Đi đến Shop"
+
+msgid "SUPPLY_GACHA_TITLE"
+msgstr "Chiêu mộ"
+
+msgid "SUPPLY_GACHA_DESC"
+msgstr "Dùng thẻ tiếp tế mở rương: nhân vật, vũ khí, vết thánh."
+
+msgid "SUPPLY_GACHA_GO"
+msgstr "Đi chiêu mộ"
+
+msgid "SUPPLY_TOPUP_TITLE"
+msgstr "Nạp"
+
+msgid "SUPPLY_TOPUP_DESC"
+msgstr "Mua Ngọc, Nhật Hoa, thẻ tháng."
+
+msgid "SUPPLY_TOPUP_GO"
+msgstr "Đi nạp"
+
+msgid "SUPPLY_ONLINE_ONLY"
+msgstr "Bản online"
+
+msgid "SUPPLY_TOPUP_OFFLINE"
+msgstr "Nạp chỉ mở khi game phát hành online."
+
+msgid "SUPPLY_FORGE"
+msgstr "Rèn trang bị"
+
+msgid "SORTIE_TAB_RECOMMEND"
+msgstr "Đề cử"
+
+msgid "SORTIE_TAB_SORTIE"
+msgstr "Xuất kích"
+
+msgid "SORTIE_TAB_CHALLENGE"
+msgstr "Khiêu chiến"
+
+msgid "SORTIE_TAB_EVENT"
+msgstr "Event"
+
+msgid "SORTIE_STORY_TITLE"
+msgstr "Chương cốt truyện chính"
+
+msgid "SORTIE_STORY_SUB"
+msgstr "Tiếp tục: %s"
+
+msgid "SORTIE_STORY_DONE"
+msgstr "Đã xong"
+
+msgid "SORTIE_STORY_NEW"
+msgstr "Mới!"
+
+msgid "SORTIE_TRIAL_TITLE"
+msgstr "Thử đội hình"
+
+msgid "SORTIE_TRIAL_SUB"
+msgstr "Thử kỹ năng với bù nhìn"
+
+msgid "SORTIE_MATERIAL_TITLE"
+msgstr "Ải nguyên liệu"
+
+msgid "SORTIE_MATERIAL_SUB"
+msgstr "Nguyên liệu cường hóa, EXP"
+
+msgid "SORTIE_PARTY_TITLE"
+msgstr "Đội hình"
+
+msgid "SORTIE_PARTY_EDIT"
+msgstr "Chạm để đổi đội"
+
+msgid "COMPANION_TITLE"
+msgstr "Người cộng tác"
+
+msgid "COMPANION_DESC"
+msgstr "Một tinh linh nhỏ bay theo nhân vật trên sân, trợ chiến và tích năng lượng tinh linh."
+
+msgid "COMPANION_POINT_1"
+msgstr "Bay theo nhân vật đang ra trận, đổi người thì đi theo người mới."
+
+msgid "COMPANION_POINT_2"
+msgstr "Tự đánh hỗ trợ nhẹ khi nhân vật tấn công."
+
+msgid "COMPANION_POINT_3"
+msgstr "Tích năng lượng tinh linh khi đánh trúng, né hoàn hảo."
+
+msgid "COMPANION_POINT_4"
+msgstr "Đầy năng lượng: dùng kỹ năng chủ động riêng của tinh linh."
+
+msgid "PLAYER_COMMANDER"
+msgstr "Chỉ huy"
+
+msgid "PLAYER_INFO_LINE"
+msgstr "Nhân vật đầu đội: %s\nSố màn đã qua: %d"
+
+msgid "PLAYER_RENAME"
+msgstr "Đổi tên"
+
+msgid "PLAYER_RENAME_HINT"
+msgstr "Tên mới, tối đa %d ký tự."
+
+msgid "PLAYER_RENAMED"
+msgstr "Đã đổi tên."
+
+msgid "PLAYER_NAME_ERR_NAME_EMPTY"
+msgstr "Tên không được để trống."
+
+msgid "PLAYER_NAME_ERR_NAME_TOO_LONG"
+msgstr "Tên quá dài."
+
+msgid "PLAYER_NAME_ERR_NAME_SAME"
+msgstr "Tên mới trùng tên cũ."
+
+msgid "PLAYER_COLLECTION"
+msgstr "Bộ sưu tập"
+
+msgid "PLAYER_COLL_CHARACTER"
+msgstr "Nhân vật"
+
+msgid "PLAYER_COLL_WEAPON"
+msgstr "Kho vũ khí"
+
+msgid "PLAYER_COLL_STIGMA"
+msgstr "Kho vết thánh"
+
+msgid "PLAYER_COLL_HINT"
+msgstr "✓ đã sở hữu  ·  — chưa sở hữu (nhận từ Tiếp tế, sự kiện, phần thưởng màn)"
+
+msgid "HUB_TAB_BACKGROUND"
+msgstr "Đổi nền"
+
+msgid "HUB_ICON_BACKGROUND"
+msgstr "Đổi nền sảnh"
+
+msgid "HUB_ICON_SETTINGS"
+msgstr "Cài đặt"
+
+msgid "BG_SKY_GARDEN"
+msgstr "Vườn trên mây"
+
+msgid "BG_PANEL_HINT"
+msgstr "Nền phía sau nhân vật ở sảnh chính. Nền mới mua bằng ngọc hoặc nhận từ sự kiện."
+
+msgid "BG_IN_USE"
+msgstr "Đang dùng"
+
+msgid "BG_USE"
+msgstr "Dùng nền này"
+
+msgid "BG_BUY"
+msgstr "Mua %d ngọc"
+
+msgid "BG_FROM_EVENT"
+msgstr "Nhận từ sự kiện"
+
+msgid "BG_ERR_BG_UNKNOWN"
+msgstr "Không có nền này."
+
+msgid "BG_ERR_BG_NOT_OWNED"
+msgstr "Chưa sở hữu nền này."
+
+msgid "BG_ERR_BG_OWNED"
+msgstr "Đã có nền này."
+
+msgid "BG_ERR_BG_NOT_FOR_SALE"
+msgstr "Nền này không bán."
+
+msgid "BG_ERR_BG_NO_GEMS"
+msgstr "Không đủ ngọc."
+
+msgid "STAGE_01_DESC"
+msgstr "Tro bụi còn âm ỉ khắp thung lũng. Golem đá cổ đã thức giấc ở cuối đường, đàn slime kéo về chặn lối."
+
+msgid "OBJ_TIME_MAX"
+msgstr "Qua màn trong %s"
+
+msgid "OBJ_HITS_TAKEN_MAX"
+msgstr "Số đòn chịu không quá %d"
+
+msgid "OBJ_DAMAGE_TAKEN_MAX"
+msgstr "Tổng ST nhân vật chịu không quá %d"
+
+msgid "OBJ_DOWNS_MAX"
+msgstr "Không quá %d đồng đội gục"
+
+msgid "OBJ_NO_DOWNS"
+msgstr "Không đồng đội nào gục"
+
+msgid "RESULT_OBJECTIVES"
+msgstr "Mục tiêu: %d/%d đạt · thưởng thêm %d vàng"
+
+msgid "STAGE_INFO_NO_PREVIEW"
+msgstr "Chưa có ảnh màn"
+
+msgid "STAGE_INFO_RECOMMENDED"
+msgstr "LV đề cử LV.%d"
+
+msgid "STAGE_INFO_OBJECTIVES"
+msgstr "Mục tiêu"
+
+msgid "STAGE_INFO_OBJECTIVE_REWARD"
+msgstr "Mỗi lần đạt thưởng vàng"
+
+msgid "STAGE_INFO_NO_OBJECTIVES"
+msgstr "Màn này không có mục tiêu"
+
+msgid "STAGE_INFO_DONE"
+msgstr "Đã đạt"
+
+msgid "STAGE_INFO_NOT_DONE"
+msgstr "Chưa đạt"
+
+msgid "STAGE_INFO_DROPS"
+msgstr "Có thể rơi"
+
+msgid "STAGE_INFO_PREPARE"
+msgstr "Chuẩn bị"
+
+msgid "PARTY_PREP_TITLE"
+msgstr "Đội hình"
+
+msgid "PARTY_PREP_HINT"
+msgstr "Chạm vào ảnh nhân vật để chọn lại giáp ra trận"
+
+msgid "PARTY_PREP_STAGE"
+msgstr "Màn: %s"
+
+msgid "PARTY_PREP_GO"
+msgstr "Khai chiến"
+
+msgid "PARTY_PREP_CONFIRM"
+msgstr "Xác nhận"
+
+msgid "PARTY_PREP_EMPTY"
+msgstr "Trống"
+
+msgid "PARTY_LEADER"
+msgstr "Đội trưởng"
+
+msgid "PARTY_SELECT_TITLE"
+msgstr "Chọn giáp"
+
+msgid "PARTY_SELECT_DETAIL"
+msgstr "Chi tiết nhân vật"
+
+msgid "PARTY_SELECT_CONFIRM"
+msgstr "Xác nhận đội ngũ"
+
+msgid "PARTY_ERR_LAST"
+msgstr "Đội cần ít nhất 1 nhân vật."
+
+msgid "PARTY_ERR_FULL"
+msgstr "Đội đã đủ 3 người. Bỏ một giáp trước."
+
+msgid "PARTY_ERR_SAME_PERSON"
+msgstr "Nhân vật này đã có giáp khác trong đội."
+
+msgid "PARTY_ERR_NOT_OWNED"
+msgstr "Chưa sở hữu giáp này."
+
+msgid "ITEM_TICKET_STARTER_X10"
+msgstr "Vé chiêu mộ đầu tiên"
+
+msgid "RESULT_NEW_CHARACTER"
+msgstr "Nhân vật mới: %s"
+
+msgid "RECRUIT_UI_SURE"
+msgstr "Chắc chắn!"
+
+msgid "RECRUIT_UI_STARTER_FREE"
+msgstr "Miễn phí"
+
+msgid "RECRUIT_UI_STARTER_TICKET"
+msgstr "Miễn phí · dùng 1 vé (có %d)"
+
+msgid "RECRUIT_STARTER_RULE"
+msgstr "Chiêu mộ ×%d miễn phí, dùng một lần: chắc chắn 1 %s, %d lượt còn lại là nguyên liệu tăng cấp:"
+
+msgid "TUTORIAL_HUB_SORTIE"
+msgstr "Chạm vào Xuất kích nhé. Tôi đánh dấu sẵn rồi."
+
+msgid "TUTORIAL_SORTIE_STORY"
+msgstr "Chạm Chương cốt truyện chính để xem chi tiết ải."
+
+msgid "TUTORIAL_STAGE_PREPARE"
+msgstr "Chạm Chuẩn bị để xếp đội."
+
+msgid "TUTORIAL_PARTY_GO"
+msgstr "Chạm Khai chiến. Chúc Quản lý may mắn!"
+
+msgid "TUTORIAL_RETRY"
+msgstr "Chạm Chơi lại. Lần này mình sẽ làm được."
+
+msgid "TUTORIAL_RESULT_HUB"
+msgstr "Về sảnh trước đã, tôi chỉ cho. Chạm Về Hub."
+
+msgid "TUTORIAL_MENU"
+msgstr "Hình như mình đi lạc một chút. Chạm Menu để về sảnh nhé."
+
+msgid "TUTORIAL_HUB_SUPPLY"
+msgstr "Chạm Tiếp tế."
+
+msgid "TUTORIAL_SUPPLY_GACHA"
+msgstr "Chiêu mộ ở đây. Chạm Đi chiêu mộ."
+
+msgid "TUTORIAL_RECRUIT_STARTER"
+msgstr "Chạm Chiêu mộ ×10 để dùng vé."
+
+msgid "TUTORIAL_RECRUIT_DONE"
+msgstr "Phần hướng dẫn của tôi đến đây là xong. Chạm Xác nhận nhé, tôi vẫn ở đây khi Quản lý cần."
+
+msgid "REASON_NO_TICKET"
+msgstr "Cần Vé chiêu mộ đầu tiên (nhận khi qua ải 1-1)"
+
+msgid "RECRUIT_UI_NOTE_STARTER"
+msgstr "Lượt chiêu mộ dành cho Quản lý mới, dùng Vé chiêu mộ đầu tiên, chỉ một lần. Xem Chi tiết để biết phần thưởng."
+
+msgid "TUTORIAL_AI_NAME"
+msgstr "NEO"
+
+msgid "TUTORIAL_AI_TITLE"
+msgstr "Trợ lý AI"
+
+msgid "TUTORIAL_PLAYER_NAME"
+msgstr "Quản lý"
+
+msgid "TUTORIAL_SKIP_TALK"
+msgstr "Bỏ qua thoại ›"
+
+msgid "TUTORIAL_TAP_NEXT"
+msgstr "Chạm để tiếp tục"
+
+msgid "TUTORIAL_HUB_SORTIE_1"
+msgstr "Kết nối... ổn định. Xin chào, Quản lý! Tôi là NEO, trợ lý AI của Trạm."
+
+msgid "TUTORIAL_HUB_SORTIE_1_R"
+msgstr "Chào NEO."
+
+msgid "TUTORIAL_HUB_SORTIE_2"
+msgstr "Mấy bước đầu tôi sẽ đi cùng Quản lý. Yên tâm, tôi nói ngắn thôi."
+
+msgid "TUTORIAL_HUB_SORTIE_2_R"
+msgstr "Vậy thì tốt quá."
+
+msgid "TUTORIAL_HUB_SORTIE_3"
+msgstr "Enkiba đã có mặt và sẵn sàng. Nhiệm vụ đầu tiên đang chờ ở mục Xuất kích."
+
+msgid "TUTORIAL_HUB_SORTIE_3_R"
+msgstr "Dẫn đường đi."
+
+msgid "TUTORIAL_SORTIE_STORY_1"
+msgstr "Đây là bảng nhiệm vụ. Cốt truyện chính là con đường chúng ta sẽ đi."
+
+msgid "TUTORIAL_SORTIE_STORY_1_R"
+msgstr "Ải đầu tiên là gì?"
+
+msgid "TUTORIAL_SORTIE_STORY_2"
+msgstr "Ải 1-1: Thung lũng tro tàn. Cảm biến của tôi báo một golem đá cổ vừa thức giấc ở đó."
+
+msgid "TUTORIAL_SORTIE_STORY_2_R"
+msgstr "Nghe không ổn lắm."
+
+msgid "TUTORIAL_STAGE_PREPARE_1"
+msgstr "Mỗi ải có ba mục tiêu phụ, đạt được thì có thêm vàng. Lần đầu cứ tập trung qua ải là được."
+
+msgid "TUTORIAL_STAGE_PREPARE_1_R"
+msgstr "Hiểu rồi."
+
+msgid "TUTORIAL_STAGE_PREPARE_2"
+msgstr "Tin vui đây: qua ải lần đầu, Kazeyumi sẽ gia nhập đội. Kèm thêm một Vé chiêu mộ đầu tiên."
+
+msgid "TUTORIAL_STAGE_PREPARE_2_R"
+msgstr "Đáng để thử!"
+
+msgid "TUTORIAL_PARTY_GO_1"
+msgstr "Đội hiện chỉ có Enkiba. Một người thôi, nhưng là một người rất cứng."
+
+msgid "TUTORIAL_PARTY_GO_1_R"
+msgstr "Một mình có đủ không?"
+
+msgid "TUTORIAL_PARTY_GO_2"
+msgstr "Đủ, tôi đã tính rồi. Golem đập đất thì luôn gồng lên trước, thấy vậy là né ngay nhé."
+
+msgid "TUTORIAL_PARTY_GO_2_R"
+msgstr "Ghi nhớ."
+
+msgid "TUTORIAL_RETRY_1"
+msgstr "Không sao đâu, lần đầu ai cũng vậy. Tôi đã lưu lại dữ liệu trận vừa rồi."
+
+msgid "TUTORIAL_RETRY_1_R"
+msgstr "Thử lại thôi."
+
+msgid "TUTORIAL_RESULT_HUB_1"
+msgstr "Thắng rồi! Golem đã dừng lại. Tôi ghi nhận hiệu suất của Quản lý: rất ấn tượng."
+
+msgid "TUTORIAL_RESULT_HUB_1_R"
+msgstr "Cảm ơn NEO."
+
+msgid "TUTORIAL_RESULT_HUB_2"
+msgstr "Kazeyumi đã gia nhập đội. Trong túi đồ còn có thêm một Vé chiêu mộ đầu tiên."
+
+msgid "TUTORIAL_RESULT_HUB_2_R"
+msgstr "Vé đó dùng thế nào?"
+
+msgid "TUTORIAL_HUB_SUPPLY_1"
+msgstr "Chào mừng trở lại sảnh. Vé chiêu mộ được dùng ở khu Tiếp tế."
+
+msgid "TUTORIAL_HUB_SUPPLY_1_R"
+msgstr "Đi thôi."
+
+msgid "TUTORIAL_SUPPLY_GACHA_1"
+msgstr "Đây là kho tiếp tế của Trạm: cửa hàng, chiêu mộ, nạp đều ở đây cả."
+
+msgid "TUTORIAL_SUPPLY_GACHA_1_R"
+msgstr "Rõ."
+
+msgid "TUTORIAL_RECRUIT_STARTER_1"
+msgstr "Banner Chiêu mộ đầu tiên chỉ dành cho Quản lý mới. Mười lượt, không tốn một viên ngọc nào."
+
+msgid "TUTORIAL_RECRUIT_STARTER_1_R"
+msgstr "Có gì đặc biệt?"
+
+msgid "TUTORIAL_RECRUIT_STARTER_2"
+msgstr "Chắc chắn có Raikiba trong mười lượt đó. Tốc độ của Raikiba sẽ bổ sung rất tốt cho đội."
+
+msgid "TUTORIAL_RECRUIT_STARTER_2_R"
+msgstr "Quay thôi!"
+
+msgid "TUTORIAL_RECRUIT_DONE_1"
+msgstr "Raikiba đã gia nhập! Đội đã đủ ba người: Enkiba, Kazeyumi, Raikiba."
+
+msgid "TUTORIAL_RECRUIT_DONE_1_R"
+msgstr "Tuyệt!"
+
+msgid "TUTORIAL_RECRUIT_DONE_2"
+msgstr "Mẹo nhỏ: trong trận, khi chân dung người dự bị phát sáng, đổi sang người đó sẽ kích hoạt phản ứng nguyên tố."
+
+msgid "TUTORIAL_RECRUIT_DONE_2_R"
+msgstr "Nhớ rồi."
+
+msgid "NEO_KEY_FMT"
+msgstr "phím %s"
+
+msgid "NEO_BTN_SKILL"
+msgstr "nút Kĩ năng"
+
+msgid "NEO_BTN_WEAPON"
+msgstr "nút Vũ khí"
+
+msgid "NEO_BTN_ULTIMATE"
+msgstr "nút Tuyệt kỹ"
+
+msgid "NEO_BTN_DODGE"
+msgstr "nút Né"
+
+msgid "NEO_BTN_ATTACK"
+msgstr "nút Đánh"
+
+msgid "BARK_CH01_START"
+msgstr "Đã vào Vùng Thực. Tôi theo dõi từ trong Neo, Quản lý cứ tiến lên nhé."
+
+msgid "BARK_CH01_WAVE1"
+msgstr "Cặn tro chắn đường. Dọn sạch rồi mình đi tiếp."
+
+msgid "BARK_CH01_WAVE1_NEO"
+msgstr "Cặn tro chắn đường phía trước. Dọn sạch rồi đi tiếp nhé."
+
+msgid "BARK_CH01_CP1"
+msgstr "Lửa ngầm tắt thì đá cũng nứt. Cẩn thận mấy chỗ sụt."
+
+msgid "BARK_CH01_CP1_NEO"
+msgstr "Đất sụt vì lửa ngầm đã tắt. Cẩn thận khi nhảy qua hố."
+
+msgid "BARK_CH01_WAVE2"
+msgstr "Đông hơn rồi. Đổi tớ ra, gió của tớ làm chậm được chúng."
+
+msgid "BARK_CH01_WAVE2_NEO"
+msgstr "Lần này đông hơn. Đánh từ xa hoặc làm chậm chúng sẽ dễ hơn."
+
+msgid "BARK_CH01_CP2"
+msgstr "Thấy cửa lò rồi! To hơn tớ tưởng."
+
+msgid "BARK_CH01_CP2_NEO"
+msgstr "Cửa Lò Mẹ ở ngay phía trước rồi."
+
+msgid "BARK_CH01_CP3"
+msgstr "Thủ vệ ở ngay phía trước. Đây là điểm neo cuối, cứ yên tâm."
+
+msgid "BARK_CH01_BOSS"
+msgstr "Thủ vệ! Bọn tớ ở phe Lò Mẹ mà, dừng lại!"
+
+msgid "BARK_CH01_BOSS_NEO"
+msgstr "Golem Đá Cổ! Nó không còn nghe lệnh của vùng nữa."
+
+msgid "BARK_CH01_BOSS_B"
+msgstr "Không phản hồi. Đòn đập đất của nó gồng lâu, thấy là né ngay."
+
+msgid "BARK_CH01_PHASE2"
+msgstr "Có tín hiệu kênh trong lõi thủ vệ... Không phải của tôi."
+
+msgid "BARK_CH01_PHASE2_B"
+msgstr "Có kẻ đánh thức nó sao?!"
+
+msgid "BARK_CH01_PHASE2_B_NEO"
+msgstr "Có ai đó đã cố ý đánh thức nó."
+
+msgid "BARK_CH01_QUAKE"
+msgstr "Nó đập đất tạo sóng chạy hai bên, nhảy lên mà tránh!"
+
+msgid "BARK_CH01_QUAKE_NEO"
+msgstr "Sóng đất chạy hai bên! Nhảy lên để tránh nhé."
+
+msgid "NEO_HINT_SKILL"
+msgstr "EN đã đủ! Thử Kĩ năng thường xem (%s)."
+
+msgid "NEO_HINT_WEAPON"
+msgstr "Kĩ năng vũ khí sẵn sàng (%s). Đòn này mạnh lắm đấy."
+
+msgid "NEO_HINT_ULTIMATE"
+msgstr "Thanh Tuyệt kỹ đầy rồi! Tung hết sức đi (%s)."
+
+msgid "NEO_HINT_DODGE"
+msgstr "Né (%s) ngay lúc đòn sắp trúng là né hoàn hảo, kẻ địch sẽ chậm lại."
+
+msgid "NEO_HINT_HOLD"
+msgstr "Mẹo nhỏ: giữ %s để nạp một đòn mạnh hơn."
+
+msgid "NEO_HINT_STUN"
+msgstr "Kẻ địch sắp Choáng! Dồn thêm vài đòn nặng nữa."
+
+msgid "NEO_HINT_LINK"
+msgstr "Chân dung dự bị đang sáng! Đổi người ngay để kích hoạt phản ứng nguyên tố."
+
+msgid "NEO_HINT_REACTION"
+msgstr "Phản ứng nguyên tố! Đổi người đúng lúc là vậy đó, Quản lý."
+
+msgid "STORY_CH01_OPEN_SUMMARY"
+msgstr "Lửa Lò Mẹ tắt dần, còn Golem Đá Cổ thức dậy chắn cửa lò. Xuyên qua thung lũng, vượt qua thủ vệ và tìm ra vì sao lửa tắt trước khi quá muộn."
+
+msgid "STORY_CH01_OPEN_01_1"
+msgstr "Thung Lũng Tro Tàn."
+
+msgid "STORY_CH01_OPEN_02_1"
+msgstr "Tới rồi! …Ơ. Sao im thế này?"
+
+msgid "STORY_CH01_OPEN_03_1"
+msgstr "Không có gió. Tro rơi thẳng xuống như rơi trong nhà kín."
+
+msgid "STORY_CH01_OPEN_04_1"
+msgstr "Lò Mẹ ở cuối đường này."
+
+msgid "STORY_CH01_OPEN_05_1"
+msgstr "Đây là quê cậu à? Hồi ở Lò Nanh cậu kể suốt."
+
+msgid "STORY_CH01_OPEN_06_1"
+msgstr "Ừ. Lửa ở đây từng cao hơn mái nhà. Giờ thì… cậu nhìn đi."
+
+msgid "STORY_CH01_OPEN_07_1"
+msgstr "Phát hiện ranh giới Vùng Thực. Mật độ nguyên tố phía trước chỉ còn 12%."
+
+msgid "STORY_CH01_OPEN_08_1"
+msgstr "Đủ nuôi một bộ giáp. Không đủ cho ba."
+
+msgid "STORY_CH01_OPEN_08_2"
+msgstr "Vậy là đúng như bản hướng dẫn nói hả? Tớ… đọc lướt thôi."
+
+msgid "STORY_CH01_OPEN_09_1"
+msgstr "Một người ra sân, hai người chờ trong kênh của Neo. Quản lý quyết định ai ra."
+
+msgid "STORY_CH01_OPEN_09_2"
+msgstr "Khi kênh của ai đó cộng hưởng, tôi sẽ báo. Đổi đúng lúc ấy, hai nguyên tố sẽ chạm nhau."
+
+msgid "STORY_CH01_OPEN_09_3"
+msgstr "Rồi nổ chứ gì! Phần đó thì tớ nhớ."
+
+msgid "STORY_CH01_OPEN_10_1"
+msgstr "Tín hiệu lớn ở cuối thung lũng. Một thủ vệ đá… nó đang đứng chắn cửa Lò Mẹ."
+
+msgid "STORY_CH01_OPEN_10_2"
+msgstr "Golem Đá Cổ…? Nó canh Lò Mẹ cả trăm năm, chưa từng nhúc nhích."
+
+msgid "STORY_CH01_OPEN_11_1"
+msgstr "Lửa không tự tắt nhanh vậy đâu. Có ai đó đang dập nó."
+
+msgid "STORY_CH01_OPEN_12_1"
+msgstr "Còn mấy cục tro biết nhảy kia là gì?"
+
+msgid "STORY_CH01_OPEN_12_2"
+msgstr "Cặn. Nguyên tố thừa vón lại. Chúng bị kéo về phía lò, chắn hết đường."
+
+msgid "STORY_CH01_OPEN_13_1"
+msgstr "Quản lý. Lò Mẹ mà tắt hẳn thì Vùng Thực nuốt luôn làng tớ. Cho bọn tớ vào."
+
+msgid "STORY_CH01_OPEN_14_1"
+msgstr "Đã ghi mục tiêu. Chờ lệnh xuất kích của Quản lý."
+
+msgid "STORY_CH01_OPEN_15_1"
+msgstr "Cần chạy nhanh thì gọi tớ."
+
+msgid "STORY_CH01_OPEN_15_2"
+msgstr "Còn tớ nhắc trước: đừng để bị đánh trúng nhiều quá."
+
+msgid "STORY_CH01_OPEN_CARD_TITLE"
+msgstr "Chương 1 — Thung Lũng Tro Tàn"
+
+msgid "STORY_CH01_OPEN_CARD_SUB"
+msgstr "Mục tiêu: xuyên qua thung lũng, vượt qua Golem Đá Cổ đang chắn cửa Lò Mẹ."
+
+msgid "STORY_CH01_END_SUMMARY"
+msgstr "Kẻ đeo mặt nạ bị đánh bại và bị rút về một kênh lạ. Lò Mẹ cháy lại, làng an toàn. Hai mảnh ấn mã 00 cho thấy hắn chỉ là tay sai của một Quản lý khác, dưới trướng thủ lĩnh mã 00. Manh mối dẫn tới Cao nguyên Thủ Vệ."
+
+msgid "STORY_CH01_END_01_1"
+msgstr "Giáp của hắn đã vỡ. Vùng Thực loãng rồi: mọi người ra được."
+
+msgid "STORY_CH01_END_02_1"
+msgstr "Phù… Tên này còn lì hơn cả con golem."
+
+msgid "STORY_CH01_END_03_1"
+msgstr "Thắng một tay sai thì đã sao. Quản lý của ta chỉ cần lò này tắt một đêm."
+
+msgid "STORY_CH01_END_04_1"
+msgstr "Đứng lại!"
+
+msgid "STORY_CH01_END_04_2"
+msgstr "Hắn bị rút về một kênh khác. Định dạng… 00."
+
+msgid "STORY_CH01_END_05_1"
+msgstr "Dậy đi. Tới lượt cậu rồi."
+
+msgid "STORY_CH01_END_06_1"
+msgstr "…Cháy rồi."
+
+msgid "STORY_CH01_END_06_2"
+msgstr "Cháy rồi! Cháy thật rồi!"
+
+msgid "STORY_CH01_END_07_1"
+msgstr "Gió cũng về rồi. Nghe này."
+
+msgid "STORY_CH01_END_07_2"
+msgstr "Ranh giới Vùng Thực đã lùi 2 km. Làng Lò Than an toàn rồi."
+
+msgid "STORY_CH01_END_08_1"
+msgstr "Hắn làm rơi cái này. Giống hệt cái trong golem."
+
+msgid "STORY_CH01_END_09_1"
+msgstr "Cả hai cùng nguồn lệnh 00. Golem và tên đó nhận lệnh từ cùng một mạng kênh."
+
+msgid "STORY_CH01_END_09_2"
+msgstr "Tay sai, rồi Quản lý của hắn, rồi kẻ mang mã 00…"
+
+msgid "STORY_CH01_END_10_1"
+msgstr "Tớ sẽ lần ra từng người một. Không ai được dập lửa của làng tớ nữa."
+
+msgid "STORY_CH01_END_11_1"
+msgstr "Dấu này tớ từng thấy trên bản đồ. Xưởng làm thủ vệ trên cao nguyên đá."
+
+msgid "STORY_CH01_END_11_2"
+msgstr "Muốn sai được thủ vệ thì chắc chúng đã ghé đó trước."
+
+msgid "STORY_CH01_END_12_1"
+msgstr "Đi luôn hả? Chân tớ vẫn còn nóng."
+
+msgid "STORY_CH01_END_13_1"
+msgstr "Đi. Lò Mẹ cháy lại rồi. Tớ không để nơi nào khác tắt như vậy nữa."
+
+msgid "STORY_CH01_END_13_2"
+msgstr "Đã ghi tọa độ: Cao nguyên Thủ Vệ. Chờ lệnh của Quản lý."
+
+msgid "STORY_CH01_END_14_1"
+msgstr "Tay sai thua rồi à. Không sao. Báo với 00: thủ vệ trên cao nguyên còn nhiều."
+
+msgid "STORY_CH01_END_CARD_TITLE"
+msgstr "Chương 1 — Hoàn thành"
+
+msgid "STORY_CH01_END_CARD_SUB"
+msgstr "Chương 2: Xưởng Đá Ngủ — đã mở"
+
+msgid "STORY_UI_AUTO"
+msgstr "Tự động"
+
+msgid "STORY_UI_HISTORY"
+msgstr "Lịch sử"
+
+msgid "STORY_UI_HIDE"
+msgstr "Ẩn"
+
+msgid "STORY_UI_SKIP"
+msgstr "Bỏ qua"
+
+msgid "STORY_UI_TAP"
+msgstr "Chạm để tiếp tục"
+
+msgid "STORY_UI_HISTORY_TITLE"
+msgstr "Lịch sử hội thoại"
+
+msgid "STORY_UI_CLOSE"
+msgstr "Đóng"
+
+msgid "STORY_UI_SKIP_CONFIRM"
+msgstr "Bỏ qua đoạn truyện này?"
+
+msgid "STORY_UI_YES"
+msgstr "Bỏ qua"
+
+msgid "STORY_UI_NO"
+msgstr "Xem tiếp"
+
+msgid "STORY_UI_CONTINUE"
+msgstr "Tiếp tục"
+
+msgid "STAGE_INFO_REPLAY"
+msgstr "Xem lại mở đầu"
+
+msgid "STAGE_INFO_REPLAY_END"
+msgstr "Xem lại kết chương"
+
+msgid "ARC_ARC_01"
+msgstr "Tro Tàn Và Đá Ngủ"
+
+msgid "ARC_ARC_02"
+msgstr "Sét Câm, Ngọn Đèn Cuối"
+
+msgid "ARC_ARC_03"
+msgstr "Rừng Không Bóng, Đỉnh Gió Lặng"
+
+msgid "ARC_ARC_04"
+msgstr "Nhật Thực"
+
+msgid "CHAPTER_01_TITLE"
+msgstr "Thung Lũng Tro Tàn"
+
+msgid "PART_01_1_TITLE"
+msgstr "Thung Lũng Tro Tàn"
+
+msgid "CHAPTER_02_TITLE"
+msgstr "Xưởng Đá Ngủ"
+
+msgid "PART_02_1_TITLE"
+msgstr "Cao Nguyên Thủ Vệ"
+
+msgid "CHAPTER_03_TITLE"
+msgstr "Thành Tháp Sét Câm"
+
+msgid "PART_03_1_TITLE"
+msgstr "Thành Tháp Sét Câm"
+
+msgid "CHAPTER_04_TITLE"
+msgstr "Thánh Đường Ngọn Đèn Cuối"
+
+msgid "PART_04_1_TITLE"
+msgstr "Đường Tới Thánh Đường"
+
+msgid "PART_04_2_TITLE"
+msgstr "Ngọn Đèn Cuối"
+
+msgid "CHAPTER_05_TITLE"
+msgstr "Rừng Không Bóng"
+
+msgid "PART_05_1_TITLE"
+msgstr "Bìa Rừng Không Bóng"
+
+msgid "PART_05_2_TITLE"
+msgstr "Tàn Tích Trụ Thứ Bảy"
+
+msgid "CHAPTER_06_TITLE"
+msgstr "Đỉnh Gió Lặng"
+
+msgid "PART_06_1_TITLE"
+msgstr "Chân Núi Gió"
+
+msgid "PART_06_2_TITLE"
+msgstr "Đỉnh Gió Lặng"
+
+msgid "CHAPTER_07_TITLE"
+msgstr "Nhật Thực"
+
+msgid "PART_07_1_TITLE"
+msgstr "Vào Lòng Nhật Thực"
+
+msgid "PART_07_2_TITLE"
+msgstr "Vành Sáng"
+
+msgid "TUTORIAL_CHAPTER_CARD_1"
+msgstr "Đây là sổ hành trình. Mỗi nhóm bên trái gom các chương liền mạch, thẻ bên phải là từng chương."
+
+msgid "TUTORIAL_CHAPTER_CARD_1_R"
+msgstr "Mình bắt đầu từ đâu?"
+
+msgid "TUTORIAL_CHAPTER_CARD"
+msgstr "Chạm thẻ Chương 1 nhé."
+
+msgid "TUTORIAL_MAP_STAGE_1"
+msgstr "Đây là bản đồ chương. Kéo ngang để xem cả chặng đường phía trước."
+
+msgid "TUTORIAL_MAP_STAGE_1_R"
+msgstr "Nhiều ải thật."
+
+msgid "TUTORIAL_MAP_STAGE_2"
+msgstr "Mỗi ải có 3 huy chương cho 3 mục tiêu. Gom đủ huy chương của một phần sẽ mở được rương quà."
+
+msgid "TUTORIAL_MAP_STAGE_2_R"
+msgstr "Hiểu rồi."
+
+msgid "TUTORIAL_MAP_STAGE"
+msgstr "Chạm ải 1-1 để bắt đầu."
+
+msgid "CHAPTER_LATEST"
+msgstr "Hành Trình Mới Nhất"
+
+msgid "CHAPTER_RANGE"
+msgstr "Chương %d~%d"
+
+msgid "CHAPTER_RANGE_PARTS"
+msgstr "Chương %d · %d phần"
+
+msgid "CHAPTER_NUM"
+msgstr "Chương %d"
+
+msgid "CHAPTER_NUM_PART"
+msgstr "Chương %d · Phần %d"
+
+msgid "CHAPTER_PROGRESS"
+msgstr "Tiến độ hiện tại %d %%"
+
+msgid "CHAPTER_NEW"
+msgstr "Mới!"
+
+msgid "CHAPTER_SOON"
+msgstr "Sắp ra mắt"
+
+msgid "MAP_TITLE"
+msgstr "Chương %d: %s"
+
+msgid "MAP_BREADCRUMB"
+msgstr "Vị trí hiện tại  Kịch bản chính > %s"
+
+msgid "MAP_CHEST"
+msgstr "Quà khiêu chiến"
+
+msgid "MAP_CHEST_DONE"
+msgstr "Đã nhận"
+
+msgid "MAP_CHEST_GOT"
+msgstr "Đã nhận quà phần: %s"
+
+msgid "MAP_CHEST_ALREADY"
+msgstr "Đã nhận quà của phần này."
+
+msgid "MAP_CHEST_NOT_READY"
+msgstr "Đạt đủ 100%% huy chương của phần để nhận quà."
+
+msgid "MAP_STAGE_SOON"
+msgstr "Ải %s sắp ra mắt."
+
+msgid "MAP_STAGE_LOCKED"
+msgstr "Hoàn thành ải trước để mở ải %s."
+
+# Trang bị 5★, bộ vết thánh
+msgid "EQUIP_EQ_WEAPON_DUSK_INFERNO"
+msgstr "Hoàng Hôn Thiêu Rụi"
+
+msgid "EQUIP_EQ_WEAPON_LAST_GALE"
+msgstr "Hơi Thở Cuối Mùa Gió"
+
+msgid "EQUIP_EQ_WEAPON_TWIN_THUNDER"
+msgstr "Hai Tiếng Sấm"
+
+msgid "EQUIP_EQ_WEAPON_SOLAR_VERDICT"
+msgstr "Nhật Miện Phán Quyết"
+
+msgid "EQUIP_EQ_WEAPON_CRESCENT_PACT"
+msgstr "Liềm Khế Ước Trăng Khuyết"
+
+msgid "EQUIP_EQ_WEAPON_UNYIELDING_PEAK"
+msgstr "Cốt Sơn Bất Khuất"
+
+msgid "EQUIP_EQ_STIGMA_TOP_LAVOISIER"
+msgstr "Oxy (Đầu)"
+
+msgid "EQUIP_EQ_STIGMA_MID_LAVOISIER"
+msgstr "Định Luật Bảo Toàn Khối Lượng (Thân)"
+
+msgid "EQUIP_EQ_STIGMA_BOT_LAVOISIER"
+msgstr "Chuyên Luận Hóa Học (Chân)"
+
+msgid "SET_SET_LAVOISIER"
+msgstr "Antoine Lavoisier"
+
+msgid "EQUIP_EQ_STIGMA_TOP_DAVINCI"
+msgstr "Chong Chóng Trên Không (Đầu)"
+
+msgid "EQUIP_EQ_STIGMA_MID_DAVINCI"
+msgstr "Cỗ Máy Cánh Chim (Thân)"
+
+msgid "EQUIP_EQ_STIGMA_BOT_DAVINCI"
+msgstr "Bản Thảo Codex (Chân)"
+
+msgid "SET_SET_DAVINCI"
+msgstr "Leonardo da Vinci"
+
+msgid "EQUIP_EQ_STIGMA_TOP_FRANKLIN"
+msgstr "Con Diều Trong Bão (Đầu)"
+
+msgid "EQUIP_EQ_STIGMA_MID_FRANKLIN"
+msgstr "Cột Thu Lôi (Thân)"
+
+msgid "EQUIP_EQ_STIGMA_BOT_FRANKLIN"
+msgstr "Niên Lịch Richard Nghèo (Chân)"
+
+msgid "SET_SET_FRANKLIN"
+msgstr "Benjamin Franklin"
+
+msgid "EQUIP_EQ_STIGMA_TOP_NIGHTINGALE"
+msgstr "Ngọn Đèn Scutari (Đầu)"
+
+msgid "EQUIP_EQ_STIGMA_MID_NIGHTINGALE"
+msgstr "Biểu Đồ Hoa Hồng (Thân)"
+
+msgid "EQUIP_EQ_STIGMA_BOT_NIGHTINGALE"
+msgstr "Ghi Chép Về Điều Dưỡng (Chân)"
+
+msgid "SET_SET_NIGHTINGALE"
+msgstr "Florence Nightingale"
+
+msgid "EQUIP_EQ_STIGMA_TOP_POE"
+msgstr "Con Quạ (Đầu)"
+
+msgid "EQUIP_EQ_STIGMA_MID_POE"
+msgstr "Trái Tim Tố Giác (Thân)"
+
+msgid "EQUIP_EQ_STIGMA_BOT_POE"
+msgstr "Chiếc Hố Và Con Lắc (Chân)"
+
+msgid "SET_SET_POE"
+msgstr "Edgar Allan Poe"
+
+msgid "EQUIP_EQ_STIGMA_TOP_DARWIN"
+msgstr "Chuyến Đi Beagle (Đầu)"
+
+msgid "EQUIP_EQ_STIGMA_MID_DARWIN"
+msgstr "Chọn Lọc Tự Nhiên (Thân)"
+
+msgid "EQUIP_EQ_STIGMA_BOT_DARWIN"
+msgstr "Lý Luận Tiến Hoá (Chân)"
+
+msgid "SET_SET_DARWIN"
+msgstr "Charles Darwin"
+
+msgid "SET_SET_BLAZE"
+msgstr "Ấn Viêm Hoàng"
+
+msgid "SET_SET_BEDROCK"
+msgstr "Ấn Nham Thạch"
+
+# Banner 5★ (owner 2026-11-14)
+msgid "BANNER_STAR5_EARTH"
+msgstr "Đề cử 5★: vũ khí & bộ Charles Darwin của Iwagane"
+
+msgid "BANNER_KIND_STAR5"
+msgstr "Banner trang bị 5★"
+
+msgid "BANNER_TITLE_STAR5_EARTH"
+msgstr "Cốt Sơn Bất Khuất & Charles Darwin"
+
+msgid "GACHA_TIER_STAR5"
+msgstr "Trang bị 5★ (mỗi món)"
+
+# Trang bị 5★, bộ vết thánh
+msgid "STATUS_EQB_CRESCENT_CURSE_TEAM"
+msgstr "Trăng Khuyết: +ST lên Nguyền"
+
+msgid "STATUS_EQB_DARWIN_LOW_HP"
+msgstr "Darwin: giảm ST nhận"
+
+msgid "STATUS_EQB_DARWIN_TEAM_GUARD"
+msgstr "Darwin: đội giảm ST nhận"
+
+msgid "STATUS_EQB_DAVINCI_DODGE"
+msgstr "da Vinci: +ST"
+
+msgid "STATUS_EQB_DAVINCI_MULTI"
+msgstr "da Vinci: đội +ST"
+
+msgid "STATUS_EQB_DUSK_FIRE_TEAM"
+msgstr "Hoàng Hôn: +ST Hỏa"
+
+msgid "STATUS_EQB_DUSK_HEAT_TEAM"
+msgstr "Hoàng Hôn: Nhiệt +ST"
+
+msgid "STATUS_EQB_DUSK_ULT"
+msgstr "Hoàng Hôn: +ST"
+
+msgid "STATUS_EQB_FRANKLIN_ASPD"
+msgstr "Franklin: +tốc độ tấn công"
+
+msgid "STATUS_EQB_FRANKLIN_BURST"
+msgstr "Franklin: +ST Lôi"
+
+msgid "STATUS_EQB_GALE_MOVE"
+msgstr "Mùa Gió: +tốc độ"
+
+msgid "STATUS_EQB_LAVOISIER_HEAT"
+msgstr "Lavoisier: +ST Hỏa"
+
+msgid "STATUS_EQB_LAVOISIER_ULT"
+msgstr "Lavoisier: đội +ST"
+
+msgid "STATUS_EQB_NIGHTINGALE_HEAL"
+msgstr "Nightingale: đội +ST"
+
+msgid "STATUS_EQB_PEAK_DEF"
+msgstr "Cốt Sơn: +DEF"
+
+msgid "STATUS_EQB_PEAK_GUARD"
+msgstr "Cốt Sơn: giảm ST nhận"
+
+msgid "STATUS_EQB_PEAK_TEAM_GUARD"
+msgstr "Cốt Sơn: đội giảm ST nhận"
+
+msgid "STATUS_EQB_THUNDER_ASPD_TEAM"
+msgstr "Hai Tiếng Sấm: +tốc độ tấn công"
+
+msgid "STATUS_EQB_THUNDER_EN"
+msgstr "Hai Tiếng Sấm: +nạp EN"
+
+msgid "STATUS_EQB_VERDICT_HEAL"
+msgstr "Nhật Miện: +ST"
+
+msgid "STATUS_EQB_VERDICT_ZONE_TEAM"
+msgstr "Nhật Miện: vùng +ST"
+
+msgid "STATUS_EQB_WIND_ZONE_DMG"
+msgstr "Phong Vực: +ST"
+
+# Kết quả chiêu mộ (owner 2026-11-15)
+msgid "RECRUIT_NEW"
+msgstr "Mới"
+
+msgid "RECRUIT_FRAGMENTS"
+msgstr "+%d mảnh"
+
+msgid "RECRUIT_UI_SKIP"
+msgstr "Bỏ qua"
+
+# Màn Chiêu mộ bố cục mới (owner 2026-11-15)
+msgid "RECRUIT_UI_BACK"
+msgstr "‹ Trở về"
+
+msgid "RECRUIT_UI_PITY_LEFT"
+msgstr "Còn %d lượt chắc chắn có %s"
+
+msgid "RECRUIT_UI_FRAG_LEFT"
+msgstr "Còn cần %d mảnh để lên %s"
+
+msgid "RECRUIT_UI_FRAG_NOT_OWNED"
+msgstr "Chưa sở hữu — ra trùng sẽ nhận mảnh tiến cấp"
+
+msgid "RECRUIT_UI_FRAG_MAX"
+msgstr "Đã tiến cấp tối đa"
+
+msgid "RECRUIT_UI_GIFT"
+msgstr "Túi quà (sắp có)"
+
+msgid "RECRUIT_UI_TRIAL"
+msgstr "Chơi thử"
+
+msgid "RECRUIT_TAB_STARTER"
+msgstr "Chiêu mộ đầu tiên"
+
+msgid "STAGE_01_02_NAME"
+msgstr "Làng Lò Than"
+
+msgid "STAGE_01_02_DESC"
+msgstr "Lò Mẹ vẫn lạnh, Cặn tro tràn xuống làng. Dấu kênh lạ của kẻ đeo mặt nạ cũng đi qua đây. Dọn sạch lối và giữ cổng làng Lò Than."
+
+msgid "ENEMY_SLIME_02"
+msgstr "Slime tro lớn"
+
+msgid "BARK_CH01_2_START"
+msgstr "Dấu kênh lạ đi về phía làng. Cặn tro cũng đang tràn xuống."
+
+msgid "BARK_CH01_2_WAVE1"
+msgstr "Không để con nào tới được làng!"
+
+msgid "BARK_CH01_2_WAVE1_NEO"
+msgstr "Cặn tro chặn đường. Dọn sạch rồi đi tiếp."
+
+msgid "BARK_CH01_2_WAVE2"
+msgstr "Con to kia là Cặn kết khối. Cắn chậm mà nặng, né rồi đánh trả."
+
+msgid "BARK_CH01_2_WAVE2_NEO"
+msgstr "Cặn tro kết khối. Đòn chậm nhưng nặng, né rồi phản công."
+
+msgid "BARK_CH01_2_CP2"
+msgstr "Thấy mái làng rồi! Có khói bếp, vẫn còn người ở đó."
+
+msgid "BARK_CH01_2_CP2_NEO"
+msgstr "Làng Lò Than ở phía trước."
+
+msgid "BARK_CH01_2_WAVE3"
+msgstr "Đàn cuối ở ngay cổng làng. Dồn hết sức!"
+
+msgid "BARK_CH01_2_CLEAR"
+msgstr "Làng tạm ổn rồi. Giờ tìm kẻ đã sai golem."
+
+msgid "BARK_CH01_2_CLEAR_NEO"
+msgstr "Cổng làng an toàn. Tiến tới cổng để hoàn tất."
+
+msgid "STAGE_01_03_NAME"
+msgstr "Hầm Than Ngầm"
+
+msgid "STAGE_01_03_DESC"
+msgstr "Dấu kênh lạ dẫn xuống hầm than cũ dưới làng, nơi mạch lửa ngầm nuôi Lò Mẹ. Có kẻ đã lấp mạch lửa. Xuống hầm, phá ổ Cặn chắn đường."
+
+msgid "BARK_CH01_3_START"
+msgstr "Nhiệt dưới lòng đất đang tụt. Dấu kênh lạ đi xuống chính hầm này."
+
+msgid "BARK_CH01_3_WAVE1"
+msgstr "Tối om thế này mà chúng vẫn tìm ra tụi mình à?!"
+
+msgid "BARK_CH01_3_WAVE1_NEO"
+msgstr "Cặn tro phía trước. Chúng bám theo hơi ấm."
+
+msgid "BARK_CH01_3_CP1"
+msgstr "Mạch lửa bị lấp bằng đá mới. Có kẻ cố ý làm vậy."
+
+msgid "BARK_CH01_3_CP1_NEO"
+msgstr "Mạch lửa ngầm bị lấp. Dấu vết còn mới."
+
+msgid "BARK_CH01_3_WAVE2"
+msgstr "Có gió lùa từ sâu bên trong. Cặn đang kéo theo nó."
+
+msgid "BARK_CH01_3_WAVE2_NEO"
+msgstr "Hai khối Cặn lớn. Né đòn cắn rồi phản công."
+
+msgid "BARK_CH01_3_CP2"
+msgstr "Dấu ba vòng đá… giống hệt trên lưng golem. Thủ vệ đã đào hầm này."
+
+msgid "BARK_CH01_3_CP2_NEO"
+msgstr "Dấu khắc ba vòng đá, trùng với dấu trên lưng golem."
+
+msgid "BARK_CH01_3_WAVE3"
+msgstr "Ổ Cặn ở cuối hầm, ngay chỗ mạch lửa bị lấp."
+
+msgid "BARK_CH01_3_CLEAR"
+msgstr "Mạch lửa thông rồi, mà Lò Mẹ vẫn chưa cháy. Hắn còn làm gì nữa?"
+
+msgid "BARK_CH01_3_CLEAR_NEO"
+msgstr "Ổ Cặn đã tan. Ra cửa hầm để hoàn tất."
+
+msgid "STAGE_01_04_NAME"
+msgstr "Vách Lò Mẹ"
+
+msgid "STAGE_01_04_DESC"
+msgstr "Ống thông khí trên vách Lò Mẹ bị lấp cố ý nên lò không thở được. Leo đường vách hẹp, dọn đàn Cặn và lần theo kẻ đã lấp ống."
+
+msgid "BARK_CH01_4_START"
+msgstr "Ống thông khí trên vách bị lấp. Lò không thở được thì không cháy nổi."
+
+msgid "BARK_CH01_4_WAVE1"
+msgstr "Không có gió… mà ống lại bị lấp kín. Chuyện này không tự nhiên."
+
+msgid "BARK_CH01_4_WAVE1_NEO"
+msgstr "Cặn tro bị hơi nóng của lò hút tới."
+
+msgid "BARK_CH01_4_CP1"
+msgstr "Cao thế này mà rơi thì… thôi, khỏi nghĩ."
+
+msgid "BARK_CH01_4_CP1_NEO"
+msgstr "Đường vách hẹp. Cẩn thận chỗ sụt."
+
+msgid "BARK_CH01_4_WAVE2"
+msgstr "Cặn lớn bám quanh miệng ống thông khí. Dọn sạch để lò thở."
+
+msgid "BARK_CH01_4_CP2"
+msgstr "Dấu chân trên gờ đá, còn mới. Hắn vừa đi qua."
+
+msgid "BARK_CH01_4_CP2_NEO"
+msgstr "Phát hiện dấu vết mới trên gờ đá."
+
+msgid "BARK_CH01_4_WAVE3"
+msgstr "Đỉnh vách rồi! Dọn nốt đám này là xong!"
+
+msgid "BARK_CH01_4_WAVE3_NEO"
+msgstr "Ống thông khí cuối cùng. Dọn sạch đàn Cặn."
+
+msgid "BARK_CH01_4_CLEAR"
+msgstr "Ống thông rồi. Nhưng dấu chân hắn chạy lên cao hơn nữa."
+
+msgid "BARK_CH01_4_CLEAR_NEO"
+msgstr "Mọi ống thông khí đã thông. Lên đỉnh vách để hoàn tất."
+
+msgid "STORY_CH01_GOLEM_SUMMARY"
+msgstr "Golem gục xuống, nhưng Lò Mẹ vẫn lạnh: thủ vệ chỉ bị sai tới chặn đường. Ấn trên ngực nó là mảnh ấn kênh mã 00, và một kẻ đeo mặt nạ đứng nhìn từ trên vách rồi bỏ đi. Kẻ dập lửa thật vẫn ở trong thung lũng."
+
+msgid "STORY_CH01_GOLEM_01_1"
+msgstr "Thủ vệ đã ngừng hoạt động. Mở kênh: mọi người ra được rồi."
+
+msgid "STORY_CH01_GOLEM_02_1"
+msgstr "Phù… Xong rồi chứ?"
+
+msgid "STORY_CH01_GOLEM_02_2"
+msgstr "Chưa. Nhìn lò kìa."
+
+msgid "STORY_CH01_GOLEM_03_1"
+msgstr "Lò Mẹ vẫn lạnh…"
+
+msgid "STORY_CH01_GOLEM_03_2"
+msgstr "Thủ vệ không hút lửa. Nó chỉ đứng chắn cửa lò."
+
+msgid "STORY_CH01_GOLEM_04_1"
+msgstr "Nó không ác. Có kẻ sai nó tới chặn bọn mình."
+
+msgid "STORY_CH01_GOLEM_05_1"
+msgstr "Cái gì đây? Trông giống vòng sáng của Neo ghê."
+
+msgid "STORY_CH01_GOLEM_06_1"
+msgstr "Mảnh ấn kênh… định dạng trùng với tôi. Nguồn lệnh: 00."
+
+msgid "STORY_CH01_GOLEM_06_2"
+msgstr "Neo của chúng ta đâu phải số 00."
+
+msgid "STORY_CH01_GOLEM_07_1"
+msgstr "Vậy kẻ thật sự dập lửa vẫn còn trong thung lũng."
+
+msgid "STORY_CH01_GOLEM_08_1"
+msgstr "Thủ vệ chỉ để câu giờ. Báo với Quản lý: lò sẽ tắt đúng hẹn."
+
+msgid "STORY_CH01_GOLEM_09_1"
+msgstr "Trên kia! Có người!"
+
+msgid "STORY_CH01_GOLEM_10_1"
+msgstr "Đuổi theo. Phải tìm ra hắn trước khi Lò Mẹ tắt hẳn."
+
+msgid "STORY_CH01_GOLEM_10_2"
+msgstr "Đã ghi dấu kênh lạ. Chờ lệnh của Quản lý."
+
+msgid "STORY_CH01_GOLEM_CARD_TITLE"
+msgstr "Ải 1-1 — Hoàn thành"
+
+msgid "STORY_CH01_GOLEM_CARD_SUB"
+msgstr "Tiếp theo: lần theo kẻ đeo mặt nạ qua Thung Lũng Tro Tàn."
+
+msgid "STORY_CH01_END_03_2"
+msgstr "Quản lý của ngươi là ai?"
+
+msgid "BOSS_HENCHMAN_01"
+msgstr "Shokuhai"
+
+msgid "STAGE_01_05_NAME"
+msgstr "Rừng Cây Chết"
+
+msgid "STAGE_01_05_DESC"
+msgstr "Dấu chân tay sai dẫn lên rừng cây chết trên sườn vách. Hắn cắm cọc ấn khắp rừng để gọi Cặn chặn đường. Dọn đàn Cặn và lần tiếp dấu hắn."
+
+msgid "BARK_CH01_5_START"
+msgstr "Tín hiệu 00 yếu, lặp lại đều. Như có thứ gì cắm khắp khu rừng."
+
+msgid "BARK_CH01_5_WAVE1"
+msgstr "Cây chết hết rồi, đến lá khô cũng không xào xạc."
+
+msgid "BARK_CH01_5_WAVE1_NEO"
+msgstr "Cặn tro bị tín hiệu lạ kéo tới."
+
+msgid "BARK_CH01_5_CP1"
+msgstr "Cọc đá này có vòng trắng đen! Hắn cắm cái này để gọi Cặn à?"
+
+msgid "BARK_CH01_5_CP1_NEO"
+msgstr "Cọc ấn mang tín hiệu 00. Nó đang gọi Cặn tới."
+
+msgid "BARK_CH01_5_WAVE2"
+msgstr "Thêm một bầy, có cả Cặn lớn."
+
+msgid "BARK_CH01_5_CP2"
+msgstr "Nhổ hết đống cọc này. Không để hắn dùng rừng làm hàng rào."
+
+msgid "BARK_CH01_5_CP2_NEO"
+msgstr "Đã ghi vị trí các cọc ấn."
+
+msgid "BARK_CH01_5_WAVE3"
+msgstr "Bầy cuối rồi! Dọn xong là thấy đường!"
+
+msgid "BARK_CH01_5_WAVE3_NEO"
+msgstr "Bầy Cặn cuối cùng quanh cọc ấn lớn."
+
+msgid "BARK_CH01_5_CLEAR"
+msgstr "Tín hiệu tắt rồi. Đi tiếp thôi, hắn chưa xa đâu."
+
+msgid "BARK_CH01_5_CLEAR_NEO"
+msgstr "Các cọc ấn đã tắt. Ra bìa rừng để hoàn tất."
+
+msgid "STAGE_01_06_NAME"
+msgstr "Cầu Đá Treo"
+
+msgid "STAGE_01_06_DESC"
+msgstr "Đường duy nhất qua vực là cây cầu đá cổ của thủ vệ, nay sụt nhiều nhịp: tay sai đã phá cầu sau lưng hắn. Nhảy qua các nhịp gãy và dọn đàn Cặn."
+
+msgid "BARK_CH01_6_START"
+msgstr "Cầu đá của thủ vệ, nhiều nhịp đã sụt. Rơi xuống thì tôi kéo về điểm neo."
+
+msgid "BARK_CH01_6_WAVE1"
+msgstr "Cầu gãy thế này thì để tớ! Nhảy là nghề của tớ."
+
+msgid "BARK_CH01_6_WAVE1_NEO"
+msgstr "Cặn tro chặn đầu cầu."
+
+msgid "BARK_CH01_6_CP1"
+msgstr "Vết chém mới trên trụ cầu. Hắn cố ý phá cho sập."
+
+msgid "BARK_CH01_6_CP1_NEO"
+msgstr "Trụ cầu có vết phá còn mới."
+
+msgid "BARK_CH01_6_WAVE2"
+msgstr "Giữa cầu không có chỗ lùi. Đánh gọn, đừng để bị đẩy xuống."
+
+msgid "BARK_CH01_6_WAVE2_NEO"
+msgstr "Giữ thăng bằng. Cặn lớn đẩy lùi rất mạnh."
+
+msgid "BARK_CH01_6_CP2"
+msgstr "Thấy đầu cầu bên kia rồi!"
+
+msgid "BARK_CH01_6_CP2_NEO"
+msgstr "Còn một đoạn cầu nữa."
+
+msgid "BARK_CH01_6_WAVE3"
+msgstr "Bầy Cặn lớn chặn đầu cầu bên kia."
+
+msgid "BARK_CH01_6_CLEAR"
+msgstr "Qua được rồi. Hắn tưởng phá cầu là cắt đuôi được bọn mình à."
+
+msgid "BARK_CH01_6_CLEAR_NEO"
+msgstr "Đã qua vực. Tiến tới đầu cầu để hoàn tất."
+
+msgid "STAGE_01_07_NAME"
+msgstr "Trạm Thủ Vệ Bỏ Hoang"
+
+msgid "STAGE_01_07_DESC"
+msgstr "Bên kia vực là trạm canh cổ của thủ vệ, khắc dấu ba vòng đá. Tay sai đã ghé đây trước. Vào trong, tìm xem hắn lấy đi thứ gì."
+
+msgid "BARK_CH01_7_START"
+msgstr "Trạm canh của thủ vệ. Dấu ba vòng đá, giống trên lưng golem."
+
+msgid "BARK_CH01_7_WAVE1"
+msgstr "Chỗ này từng có nhiều thủ vệ đứng canh. Giờ trống trơn."
+
+msgid "BARK_CH01_7_WAVE1_NEO"
+msgstr "Cặn tro làm tổ trong trạm."
+
+msgid "BARK_CH01_7_CP1"
+msgstr "Hốc tường này trống. Lõi của thủ vệ bị tháo đi rồi."
+
+msgid "BARK_CH01_7_CP1_NEO"
+msgstr "Các hốc chứa lõi thủ vệ đều trống."
+
+msgid "BARK_CH01_7_WAVE2"
+msgstr "Hắn lấy lõi thủ vệ để làm gì chứ?!"
+
+msgid "BARK_CH01_7_WAVE2_NEO"
+msgstr "Cặn lớn bám quanh hốc lõi."
+
+msgid "BARK_CH01_7_CP2"
+msgstr "Golem ở cửa lò… chắc cũng bị gắn lõi từ đây rồi sai đi."
+
+msgid "BARK_CH01_7_CP2_NEO"
+msgstr "Lõi golem ở cửa lò có thể đến từ trạm này."
+
+msgid "BARK_CH01_7_WAVE3"
+msgstr "Bầy cuối ở lối ra phía sau trạm."
+
+msgid "BARK_CH01_7_CLEAR"
+msgstr "Lấy lõi, sai thủ vệ, dập lửa. Hắn tính hết từ trước."
+
+msgid "BARK_CH01_7_CLEAR_NEO"
+msgstr "Trạm đã sạch. Ra lối sau để hoàn tất."
+
+msgid "STAGE_01_08_NAME"
+msgstr "Trại Mặt Nạ"
+
+msgid "STAGE_01_08_DESC"
+msgstr "Dấu vết dẫn tới trại tạm của tay sai trong hẻm đá. Giữa trại là cột kênh trắng đen đang hút hơi ấm của Lò Mẹ. Phá trại và tìm ra kế hoạch của hắn."
+
+msgid "BARK_CH01_8_START"
+msgstr "Cột kênh phía trước đang hút nhiệt về một mạng khác. Định dạng 00."
+
+msgid "BARK_CH01_8_WAVE1"
+msgstr "Trại của hắn! Không để sót chỗ nào."
+
+msgid "BARK_CH01_8_WAVE1_NEO"
+msgstr "Cặn tro canh quanh trại."
+
+msgid "BARK_CH01_8_CP1"
+msgstr "Bản ghi trên bàn: \"Tắt lò vào đêm nhật thực đầy nhất.\" Là đêm nay."
+
+msgid "BARK_CH01_8_CP1_NEO"
+msgstr "Bản ghi ghi hạn: đêm nay."
+
+msgid "BARK_CH01_8_WAVE2"
+msgstr "Đêm nay á?! Vậy phải nhanh lên!"
+
+msgid "BARK_CH01_8_WAVE2_NEO"
+msgstr "Cặn lớn bảo vệ cột kênh."
+
+msgid "BARK_CH01_8_CP2"
+msgstr "Đã ngắt một nhánh cột kênh. Lò Mẹ hết bị hút thêm."
+
+msgid "BARK_CH01_8_WAVE3"
+msgstr "Phá nốt chỗ này rồi về cửa lò. Hắn sẽ ở đó."
+
+msgid "BARK_CH01_8_WAVE3_NEO"
+msgstr "Bầy cuối canh lối ra của trại."
+
+msgid "BARK_CH01_8_CLEAR"
+msgstr "Cột kênh đổ rồi. Hắn chỉ còn cách tự ra mặt."
+
+msgid "BARK_CH01_8_CLEAR_NEO"
+msgstr "Trại đã bị phá. Ra lối hẻm để hoàn tất."
+
+msgid "STAGE_01_09_NAME"
+msgstr "Đường Về Cửa Lò"
+
+msgid "STAGE_01_09_DESC"
+msgstr "Đêm xuống, nhật thực đầy dần. Đường mòn đêm dẫn ngược về cửa Lò Mẹ, nơi tay sai đang chờ. Cặn tro dày đặc hơn bao giờ hết."
+
+msgid "BARK_CH01_9_START"
+msgstr "Mặt Trời Khuyết đang bị che thêm. Vùng Thực dày lên theo từng phút."
+
+msgid "BARK_CH01_9_WAVE1"
+msgstr "Tối đen mà Cặn cứ trồi lên mãi!"
+
+msgid "BARK_CH01_9_WAVE1_NEO"
+msgstr "Cặn tro dày đặc. Giữ nhịp."
+
+msgid "BARK_CH01_9_CP1"
+msgstr "Gió vẫn chưa về… Lò mà tắt hẳn đêm nay thì cả làng…"
+
+msgid "BARK_CH01_9_CP1_NEO"
+msgstr "Nhiệt Lò Mẹ chỉ còn 4%."
+
+msgid "BARK_CH01_9_WAVE2"
+msgstr "Không dừng. Cứ thế mà xuyên qua."
+
+msgid "BARK_CH01_9_WAVE2_NEO"
+msgstr "Hai Cặn lớn chắn đường."
+
+msgid "BARK_CH01_9_CP2"
+msgstr "Thấy cửa lò rồi! Có người đứng trước cửa!"
+
+msgid "BARK_CH01_9_CP2_NEO"
+msgstr "Phát hiện tín hiệu kênh 00 ở cửa lò."
+
+msgid "BARK_CH01_9_WAVE3"
+msgstr "Bầy cuối trước cửa lò. Sau đó là hắn."
+
+msgid "BARK_CH01_9_CLEAR"
+msgstr "Xong. Giờ thì tới lượt ngươi."
+
+msgid "BARK_CH01_9_CLEAR_NEO"
+msgstr "Đường đã thông. Tiến tới cửa lò để hoàn tất."
+
+msgid "STAGE_01_10_NAME"
+msgstr "Cửa Lò Mẹ"
+
+msgid "STAGE_01_10_DESC"
+msgstr "Trước cửa Lò Mẹ lạnh tối, kẻ đeo mặt nạ chờ sẵn trong bộ giáp của hắn. Hạ hắn trước khi lửa tắt hẳn."
+
+msgid "BARK_CH01_10_START"
+msgstr "Đêm nhật thực. Nhiệt Lò Mẹ: 2%. Còn rất ít thời gian."
+
+msgid "BARK_CH01_10_WAVE1"
+msgstr "Hắn thả Cặn ra câu giờ. Đừng mắc bẫy, dọn nhanh!"
+
+msgid "BARK_CH01_10_WAVE1_NEO"
+msgstr "Cặn tro chắn đường tới cửa lò."
+
+msgid "BARK_CH01_10_WAVE2"
+msgstr "Golem vẫn nằm kia… Chỗ này là nơi mọi chuyện bắt đầu."
+
+msgid "BARK_CH01_10_WAVE2_NEO"
+msgstr "Đây là chỗ golem đã đổ."
+
+msgid "BARK_CH01_10_BOSS"
+msgstr "Ngươi sai golem, lấp mạch lửa, phá cầu. Hôm nay dừng ở đây!"
+
+msgid "BARK_CH01_10_BOSS_NEO"
+msgstr "Mục tiêu: kẻ đeo mặt nạ. Hắn mặc giáp, đánh rất nặng."
+
+msgid "BARK_CH01_10_BOSS_B"
+msgstr "Giáp của hắn nhận lệnh qua kênh 00. Đánh vỡ giáp là cắt được kênh."
+
+msgid "BARK_CH01_10_PHASE2"
+msgstr "Giáp quá tải! Hắn đang dồn tro vào lưỡi móc."
+
+msgid "BARK_CH01_10_QUAKE"
+msgstr "Sóng tro chạy hai phía, nhảy lên!"
+
+msgid "BARK_CH01_10_QUAKE_NEO"
+msgstr "Sóng tro chạy hai bên! Nhảy lên để tránh nhé."
+
+msgid "RECRUIT_UI_INFO"
+msgstr "Thông tin"
+
+msgid "RECRUIT_UI_WEAPON_SLOT"
+msgstr "Vũ khí (sắp có)"
+
+# Vật phẩm, trang bị (M5)
+msgid "EQUIP_EQ_WEAPON_BOW_WHIRLWIND"
+msgstr "Cung Lốc Xoáy"
+
+msgid "EQUIP_EQ_STIGMA_TOP_WHIRLWIND"
+msgstr "Ấn Lốc Xoáy (Đầu)"
+
+msgid "EQUIP_EQ_STIGMA_MID_WHIRLWIND"
+msgstr "Ấn Lốc Xoáy (Thân)"
+
+msgid "EQUIP_EQ_STIGMA_BOT_WHIRLWIND"
+msgstr "Ấn Lốc Xoáy (Chân)"
+
+msgid "EQUIP_EQ_WEAPON_BLADES_THUNDERCLAP"
+msgstr "Song đao Lôi Đình"
+
+msgid "EQUIP_EQ_STIGMA_TOP_THUNDERCLAP"
+msgstr "Ấn Lôi Đình (Đầu)"
+
+msgid "EQUIP_EQ_STIGMA_MID_THUNDERCLAP"
+msgstr "Ấn Lôi Đình (Thân)"
+
+msgid "EQUIP_EQ_STIGMA_BOT_THUNDERCLAP"
+msgstr "Ấn Lôi Đình (Chân)"
+
+msgid "EQUIP_EQ_WEAPON_STAFF_DAWNLIGHT"
+msgstr "Trượng Bình Minh"
+
+msgid "EQUIP_EQ_STIGMA_TOP_DAWNLIGHT"
+msgstr "Ấn Bình Minh (Đầu)"
+
+msgid "EQUIP_EQ_STIGMA_MID_DAWNLIGHT"
+msgstr "Ấn Bình Minh (Thân)"
+
+msgid "EQUIP_EQ_STIGMA_BOT_DAWNLIGHT"
+msgstr "Ấn Bình Minh (Chân)"
+
+msgid "EQUIP_EQ_WEAPON_SCYTHE_NIGHTSHADE"
+msgstr "Lưỡi hái Dạ Ảnh"
+
+msgid "EQUIP_EQ_STIGMA_TOP_NIGHTSHADE"
+msgstr "Ấn Dạ Ảnh (Đầu)"
+
+msgid "EQUIP_EQ_STIGMA_MID_NIGHTSHADE"
+msgstr "Ấn Dạ Ảnh (Thân)"
+
+msgid "EQUIP_EQ_STIGMA_BOT_NIGHTSHADE"
+msgstr "Ấn Dạ Ảnh (Chân)"
+
+# Trang bị 5★, bộ vết thánh
+msgid "SET_SET_WHIRLWIND"
+msgstr "Ấn Lốc Xoáy"
+
+msgid "SET_SET_THUNDERCLAP"
+msgstr "Ấn Lôi Đình"
+
+msgid "SET_SET_DAWNLIGHT"
+msgstr "Ấn Bình Minh"
+
+msgid "SET_SET_NIGHTSHADE"
+msgstr "Ấn Dạ Ảnh"
+
+# Vật phẩm, trang bị (M5)
+msgid "EQUIP_EQ_WEAPON_GREATSWORD_STONE"
+msgstr "Đại kiếm đá thô"
+
+msgid "EQUIP_EQ_WEAPON_STAFF_OAK"
+msgstr "Trượng gỗ sồi"
+
+msgid "EQUIP_EQ_WEAPON_SCYTHE_IRON"
+msgstr "Lưỡi hái sắt đen"
+
+# Vật phẩm, trang bị (M5)
+msgid "ITEM_MAT_WEAPON_ASCEND"
+msgstr "Tinh thể nâng bậc"
+
+msgid "WEAPON_UI_DETAIL"
+msgstr "Chi tiết"
+
+msgid "WEAPON_UI_TIER"
+msgstr "Bậc %d/%d"
+
+msgid "WEAPON_UI_ASCEND"
+msgstr "Nâng bậc"
+
+msgid "WEAPON_UI_SKILLS"
+msgstr "Kĩ năng vũ khí"
+
+msgid "WEAPON_UI_ACTIVE"
+msgstr "Chủ động"
+
+msgid "WEAPON_UI_PASSIVE"
+msgstr "Bị động"
+
+msgid "WEAPON_UI_ACTIVE_NOTE"
+msgstr "Kĩ năng vũ khí theo giáp đang trang bị."
+
+msgid "WEAPON_UI_NO_PASSIVE"
+msgstr "Vũ khí này không có kĩ năng bị động."
+
+
+msgid "WEAPON_UI_NO_LORE"
+msgstr "Chưa có mô tả."
+
+msgid "WEAPON_UI_WEARER"
+msgstr "Đang trang bị: %s"
+
+msgid "WEAPON_UI_CAP_HINT"
+msgstr "Đạt giới hạn cấp. Nâng bậc để mở thêm %d cấp."
+
+msgid "WEAPON_UI_MAXED"
+msgstr "Đã tối đa"
+
+msgid "WEAPON_UI_NEED_LEVEL"
+msgstr "Cần cường hóa tới Lv.%d trước."
+
+msgid "WEAPON_UI_ASCEND_TIER"
+msgstr "Bậc %d → %d"
+
+msgid "WEAPON_UI_ASCEND_CAP"
+msgstr "Giới hạn cấp %d → %d"
+
+msgid "WEAPON_UI_COST"
+msgstr "Cần: %s %d/%d · %s %d"
+
+msgid "WEAPON_UI_ENHANCE_ROW"
+msgstr "%s ×%d — cần %d · %d %s"
+
+msgid "WEAPON_UI_NEXT"
+msgstr "Lv.%d → Lv.%d"
+
+msgid "WEAPON_UI_CONFIRM"
+msgstr "Xác nhận"
+
+# Hướng dẫn người mới: NEO chỉ xếp đội sau ải 1-1 (owner 2026-11-15)
+msgid "TUTORIAL_RECRUIT_CLOSE_1"
+msgstr "Raikiba đã gia nhập! Giờ Quản lý có ba giáp: Enkiba, Kazeyumi và Raikiba."
+
+msgid "TUTORIAL_RECRUIT_CLOSE_1_R"
+msgstr "Tuyệt!"
+
+msgid "TUTORIAL_RECRUIT_CLOSE_2"
+msgstr "Nhưng có giáp thôi chưa đủ đâu: đội ra trận lúc này vẫn chỉ có mỗi Enkiba."
+
+msgid "TUTORIAL_RECRUIT_CLOSE_2_R"
+msgstr "Vậy phải làm sao?"
+
+msgid "TUTORIAL_RECRUIT_CLOSE"
+msgstr "Mình đi sắp xếp đội hình nhé. Chạm Xác nhận để đóng bảng kết quả."
+
+msgid "TUTORIAL_RECRUIT_BACK"
+msgstr "Chạm Trở về để rời màn Chiêu mộ."
+
+msgid "TUTORIAL_HUB_PARTY_1"
+msgstr "Đội hình nằm trong Xuất kích, ngay dưới các loại nhiệm vụ."
+
+msgid "TUTORIAL_HUB_PARTY_1_R"
+msgstr "Đi thôi."
+
+msgid "TUTORIAL_HUB_PARTY"
+msgstr "Chạm Xuất kích nhé."
+
+msgid "TUTORIAL_SORTIE_PARTY_1"
+msgstr "Thẻ Đội hình cho biết ai sẽ ra trận. Đội tối đa ba giáp, người đứng đầu là đội trưởng."
+
+msgid "TUTORIAL_SORTIE_PARTY_1_R"
+msgstr "Hiểu rồi."
+
+msgid "TUTORIAL_SORTIE_PARTY"
+msgstr "Chạm thẻ Đội hình."
+
+msgid "TUTORIAL_PARTY_SLOT_1"
+msgstr "Ô có dấu + là chỗ còn trống trong đội."
+
+msgid "TUTORIAL_PARTY_SLOT_1_R"
+msgstr "Thêm người thôi."
+
+msgid "TUTORIAL_PARTY_SLOT"
+msgstr "Chạm ô trống để chọn giáp."
+
+msgid "TUTORIAL_PARTY_ADD_1"
+msgstr "Bên trái là các giáp Quản lý đang có. Chạm một giáp để thêm vào đội, chạm lại để đưa ra."
+
+msgid "TUTORIAL_PARTY_ADD_1_R"
+msgstr "Đơn giản nhỉ."
+
+msgid "TUTORIAL_PARTY_ADD_2"
+msgstr "Lưu ý: hai giáp của cùng một người không ra trận cùng lúc được."
+
+msgid "TUTORIAL_PARTY_ADD_2_R"
+msgstr "Nhớ rồi."
+
+msgid "TUTORIAL_PARTY_ADD"
+msgstr "Chạm giáp đang sáng để thêm vào đội."
+
+msgid "TUTORIAL_PARTY_CONFIRM_1"
+msgstr "Đội đã có hai người! Trong trận, đổi sang người dự bị lúc chân dung phát sáng sẽ kích hoạt phản ứng nguyên tố."
+
+msgid "TUTORIAL_PARTY_CONFIRM_1_R"
+msgstr "Hay quá!"
+
+msgid "TUTORIAL_PARTY_CONFIRM_2"
+msgstr "Muốn thêm Raikiba hay đổi thứ tự thì quay lại đây bất cứ lúc nào. Phần hướng dẫn của tôi đến đây là xong."
+
+msgid "TUTORIAL_PARTY_CONFIRM_2_R"
+msgstr "Cảm ơn NEO!"
+
+msgid "TUTORIAL_PARTY_CONFIRM"
+msgstr "Chạm Xác nhận đội ngũ để lưu đội hình."
+
+msgid "WEAPON_UI_WHEN_EQUIPPED"
+msgstr "Khi %s trang bị:"
+
+# Vật phẩm, trang bị (M5)
+msgid "ITEM_MAT_AFFIX_REROLL"
+msgstr "Đá tẩy phụ tố"
+
+msgid "AFFIX_ATK"
+msgstr "Tấn công"
+
+msgid "AFFIX_HP"
+msgstr "HP"
+
+msgid "AFFIX_DEF"
+msgstr "Phòng thủ"
+
+msgid "AFFIX_CRIT_RATE"
+msgstr "Tỉ lệ bạo kích"
+
+msgid "AFFIX_CRIT_DAMAGE"
+msgstr "ST bạo kích"
+
+msgid "AFFIX_CDR"
+msgstr "Giảm hồi chiêu"
+
+msgid "AFFIX_ALL_DMG"
+msgstr "Tất cả ST"
+
+msgid "AFFIX_ELEM_DMG"
+msgstr "ST nguyên tố"
+
+msgid "AFFIX_ATK_PCT"
+msgstr "% Tấn công"
+
+msgid "AFFIX_HP_PCT"
+msgstr "% HP"
+
+msgid "AFFIX_HEAL_BONUS"
+msgstr "Hiệu quả hồi máu"
+
+msgid "AFFIX_EN_REGEN"
+msgstr "Tốc độ nạp EN"
+
+msgid "STIGMA_UI_TAB_SKILL"
+msgstr "Skill vết thánh"
+
+msgid "STIGMA_UI_TAB_AFFIX"
+msgstr "Skill phụ tố"
+
+msgid "STIGMA_UI_TAB_SET"
+msgstr "Skill set"
+
+msgid "STIGMA_UI_NO_SKILL"
+msgstr "Vết thánh này không có skill riêng."
+
+msgid "STIGMA_UI_AFFIX_NOW"
+msgstr "Phụ tố hiện tại"
+
+msgid "STIGMA_UI_AFFIX_NEW"
+msgstr "Phụ tố mới"
+
+msgid "STIGMA_UI_NO_AFFIX"
+msgstr "Chưa có phụ tố."
+
+msgid "STIGMA_UI_REROLL"
+msgstr "Tẩy phụ tố"
+
+msgid "STIGMA_UI_REROLL_COST"
+msgstr "Cần: %s %d/%d"
+
+msgid "STIGMA_UI_KEEP_OLD"
+msgstr "Giữ cũ"
+
+msgid "STIGMA_UI_KEEP_NEW"
+msgstr "Giữ mới"
+
+msgid "STIGMA_UI_NO_SET"
+msgstr "Vết thánh này không thuộc bộ nào."
+
+msgid "STIGMA_UI_SET_PIECES"
+msgstr "%s %d món"
+
+msgid "REASON_NEED_LEVEL"
+msgstr "Cần cường hóa tới giới hạn cấp trước."
+
+msgid "REASON_NO_AFFIX"
+msgstr "Món này không có phụ tố."
+
+msgid "REASON_PENDING"
+msgstr "Hãy chọn giữ phụ tố mới hoặc cũ trước."
+
+# Mô tả ngắn và giai thoại vũ khí 5★ (owner 2026-11-15)
+msgid "EQUIP_EQ_WEAPON_DUSK_INFERNO_DESC"
+msgstr "Thanh kiếm rèn từ ánh nắng cuối ngày. Nó càng rực khi trời càng tối, và chỉ nghe lời kẻ có lửa trong lòng."
+
+msgid "EQUIP_EQ_WEAPON_DUSK_INFERNO_LORE"
+msgstr "Ở thung lũng Hoàng Hôn, nơi ngày chưa bao giờ kéo dài quá một khắc chiều, có một thợ rèn già tên Hạ Chiểu. Ông muốn rèn một thanh kiếm giữ lại được khoảnh khắc mặt trời chạm đường chân trời, vì đó là lúc ông từng đứng bên người đã mất. Ông chờ ba mươi mùa lúa để gom đủ ba mươi lần chiều tà, rồi đổ chúng vào lò.\n\nChắn kiếm của nó là vầng mặt trời đang lặn dở, tia nắng xòe ra như những ngọn lửa. Người ta bảo thanh kiếm chưa từng sáng dưới nắng trưa, chỉ rực lên khi bóng tối sắp phủ xuống. Với người cầm nó, ngọn lửa trong lòng càng bùng cháy thì lưỡi kiếm càng đỏ, và chẳng ai tìm ra được giới hạn của nó."
+
+msgid "EQUIP_EQ_WEAPON_LAST_GALE_DESC"
+msgstr "Cây cung không cần tên. Kẻ giương dây sẽ gọi được cơn gió cuối cùng của mùa thu, và gió ấy tự hóa thành mũi tên."
+
+msgid "EQUIP_EQ_WEAPON_LAST_GALE_LORE"
+msgstr "Có một chú chim di cư bay mãi không nghỉ, vì sợ rằng nếu đáp xuống thì mùa thu sẽ kết thúc. Một thợ làm cung ở Lục Đồng nhặt được chiếc lông của nó rơi trên đường, rồi lấy lông ấy làm hai cánh cung. Ông khắc lên hai đầu mút những chiếc lá vàng đã gom được trong ngày gió cuối.\n\nDây của cây cung mảnh và xanh như làn gió mỏng. Cung không đi kèm mũi tên nào, vì người xưa dặn rằng kẻ giương cung chỉ cần giữ im một nhịp thở. Khi nhịp thở ấy buông ra, cơn gió cuối mùa sẽ tự bay đi theo hướng mà tâm ý đã hướng tới. Sau này mới có câu nói của dân sông Lục: “Gió cuối mùa không đến rồi đi. Nó chỉ chờ một bàn tay biết buông.”"
+
+msgid "EQUIP_EQ_WEAPON_TWIN_THUNDER_DESC"
+msgstr "Hai lưỡi đao sinh ra từ một nhát sét xé đôi thanh sắt. Tiếng sấm thứ nhất là lời cảnh báo, tiếng thứ hai là nhát kết thúc."
+
+msgid "EQUIP_EQ_WEAPON_TWIN_THUNDER_LORE"
+msgstr "Một đêm bão, một thanh đao chưa tôi bị sét đánh trúng ngay trên đe. Nó nứt đôi theo chiều dọc: hai lưỡi cong giống hệt nhau, và mỗi lưỡi mang trên sống một vệt răng cưa như tia chớp còn lưu lại. Người thợ không dám mài hay sửa. Ông chỉ bọc cán bằng vải xanh sẫm, buộc dây vàng, rồi treo chúng lên xà nhà.\n\nDân làng kể rằng mỗi lần giông tới, hai thanh đao kêu lên thành hai tiếng, tiếng đầu khẽ rồi tiếng sau lớn hơn hẳn. Người cầm đao quen với nhịp đó: một nhát gieo dấu sét, nhát thứ hai thì đánh tới. Ngày nào chủ nhân bước đi trong bão, hai lưỡi đao bắt chéo trên lưng sẽ kêu lách tách, như thể sấm vẫn đang chờ nhát thứ hai của mình."
+
+msgid "EQUIP_EQ_WEAPON_SOLAR_VERDICT_DESC"
+msgstr "Vòng hào quang của ngôi đền Mặt Trời. Nó xét xử bằng ánh sáng, nên bóng tối nào không chịu lộ diện cũng bị chiếu rõ."
+
+msgid "EQUIP_EQ_WEAPON_SOLAR_VERDICT_LORE"
+msgstr "Ngày xưa có một ngôi đền thờ Mặt Trời, nơi các tư tế không kết án bằng gông cùm hay lời phán. Họ đứng dưới vòm đền và giương cao một vòng hào quang vàng. Ai nói dối thì chỉ cần đứng trong ánh sáng ấy, tội của họ sẽ hiện ra thành một dấu vết không giấu được. Đó là Phán quyết.\n\nVề sau ngôi đền sụp đổ, chỉ còn vầng hào quang và cây trượng ngà quấn vòng vàng. Người ta kể rằng nó khác mọi quyền trượng khác, vì ánh sáng nó phát ra chưa bao giờ đem đến đau đớn cho kẻ vô tội. Mỗi khi vầng sáng quá đầy mà người cần chữa đã lành, phần thừa không tan đi mà chảy xuống thành một tấm khiên mỏng. Tư tế cuối cùng của đền từng nói: “Phán xét mà không che chở thì chỉ là một ngọn lửa khác.”"
+
+msgid "EQUIP_EQ_WEAPON_CRESCENT_PACT_DESC"
+msgstr "Lưỡi liềm trăng khuyết một góc, vết khuyết chính là giá của lời hứa. Mỗi khế ước đóng lại, lưỡi hái càng nhẹ tay."
+
+msgid "EQUIP_EQ_WEAPON_CRESCENT_PACT_LORE"
+msgstr "Chuyện kể rằng một đêm trăng tròn, có kẻ gặt thuê xin trăng cho mượn một lưỡi liềm để gặt cho xong cánh đồng mà kẻ thù đã đốt. Trăng đồng ý, nhưng đòi một khế ước và lấy đi một mẩu của chính mình làm tiền đặt cọc. Vì vậy lưỡi liềm có một vết khuyết nhỏ ở mép trong, và chẳng thợ nào trả lại được phần trăng đó.\n\nCuộn khế ước viết bằng mực tím quấn quanh cán, được giữ bằng sợi xích đen, trong đó có những đoạn còn dư chưa buộc vào đâu cả. Người gặt thuê hứa sẽ gặt đến khi nào xong. Ông chưa bao giờ nói là mình sẽ dừng. Bởi thế, mỗi kẻ địch gục xuống đều làm lưỡi hái nhẹ hơn một chút, như thể một dòng trong khế ước đã được gạch đi. Ai nắm lấy nó cũng nghe thấy tiếng xích khẽ rung, và biết khế ước ấy vẫn còn dang dở."
+
+msgid "EQUIP_EQ_WEAPON_UNYIELDING_PEAK_DESC"
+msgstr "Bản kiếm đẽo từ chính ngọn núi không chịu đổ. Nó không thắng bằng một nhát chém, mà thắng bằng việc không ngã."
+
+msgid "EQUIP_EQ_WEAPON_UNYIELDING_PEAK_LORE"
+msgstr "Núi Bất Khuất từng bị sét đánh, bị bão quật, bị nước lũ xói mòn đến nứt toác, mà vẫn đứng đó. Người ta đào sâu vào lõi núi và tìm thấy xương của một con thú cổ đại đã hóa đá từ thuở chưa có người. Họ đẽo luôn phần đá ngay bên cạnh những khúc xương ấy, không dùng lò rèn hay búa nung, và cho ra đời bản kiếm đá nứt toác lấp lánh vệt hổ phách.\n\nChắn kiếm là hai vòm xương như lồng ngực, bao bọc lấy tay người cầm. Những vết nứt trên lưỡi không phải vết hỏng mà là dấu của từng lần núi đứng vững, và càng chịu nhiều đòn thì chúng càng sáng. Chủ nhân đầu tiên của nó nói một câu mà đến giờ vẫn được khắc dưới chân núi: “Đá không thắng vì cứng. Đá thắng vì nó vẫn ở đó khi mọi thứ khác đã đi.”"
+
+msgid "WEAPON_UI_LORE"
+msgstr "Giai thoại"
+
+msgid "EQUIP_PICK_CURRENT"
+msgstr "Trang bị hiện đang cài đặt"
+
+msgid "EQUIP_PICK_DETAIL"
+msgstr "Xem chi tiết"
+
+msgid "STIGMA_UI_NO_ACTIVE_SET"
+msgstr "Chưa kích hoạt hiệu ứng bộ (cần 2 món cùng bộ)."
+
+msgid "TITLE_ONLINE"
+msgstr "Trực tuyến (thử nghiệm)"
+
+msgid "ONLINE_TITLE"
+msgstr "Trực tuyến (thử nghiệm)"
+
+
+
+
+msgid "ONLINE_STATUS_OFFLINE"
+msgstr "Chưa kết nối."
+
+msgid "ONLINE_STATUS_CONNECTING"
+msgstr "Đang kết nối..."
+
+msgid "ONLINE_STATUS_ONLINE"
+msgstr "Đã kết nối."
+
+msgid "ONLINE_STATUS_ERROR"
+msgstr "Lỗi: %s"
+
+msgid "ONLINE_ERR_NO_SERVER"
+msgstr "chưa nhập địa chỉ máy chủ"
+
+msgid "ONLINE_ERR_UNREACHABLE"
+msgstr "không kết nối được máy chủ (sai địa chỉ, máy chủ tắt hoặc mất mạng)"
+
+msgid "ONLINE_ERR_AUTH"
+msgstr "máy chủ từ chối đăng nhập (khóa máy chủ không khớp)"
+
+msgid "ONLINE_ERR_NO_SERVICE"
+msgstr "Không có dịch vụ trực tuyến."
+
+msgid "ONLINE_PLAYER_CODE"
+msgstr "Mã người chơi"
+
+msgid "ONLINE_COPY_CODE"
+msgstr "Sao chép"
+
+msgid "ONLINE_CODE_COPIED"
+msgstr "Đã sao chép mã người chơi."
+
+msgid "ONLINE_CODE_HINT"
+msgstr "Khi nạp, ghi mã này vào nội dung chuyển khoản để QTV phát quà đúng tài khoản."
+
+msgid "ONLINE_WALLET_HINT"
+msgstr "Ví trên máy chủ (bản thử: chưa gộp với dữ liệu chơi trên máy)."
+
+msgid "ONLINE_REFRESH"
+msgstr "Làm mới"
+
+msgid "TITLE_ACCOUNT"
+msgstr "Tài khoản: %s"
+
+msgid "ONLINE_ACCOUNT"
+msgstr "Tài khoản: %s"
+
+msgid "ONLINE_OPEN_LOGIN"
+msgstr "Đăng nhập / Tạo tài khoản"
+
+msgid "ONLINE_LOGOUT"
+msgstr "Đăng xuất"
+
+msgid "ONLINE_ERR_NOT_LOGGED_IN"
+msgstr "chưa đăng nhập"
+
+msgid "ONLINE_ERR_SESSION_EXPIRED"
+msgstr "phiên đăng nhập đã hết hạn, hãy đăng nhập lại"
+
+msgid "LOGIN_TAB_LOGIN"
+msgstr "Đăng nhập"
+
+msgid "LOGIN_TAB_REGISTER"
+msgstr "Tạo tài khoản"
+
+msgid "LOGIN_NAME_OR_EMAIL"
+msgstr "Tên đăng nhập hoặc email"
+
+msgid "LOGIN_USERNAME"
+msgstr "Tên đăng nhập"
+
+msgid "LOGIN_USERNAME_HINT"
+msgstr "3–20 ký tự: chữ không dấu, số, _"
+
+msgid "LOGIN_EMAIL"
+msgstr "Email"
+
+msgid "LOGIN_PASSWORD"
+msgstr "Mật khẩu"
+
+msgid "LOGIN_PASSWORD_HINT"
+msgstr "Ít nhất 8 ký tự"
+
+msgid "LOGIN_PASSWORD_CONFIRM"
+msgstr "Nhập lại mật khẩu"
+
+msgid "LOGIN_REMEMBER"
+msgstr "Ghi nhớ đăng nhập"
+
+msgid "LOGIN_SUBMIT"
+msgstr "Đăng nhập"
+
+msgid "LOGIN_REGISTER_SUBMIT"
+msgstr "Tạo tài khoản"
+
+
+msgid "LOGIN_SERVER"
+msgstr "Máy chủ: %s"
+
+msgid "LOGIN_SERVER_CHANGE"
+msgstr "Đổi"
+
+msgid "LOGIN_SERVER_SAVE"
+msgstr "Lưu"
+
+msgid "LOGIN_RESUMING"
+msgstr "Đang đăng nhập lại %s..."
+
+msgid "LOGIN_ERR_EMPTY"
+msgstr "Nhập tên đăng nhập (hoặc email) và mật khẩu."
+
+msgid "LOGIN_ERR_USERNAME"
+msgstr "Tên đăng nhập 3–20 ký tự: chữ không dấu, số, gạch dưới."
+
+msgid "LOGIN_ERR_EMAIL"
+msgstr "Email không hợp lệ."
+
+msgid "LOGIN_ERR_PASSWORD_SHORT"
+msgstr "Mật khẩu cần ít nhất 8 ký tự."
+
+msgid "LOGIN_ERR_PASSWORD_MISMATCH"
+msgstr "Hai lần nhập mật khẩu không khớp."
+
+msgid "LOGIN_ERR_BAD_CREDENTIALS"
+msgstr "Sai tên đăng nhập / email hoặc mật khẩu."
+
+msgid "LOGIN_ERR_USERNAME_TAKEN"
+msgstr "Tên đăng nhập đã có người dùng."
+
+msgid "LOGIN_ERR_EMAIL_TAKEN"
+msgstr "Email đã có tài khoản (sai mật khẩu). Hãy đăng nhập."
+
+msgid "CLOUD_LOADING"
+msgstr "Đang tải thế giới của tài khoản..."
+
+msgid "CLOUD_ERR_OPEN"
+msgstr "Không mở được dữ liệu trên máy chủ: %s"
+
+msgid "CLOUD_ERR_NOT_READY"
+msgstr "chưa đăng nhập"
+
+msgid "CLOUD_ERR_NEWER"
+msgstr "dữ liệu được lưu bằng bản game mới hơn, hãy cập nhật game"
+
+msgid "CLOUD_ERR_BAD_DATA"
+msgstr "dữ liệu trên máy chủ bị hỏng, hãy báo QTV"
+
+msgid "CLOUD_ERR_CONFLICT"
+msgstr "Tài khoản vừa được chơi ở thiết bị khác. Hãy đăng nhập lại để lấy dữ liệu mới nhất."
+
+msgid "CLOUD_IMPORT_TITLE"
+msgstr "Tài khoản chưa có dữ liệu"
+
+msgid "CLOUD_IMPORT_TEXT"
+msgstr "Máy này có dữ liệu chơi ngoại tuyến. Mang dữ liệu đó lên tài khoản, hay bắt đầu thế giới mới? Dữ liệu ngoại tuyến vẫn được giữ trên máy."
+
+msgid "CLOUD_IMPORT_YES"
+msgstr "Mang dữ liệu lên tài khoản"
+
+msgid "CLOUD_IMPORT_NO"
+msgstr "Bắt đầu thế giới mới"
+
+msgid "CLOUD_STATE_OFF"
+msgstr "Lưu đám mây: chưa mở"
+
+msgid "CLOUD_STATE_SYNCING"
+msgstr "Lưu đám mây: đang đồng bộ..."
+
+msgid "CLOUD_STATE_SYNCED"
+msgstr "Lưu đám mây: đã đồng bộ"
+
+msgid "CLOUD_STATE_SYNCED_AT"
+msgstr "Lưu đám mây: đã đồng bộ lúc %s"
+
+msgid "CLOUD_STATE_PENDING"
+msgstr "Lưu đám mây: chưa gửi được (mất mạng), sẽ tự gửi lại"
+
+msgid "CLOUD_SYNC_NOW"
+msgstr "Đồng bộ ngay"
+
+msgid "RHYTHM_MATERIAL_TITLE"
+msgstr "Ải nguyên liệu · Nhịp điệu"
+
+msgid "RHYTHM_MATERIAL_SUB"
+msgstr "Đánh theo nhạc để nhận nhiều nguyên liệu tăng cấp. Qua ải 5 mở chế độ Vô tận."
+
+msgid "RHYTHM_STAGE_01_NAME"
+msgstr "Nhịp than hồng"
+
+msgid "RHYTHM_STAGE_02_NAME"
+msgstr "Đường gió"
+
+msgid "RHYTHM_STAGE_03_NAME"
+msgstr "Làn sấm"
+
+msgid "RHYTHM_STAGE_04_NAME"
+msgstr "Sảnh ánh sáng"
+
+msgid "RHYTHM_STAGE_05_NAME"
+msgstr "Boss: Vầng Khuyết"
+
+msgid "RHYTHM_BOSS"
+msgstr "BOSS"
+
+msgid "SORTIE_MATERIAL_TAG"
+msgstr "Nhịp điệu"
+
+msgid "RHYTHM_LOCKED"
+msgstr "Chưa mở"
+
+msgid "RHYTHM_LOCKED_HINT"
+msgstr "Qua ải trước để mở ải này."
+
+msgid "RHYTHM_CLEARED"
+msgstr "Đã qua"
+
+msgid "RHYTHM_LEVEL"
+msgstr "Độ khó %d"
+
+msgid "RHYTHM_ENDLESS_TITLE"
+msgstr "Vô tận"
+
+msgid "RHYTHM_ENDLESS_SUB"
+msgstr "Chọn bài và độ khó, chơi bao nhiêu tùy thích."
+
+msgid "RHYTHM_ENDLESS_LOCKED"
+msgstr "Qua ải N-5 (boss) để mở chế độ Vô tận."
+
+msgid "RHYTHM_CATALOG_LOADING"
+msgstr "Đang tải danh sách bài..."
+
+msgid "RHYTHM_CATALOG_OFFLINE"
+msgstr "Không tới được máy chủ: chỉ chơi được bài đã tải."
+
+msgid "RHYTHM_CATALOG_NONE"
+msgstr "Không tới được máy chủ và chưa tải bài nào. Kiểm tra mạng rồi thử lại."
+
+msgid "RHYTHM_DOWNLOADING"
+msgstr "Đang tải bài (%.1f MB)..."
+
+msgid "RHYTHM_DOWNLOAD_FAILED"
+msgstr "Tải bài thất bại (%s). Thử lại sau."
+
+msgid "RHYTHM_DIFF_EASY"
+msgstr "Dễ"
+
+msgid "RHYTHM_DIFF_NORMAL"
+msgstr "Thường"
+
+msgid "RHYTHM_DIFF_HARD"
+msgstr "Khó"
+
+msgid "RHYTHM_FAVORITES"
+msgstr "Yêu thích"
+
+msgid "RHYTHM_NO_SONGS"
+msgstr "Chưa có bài nào ở đây."
+
+msgid "RHYTHM_PLAY"
+msgstr "Chơi"
+
+msgid "RHYTHM_BEST_SCORE"
+msgstr "Kỷ lục %d"
+
+msgid "RHYTHM_SCORE"
+msgstr "ĐIỂM"
+
+msgid "RHYTHM_COMBO"
+msgstr "COMBO"
+
+msgid "RHYTHM_FEVER"
+msgstr "FEVER"
+
+msgid "RHYTHM_GO"
+msgstr "BẮT ĐẦU!"
+
+msgid "RHYTHM_PERFECT"
+msgstr "PERFECT"
+
+msgid "RHYTHM_GREAT"
+msgstr "GREAT"
+
+msgid "RHYTHM_MISS"
+msgstr "MISS"
+
+msgid "RHYTHM_WRONG"
+msgstr "SAI"
+
+msgid "RHYTHM_HINT_UP"
+msgstr "Đánh trên: D / F / ↑ (chạm nửa trái)"
+
+msgid "RHYTHM_HINT_DOWN"
+msgstr "Đánh dưới: J / K / ↓ (chạm nửa phải)"
+
+msgid "RHYTHM_PAUSED"
+msgstr "Tạm dừng"
+
+msgid "RHYTHM_RESUME"
+msgstr "Tiếp tục"
+
+msgid "RHYTHM_QUIT"
+msgstr "Thoát"
+
+msgid "RHYTHM_CLEAR"
+msgstr "HOÀN THÀNH"
+
+msgid "RHYTHM_FAILED"
+msgstr "THẤT BẠI"
+
+msgid "RHYTHM_FAILED_HINT"
+msgstr "Hết HP. Nhớ: mỗi nốt chỉ đúng một lựa chọn (trên, dưới hoặc cả hai)."
+
+msgid "RHYTHM_NEW_BEST"
+msgstr "Kỷ lục mới!"
+
+msgid "RHYTHM_RESULT_SCORE"
+msgstr "Điểm: %d"
+
+msgid "RHYTHM_RESULT_COMBO"
+msgstr "Combo cao nhất: %d"
+
+msgid "RHYTHM_RESULT_ACCURACY"
+msgstr "Chính xác: %.1f%%"
+
+msgid "RHYTHM_RESULT_COUNTS"
+msgstr "Perfect %d · Great %d · Good %d · Normal %d · Miss %d · Sai %d"
+
+msgid "RHYTHM_LOAD_ERROR"
+msgstr "Không mở được bài này (chưa tải hoặc file hỏng). Quay lại và tải lại bài."
+
+msgid "RHYTHM_GOOD"
+msgstr "GOOD"
+
+msgid "RHYTHM_NORMAL"
+msgstr "NORMAL"
+
+msgid "RHYTHM_SPEED"
+msgstr "Tốc độ ×%.1f"
+
+msgid "RHYTHM_TUT_TITLE"
+msgstr "Hướng dẫn %d/%d"
+
+msgid "RHYTHM_TUT_UP"
+msgstr "Dơi Nốt bay ở LÀN TRÊN. Ấn D / F / ↑ (hoặc chạm nửa trái màn) đúng lúc hitbox vàng vào khít vòng trắng phía trên."
+
+msgid "RHYTHM_TUT_DOWN"
+msgstr "Sên Nhịp chạy ở LÀN DƯỚI. Ấn J / K / ↓ (hoặc chạm nửa phải màn) khi hitbox vàng khít vòng phía dưới."
+
+msgid "RHYTHM_TUT_MIX"
+msgstr "Giờ xen kẽ trên và dưới. Nhìn hitbox vàng, ấn đúng làn. Ấn khi hitbox chưa chạm vòng thì không sao."
+
+msgid "RHYTHM_TUT_BOTH"
+msgstr "Song Âm có dây khuông vàng nối hai làn: ấn CẢ HAI phím cùng lúc. Chỉ ấn một phím là SAI (khi chơi thật sẽ mất HP)."
+
+msgid "RHYTHM_TUT_GRADES"
+msgstr "Càng khít càng nhiều điểm: PERFECT > GREAT > GOOD > NORMAL. Chỉ chạm viền ngoài là MISS."
+
+msgid "RHYTHM_TUT_PROGRESS"
+msgstr "Đánh trúng %d/%d"
+
+msgid "RHYTHM_TUT_RETRY"
+msgstr "Chưa đủ, thử lại nhé!"
+
+msgid "RHYTHM_TUT_DONE"
+msgstr "Tốt lắm! Bài hát bắt đầu ngay đây..."
+
+msgid "RHYTHM_TUT_SKIP"
+msgstr "Bỏ qua hướng dẫn"
+
+msgid "RHYTHM_INTRO_HOLD"
+msgstr "Mới: Rắn Ngân — ấn giữ phím từ đầu tới hết thân rắn, thả sớm là gãy. Quái trống to — ấn liên tục thật nhanh tới khi nó vỡ."
+
+msgid "HUB_TAB_CHAT"
+msgstr "Chat"
+
+msgid "HUB_ICON_CHAT"
+msgstr "Chat"
+
+msgid "CHAT_TAB_WORLD"
+msgstr "Thế giới"
+
+msgid "CHAT_TAB_FRIENDS"
+msgstr "Bạn bè"
+
+msgid "CHAT_DM_LIST"
+msgstr "Nhắn riêng"
+
+msgid "CHAT_DM_TITLE"
+msgstr "Nhắn riêng: %s"
+
+msgid "CHAT_CONNECTING"
+msgstr "Đang kết nối chat..."
+
+msgid "CHAT_EMPTY"
+msgstr "Chưa có tin nhắn. Hãy nói xin chào!"
+
+msgid "CHAT_NEED_LOGIN"
+msgstr "Cần đăng nhập để dùng chat."
+
+msgid "CHAT_INPUT_HINT"
+msgstr "Nhập tin nhắn (tối đa 200 ký tự)"
+
+msgid "CHAT_SEND"
+msgstr "Gửi"
+
+msgid "CHAT_ACT_DM"
+msgstr "Nhắn riêng"
+
+msgid "CHAT_ACT_FRIEND"
+msgstr "Kết bạn"
+
+msgid "CHAT_ACT_BLOCK"
+msgstr "Chặn"
+
+msgid "CHAT_ACT_REPORT"
+msgstr "Báo cáo"
+
+msgid "CHAT_REPORT_REASON"
+msgstr "Lý do:"
+
+msgid "CHAT_REASON_SPAM"
+msgstr "Spam"
+
+msgid "CHAT_REASON_ABUSE"
+msgstr "Lăng mạ"
+
+msgid "CHAT_REASON_INAPPROPRIATE"
+msgstr "Không phù hợp"
+
+msgid "CHAT_REASON_CHEAT"
+msgstr "Gian lận"
+
+msgid "CHAT_REASON_OTHER"
+msgstr "Khác"
+
+msgid "CHAT_REPORTED"
+msgstr "Đã gửi báo cáo cho QTV."
+
+msgid "CHAT_ADD_BY_CODE"
+msgstr "Thêm bạn bằng mã người chơi"
+
+msgid "CHAT_CODE_HINT"
+msgstr "Mã 8 số của bạn bè"
+
+msgid "CHAT_ADD_FRIEND"
+msgstr "Kết bạn"
+
+msgid "CHAT_FRIEND_SENT"
+msgstr "Đã gửi lời mời kết bạn."
+
+msgid "CHAT_FRIENDS_INVITES"
+msgstr "Lời mời kết bạn"
+
+msgid "CHAT_FRIENDS_LIST"
+msgstr "Bạn bè"
+
+msgid "CHAT_FRIENDS_SENT"
+msgstr "Đã gửi lời mời"
+
+msgid "CHAT_FRIENDS_BLOCKED"
+msgstr "Đã chặn"
+
+msgid "CHAT_FRIENDS_EMPTY"
+msgstr "Chưa có bạn bè. Thêm bằng mã người chơi hoặc bấm tên ở phòng Thế giới."
+
+msgid "CHAT_FRIEND_ACCEPT"
+msgstr "Chấp nhận"
+
+msgid "CHAT_FRIEND_DECLINE"
+msgstr "Từ chối"
+
+msgid "CHAT_FRIEND_REMOVE"
+msgstr "Xóa bạn"
+
+msgid "CHAT_FRIEND_CANCEL"
+msgstr "Hủy mời"
+
+msgid "CHAT_FRIEND_UNBLOCK"
+msgstr "Bỏ chặn"
+
+msgid "CHAT_NOTICE_FRIEND_INVITE"
+msgstr "Bạn có lời mời kết bạn mới."
+
+msgid "CHAT_ERR_EMPTY"
+msgstr "Hãy nhập nội dung."
+
+msgid "CHAT_ERR_TOO_LONG"
+msgstr "Tin nhắn tối đa 200 ký tự."
+
+msgid "CHAT_ERR_RATE"
+msgstr "Bạn gửi quá nhanh, chờ một chút."
+
+msgid "CHAT_ERR_MUTED"
+msgstr "Bạn đang bị cấm chat."
+
+msgid "CHAT_ERR_MUTED_UNTIL"
+msgstr "Bạn đang bị cấm chat đến %s."
+
+msgid "CHAT_ERR_BLOCKED"
+msgstr "Không gửi được: người này đã chặn bạn."
+
+msgid "CHAT_ERR_NOT_FOUND"
+msgstr "Không tìm thấy người chơi với mã này."
+
+msgid "CHAT_ERR_SELF"
+msgstr "Đó là mã của chính bạn."
+
+msgid "CHAT_ERR_OFFLINE"
+msgstr "Chưa kết nối chat."
+
+msgid "CHAT_ERR_SEND"
+msgstr "Không gửi được, thử lại sau."
+
+
+msgid "TOPUP_NEED_LOGIN"
+msgstr "Đăng nhập để nạp (cần kết nối máy chủ)."
+
+msgid "TOPUP_ERR_LOAD"
+msgstr "Không tải được bảng giá: %s"
+
+msgid "TOPUP_ERR_CARD_TODAY"
+msgstr "Hôm nay bạn đã nhận quà thẻ tháng rồi."
+
+msgid "TOPUP_ERR_CARD_NONE"
+msgstr "Bạn chưa có thẻ tháng."
+
+msgid "TOPUP_CARD_CLAIMED"
+msgstr "Đã nhận %d Ngọc từ thẻ tháng."
+
+msgid "TOPUP_RECEIVED"
+msgstr "Đã nhận %d Ngọc vào kho."
+
+msgid "TOPUP_REVOKED"
+msgstr "QTV đã thu hồi %d Ngọc."
+
+
+msgid "TOPUP_FIRST_BONUS"
+msgstr "Nạp lần đầu: +%d"
+
+msgid "TOPUP_GEMS_PACKS"
+msgstr "Gói Ngọc"
+
+
+msgid "TOPUP_CARD_TITLE"
+msgstr "Thẻ tháng"
+
+msgid "TOPUP_CARD_RULES"
+msgstr "Mỗi thẻ %d lượt nhận: mỗi ngày nhận %d Ngọc, cứ mỗi %d lượt được thêm %d Ngọc."
+
+msgid "TOPUP_CARD_LEFT"
+msgstr "Còn %d lần nhận · đã nhận %d lần"
+
+msgid "TOPUP_CARD_NONE"
+msgstr "Bạn chưa có thẻ tháng."
+
+msgid "TOPUP_CARD_CLAIM"
+msgstr "Nhận hôm nay (+%d Ngọc)"
+
+msgid "TOPUP_CARD_DONE_TODAY"
+msgstr "Hôm nay đã nhận"
+
+msgid "TOPUP_CARD_CLAIM_NONE"
+msgstr "Chưa có thẻ"
+
+msgid "TOPUP_LOG_TITLE"
+msgstr "Nạp gần đây"
+
+msgid "TOPUP_LOG_EMPTY"
+msgstr "Chưa có lần nạp nào."
+
+msgid "TOPUP_PICK_PACK"
+msgstr "Chọn một gói để nạp."
+
+msgid "TOPUP_BANK"
+msgstr "Ngân hàng"
+
+msgid "TOPUP_ACCOUNT"
+msgstr "Số tài khoản"
+
+msgid "TOPUP_OWNER"
+msgstr "Chủ tài khoản"
+
+msgid "TOPUP_AMOUNT"
+msgstr "Số tiền"
+
+msgid "TOPUP_MEMO"
+msgstr "Nội dung"
+
+msgid "TOPUP_COPY"
+msgstr "Chép"
+
+msgid "TOPUP_COPIED"
+msgstr "Đã chép."
+
+msgid "TOPUP_HOW"
+msgstr "Quét mã QR bằng app ngân hàng (hoặc chuyển khoản tay, ghi ĐÚNG nội dung và số tiền). QTV xác nhận rồi cộng quà, thường trong vài phút; màn này tự cập nhật."
+
+msgid "EVENT_MATERIAL_TITLE"
+msgstr "Event nguyên liệu"
+
+msgid "MODE_RHYTHM_TITLE"
+msgstr "Nhịp điệu"
+
+msgid "MODE_RHYTHM_SUB"
+msgstr "Đánh Cặn Âm theo nhạc trong Vết Vang để gom Tinh."
+
+msgid "EVENT_LOCK"
+msgstr "Khóa"
+
+msgid "EVENT_LOCKED_NEED"
+msgstr "Qua ải %s để mở"
+
+msgid "EVENT_STARS"
+msgstr "★ %d/%d"
+
+msgid "EVENT_PLAYS_LEFT"
+msgstr "Lượt có thưởng: %d/%d"
+
+msgid "EVENT_PLAYS_UNLIMITED"
+msgstr "Không giới hạn lượt"
+
+msgid "EVENT_RESET_IN"
+msgstr "làm mới sau %s"
+
+msgid "EVENT_TIME_DH"
+msgstr "%d ngày %d giờ"
+
+msgid "EVENT_TIME_HM"
+msgstr "%d giờ %d phút"
+
+msgid "EVENT_PLAY"
+msgstr "Chơi"
+
+msgid "EVENT_PLAY_NO_REWARD"
+msgstr "Chơi (không thưởng)"
+
+msgid "EVENT_STAR_CONDITIONS"
+msgstr "Điều kiện sao"
+
+msgid "EVENT_DROPS"
+msgstr "Có thể rơi"
+
+msgid "EVENT_FIRST_CLEAR"
+msgstr "Thưởng lần đầu"
+
+msgid "EVENT_BEST"
+msgstr "Kỷ lục: %d · Hạng %s"
+
+msgid "EVENT_PARTY_MIN"
+msgstr "Cần đội %d người"
+
+msgid "EVENT_PARTY_TOO_SMALL"
+msgstr "Đội đang có %d người, ải này cần %d. Thêm người ở màn Đội hình."
+
+msgid "EVENT_STAGE_LOCKED"
+msgstr "Qua ải trước để mở ải này."
+
+msgid "EVENT_RESULT_CLEAR"
+msgstr "HOÀN THÀNH"
+
+msgid "EVENT_RESULT_FAIL"
+msgstr "THẤT BẠI"
+
+msgid "EVENT_RESULT_SCORE"
+msgstr "Điểm: %d"
+
+msgid "EVENT_NEW"
+msgstr "Mới!"
+
+msgid "EVENT_NO_REWARD_LIMIT"
+msgstr "Hết lượt có thưởng tuần này: lượt này không nhận thưởng."
+
+msgid "EVENT_FIRST_CLEAR_DONE"
+msgstr "Đã nhận thưởng qua ải lần đầu."
+
+msgid "EVENT_BACK_TO_SELECT"
+msgstr "Về chọn ải"
+
+msgid "EVENT_BACK_HINT"
+msgstr "Quay lại rồi thử lại sau."
+
+msgid "EVENT_CAPTAIN_EXP"
+msgstr "EXP người quản lý"
+
+msgid "STAR_CLEAR"
+msgstr "Qua ải"
+
+msgid "STAR_RANK"
+msgstr "Hạng %s trở lên"
+
+msgid "STAR_SCORE"
+msgstr "Điểm từ %d"
+
+msgid "STAT_ACCURACY"
+msgstr "Chính xác"
+
+msgid "STAT_MAX_COMBO"
+msgstr "Combo cao nhất"
+
+msgid "STAT_PERFECT_RATIO"
+msgstr "Tỉ lệ Perfect"
+
+msgid "STAT_MISS"
+msgstr "Miss / Sai"
+
+msgid "STAT_HP_LEFT_RATIO"
+msgstr "HP còn lại"
+
+msgid "STAT_HOLDS_BROKEN"
+msgstr "Rắn Ngân bị gãy"
+
+msgid "EVT_RESULT_S"
+msgstr "Hoàn hảo! Vết Khuyết khép lại, Tinh rơi đầy tay."
+
+msgid "EVT_RESULT_A"
+msgstr "Rất tốt. Gần như không sót chút Tinh nào."
+
+msgid "EVT_RESULT_B"
+msgstr "Ổn rồi, vẫn còn vài chỗ tối."
+
+msgid "EVT_RESULT_C"
+msgstr "Qua được, nhưng suýt nữa."
+
+msgid "EVT_RESULT_D"
+msgstr "Qua rồi… lần sau gom kỹ hơn nhé."
+
+msgid "EVT_RESULT_FAIL"
+msgstr "NEO rút cả đội ra. Thử lại nhé."
+
+msgid "EVENT_DATA_ERROR"
+msgstr "File material_events.json có %d lỗi, lỗi đầu: %s"
+
+msgid "DEBUG_GIFT_LINE_EVENT_CLEAR"
+msgstr "Mở sẵn ải event: %s"
+
+msgid "DEBUG_GIFT_LINE_EVENT_RESET"
+msgstr "Đặt lại lượt có thưởng Event nguyên liệu"
+
+msgid "DEBUG_GIFT_LINE_STAGE_CLEAR"
+msgstr "Mở sẵn %d ải cốt truyện (đánh dấu đã qua, đặt hướng dẫn người mới là xong)"
+
+msgid "DEBUG_GIFT_LINE_CLIPS_RESET"
+msgstr "Xóa danh sách clip truyện đã xem (phát lại như lần đầu)"
+
+msgid "MODE_RHYTHM_DROPS"
+msgstr "Sách kinh nghiệm"
+
+msgid "MODE_RUNNER_TITLE"
+msgstr "Chạy Nguyên Tố"
+
+msgid "MODE_RUNNER_SUB"
+msgstr "Chạy, nhảy và đổi người qua Cổng Cộng Hưởng trong Vết Trôi."
+
+msgid "MODE_RUNNER_DROPS"
+msgstr "Nguyên liệu cường hóa"
+
+msgid "MODE_JET_TITLE"
+msgstr "Bay Nguyên Tố"
+
+msgid "MODE_JET_SUB"
+msgstr "Bay bằng Bộ Phụt, gom Tinh Lõi trong Vết Rỗng."
+
+msgid "MODE_JET_DROPS"
+msgstr "Nguyên liệu nâng bậc"
+
+msgid "RUNNER_N1_TITLE"
+msgstr "Đường Trôi"
+
+msgid "RUNNER_N2_TITLE"
+msgstr "Cổng Đầu Tiên"
+
+msgid "RUNNER_N3_TITLE"
+msgstr "Ba Màu"
+
+msgid "RUNNER_N1_INTRO"
+msgstr "Đất đang trôi về phía bóng. Cứ chạy, gặp Cặn thì nhảy. (Nhảy: Space / W / ↑)"
+
+msgid "RUNNER_N2_INTRO"
+msgstr "Cổng chỉ mở cho đúng giáp. Đổi người trước khi chạm! (Đổi: E / Shift / →, chọn thẳng: 1 2 3)"
+
+msgid "RUNNER_N3_INTRO"
+msgstr "Ba cổng, ba người. Nhìn ký hiệu ○ △ □, đừng chỉ nhìn màu."
+
+msgid "RUNNER_PERFECT"
+msgstr "PERFECT!"
+
+msgid "RUNNER_GOOD"
+msgstr "QUA CỔNG"
+
+msgid "RUNNER_WRONG_GATE"
+msgstr "SAI GIÁP!"
+
+msgid "RUNNER_FEVER"
+msgstr "FEVER!"
+
+msgid "RUNNER_FEVER_LABEL"
+msgstr "Fever"
+
+msgid "RUNNER_COMBO"
+msgstr "%d COMBO"
+
+msgid "RUNNER_LOAD_ERROR"
+msgstr "Không đọc được dữ liệu ải."
+
+msgid "STAT_HITS_TAKEN"
+msgstr "Lần bị trúng"
+
+msgid "STAT_COLLECT_RATIO"
+msgstr "Hạt Tinh nhặt"
+
+msgid "STAT_PERFECT_SWAPS"
+msgstr "Cổng Perfect"
+
+msgid "STAT_PERFECT_SWAP_RATIO"
+msgstr "Tỉ lệ cổng Perfect"
+
+msgid "STAT_DISTANCE_RATIO"
+msgstr "Quãng đường"
+
+msgid "RUNNER_N4_TITLE"
+msgstr "Nhảy Và Đổi"
+
+msgid "RUNNER_N5_TITLE"
+msgstr "Vầng Khuyết"
+
+msgid "RUNNER_N4_INTRO"
+msgstr "Cổng sát Cặn rồi: nhảy và đổi người cùng lúc nhé."
+
+msgid "RUNNER_N5_INTRO"
+msgstr "Nó đang hút cả mặt đất. Chạy tới tâm Vết Khuyết! Vật nó ném tới rất nhanh."
+
+msgid "RUNNER_BOSS_NAME"
+msgstr "Vầng Khuyết"
+
+msgid "RUNNER_ENDLESS_TITLE"
+msgstr "Vô tận"
+
+msgid "RUNNER_ENDLESS_SUB"
+msgstr "Các tuyến dài cố định, ba độ khó."
+
+msgid "RUNNER_ENDLESS_INFO"
+msgstr "%d px/s · %d giây · cần đội %d người"
+
+msgid "RUNNER_ROUTE_DRIFT"
+msgstr "Đường Trôi Dài"
+
+msgid "RUNNER_ROUTE_RIFT"
+msgstr "Khe Nứt Sâu"
+
+msgid "RUNNER_ROUTE_UMBRA"
+msgstr "Vành Bóng"
+
+msgid "RUNNER_ROUTE_SEED"
+msgstr "Tuyến cố định #%d"
+
+msgid "JET_N1_TITLE"
+msgstr "Lần Bay Đầu"
+
+msgid "JET_N2_TITLE"
+msgstr "Gió Ngược"
+
+msgid "JET_N3_TITLE"
+msgstr "Van Sét"
+
+msgid "JET_N4_TITLE"
+msgstr "Đáy Rỗng"
+
+msgid "JET_N5_TITLE"
+msgstr "Vầng Khuyết"
+
+msgid "JET_N1_INTRO"
+msgstr "Giữ để bay, thả để rơi. Nhớ nhặt Tinh Lõi nhé! (Giữ: Space / W / ↑, hoặc chạm giữ màn hình)"
+
+msgid "JET_N2_INTRO"
+msgstr "Gió đổi chiều liên tục. Thấy hộp sáng thì chạm vào."
+
+msgid "JET_N3_INTRO"
+msgstr "Khe van vừa đủ cho cậu, nếu cậu không hoảng."
+
+msgid "JET_N4_INTRO"
+msgstr "Càng xuống sâu càng nóng. Giữ Rồng càng lâu càng tốt."
+
+msgid "JET_N5_INTRO"
+msgstr "Nó hút cả Tinh lẫn gió. Đừng nhìn tay nó, nhìn mũi tên!"
+
+msgid "JET_ZONE_ASH_NAME"
+msgstr "Ống Tro"
+
+msgid "JET_ZONE_WIND_NAME"
+msgstr "Thung Gió Ngược"
+
+msgid "JET_ZONE_THUNDER_NAME"
+msgstr "Hang Sét Câm"
+
+msgid "JET_ZONE_ASH_RULE"
+msgstr "Bay tốn Tinh: nhặt Tinh Lõi xanh để nạp."
+
+msgid "JET_ZONE_WIND_RULE"
+msgstr "Gió đổi chiều theo đợt: nhìn mũi tên mà nghiêng."
+
+msgid "JET_ZONE_THUNDER_RULE"
+msgstr "Tia quét và van sét: chui qua khe hở."
+
+msgid "JET_FORM_DRAGON"
+msgstr "Rồng"
+
+msgid "JET_FORM_ROBO"
+msgstr "Thủ vệ"
+
+msgid "JET_FORM_DRAGON_PICK"
+msgstr "Có tiếng gầm trong hộp!"
+
+msgid "JET_FORM_ROBO_PICK"
+msgstr "Thủ vệ… thức dậy một lát."
+
+msgid "JET_FORM_DRAGON_BREAK"
+msgstr "Rồng tan thành gió."
+
+msgid "JET_FORM_ROBO_BREAK"
+msgstr "Thủ vệ về lại giấc ngủ."
+
+msgid "JET_FORM_END"
+msgstr "Hết hình"
+
+msgid "JET_ENERGY"
+msgstr "Bộ Phụt"
+
+msgid "JET_HINT_HOLD"
+msgstr "Giữ để bay, thả để rơi"
+
+msgid "JET_HINT_TAP"
+msgstr "Chạm để nhảy"
+
+msgid "JET_LOAD_ERROR"
+msgstr "Không đọc được dữ liệu ải."
+
+msgid "JET_ENDLESS_TITLE"
+msgstr "Vô tận"
+
+msgid "JET_ENDLESS_SUB"
+msgstr "Bay qua các vùng tới khi hết tim."
+
+msgid "JET_ENDLESS_INFO"
+msgstr "Đường bay đổi mỗi ngày · qua khi bay được 1500 m · kỷ lục tính bằng mét"
+
+msgid "JET_ENDLESS_ALL"
+msgstr "Vô tận (đổi vùng)"
+
+msgid "JET_ENDLESS_ALL_SUB"
+msgstr "Ống Tro → Thung Gió Ngược → Hang Sét Câm, nhanh dần."
+
+msgid "JET_PRACTICE_ASH"
+msgstr "Luyện vùng: Ống Tro"
+
+msgid "JET_PRACTICE_WIND"
+msgstr "Luyện vùng: Thung Gió Ngược"
+
+msgid "JET_PRACTICE_THUNDER"
+msgstr "Luyện vùng: Hang Sét Câm"
+
+msgid "JET_PRACTICE_NOTE"
+msgstr "Luyện: không tốn lượt, không thưởng"
+
+msgid "JET_BEST_M"
+msgstr "Kỷ lục: %d m"
+
+msgid "STAT_DISTANCE_M"
+msgstr "Quãng bay (m)"
+
+msgid "STAT_ORB_RATIO"
+msgstr "Hạt Tinh nhặt"
+
+msgid "STAT_CORES_COLLECTED"
+msgstr "Tinh Lõi"
+
+msgid "STAT_FORMS_USED"
+msgstr "Lần biến hình"
+
+msgid "STAT_ZONES_PASSED"
+msgstr "Vùng đã qua"
+
+msgid "CURRENCY_MOONLIGHT"
+msgstr "Nguyệt Quang"
+
+msgid "TOPUP_MOONLIGHT_PACKS"
+msgstr "Gói Nguyệt Quang (thẻ tháng, trang phục hiệu ứng riêng, Battle Pass)"
+
+msgid "TOPUP_CARD_BUY"
+msgstr "Mua thẻ (%d %s)"
+
+msgid "TOPUP_CARD_BOUGHT"
+msgstr "Đã mua thẻ tháng: +%d lượt nhận."
+
+msgid "TOPUP_ERR_CARD_NOT_ENOUGH"
+msgstr "Không đủ Nguyệt Quang để mua thẻ tháng."
+
+msgid "TOPUP_ERR_CARD_MAX"
+msgstr "Thẻ tháng cộng dồn tối đa %d lượt."
+
+msgid "TOPUP_LOG_CARD"
+msgstr "Mua thẻ tháng (+%d lượt)"
+
+msgid "CONN_LOST_TITLE"
+msgstr "Mất kết nối máy chủ"
+
+msgid "CONN_LOST_RETRYING"
+msgstr "Game tạm dừng. Đang thử kết nối lại..."
+
+msgid "CONN_TRYING"
+msgstr "Đang kết nối..."
+
+msgid "CONN_LOST_RETRY_N"
+msgstr "Chưa kết nối được (lần %d). Tự thử lại sau ít giây."
+
+msgid "CONN_RETRY_NOW"
+msgstr "Thử lại ngay"
+
+msgid "CONN_BACK_TO_LOGIN"
+msgstr "Về màn Đăng nhập"
+
+msgid "CHEAT_REJECTED_TITLE"
+msgstr "Dữ liệu không hợp lệ"
+
+msgid "CHEAT_REJECTED_TEXT"
+msgstr "Máy chủ không nhận dữ liệu chơi vừa gửi (sai lệch so với luật game). Dữ liệu hợp lệ gần nhất đã được tải lại. Nếu bạn không sửa gì, hãy báo QTV kèm mã người chơi."
+
+msgid "CLOUD_ERR_REJECTED"
+msgstr "máy chủ từ chối dữ liệu không hợp lệ, đã tải lại bản hợp lệ"
+
+msgid "RECRUIT_UI_PULLING"
+msgstr "Đang chiêu mộ..."
+
+msgid "SORTIE_GUEST_TRIAL"
+msgstr "Chơi thử"
+
+msgid "ENEMY_STATUE_01"
+msgstr "Tượng gác nhỏ"
+
+msgid "ENEMY_SLIME_03"
+msgstr "Cặn đá"
+
+msgid "BOSS_MINION_CUTTER"
+msgstr "Kẻ Cắt Dây"
+
+msgid "BOSS_MINION_MINER"
+msgstr "Kẻ Gõ Đá"
+
+msgid "BOSS_MINION_FILER"
+msgstr "Kẻ Mài Mặt Nạ"
+
+msgid "BOSS_MINION_CARRIER"
+msgstr "Kẻ Gánh Lõi"
+
+msgid "BOSS_IWAGANE_01"
+msgstr "Iwagane (đấu tập)"
+
+msgid "BOSS_GATE_01"
+msgstr "Thủ Vệ Cổng"
+
+msgid "STAGE_02_01_NAME"
+msgstr "Chân Dốc Thủ Vệ"
+
+msgid "STAGE_02_01_DESC"
+msgstr "Đội lên chân dốc cao nguyên theo dấu ba vòng đá. Dấu bánh chở đá và tro lạ hằn trên đường, một Tượng gác nhỏ mắt đục loạng choạng chặn lối."
+
+msgid "BARK_CH02_1_START"
+msgstr "Tọa độ khớp: Cao Nguyên Thủ Vệ. Mật độ nguyên tố Địa 18%, đang giảm."
+
+msgid "BARK_CH02_1_WAVE1"
+msgstr "Yên quá. Xưởng làm thủ vệ mà không có tiếng búa nào."
+
+msgid "BARK_CH02_1_WAVE1_NEO"
+msgstr "Chưa thấy ai ở trạm gác đầu dốc."
+
+msgid "BARK_CH02_1_WAVE2"
+msgstr "Mắt chúng đục như bị ép thức. Đừng xuống tay nặng quá."
+
+msgid "BARK_CH02_1_WAVE2_NEO"
+msgstr "Tượng gác nhỏ: thủ vệ non, mất ca nghỉ."
+
+msgid "BARK_CH02_1_CLEAR"
+msgstr "Tớ vừa đập một con như vậy ở nhà tớ. Giờ tớ thấy khó chịu."
+
+msgid "BARK_CH02_1_CLEAR_NEO"
+msgstr "Dốc đã thông. Ra cuối dốc để hoàn tất."
+
+msgid "STAGE_02_02_NAME"
+msgstr "Cầu Đá Gãy"
+
+msgid "STAGE_02_02_DESC"
+msgstr "Cầu qua vực bị đục sập một nửa. Kazeyumi đọc vết đục: đục từ trong ra. Một tay sai mặt nạ, Kẻ Cắt Dây, đang cắt nốt dây cầu."
+
+msgid "BARK_CH02_2_START"
+msgstr "Cầu sập từng nhịp. Vết đục đều và sạch, không phải thủ vệ phá."
+
+msgid "BARK_CH02_2_WAVE1"
+msgstr "Để tớ chạy trước dò nhịp nào còn chịu được."
+
+msgid "BARK_CH02_2_WAVE1_NEO"
+msgstr "Nhịp 3 và 5 còn chịu tải."
+
+msgid "BARK_CH02_2_BOSS"
+msgstr "Dây cầu bị cắt từ trong ra. Hắn mặc giáp có vòng 00!"
+
+msgid "BARK_CH02_2_BOSS_NEO"
+msgstr "Mục tiêu: Kẻ Cắt Dây. Rất nhanh, báo hiệu đòn ngắn."
+
+msgid "STAGE_02_03_NAME"
+msgstr "Mỏ Đá Câm"
+
+msgid "STAGE_02_03_DESC"
+msgstr "Mỏ ngừng làm. Công nhân bỏ chạy, nói đá thức dậy trong đêm. Kẻ Gõ Đá canh cửa hầm, búa to đập đất rung cả vách."
+
+msgid "BARK_CH02_3_START"
+msgstr "Mỏ đá cổ. Bụi đá dày, nguyên tố Địa loãng không đều."
+
+msgid "BARK_CH02_3_WAVE1"
+msgstr "Cặn nhiễm bụi đá, cứng quá. Đánh vào chỗ sáng của nó."
+
+msgid "BARK_CH02_3_WAVE1_NEO"
+msgstr "Cặn đá: rất trâu, rất chậm."
+
+msgid "BARK_CH02_3_BOSS"
+msgstr "Búa to ghê. Chậm nhưng đừng đứng gần!"
+
+msgid "BARK_CH02_3_BOSS_NEO"
+msgstr "Mục tiêu: Kẻ Gõ Đá. Đòn nặng, báo hiệu dài."
+
+msgid "STAGE_02_04_NAME"
+msgstr "Nhà Đá Của Dân"
+
+msgid "STAGE_02_04_DESC"
+msgstr "Làng nhỏ ven cao nguyên bị tượng non quấy phá. Dân ngờ đội: có người lạ lên là đá nổi điên. Giữ làng, đừng để ai gục."
+
+msgid "BARK_CH02_4_START"
+msgstr "Dân trong làng nhìn chúng ta. Đừng để họ thấy ai gục."
+
+msgid "BARK_CH02_4_WAVE2"
+msgstr "Họ có lý do sợ. Cứ làm cho họ thấy mình là người bảo vệ."
+
+msgid "BARK_CH02_4_WAVE2_NEO"
+msgstr "Mục tiêu phụ: không ai gục."
+
+msgid "BARK_CH02_4_CLEAR"
+msgstr "Bà cụ kia vừa đưa nước cho tớ! Xem ra xong rồi nhé."
+
+msgid "BARK_CH02_4_CLEAR_NEO"
+msgstr "Làng an toàn. Ra cuối làng để hoàn tất."
+
+msgid "STAGE_02_05_NAME"
+msgstr "Hành Lang Tượng"
+
+msgid "STAGE_02_05_DESC"
+msgstr "Hành lang xưởng đầy tượng ngủ im. Kazeyumi nhận ra mỗi tượng có hốc ngực trống: lõi của chúng đã bị lấy đi."
+
+msgid "BARK_CH02_5_START"
+msgstr "Hành lang tượng. Không có tiếng gì, ngoài tiếng bước chân của chúng ta."
+
+msgid "BARK_CH02_5_CP1"
+msgstr "Nhìn ngực chúng đi. Hốc trống. Lõi của chúng đã bị tháo."
+
+msgid "BARK_CH02_5_CP1_NEO"
+msgstr "Đã ghi: hốc lõi trống."
+
+msgid "BARK_CH02_5_CLEAR"
+msgstr "Ai làm thế này không muốn chúng ngủ. Muốn chúng thức mà không có lõi."
+
+msgid "BARK_CH02_5_CLEAR_NEO"
+msgstr "Cổng xưởng ở cuối hành lang."
+
+msgid "STAGE_02_06_NAME"
+msgstr "Cửa Xưởng"
+
+msgid "STAGE_02_06_DESC"
+msgstr "Iwagane chặn cổng xưởng, đòi đội trả lõi. Một ca đấu tập thử người: qua được thì được vào."
+
+msgid "BARK_CH02_6_START"
+msgstr "Cổng xưởng. Một người đứng chặn, đại kiếm cắm xuống đất."
+
+msgid "BARK_CH02_6_BOSS"
+msgstr "Tụi em không lấy lõi. Nếu chị không tin lời, thì tin trận đánh."
+
+msgid "BARK_CH02_6_BOSS_NEO"
+msgstr "Mục tiêu: Iwagane (đấu tập). Chắc, đòn rõ. Đây không phải kẻ thù."
+
+msgid "BARK_CH02_6_PHASE2"
+msgstr "Chị ấy nghiêm túc rồi. Đỡ cho khéo."
+
+msgid "BARK_CH02_6_PHASE2_NEO"
+msgstr "Iwagane vào pha hai. Đòn nhanh hơn."
+
+msgid "STAGE_02_07_NAME"
+msgstr "Sân Rèn Nguội"
+
+msgid "STAGE_02_07_DESC"
+msgstr "Iwagane cho vào xưởng. Thợ Cả bị thương, lò nguội vì lõi bị lấy. Chị đi cùng đội giữ sân rèn trước đợt tượng thức giấc."
+
+msgid "BARK_CH02_7_START"
+msgstr "Iwagane vào kênh. Slot khách: chơi thử. Mỗi lõi trống là một ca gác bị bỏ."
+
+msgid "BARK_CH02_7_WAVE1"
+msgstr "Sân này chị giữ nhiều năm. Để chị đứng trước."
+
+msgid "BARK_CH02_7_WAVE1_NEO"
+msgstr "Iwagane: tank, khiêu khích kẻ địch."
+
+msgid "BARK_CH02_7_CLEAR"
+msgstr "Lò nguội quá. Cái này không phải lò hỏng, là bị bỏ trống."
+
+msgid "BARK_CH02_7_CLEAR_NEO"
+msgstr "Lối vào kho lõi đã mở."
+
+msgid "STAGE_02_08_NAME"
+msgstr "Kho Lõi"
+
+msgid "STAGE_02_08_DESC"
+msgstr "Trong kho lõi có hơn chục hốc trống. Mảnh ấn mã 00 của Raikiba rung theo lõi còn lại: cùng một nguồn. Dọn tượng thức giấc trong kho."
+
+msgid "BARK_CH02_8_START"
+msgstr "Kho lõi. Mười bốn hốc trống. Mảnh ấn mã 00 đang rung."
+
+msgid "BARK_CH02_8_CP2"
+msgstr "Cái này sáng lên mỗi lần tớ lại gần lõi. Nó nhận ra nhau!"
+
+msgid "BARK_CH02_8_CP2_NEO"
+msgstr "Tần số trùng. Lõi thủ vệ và Neo có cùng cấu trúc vật liệu."
+
+msgid "BARK_CH02_8_CLEAR"
+msgstr "Vậy Neo của các em và lõi của xưởng là họ hàng."
+
+msgid "BARK_CH02_8_CLEAR_NEO"
+msgstr "Hoàn tất khu kho."
+
+msgid "STAGE_02_09_NAME"
+msgstr "Đêm Đổi Ca"
+
+msgid "STAGE_02_09_DESC"
+msgstr "Đêm đầu giữ ca cùng Iwagane: tượng thức giấc từng đợt, và Kẻ Mài Mặt Nạ chặn đúng lúc đổi ca. Đội hiểu ca gác đôi."
+
+msgid "BARK_CH02_9_START"
+msgstr "Họ Gác không đánh thức thủ vệ. Bọn chị đổi ca cho chúng."
+
+msgid "BARK_CH02_9_START_NEO"
+msgstr "Đêm đổi ca bắt đầu. Iwagane đang chơi thử."
+
+msgid "BARK_CH02_9_WAVE2"
+msgstr "Chị từng gác một mình chưa?"
+
+msgid "BARK_CH02_9_WAVE2_NEO"
+msgstr "Chưa có phản hồi."
+
+msgid "BARK_CH02_9_BOSS"
+msgstr "Hắn chặn đúng lúc đổi ca. Hắn biết lịch gác!"
+
+msgid "BARK_CH02_9_BOSS_NEO"
+msgstr "Mục tiêu: Kẻ Mài Mặt Nạ. Nhiều đòn mồi, đừng nhảy sớm."
+
+msgid "STAGE_02_10_NAME"
+msgstr "Đường Mật Chở Lõi"
+
+msgid "STAGE_02_10_DESC"
+msgstr "Lần theo vết kẻ trộm: kênh xe chở đá bí mật dưới vách, nhiều hố và bẫy. Vết bánh dẫn về phía bắc."
+
+msgid "BARK_CH02_10_START"
+msgstr "Ba vệt chở, cùng một hướng: phía bắc."
+
+msgid "BARK_CH02_10_WAVE1"
+msgstr "Vết bánh mới. Chúng chưa đi xa!"
+
+msgid "BARK_CH02_10_WAVE1_NEO"
+msgstr "Nhiều hố phía trước, cẩn thận."
+
+msgid "BARK_CH02_10_CLEAR"
+msgstr "Thủ vệ ở đây bị cắm lõi lạ. Chị không muốn nghĩ ra ai làm."
+
+msgid "BARK_CH02_10_CLEAR_NEO"
+msgstr "Đường mật dẫn ra dốc phía bắc."
+
+msgid "STAGE_02_11_NAME"
+msgstr "Dốc Đổ Sét"
+
+msgid "STAGE_02_11_DESC"
+msgstr "Gặp Kẻ Gánh Lõi cùng hai lõi đang chở. Hắn thả tượng chặn đường. Hạ hắn, giữ lại lõi hắn bỏ chạy."
+
+msgid "BARK_CH02_11_START"
+msgstr "Tín hiệu mã 00 ngay phía trước. Có người đang chở lõi."
+
+msgid "BARK_CH02_11_BOSS"
+msgstr "Nặng thế mà chạy nhanh! Đừng để hắn thoát!"
+
+msgid "BARK_CH02_11_BOSS_NEO"
+msgstr "Mục tiêu: Kẻ Gánh Lõi. Đánh tới khi hắn bỏ chạy."
+
+msgid "BARK_CH02_11_PHASE2"
+msgstr "Nó đang gồng cả hai lõi. Chị đỡ, các em đánh!"
+
+msgid "BARK_CH02_11_PHASE2_NEO"
+msgstr "Pha hai: hắn dồn cả hai lõi."
+
+msgid "STAGE_02_12_NAME"
+msgstr "Cổng Thủ Vệ"
+
+msgid "STAGE_02_12_DESC"
+msgstr "Thủ vệ lớn nhất cao nguyên, bị cắm lõi lạ, nổi điên chắn cổng. Iwagane đứng ra giữ cửa, cả đội chia ca với chị."
+
+msgid "BARK_CH02_12_START"
+msgstr "Thủ vệ Cổng. Lõi lạ trong ngực nó mang vòng 00."
+
+msgid "BARK_CH02_12_BOSS"
+msgstr "Cổng này chị giữ. Nhưng chị không giữ một mình."
+
+msgid "BARK_CH02_12_BOSS_NEO"
+msgstr "Mục tiêu: Thủ Vệ Cổng. Rất trâu, đòn lớn."
+
+msgid "BARK_CH02_12_PHASE2"
+msgstr "Vòng 00 lộ ra trên ngực nó! Đánh vỡ lõi lạ!"
+
+msgid "BARK_CH02_12_PHASE2_NEO"
+msgstr "Lõi lạ quá tải. Pha hai."
+
+msgid "NPC_ISHIRO"
+msgstr "Thợ Cả Ishiro"
+
+msgid "STORY_CH02_OPEN_SUMMARY"
+msgstr "Theo dấu ba vòng đá, đội lên Cao Nguyên Thủ Vệ nơi chế tạo thủ vệ. Xưởng im lặng, vệt bánh chở đá và tro lạ hằn trên đường, và những thủ vệ non mắt đục đang bị ép thức. Đích: tìm ra ai đã lấy lõi thủ vệ."
+
+msgid "STORY_CH02_OPEN_01_1"
+msgstr "Tọa độ khớp: Cao Nguyên Thủ Vệ. Mật độ nguyên tố Địa 18%, đang giảm."
+
+msgid "STORY_CH02_OPEN_02_1"
+msgstr "Yên quá. Xưởng làm thủ vệ mà không có tiếng búa nào."
+
+msgid "STORY_CH02_OPEN_03_1"
+msgstr "Có người chở đồ nặng đi. Mới thôi."
+
+msgid "STORY_CH02_OPEN_04_1"
+msgstr "Tượng gác nhỏ: thủ vệ non. Lõi trong ngực không phát hiện."
+
+msgid "STORY_CH02_OPEN_05_1"
+msgstr "Chờ đã. Mắt nó… không đứng được. Nó đang bị ép thức."
+
+msgid "STORY_CH02_OPEN_06_1"
+msgstr "Tớ vừa đập một con như vậy ở nhà tớ."
+
+msgid "STORY_CH02_OPEN_07_1"
+msgstr "Ghi nhận ba vệt chở. Chưa thấy điểm đến."
+
+msgid "STORY_CH02_OPEN_08_1"
+msgstr "Đi thôi. Phải biết ai lấy lõi."
+
+msgid "STORY_CH02_OPEN_CARD_TITLE"
+msgstr "Chương 2 — Xưởng Đá Ngủ"
+
+msgid "STORY_CH02_OPEN_CARD_SUB"
+msgstr "Cao Nguyên Thủ Vệ"
+
+msgid "STORY_CH02_GATE_SUMMARY"
+msgstr "Iwagane giữ cổng xưởng và nghi đội là kẻ trộm lõi, vì đội cầm mảnh ấn gỡ từ ngực một thủ vệ. Chị đề nghị một ca đấu tập để thử người: qua được thì được vào."
+
+msgid "STORY_CH02_GATE_01_1"
+msgstr "Dừng ở đó."
+
+msgid "STORY_CH02_GATE_02_1"
+msgstr "Các cậu mang mảnh ấn gỡ từ ngực một thủ vệ."
+
+msgid "STORY_CH02_GATE_03_1"
+msgstr "Khoan! Tụi tớ nhặt nó dưới chân golem, không phải…"
+
+msgid "STORY_CH02_GATE_04_1"
+msgstr "Xưởng mất mười bốn lõi trong một đêm. Rồi các cậu tới, cầm đúng loại ấn đó."
+
+msgid "STORY_CH02_GATE_05_1"
+msgstr "Chị không tin lời tụi em thì tin trận đánh."
+
+msgid "STORY_CH02_GATE_06_1"
+msgstr "Một ca thử người. Qua được thì vào."
+
+msgid "STORY_CH02_END_SUMMARY"
+msgstr "Thủ Vệ Cổng gục, lõi lạ vỡ. Hiểu lầm được gỡ: golem ở Thung Lũng Tro Tàn phải canh một mình vì bạn gác đôi của nó đã bị lấy lõi. Vệt chở lõi dẫn về Thành Tháp Sét, quê Raikiba. Iwagane ở lại giữ xưởng; một bóng đeo mặt nạ thu những lõi sót lại."
+
+msgid "STORY_CH02_END_01_1"
+msgstr "Cổng này vẫn đứng."
+
+msgid "STORY_CH02_END_02_1"
+msgstr "Chị giữ cửa kiểu gì mà nó không đẩy chị đi được vậy?"
+
+msgid "STORY_CH02_END_02_2"
+msgstr "Chị đứng đủ lâu thì đất tự biết."
+
+msgid "STORY_CH02_END_03_1"
+msgstr "Lõi này không phải của xưởng. Có thứ khác bị ép vào trong."
+
+msgid "STORY_CH02_END_04_1"
+msgstr "Chị đã nghi nhầm các em."
+
+msgid "STORY_CH02_END_05_1"
+msgstr "Không sao. Em cũng suýt đập nhầm mấy con tượng non."
+
+msgid "STORY_CH02_END_06_1"
+msgstr "Golem ở thung lũng… bạn gác của nó nằm trong kho. Nó đã chờ ca thay hơn một mùa."
+
+msgid "STORY_CH02_END_07_1"
+msgstr "Điểm đến khả dĩ: Thành Tháp Sét Câm."
+
+msgid "STORY_CH02_END_08_1"
+msgstr "Nhà tớ ở đó."
+
+msgid "STORY_CH02_END_09_1"
+msgstr "Ca gác này chuyển cho con. Không phải một mình."
+
+msgid "STORY_CH02_END_10_1"
+msgstr "Chị phải ở lại giữ cổng. Nhưng nếu kênh của em còn chỗ trống thì cứ gọi chị."
+
+msgid "STORY_CH02_END_10_2"
+msgstr "Ghi nhận. Kênh Iwagane: đóng, mở khi được gọi."
+
+msgid "STORY_CH02_END_11_1"
+msgstr "Hẹn gặp lại chị. Bọn em đi trước."
+
+msgid "STORY_CH02_END_12_1"
+msgstr "Đã ghi tọa độ. Chờ lệnh của Quản lý."
+
+msgid "STORY_CH02_END_CARD_TITLE"
+msgstr "Chương 2 — Hoàn thành"
+
+msgid "STORY_CH02_END_CARD_SUB"
+msgstr "Chương 3: Thành Tháp Sét Câm — sắp ra mắt"
+
+msgid "STORY_CH02_END_13_1"
+msgstr "Thu đủ chưa? Sét sẽ lo phần sau."
+
+msgid "LOGIN_GOOGLE_HINT"
+msgstr "Đăng nhập bằng tài khoản Google để chơi và lưu tiến trình lên máy chủ."
+
+msgid "LOGIN_GOOGLE_PROMPT"
+msgstr "Bấm nút Đăng nhập Google bên dưới."
+
+msgid "LOGIN_ERR_GOOGLE"
+msgstr "Đăng nhập Google không thành công. Hãy thử lại."
+
+msgid "LOGIN_ERR_GOOGLE_NOT_CONFIGURED"
+msgstr "Máy chủ chưa cấu hình đăng nhập Google (thiếu GOOGLE_CLIENT_ID)."

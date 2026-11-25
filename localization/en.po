@@ -1,0 +1,4566 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Project Eclipse\n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+# Title
+msgid "TITLE_CONTINUE"
+msgstr "Continue"
+
+msgid "TITLE_NEW_GAME"
+msgstr "New Game"
+
+msgid "TITLE_QUIT"
+msgstr "Quit"
+
+# Hub
+msgid "HUB_BACK"
+msgstr "‹ Back"
+
+msgid "HUB_TAB_HOME"
+msgstr "Home"
+
+msgid "HUB_TAB_BATTLE"
+msgstr "Battle"
+
+msgid "HUB_TAB_CHARACTERS"
+msgstr "Characters"
+
+msgid "HUB_TAB_RECRUIT"
+msgstr "Recruit"
+
+msgid "HUB_TAB_SETTINGS"
+msgstr "Settings"
+
+msgid "HUB_WIP"
+msgstr "(work in progress)"
+
+msgid "HUB_TEST_STAGE"
+msgstr "Test stage"
+
+# Stage
+msgid "STAGE_HINT"
+msgstr "A/D run · Space jump · J attack (hold: charge; air; falling high: plunge) · L/Shift dodge · U skill · I weapon · O ultimate · Q/E switch · Esc Hub · F3 hide"
+
+# Statuses (StatusDef)
+msgid "STATUS_BURN"
+msgstr "Burn"
+
+msgid "STATUS_SLOW"
+msgstr "Slow"
+
+msgid "STATUS_LIGHTNING_MARK"
+msgstr "Lightning Mark"
+
+msgid "STATUS_JUDGMENT"
+msgstr "Judgment"
+
+msgid "STATUS_CURSE"
+msgstr "Curse"
+
+msgid "STATUS_EARTH_GUARD"
+msgstr "Earth Guard"
+
+msgid "STATUS_ROOT"
+msgstr "Root"
+
+msgid "STATUS_STUN"
+msgstr "Stun"
+
+msgid "STATUS_SAND_BLIND"
+msgstr "Sand Blind"
+
+msgid "STATUS_SHIELD"
+msgstr "Shield"
+
+msgid "STATUS_TAUNT"
+msgstr "Taunt"
+
+msgid "STATUS_WIND_STEP"
+msgstr "Tailwind"
+
+msgid "STATUS_ATTACK_SPEED_UP"
+msgstr "Attack Speed Up"
+
+msgid "DEBUG_PARTY_DOWN"
+msgstr "(down)"
+
+msgid "DEBUG_PARTY_LINK"
+msgstr "LINK"
+
+# Characters (working names)
+msgid "CHAR_FIRE_01"
+msgstr "Enkiba"
+
+msgid "CHAR_WIND_01"
+msgstr "Kazeyumi"
+
+msgid "CHAR_LIGHTNING_01"
+msgstr "Raikiba"
+
+msgid "CHAR_LIGHT_01"
+msgstr "Hikarine"
+
+msgid "CHAR_DARK_01"
+msgstr "Yomigari"
+
+msgid "CHAR_EARTH_01"
+msgstr "Iwagane"
+
+msgid "DUMMY_HP"
+msgstr "HP"
+
+msgid "DEBUG_COMBAT"
+msgstr "HP %d/%d  EN %d  UG %d  Dodge %d  Skill %s  Weapon %s"
+
+msgid "STATUS_HEAT"
+msgstr "Heat"
+
+msgid "STATUS_MELT"
+msgstr "Melt"
+
+msgid "STATUS_PHOENIX"
+msgstr "Phoenix"
+
+msgid "STATUS_HOT_BREATH"
+msgstr "Hot Breath"
+
+msgid "ENEMY_SLIME_01"
+msgstr "Slime"
+
+msgid "SKILL_FIRE_01_ULTIMATE"
+msgstr "Phoenix Sovereign Slash"
+
+msgid "HUD_COMBO"
+msgstr "%d COMBO"
+
+# Phản ứng nguyên tố (mục 8.4)
+msgid "REACTION_FIRE_WIND"
+msgstr "Firestorm"
+
+msgid "REACTION_FIRE_LIGHTNING"
+msgstr "Overload"
+
+msgid "REACTION_FIRE_LIGHT"
+msgstr "Solar Scorch"
+
+msgid "REACTION_FIRE_DARK"
+msgstr "Soulburn"
+
+msgid "REACTION_FIRE_EARTH"
+msgstr "Magma"
+
+msgid "REACTION_WIND_LIGHTNING"
+msgstr "Thunderstorm"
+
+msgid "REACTION_WIND_LIGHT"
+msgstr "Gentle Breeze"
+
+msgid "REACTION_WIND_DARK"
+msgstr "Wailing Vortex"
+
+msgid "REACTION_WIND_EARTH"
+msgstr "Sandstorm"
+
+msgid "REACTION_LIGHTNING_LIGHT"
+msgstr "Divine Smite"
+
+msgid "REACTION_LIGHTNING_DARK"
+msgstr "Soul Shock"
+
+msgid "REACTION_LIGHTNING_EARTH"
+msgstr "Magnetic Quake"
+
+msgid "REACTION_LIGHT_DARK"
+msgstr "Eclipse"
+
+msgid "REACTION_LIGHT_EARTH"
+msgstr "Holy Aegis"
+
+msgid "REACTION_DARK_EARTH"
+msgstr "Earthen Tomb"
+
+# Vật phẩm, trang bị (M5)
+msgid "ITEM_MAT_EXP_SMALL"
+msgstr "Small EXP Book"
+
+msgid "ITEM_MAT_EXP_MEDIUM"
+msgstr "Medium EXP Book"
+
+msgid "ITEM_MAT_EXP_LARGE"
+msgstr "Large EXP Book"
+
+msgid "ITEM_MAT_ENHANCE_ORE"
+msgstr "Enhancement Ore"
+
+msgid "ITEM_MAT_ENHANCE_CRYSTAL"
+msgstr "Enhancement Crystal"
+
+msgid "EQUIP_EQ_WEAPON_IRON"
+msgstr "Iron Weapon Core"
+
+msgid "EQUIP_EQ_WEAPON_FLAME"
+msgstr "Flame Weapon Core"
+
+msgid "EQUIP_EQ_ARMOR_LEATHER"
+msgstr "Leather Armor"
+
+msgid "EQUIP_EQ_ARMOR_GUARDIAN"
+msgstr "Guardian Armor"
+
+msgid "EQUIP_EQ_ACC_RING"
+msgstr "Elite Ring"
+
+msgid "EQUIP_EQ_ACC_HOURGLASS"
+msgstr "Hourglass Charm"
+
+msgid "CURRENCY_GOLD"
+msgstr "Gold"
+
+msgid "CURRENCY_GEMS"
+msgstr "Gems"
+
+msgid "SLOT_WEAPON"
+msgstr "Weapon"
+
+msgid "SLOT_ARMOR"
+msgstr "Armor"
+
+msgid "SLOT_ACCESSORY"
+msgstr "Accessory"
+
+msgid "BOSS_GOLEM_01"
+msgstr "Ancient Stone Golem"
+
+msgid "HUB_STAGE_01"
+msgstr "Stage 1"
+
+msgid "STAGE_01_NAME"
+msgstr "Ashen Valley"
+
+msgid "STAGE_OBJ_ADVANCE"
+msgstr "Advance →"
+
+msgid "STAGE_OBJ_WAVE"
+msgstr "Wave %d/%d · %d enemies left"
+
+msgid "STAGE_OBJ_BOSS"
+msgstr "Defeat the boss"
+
+msgid "STAGE_CHECKPOINT"
+msgstr "Anchor point set"
+
+msgid "STAGE_WAVE_CLEARED"
+msgstr "Wave cleared"
+
+msgid "STAGE_BOSS_PHASE"
+msgstr "Phase %d"
+
+msgid "RESULT_VICTORY"
+msgstr "VICTORY"
+
+msgid "RESULT_DEFEAT"
+msgstr "DEFEAT"
+
+msgid "RESULT_DEFEAT_HINT"
+msgstr "The whole party is down. Try again."
+
+msgid "RESULT_TIME"
+msgstr "Time: %s"
+
+msgid "RESULT_BEST_TIME"
+msgstr "(new best)"
+
+msgid "RESULT_REWARDS"
+msgstr "Rewards"
+
+msgid "RESULT_FIRST_CLEAR"
+msgstr "First clear bonus"
+
+msgid "RESULT_EQUIPMENT"
+msgstr "Equipment ×%d"
+
+msgid "RESULT_LEVEL_UP"
+msgstr "%s gained %d level(s)"
+
+msgid "RESULT_RETRY"
+msgstr "Retry"
+
+msgid "RESULT_TO_HUB"
+msgstr "Back to Hub"
+
+msgid "UI_BACK"
+msgstr "Back"
+
+msgid "SETTINGS_TITLE"
+msgstr "Settings"
+
+msgid "SETTINGS_LANGUAGE"
+msgstr "Language"
+
+msgid "LANGUAGE_VI"
+msgstr "Tiếng Việt"
+
+msgid "LANGUAGE_EN"
+msgstr "English"
+
+msgid "SETTINGS_VOLUME_MASTER"
+msgstr "Master volume"
+
+msgid "SETTINGS_VOLUME_MUSIC"
+msgstr "Music"
+
+msgid "SETTINGS_VOLUME_SFX"
+msgstr "Sound effects"
+
+msgid "SETTINGS_FULLSCREEN"
+msgstr "Fullscreen"
+
+msgid "CREDITS_TITLE"
+msgstr "Credits and licenses"
+
+msgid "CREDITS_ROLE"
+msgstr "Role"
+
+msgid "CREDITS_LICENSE"
+msgstr "License"
+
+msgid "CREDITS_COPYRIGHT"
+msgstr "Copyright"
+
+msgid "CREDITS_SOURCE"
+msgstr "Source"
+
+msgid "PAUSE_TITLE"
+msgstr "PAUSED"
+
+msgid "PAUSE_RESUME"
+msgstr "Resume"
+
+msgid "PAUSE_SETTINGS"
+msgstr "Settings"
+
+msgid "PAUSE_QUIT"
+msgstr "Quit stage"
+
+msgid "PAUSE_QUIT_CONFIRM"
+msgstr "Quit to Hub? Progress in this stage will be lost."
+
+msgid "PAUSE_QUIT_YES"
+msgstr "Quit"
+
+msgid "PAUSE_QUIT_NO"
+msgstr "Stay"
+
+msgid "BATTLE_PARTY_TITLE"
+msgstr "Party"
+
+msgid "BATTLE_PARTY_HINT"
+msgstr "Tap to add / remove a character (up to 3, in tap order)."
+
+msgid "BATTLE_STAGES_TITLE"
+msgstr "Stages"
+
+msgid "BATTLE_STAGE_CLEARED"
+msgstr "cleared"
+
+msgid "BATTLE_STAGE_BEST"
+msgstr "best %s"
+
+msgid "BATTLE_STAGE_NEW"
+msgstr "not cleared"
+
+msgid "HOME_STAGES_CLEARED"
+msgstr "Stages cleared: %d"
+
+msgid "CHAR_MAX_LEVEL"
+msgstr "max"
+
+msgid "CHAR_CRIT_RATE"
+msgstr "Crit"
+
+msgid "CHAR_CRIT_DAMAGE"
+msgstr "Crit damage"
+
+msgid "CHAR_EQUIP_NEXT"
+msgstr "Swap"
+
+msgid "CHAR_ENHANCE"
+msgstr "Enhance"
+
+msgid "CHAR_UNEQUIP"
+msgstr "Remove"
+
+msgid "RECRUIT_CLOSED"
+msgstr "Recruitment is not open yet."
+
+msgid "RECRUIT_PULL"
+msgstr "Recruit ×%d (%d gems)"
+
+msgid "RECRUIT_HARD_PITY"
+msgstr "guaranteed within %d pulls (%d so far)"
+
+msgid "RECRUIT_SOFT_PITY"
+msgstr "from pull %d: +%.1f%% per pull"
+
+msgid "RECRUIT_GUARANTEE"
+msgstr "miss the rate-up and the next one is guaranteed"
+
+msgid "RECRUIT_DUPLICATE"
+msgstr "duplicate"
+
+msgid "RECRUIT_HISTORY"
+msgstr "History: %d pulls"
+
+msgid "REASON_NOT_ENOUGH"
+msgstr "Not enough gold or materials."
+
+msgid "REASON_MAX_LEVEL"
+msgstr "Already at max level."
+
+msgid "REASON_UNKNOWN_ITEM"
+msgstr "That item cannot be used here."
+
+msgid "REASON_NOT_OWNED"
+msgstr "You do not own that item."
+
+msgid "REASON_UNKNOWN_CHARACTER"
+msgstr "You do not own that character."
+
+msgid "REASON_INVALID"
+msgstr "Invalid action."
+
+msgid "REASON_NOT_ENOUGH_CURRENCY"
+msgstr "Not enough gems."
+
+msgid "REASON_INVALID_BANNER"
+msgstr "Invalid banner."
+
+msgid "REASON_BAD_COUNT"
+msgstr "Invalid pull count."
+
+# Vật phẩm, trang bị (M5)
+msgid "EQUIP_EQ_STIGMA_TOP_ELITE"
+msgstr "Elite Sigil (Top)"
+
+msgid "EQUIP_EQ_STIGMA_MID_HIDE"
+msgstr "Hide Sigil (Middle)"
+
+msgid "EQUIP_EQ_STIGMA_MID_GUARDIAN"
+msgstr "Guardian Sigil (Middle)"
+
+msgid "EQUIP_EQ_STIGMA_BOT_HOURGLASS"
+msgstr "Hourglass Sigil (Bottom)"
+
+msgid "SLOT_STIGMA_TOP"
+msgstr "Stigma (Top)"
+
+msgid "SLOT_STIGMA_MID"
+msgstr "Stigma (Middle)"
+
+msgid "SLOT_STIGMA_BOT"
+msgstr "Stigma (Bottom)"
+
+# Vật phẩm, trang bị (M5)
+msgid "EQUIP_EQ_WEAPON_BOW_GALE"
+msgstr "Gale Bow"
+
+msgid "EQUIP_EQ_WEAPON_BLADES_SPARK"
+msgstr "Spark Blades"
+
+msgid "WEAPON_TYPE_SWORD"
+msgstr "Sword"
+
+msgid "WEAPON_TYPE_BOW"
+msgstr "Bow"
+
+msgid "WEAPON_TYPE_DUAL_BLADES"
+msgstr "Dual Blades"
+
+msgid "WEAPON_TYPE_STAFF"
+msgstr "Staff"
+
+msgid "WEAPON_TYPE_SCYTHE"
+msgstr "Scythe"
+
+msgid "WEAPON_TYPE_GREATSWORD"
+msgstr "Greatsword"
+
+msgid "REASON_LEVEL_CAP"
+msgstr "Player level limit reached."
+
+msgid "REASON_WRONG_WEAPON"
+msgstr "This character cannot use this weapon type."
+
+msgid "RECRUIT_SOFT_PITY_FLAT"
+msgstr "from pull %d: +%.1f%%"
+
+msgid "RECRUIT_MULTI_GUARANTEE"
+msgstr "a %d-pull always includes at least one of this tier"
+
+msgid "GACHA_TIER_CHAR_S"
+msgstr "S-rank character"
+
+msgid "GACHA_TIER_CHAR_A"
+msgstr "A-rank character"
+
+msgid "GACHA_TIER_CHAR_B"
+msgstr "B-rank character"
+
+msgid "GACHA_TIER_MATERIALS"
+msgstr "Materials, gold"
+
+msgid "BANNER_CHAR_KAEL"
+msgstr "Recruitment: Raikiba"
+
+msgid "CAPTAIN_LEVEL"
+msgstr "Player level %d"
+
+msgid "CHAR_TAB_LEVEL"
+msgstr "Level up"
+
+msgid "CHAR_TAB_WEAPON"
+msgstr "Weapon"
+
+msgid "CHAR_TAB_STIGMA"
+msgstr "Stigmata"
+
+msgid "CHAR_TAB_SKILL"
+msgstr "Skills"
+
+msgid "CHAR_UI_BRIEF"
+msgstr "Brief"
+
+msgid "CHAR_UI_CHANGE"
+msgstr "Change"
+
+msgid "CHAR_UI_CONVERT"
+msgstr "Convert"
+
+msgid "CHAR_UI_DEMO"
+msgstr "Demo"
+
+msgid "CHAR_UI_DETAIL_STATS"
+msgstr "Detailed stats"
+
+msgid "CHAR_UI_EMPTY"
+msgstr "Empty"
+
+msgid "CHAR_UI_EQUIP"
+msgstr "Equip"
+
+msgid "CHAR_UI_FAVORITE"
+msgstr "Favorite"
+
+msgid "CHAR_UI_FILTER"
+msgstr "Filter"
+
+msgid "CHAR_UI_FRAGMENTS"
+msgstr "Character fragments"
+
+msgid "CHAR_UI_FRAGMENT_HINT"
+msgstr "Fragments come from duplicate recruits."
+
+msgid "CHAR_UI_GLOSSARY"
+msgstr "Glossary"
+
+msgid "CHAR_UI_GRID"
+msgstr "Grid"
+
+msgid "CHAR_UI_INSPECT"
+msgstr "Inspect"
+
+msgid "CHAR_UI_LEVEL_UP"
+msgstr "Level up"
+
+msgid "CHAR_UI_MAXED"
+msgstr "Maxed"
+
+msgid "CHAR_UI_NOTHING"
+msgstr "Nothing to choose."
+
+msgid "CHAR_UI_NOT_YET"
+msgstr "Not available in this build yet."
+
+msgid "CHAR_UI_NO_SET_BONUS"
+msgstr "Set bonus: none yet (set data pending)."
+
+msgid "CHAR_UI_OUTFIT"
+msgstr "Outfit"
+
+msgid "CHAR_UI_PHOTO"
+msgstr "Photo"
+
+msgid "CHAR_UI_PORTRAIT"
+msgstr "Portrait"
+
+msgid "CHAR_UI_PROMOTE"
+msgstr "Promote"
+
+msgid "CHAR_UI_PROMOTION"
+msgstr "Promotion"
+
+msgid "CHAR_UI_PROMOTION_BONUS"
+msgstr "Promotion bonus: +%d%% stats"
+
+msgid "CHAR_UI_SKILLS"
+msgstr "Character Skills"
+
+msgid "CHAR_UI_SOURCE"
+msgstr "Source"
+
+msgid "CHAR_UI_STIGMA_ART"
+msgstr "Stigma %s"
+
+msgid "CHAR_UI_STIGMA_HEADER"
+msgstr "Stigmata"
+
+msgid "CHAR_UI_STRATEGY"
+msgstr "Strategy"
+
+msgid "CHAR_UI_SWAP"
+msgstr "Swap"
+
+msgid "CHAR_UI_TUTORIAL"
+msgstr "Tutorial"
+
+msgid "CHAR_UI_UPGRADE_SKILL"
+msgstr "Upgrade — %d gold"
+
+msgid "CHAR_UI_USE"
+msgstr "Use"
+
+msgid "CHAR_UI_VIEW"
+msgstr "View"
+
+msgid "STAT_HP"
+msgstr "HP"
+
+msgid "STAT_ATK"
+msgstr "ATK"
+
+msgid "STAT_DEF"
+msgstr "DEF"
+
+msgid "STAT_CRIT"
+msgstr "Crit rate"
+
+msgid "STAT_CRIT_DAMAGE"
+msgstr "Crit damage"
+
+msgid "STAT_CDR"
+msgstr "Cooldown reduction"
+
+msgid "STAT_EN"
+msgstr "Max EN"
+
+msgid "ELEMENT_FIRE"
+msgstr "Fire"
+
+msgid "ELEMENT_LIGHTNING"
+msgstr "Lightning"
+
+msgid "ELEMENT_WIND"
+msgstr "Wind"
+
+msgid "ELEMENT_LIGHT"
+msgstr "Light"
+
+msgid "ELEMENT_DARK"
+msgstr "Dark"
+
+msgid "ELEMENT_EARTH"
+msgstr "Earth"
+
+msgid "SLOT_SHORT_WEAPON"
+msgstr "W"
+
+msgid "SLOT_SHORT_STIGMA_TOP"
+msgstr "T"
+
+msgid "SLOT_SHORT_STIGMA_MID"
+msgstr "M"
+
+msgid "SLOT_SHORT_STIGMA_BOT"
+msgstr "B"
+
+msgid "SKILL_GROUP_NORMAL"
+msgstr "Basic attack"
+
+msgid "SKILL_GROUP_SPECIAL"
+msgstr "Special attack"
+
+msgid "SKILL_GROUP_DODGE"
+msgstr "Evasion"
+
+msgid "SKILL_GROUP_SKILL"
+msgstr "Skill"
+
+msgid "SKILL_GROUP_WEAPON"
+msgstr "Weapon skill"
+
+msgid "SKILL_GROUP_ULTIMATE"
+msgstr "Ultimate"
+
+msgid "SKILL_GROUP_SWITCH_IN"
+msgstr "Switch-in"
+
+msgid "SKILL_GROUP_PASSIVE"
+msgstr "Passive"
+
+msgid "SUBSKILL_NORMAL"
+msgstr "Hit %d"
+
+msgid "SUBSKILL_HOLD"
+msgstr "Hold — tier %d"
+
+msgid "SUBSKILL_AIR"
+msgstr "Aerial — hit %d"
+
+msgid "SUBSKILL_LANDING"
+msgstr "Landing"
+
+msgid "SUBSKILL_DODGE"
+msgstr "Dodge"
+
+msgid "SUBSKILL_SKILL"
+msgstr "Skill"
+
+msgid "SUBSKILL_WEAPON"
+msgstr "Weapon"
+
+msgid "SUBSKILL_ULTIMATE"
+msgstr "Ultimate"
+
+msgid "SUBSKILL_SWITCH_IN"
+msgstr "Switch-in"
+
+msgid "SUBSKILL_SWITCH_IN_LINKED"
+msgstr "Linked switch-in"
+
+msgid "SKILLTXT_DAMAGE"
+msgstr "Damage: %s ATK (%d hit zones)"
+
+msgid "SKILLTXT_EN"
+msgstr "Costs %d EN"
+
+msgid "SKILLTXT_UG"
+msgstr "Costs %d UG"
+
+msgid "SKILLTXT_CD"
+msgstr "Cooldown %ss"
+
+msgid "SKILLTXT_STATUSES"
+msgstr "Applies: %s"
+
+msgid "SKILLTXT_TIMING"
+msgstr "Timing: startup %d ms · active %d ms · recovery %d ms"
+
+msgid "SKILLTXT_INVULN"
+msgstr "Invulnerable %d–%d ms"
+
+msgid "SKILLTXT_SUPER_ARMOR"
+msgstr "Super armor (no stagger)"
+
+msgid "SKILLTXT_MOVE"
+msgstr "Moves up to %d px"
+
+msgid "SKILLTXT_NEXT_LEVEL"
+msgstr "Level %d: damage +%d%% over the previous level."
+
+msgid "SKILLTXT_NOT_IN_SLICE"
+msgstr "No data for this skill in this build yet."
+
+msgid "SKILLTXT_NO_PASSIVE"
+msgstr "No passive description yet."
+
+msgid "GLOSS_DURATION"
+msgstr "lasts %ss"
+
+msgid "GLOSS_TICK"
+msgstr "%s ATK every %ss"
+
+msgid "GLOSS_MOVE_SLOW"
+msgstr "%s slower movement"
+
+msgid "GLOSS_DEF_REDUCTION"
+msgstr "%s less DEF"
+
+msgid "GLOSS_DAMAGE_TAKEN_UP"
+msgstr "takes %s more damage"
+
+msgid "GLOSS_DAMAGE_TAKEN_DOWN"
+msgstr "takes %s less damage"
+
+msgid "GLOSS_DAMAGE_DEALT_DOWN"
+msgstr "deals %s less damage"
+
+msgid "GLOSS_DAMAGE_DEALT_UP"
+msgstr "deals %s more damage"
+
+msgid "GLOSS_SHIELD_MAX_HP"
+msgstr "shield equal to %s max HP"
+
+msgid "GLOSS_MOVE_SPEED_UP"
+msgstr "%s faster movement"
+
+msgid "GLOSS_ATTACK_SPEED_UP"
+msgstr "%s faster attacks"
+
+msgid "GLOSS_TICK_BONUS"
+msgstr "%s more tick damage"
+
+msgid "GLOSS_STACKS"
+msgstr "up to %d stacks"
+
+msgid "GLOSS_BLOCKS_ACTIONS"
+msgstr "cannot act"
+
+msgid "GLOSS_BLOCKS_MOVEMENT"
+msgstr "cannot move"
+
+msgid "SKILL_FIRE_01_NORMAL"
+msgstr "Flame Slash"
+
+msgid "SKILL_FIRE_01_DODGE"
+msgstr "Flame Dash"
+
+msgid "SKILL_FIRE_01_PASSIVE"
+msgstr "Blazing Fire"
+
+msgid "SKILL_FIRE_01_SPECIAL"
+msgstr "Searing Charge"
+
+msgid "SKILL_FIRE_01_SKILL"
+msgstr "Blazing Wheel"
+
+msgid "SKILL_FIRE_01_WEAPON"
+msgstr "Heavenfire Strike"
+
+msgid "SKILL_FIRE_01_PASSIVE_DESC"
+msgstr "Each hit on a Burning target: +1 Heat stack, +%s ATK per stack. At full stacks the next Skill or Weapon skill deals +%s damage. With %d+ Heat, the Ultimate deals +%s damage."
+
+msgid "SKILL_LIGHTNING_01_NORMAL"
+msgstr "Chain Thunder Blades"
+
+msgid "SKILL_LIGHTNING_01_DODGE"
+msgstr "Flash Step"
+
+msgid "SKILL_LIGHTNING_01_PASSIVE"
+msgstr "Overcharge"
+
+msgid "SKILL_LIGHTNING_01_SPECIAL"
+msgstr "Thunderlight Frenzy"
+
+msgid "SKILL_LIGHTNING_01_SKILL"
+msgstr "Chain Lightning"
+
+msgid "SKILL_LIGHTNING_01_WEAPON"
+msgstr "Twin Thunder Blades"
+
+msgid "SKILL_LIGHTNING_01_ULTIMATE"
+msgstr "Thunder God's Verdict"
+
+msgid "SKILL_LIGHTNING_01_PASSIVE_DESC"
+msgstr "A target with full Lightning Marks erupts in a Lightning Burst: %s ATK (once per %ss per target). After each Burst, Raikiba gains +%s attack speed for %ss."
+
+msgid "SKILL_WIND_01_NORMAL"
+msgstr "Gale Arrows"
+
+msgid "SKILL_WIND_01_DODGE"
+msgstr "Wind Backflip"
+
+msgid "SKILL_WIND_01_PASSIVE"
+msgstr "Tailwind"
+
+msgid "SKILL_WIND_01_SPECIAL"
+msgstr "Piercing Gale"
+
+msgid "SKILL_WIND_01_SKILL"
+msgstr "Wind Domain"
+
+msgid "SKILL_WIND_01_WEAPON"
+msgstr "Gale Barrage"
+
+msgid "SKILL_WIND_01_ULTIMATE"
+msgstr "Skyborne Arrow Storm"
+
+msgid "SKILL_WIND_01_PASSIVE_DESC"
+msgstr "Perfect dodge — Wind Step: +%s movement speed for %ss, restores %d EN. (Tailwind team buff not in this build yet.)"
+
+msgid "SKILL_LIGHT_01_NORMAL"
+msgstr "Light Needles"
+
+msgid "SKILL_LIGHT_01_ULTIMATE"
+msgstr "Seraph's Descent"
+
+msgid "SKILL_DARK_01_NORMAL"
+msgstr "Shadow Scythe"
+
+msgid "SKILL_DARK_01_ULTIMATE"
+msgstr "Eternal Night"
+
+msgid "SKILL_EARTH_01_NORMAL"
+msgstr "Earthsplitter"
+
+msgid "SKILL_EARTH_01_ULTIMATE"
+msgstr "Mountain Collapse"
+
+# Vật phẩm, trang bị (M5)
+msgid "EQUIP_EQ_STIGMA_TOP_BLAZE"
+msgstr "Blaze Sovereign Sigil (Top)"
+
+msgid "EQUIP_EQ_STIGMA_MID_BLAZE"
+msgstr "Blaze Sovereign Sigil (Middle)"
+
+msgid "EQUIP_EQ_STIGMA_BOT_BLAZE"
+msgstr "Blaze Sovereign Sigil (Bottom)"
+
+msgid "EQUIP_EQ_STIGMA_BOT_SANDAL"
+msgstr "Straw Sandal Sigil (Bottom)"
+
+msgid "BANNER_CHAR_AETHER"
+msgstr "Recruitment: Enkiba"
+
+msgid "BANNER_EQUIP_AETHER"
+msgstr "Supply: Enkiba's weapon & stigmata"
+
+msgid "BANNER_STARTER"
+msgstr "First recruitment (free)"
+
+msgid "GACHA_TIER_WEAPON_4"
+msgstr "4★ weapon"
+
+msgid "GACHA_TIER_STIGMA_4"
+msgstr "4★ stigma"
+
+msgid "GACHA_TIER_WEAPON_3"
+msgstr "3★ weapon"
+
+msgid "GACHA_TIER_STIGMA_3"
+msgstr "3★ stigma"
+
+msgid "REASON_STARTER_USED"
+msgstr "Free pull already used"
+
+# Tên giáp, bộ lọc (owner 2026-11-13)
+msgid "SUIT_FIRE_01"
+msgstr "Raging Inferno"
+
+msgid "SUIT_WIND_01"
+msgstr "Wings of the Wind"
+
+msgid "SUIT_LIGHTNING_01"
+msgstr "Fang of the Thunder God"
+
+msgid "SUIT_LIGHT_01"
+msgstr "Celestial Light"
+
+msgid "SUIT_DARK_01"
+msgstr "Scythe of Darkness"
+
+msgid "SUIT_EARTH_01"
+msgstr "Divine Blade of Stone"
+
+msgid "BANNER_CHAR_TERRA"
+msgstr "Recruitment: Iwagane — Divine Blade of Stone"
+
+msgid "BANNER_EQUIP_TERRA"
+msgstr "Supply: Iwagane's weapon & stigmata"
+
+msgid "CHAR_UI_FILTER_TITLE"
+msgstr "Filter characters"
+
+msgid "CHAR_UI_FILTER_RANK"
+msgstr "Battlesuit rank"
+
+msgid "CHAR_UI_FILTER_ELEMENT"
+msgstr "Element"
+
+msgid "CHAR_UI_FILTER_PERSON"
+msgstr "Character"
+
+msgid "CHAR_UI_FILTER_CLEAR"
+msgstr "Clear"
+
+msgid "CHAR_UI_FILTER_COUNT"
+msgstr "Showing %d/%d battlesuits"
+
+msgid "CHAR_UI_FILTER_EMPTY"
+msgstr "No battlesuit matches the filter."
+
+msgid "PARTY_SAME_PERSON"
+msgstr "Two battlesuits of the same character can't deploy together."
+
+# Vật phẩm, trang bị (M5)
+msgid "EQUIP_EQ_WEAPON_GREATSWORD_MAGMA"
+msgstr "Magma Greatsword"
+
+msgid "EQUIP_EQ_STIGMA_TOP_BEDROCK"
+msgstr "Bedrock Sigil (Top)"
+
+msgid "EQUIP_EQ_STIGMA_MID_BEDROCK"
+msgstr "Bedrock Sigil (Middle)"
+
+msgid "EQUIP_EQ_STIGMA_BOT_BEDROCK"
+msgstr "Bedrock Sigil (Bottom)"
+
+msgid "RECRUIT_UI_TITLE"
+msgstr "Recruitment"
+
+msgid "RECRUIT_UI_SHOP"
+msgstr "Shop"
+
+msgid "RECRUIT_UI_DETAILS"
+msgstr "Details"
+
+msgid "RECRUIT_UI_HISTORY"
+msgstr "History"
+
+msgid "RECRUIT_UI_WISH"
+msgstr "Recruit ×%d"
+
+msgid "RECRUIT_UI_TAGLINE"
+msgstr "Probability up!"
+
+msgid "RECRUIT_UI_GUARANTEE_BOX"
+msgstr "Every %d recruits is guaranteed to include at least 1: %s"
+
+msgid "RECRUIT_UI_NOTE"
+msgstr "The event S-rank character can only be obtained in this banner. See Details for the rates."
+
+msgid "RECRUIT_UI_TIME_LEFT"
+msgstr "Time remaining"
+
+msgid "RECRUIT_UI_TIME_FMT"
+msgstr "%d day(s) %d hour(s) %d minute(s)"
+
+msgid "RECRUIT_UI_PERMANENT"
+msgstr "No time limit"
+
+msgid "RECRUIT_UI_ENDED"
+msgstr "Ended"
+
+msgid "RECRUIT_UI_PITY"
+msgstr "Guarantee %s: %d/%d pulls"
+
+msgid "RECRUIT_UI_UP"
+msgstr "UP!"
+
+msgid "RECRUIT_UI_STIGMA_SET"
+msgstr "+ %d featured stigmata"
+
+msgid "RECRUIT_UI_DETAILS_TITLE"
+msgstr "Banner details"
+
+msgid "RECRUIT_UI_HISTORY_TITLE"
+msgstr "Recruitment history"
+
+msgid "RECRUIT_UI_HISTORY_EMPTY"
+msgstr "No recruits yet."
+
+msgid "RECRUIT_UI_RESULT_TITLE"
+msgstr "Results"
+
+msgid "RECRUIT_UI_CONFIRM"
+msgstr "Confirm"
+
+msgid "BANNER_KIND_CHAR"
+msgstr "Character banner"
+
+msgid "BANNER_KIND_EQUIP"
+msgstr "Standard equipment banner"
+
+msgid "BANNER_TITLE_TERRA"
+msgstr "Awakening of Stone"
+
+msgid "BANNER_TITLE_EQUIP_TERRA"
+msgstr "Magma Blade & Bedrock Sigils"
+
+msgid "RECRUIT_UI_NOTE_EQUIP"
+msgstr "The featured weapon and stigmata have boosted rates. See Details for the rates."
+
+msgid "DEBUG_GIFT_OPEN"
+msgstr "Test gifts (debug)"
+
+msgid "DEBUG_GIFT_TITLE"
+msgstr "Test gifts"
+
+msgid "DEBUG_GIFT_WARN"
+msgstr "Debug builds only. Gifts go straight into the current save."
+
+msgid "DEBUG_GIFT_STATUS"
+msgstr "Gems %d  ·  Gold %d  ·  Player level %d  ·  %d characters  ·  %d equipment"
+
+msgid "DEBUG_GIFT_PRESETS"
+msgstr "Preset gifts (edit data/debug/gift_presets.json)"
+
+msgid "DEBUG_GIFT_NO_PRESETS"
+msgstr "No preset gifts (data/debug/gift_presets.json is missing)."
+
+msgid "DEBUG_GIFT_CUSTOM"
+msgstr "Custom gift"
+
+msgid "DEBUG_GIFT_SEND"
+msgstr "Send"
+
+msgid "DEBUG_GIFT_HINT"
+msgstr "Syntax: gems=N  gold=N  item:<id>=N  equip:<id>=N  char:<id>  frag:<id>=N  captain=<level>  preset:<name>. item / equip / char / frag accept all (every ID)."
+
+msgid "DEBUG_GIFT_OK"
+msgstr "Sent:"
+
+msgid "DEBUG_GIFT_ERRORS"
+msgstr "Not sent (nothing changed):"
+
+msgid "DEBUG_GIFT_EMPTY"
+msgstr "Empty gift: nothing to send."
+
+msgid "DEBUG_GIFT_LINE_CHAR_UNLOCK"
+msgstr "Unlock character: %s"
+
+msgid "DEBUG_GIFT_LINE_FRAG"
+msgstr "%s fragments +%d"
+
+msgid "DEBUG_GIFT_LINE_CAPTAIN"
+msgstr "Player level at least %d"
+
+msgid "DEBUG_GIFT_LINE_CAPTAIN_EXP"
+msgstr "Player EXP +%d"
+
+msgid "STATUS_STORM_BLESSING"
+msgstr "Arrow Storm"
+
+msgid "STATUS_FAIR_WIND"
+msgstr "Fair Wind (EN)"
+
+msgid "STATUS_FAIR_WIND_HASTE"
+msgstr "Fair Wind"
+
+msgid "STATUS_WIND_DOMAIN"
+msgstr "In Wind Domain"
+
+msgid "STATUS_WIND_DOMAIN_HASTE"
+msgstr "Wind Domain"
+
+msgid "STATUS_OVERLOAD"
+msgstr "Overload"
+
+msgid "STATUS_SANCTUARY"
+msgstr "Sanctuary"
+
+msgid "STATUS_NIGHT_KING"
+msgstr "Night King"
+
+msgid "STATUS_STONE_BONE"
+msgstr "Stone Bone"
+
+msgid "STATUS_GUARD"
+msgstr "Guard"
+
+msgid "STATUS_HARD_ARMOR"
+msgstr "Hard Armor"
+
+msgid "STATUS_ARMOR_BREAK"
+msgstr "Armor Break"
+
+msgid "STATUS_STONE_GOD"
+msgstr "Stone God"
+
+msgid "UI_MENU"
+msgstr "Menu"
+
+msgid "UI_COMING_SOON"
+msgstr "Coming soon"
+
+msgid "UI_OK"
+msgstr "Confirm"
+
+msgid "UI_CANCEL"
+msgstr "Cancel"
+
+msgid "HUB_HEX_EQUIPMENT"
+msgstr "Equipment"
+
+msgid "HUB_HEX_COMPANION"
+msgstr "Companion"
+
+msgid "HUB_HEX_SORTIE"
+msgstr "Sortie"
+
+msgid "HUB_HEX_CHARACTER"
+msgstr "Characters"
+
+msgid "HUB_HEX_SUPPLY"
+msgstr "Supply"
+
+msgid "HUB_BADGE_SOON"
+msgstr "Soon!"
+
+msgid "HUB_PLAYER_CARD_HINT"
+msgstr "Tap for profile"
+
+msgid "PLAYER_DEFAULT_NAME"
+msgstr "Captain"
+
+msgid "BAG_TITLE"
+msgstr "Inventory"
+
+msgid "BAG_TAB_WEAPON"
+msgstr "Weapons"
+
+msgid "BAG_TAB_STIGMA"
+msgstr "Stigmata"
+
+msgid "BAG_TAB_MATERIAL"
+msgstr "Materials"
+
+msgid "BAG_TAB_FRAGMENT"
+msgstr "Fragments"
+
+msgid "BAG_EMPTY"
+msgstr "No %s yet. Get them from Supply, events or stage rewards."
+
+msgid "BAG_IN_USE"
+msgstr "In use"
+
+msgid "BAG_NOT_IN_USE"
+msgstr "Not equipped"
+
+msgid "BAG_DETAIL_HINT"
+msgstr "Tap a card to see details."
+
+msgid "BAG_SLOT_WEAPON"
+msgstr "Weapon"
+
+msgid "BAG_SLOT_STIGMA_TOP"
+msgstr "Stigma (Head)"
+
+msgid "BAG_SLOT_STIGMA_MID"
+msgstr "Stigma (Body)"
+
+msgid "BAG_SLOT_STIGMA_BOT"
+msgstr "Stigma (Legs)"
+
+msgid "BAG_FRAGMENT_DETAIL"
+msgstr "%s fragments ×%d  ·  %d needed to promote"
+
+msgid "SUPPLY_TITLE"
+msgstr "Supply"
+
+msgid "SUPPLY_SHOP_TITLE"
+msgstr "Shop"
+
+msgid "SUPPLY_SHOP_DESC"
+msgstr "Weapons, stigmata and resources for sale."
+
+msgid "SUPPLY_SHOP_GO"
+msgstr "Go to Shop"
+
+msgid "SUPPLY_GACHA_TITLE"
+msgstr "Recruit"
+
+msgid "SUPPLY_GACHA_DESC"
+msgstr "Open supply crates: characters, weapons, stigmata."
+
+msgid "SUPPLY_GACHA_GO"
+msgstr "Go recruit"
+
+msgid "SUPPLY_TOPUP_TITLE"
+msgstr "Top-up"
+
+msgid "SUPPLY_TOPUP_DESC"
+msgstr "Buy Gems, Corona and the monthly card."
+
+msgid "SUPPLY_TOPUP_GO"
+msgstr "Top up"
+
+msgid "SUPPLY_ONLINE_ONLY"
+msgstr "Online only"
+
+msgid "SUPPLY_TOPUP_OFFLINE"
+msgstr "Top-up opens only in the online release."
+
+msgid "SUPPLY_FORGE"
+msgstr "Forge equipment"
+
+msgid "SORTIE_TAB_RECOMMEND"
+msgstr "Featured"
+
+msgid "SORTIE_TAB_SORTIE"
+msgstr "Sortie"
+
+msgid "SORTIE_TAB_CHALLENGE"
+msgstr "Challenge"
+
+msgid "SORTIE_TAB_EVENT"
+msgstr "Event"
+
+msgid "SORTIE_STORY_TITLE"
+msgstr "Main Story"
+
+msgid "SORTIE_STORY_SUB"
+msgstr "Continue: %s"
+
+msgid "SORTIE_STORY_DONE"
+msgstr "Cleared"
+
+msgid "SORTIE_STORY_NEW"
+msgstr "New!"
+
+msgid "SORTIE_TRIAL_TITLE"
+msgstr "Team Trial"
+
+msgid "SORTIE_TRIAL_SUB"
+msgstr "Test skills on dummies"
+
+msgid "SORTIE_MATERIAL_TITLE"
+msgstr "Material Stages"
+
+msgid "SORTIE_MATERIAL_SUB"
+msgstr "Enhance materials, EXP"
+
+msgid "SORTIE_PARTY_TITLE"
+msgstr "Party"
+
+msgid "SORTIE_PARTY_EDIT"
+msgstr "Tap to change"
+
+msgid "COMPANION_TITLE"
+msgstr "Companion"
+
+msgid "COMPANION_DESC"
+msgstr "A small spirit that follows your on-field character, assists in battle and builds spirit energy."
+
+msgid "COMPANION_POINT_1"
+msgstr "Follows the active character and switches with them."
+
+msgid "COMPANION_POINT_2"
+msgstr "Lands light assist hits while you attack."
+
+msgid "COMPANION_POINT_3"
+msgstr "Builds spirit energy on hits and perfect dodges."
+
+msgid "COMPANION_POINT_4"
+msgstr "When full: use the spirit's own active skill."
+
+msgid "PLAYER_COMMANDER"
+msgstr "Commander"
+
+msgid "PLAYER_INFO_LINE"
+msgstr "Leader: %s\nStages cleared: %d"
+
+msgid "PLAYER_RENAME"
+msgstr "Rename"
+
+msgid "PLAYER_RENAME_HINT"
+msgstr "New name, up to %d characters."
+
+msgid "PLAYER_RENAMED"
+msgstr "Name changed."
+
+msgid "PLAYER_NAME_ERR_NAME_EMPTY"
+msgstr "The name can't be empty."
+
+msgid "PLAYER_NAME_ERR_NAME_TOO_LONG"
+msgstr "The name is too long."
+
+msgid "PLAYER_NAME_ERR_NAME_SAME"
+msgstr "That's already your name."
+
+msgid "PLAYER_COLLECTION"
+msgstr "Collection"
+
+msgid "PLAYER_COLL_CHARACTER"
+msgstr "Characters"
+
+msgid "PLAYER_COLL_WEAPON"
+msgstr "Weapons"
+
+msgid "PLAYER_COLL_STIGMA"
+msgstr "Stigmata"
+
+msgid "PLAYER_COLL_HINT"
+msgstr "✓ owned  ·  — not owned (get from Supply, events, stage rewards)"
+
+msgid "HUB_TAB_BACKGROUND"
+msgstr "Background"
+
+msgid "HUB_ICON_BACKGROUND"
+msgstr "Change background"
+
+msgid "HUB_ICON_SETTINGS"
+msgstr "Settings"
+
+msgid "BG_SKY_GARDEN"
+msgstr "Sky Garden"
+
+msgid "BG_PANEL_HINT"
+msgstr "The backdrop behind your character in the lobby. Buy new ones with gems or get them from events."
+
+msgid "BG_IN_USE"
+msgstr "In use"
+
+msgid "BG_USE"
+msgstr "Use"
+
+msgid "BG_BUY"
+msgstr "Buy for %d gems"
+
+msgid "BG_FROM_EVENT"
+msgstr "Event reward"
+
+msgid "BG_ERR_BG_UNKNOWN"
+msgstr "Unknown background."
+
+msgid "BG_ERR_BG_NOT_OWNED"
+msgstr "You don't own this background."
+
+msgid "BG_ERR_BG_OWNED"
+msgstr "Already owned."
+
+msgid "BG_ERR_BG_NOT_FOR_SALE"
+msgstr "Not for sale."
+
+msgid "BG_ERR_BG_NO_GEMS"
+msgstr "Not enough gems."
+
+msgid "STAGE_01_DESC"
+msgstr "Embers still smoulder across the valley. An ancient stone golem has woken at the end of the road, and slimes swarm to block the way."
+
+msgid "OBJ_TIME_MAX"
+msgstr "Clear within %s"
+
+msgid "OBJ_HITS_TAKEN_MAX"
+msgstr "Take no more than %d hits"
+
+msgid "OBJ_DAMAGE_TAKEN_MAX"
+msgstr "Take no more than %d total damage"
+
+msgid "OBJ_DOWNS_MAX"
+msgstr "No more than %d teammates down"
+
+msgid "OBJ_NO_DOWNS"
+msgstr "No teammate goes down"
+
+msgid "RESULT_OBJECTIVES"
+msgstr "Objectives: %d/%d met · bonus %d gold"
+
+msgid "STAGE_INFO_NO_PREVIEW"
+msgstr "No stage image yet"
+
+msgid "STAGE_INFO_RECOMMENDED"
+msgstr "Recommended LV.%d"
+
+msgid "STAGE_INFO_OBJECTIVES"
+msgstr "Objectives"
+
+msgid "STAGE_INFO_OBJECTIVE_REWARD"
+msgstr "Gold every time met"
+
+msgid "STAGE_INFO_NO_OBJECTIVES"
+msgstr "This stage has no objectives"
+
+msgid "STAGE_INFO_DONE"
+msgstr "Achieved"
+
+msgid "STAGE_INFO_NOT_DONE"
+msgstr "Not yet"
+
+msgid "STAGE_INFO_DROPS"
+msgstr "Possible drops"
+
+msgid "STAGE_INFO_PREPARE"
+msgstr "Prepare"
+
+msgid "PARTY_PREP_TITLE"
+msgstr "Team"
+
+msgid "PARTY_PREP_HINT"
+msgstr "Tap a character to change the team"
+
+msgid "PARTY_PREP_STAGE"
+msgstr "Stage: %s"
+
+msgid "PARTY_PREP_GO"
+msgstr "Deploy"
+
+msgid "PARTY_PREP_CONFIRM"
+msgstr "Confirm"
+
+msgid "PARTY_PREP_EMPTY"
+msgstr "Empty"
+
+msgid "PARTY_LEADER"
+msgstr "Leader"
+
+msgid "PARTY_SELECT_TITLE"
+msgstr "Choose suits"
+
+msgid "PARTY_SELECT_DETAIL"
+msgstr "Character details"
+
+msgid "PARTY_SELECT_CONFIRM"
+msgstr "Confirm team"
+
+msgid "PARTY_ERR_LAST"
+msgstr "The team needs at least 1 character."
+
+msgid "PARTY_ERR_FULL"
+msgstr "The team is full. Remove a suit first."
+
+msgid "PARTY_ERR_SAME_PERSON"
+msgstr "This character already has a suit in the team."
+
+msgid "PARTY_ERR_NOT_OWNED"
+msgstr "You do not own this suit."
+
+msgid "ITEM_TICKET_STARTER_X10"
+msgstr "First Recruitment Ticket"
+
+msgid "RESULT_NEW_CHARACTER"
+msgstr "New character: %s"
+
+msgid "RECRUIT_UI_SURE"
+msgstr "Guaranteed!"
+
+msgid "RECRUIT_UI_STARTER_FREE"
+msgstr "Free"
+
+msgid "RECRUIT_UI_STARTER_TICKET"
+msgstr "Free · uses 1 ticket (have %d)"
+
+msgid "RECRUIT_STARTER_RULE"
+msgstr "Free ×%d recruitment, once only: 1 guaranteed %s, the other %d pulls are level-up materials:"
+
+msgid "TUTORIAL_HUB_SORTIE"
+msgstr "Tap Sortie. I've marked it for you."
+
+msgid "TUTORIAL_SORTIE_STORY"
+msgstr "Tap the main story chapter to see the stage."
+
+msgid "TUTORIAL_STAGE_PREPARE"
+msgstr "Tap Prepare to set up the team."
+
+msgid "TUTORIAL_PARTY_GO"
+msgstr "Tap Deploy. Good luck, Manager!"
+
+msgid "TUTORIAL_RETRY"
+msgstr "Tap Retry. We've got this."
+
+msgid "TUTORIAL_RESULT_HUB"
+msgstr "Back to the lobby first, I'll show you. Tap Back to Hub."
+
+msgid "TUTORIAL_MENU"
+msgstr "Looks like we took a detour. Tap Menu to return to the lobby."
+
+msgid "TUTORIAL_HUB_SUPPLY"
+msgstr "Tap Supply."
+
+msgid "TUTORIAL_SUPPLY_GACHA"
+msgstr "Recruitment is here. Tap Go recruit."
+
+msgid "TUTORIAL_RECRUIT_STARTER"
+msgstr "Tap Recruit ×10 to use the ticket."
+
+msgid "TUTORIAL_RECRUIT_DONE"
+msgstr "That's the end of my walkthrough. Tap Confirm, and I'm here whenever you need me."
+
+msgid "REASON_NO_TICKET"
+msgstr "Needs a First Recruitment Ticket (from clearing stage 1-1)"
+
+msgid "RECRUIT_UI_NOTE_STARTER"
+msgstr "A recruitment for new Managers using the First Recruitment Ticket, once only. See Details for rewards."
+
+msgid "TUTORIAL_AI_NAME"
+msgstr "NEO"
+
+msgid "TUTORIAL_AI_TITLE"
+msgstr "AI Assistant"
+
+msgid "TUTORIAL_PLAYER_NAME"
+msgstr "Manager"
+
+msgid "TUTORIAL_SKIP_TALK"
+msgstr "Skip dialogue ›"
+
+msgid "TUTORIAL_TAP_NEXT"
+msgstr "Tap to continue"
+
+msgid "TUTORIAL_HUB_SORTIE_1"
+msgstr "Link... stable. Hello, Manager! I'm NEO, the station's AI assistant."
+
+msgid "TUTORIAL_HUB_SORTIE_1_R"
+msgstr "Hi, NEO."
+
+msgid "TUTORIAL_HUB_SORTIE_2"
+msgstr "I'll walk you through the first steps. Don't worry, I'll keep it short."
+
+msgid "TUTORIAL_HUB_SORTIE_2_R"
+msgstr "Sounds good."
+
+msgid "TUTORIAL_HUB_SORTIE_3"
+msgstr "Enkiba is here and ready. Your first mission is waiting under Sortie."
+
+msgid "TUTORIAL_HUB_SORTIE_3_R"
+msgstr "Lead the way."
+
+msgid "TUTORIAL_SORTIE_STORY_1"
+msgstr "This is the mission board. The main story is the road ahead of us."
+
+msgid "TUTORIAL_SORTIE_STORY_1_R"
+msgstr "What's the first stage?"
+
+msgid "TUTORIAL_SORTIE_STORY_2"
+msgstr "Stage 1-1: the Ashen Valley. My sensors picked up an ancient stone golem waking up there."
+
+msgid "TUTORIAL_SORTIE_STORY_2_R"
+msgstr "That doesn't sound good."
+
+msgid "TUTORIAL_STAGE_PREPARE_1"
+msgstr "Each stage has three bonus objectives that pay extra gold. For now, just focus on clearing it."
+
+msgid "TUTORIAL_STAGE_PREPARE_1_R"
+msgstr "Got it."
+
+msgid "TUTORIAL_STAGE_PREPARE_2"
+msgstr "Good news: clear it once and Kazeyumi joins the team. Plus a First Recruitment Ticket."
+
+msgid "TUTORIAL_STAGE_PREPARE_2_R"
+msgstr "Worth a shot!"
+
+msgid "TUTORIAL_PARTY_GO_1"
+msgstr "Right now the team is just Enkiba. One fighter, but a tough one."
+
+msgid "TUTORIAL_PARTY_GO_1_R"
+msgstr "Is one enough?"
+
+msgid "TUTORIAL_PARTY_GO_2"
+msgstr "Enough, I ran the numbers. The golem always winds up before a slam, so dodge when you see it."
+
+msgid "TUTORIAL_PARTY_GO_2_R"
+msgstr "Noted."
+
+msgid "TUTORIAL_RETRY_1"
+msgstr "It's okay, everyone stumbles the first time. I've saved the data from that fight."
+
+msgid "TUTORIAL_RETRY_1_R"
+msgstr "Let's try again."
+
+msgid "TUTORIAL_RESULT_HUB_1"
+msgstr "Victory! The golem has stopped. Logging your performance, Manager: very impressive."
+
+msgid "TUTORIAL_RESULT_HUB_1_R"
+msgstr "Thanks, NEO."
+
+msgid "TUTORIAL_RESULT_HUB_2"
+msgstr "Kazeyumi has joined the team, and there's a First Recruitment Ticket in your bag."
+
+msgid "TUTORIAL_RESULT_HUB_2_R"
+msgstr "How do I use it?"
+
+msgid "TUTORIAL_HUB_SUPPLY_1"
+msgstr "Welcome back to the lobby. Recruitment tickets are used in the Supply area."
+
+msgid "TUTORIAL_HUB_SUPPLY_1_R"
+msgstr "Let's go."
+
+msgid "TUTORIAL_SUPPLY_GACHA_1"
+msgstr "This is the station's supply bay: shop, recruitment and top-up are all here."
+
+msgid "TUTORIAL_SUPPLY_GACHA_1_R"
+msgstr "Understood."
+
+msgid "TUTORIAL_RECRUIT_STARTER_1"
+msgstr "The First Recruitment banner is only for new Managers. Ten pulls, not a single gem spent."
+
+msgid "TUTORIAL_RECRUIT_STARTER_1_R"
+msgstr "What's special about it?"
+
+msgid "TUTORIAL_RECRUIT_STARTER_2"
+msgstr "Raikiba is guaranteed in those ten. Raikiba's speed will round out the team nicely."
+
+msgid "TUTORIAL_RECRUIT_STARTER_2_R"
+msgstr "Let's pull!"
+
+msgid "TUTORIAL_RECRUIT_DONE_1"
+msgstr "Raikiba has joined! The team is complete: Enkiba, Kazeyumi, Raikiba."
+
+msgid "TUTORIAL_RECRUIT_DONE_1_R"
+msgstr "Awesome!"
+
+msgid "TUTORIAL_RECRUIT_DONE_2"
+msgstr "Quick tip: in battle, when a reserve portrait glows, switch to them to trigger an elemental reaction."
+
+msgid "TUTORIAL_RECRUIT_DONE_2_R"
+msgstr "I'll remember."
+
+msgid "NEO_KEY_FMT"
+msgstr "%s key"
+
+msgid "NEO_BTN_SKILL"
+msgstr "the Skill button"
+
+msgid "NEO_BTN_WEAPON"
+msgstr "the Weapon button"
+
+msgid "NEO_BTN_ULTIMATE"
+msgstr "the Ultimate button"
+
+msgid "NEO_BTN_DODGE"
+msgstr "the Dodge button"
+
+msgid "NEO_BTN_ATTACK"
+msgstr "the Attack button"
+
+msgid "BARK_CH01_START"
+msgstr "We're inside the Hollow Zone. I'm watching from inside the Neo, go ahead, Manager."
+
+msgid "BARK_CH01_WAVE1"
+msgstr "Ash dregs in the way. Clear them and we move on."
+
+msgid "BARK_CH01_WAVE1_NEO"
+msgstr "Ash dregs are blocking the road. Clear them out first."
+
+msgid "BARK_CH01_CP1"
+msgstr "When the fire underground dies, the rock cracks. Watch the sinkholes."
+
+msgid "BARK_CH01_CP1_NEO"
+msgstr "The ground caved in once the fire below died. Careful with the gaps."
+
+msgid "BARK_CH01_WAVE2"
+msgstr "More of them now. Switch me in, my wind can slow them down."
+
+msgid "BARK_CH01_WAVE2_NEO"
+msgstr "More of them this time. Hitting from range or slowing them helps."
+
+msgid "BARK_CH01_CP2"
+msgstr "I can see the furnace gate! Bigger than I thought."
+
+msgid "BARK_CH01_CP2_NEO"
+msgstr "The Mother Hearth's gate is just ahead."
+
+msgid "BARK_CH01_CP3"
+msgstr "The guardian is right ahead. This is the last anchor point, you're covered."
+
+msgid "BARK_CH01_BOSS"
+msgstr "Guardian! We're on the Hearth's side, stop!"
+
+msgid "BARK_CH01_BOSS_NEO"
+msgstr "The Ancient Stone Golem! It no longer answers to the valley."
+
+msgid "BARK_CH01_BOSS_B"
+msgstr "No response. Its ground slam has a long wind-up, dodge when you see it."
+
+msgid "BARK_CH01_PHASE2"
+msgstr "There's a channel signal in the guardian's core... It isn't mine."
+
+msgid "BARK_CH01_PHASE2_B"
+msgstr "Someone woke it up on purpose?!"
+
+msgid "BARK_CH01_PHASE2_B_NEO"
+msgstr "Someone woke it up on purpose."
+
+msgid "BARK_CH01_QUAKE"
+msgstr "It slams out shockwaves both ways, jump over them!"
+
+msgid "BARK_CH01_QUAKE_NEO"
+msgstr "Shockwaves both ways! Jump to avoid them."
+
+msgid "NEO_HINT_SKILL"
+msgstr "Energy is full! Try your skill (%s)."
+
+msgid "NEO_HINT_WEAPON"
+msgstr "Weapon skill ready (%s). It hits hard."
+
+msgid "NEO_HINT_ULTIMATE"
+msgstr "Ultimate gauge is full! Let it all out (%s)."
+
+msgid "NEO_HINT_DODGE"
+msgstr "Dodge (%s) right before a hit lands for a perfect dodge: enemies slow down."
+
+msgid "NEO_HINT_HOLD"
+msgstr "Tip: hold %s to charge a stronger strike."
+
+msgid "NEO_HINT_STUN"
+msgstr "The enemy is about to be Stunned! Land a few more heavy hits."
+
+msgid "NEO_HINT_LINK"
+msgstr "A reserve portrait is glowing! Switch now to trigger an elemental reaction."
+
+msgid "NEO_HINT_REACTION"
+msgstr "Elemental reaction! That's perfect switch timing, Manager."
+
+msgid "STORY_CH01_OPEN_SUMMARY"
+msgstr "The Mother Hearth's fire is fading, and the Ancient Stone Golem has woken to block its gate. Cross the valley, get past the guardian and find out why the fire is dying before it's too late."
+
+msgid "STORY_CH01_OPEN_01_1"
+msgstr "The Ashen Valley."
+
+msgid "STORY_CH01_OPEN_02_1"
+msgstr "We're here! …Huh. Why is it so quiet?"
+
+msgid "STORY_CH01_OPEN_03_1"
+msgstr "No wind at all. The ash falls straight down, like inside a closed room."
+
+msgid "STORY_CH01_OPEN_04_1"
+msgstr "The Mother Hearth is at the end of this road."
+
+msgid "STORY_CH01_OPEN_05_1"
+msgstr "This is your hometown? You talked about it all the time back at the Fang Forge."
+
+msgid "STORY_CH01_OPEN_06_1"
+msgstr "Yeah. The fires here used to burn higher than the rooftops. Now… just look."
+
+msgid "STORY_CH01_OPEN_07_1"
+msgstr "Hollow Zone boundary detected. Elemental density ahead is down to 12%."
+
+msgid "STORY_CH01_OPEN_08_1"
+msgstr "Enough to sustain one suit. Not three."
+
+msgid "STORY_CH01_OPEN_08_2"
+msgstr "So it's like the manual said? I… only skimmed it."
+
+msgid "STORY_CH01_OPEN_09_1"
+msgstr "One of us takes the field, two wait in Neo's channel. The Manager decides who goes out."
+
+msgid "STORY_CH01_OPEN_09_2"
+msgstr "When someone's channel resonates, I'll signal. Switch right then and two elements collide."
+
+msgid "STORY_CH01_OPEN_09_3"
+msgstr "And then boom! That part I remember."
+
+msgid "STORY_CH01_OPEN_10_1"
+msgstr "Large signal at the end of the valley. A stone guardian… it's standing in front of the Hearth's gate."
+
+msgid "STORY_CH01_OPEN_10_2"
+msgstr "The Ancient Stone Golem…? It's guarded the Hearth for a hundred years and never moved."
+
+msgid "STORY_CH01_OPEN_11_1"
+msgstr "Fire doesn't die this fast on its own. Someone is putting it out."
+
+msgid "STORY_CH01_OPEN_12_1"
+msgstr "And what are those hopping lumps of ash?"
+
+msgid "STORY_CH01_OPEN_12_2"
+msgstr "Dregs. Leftover elements clumped together. They're being pulled toward the Hearth, blocking the road."
+
+msgid "STORY_CH01_OPEN_13_1"
+msgstr "Manager. If the Hearth goes out, the Hollow Zone swallows my village. Send us in."
+
+msgid "STORY_CH01_OPEN_14_1"
+msgstr "Objective logged. Awaiting the Manager's order to deploy."
+
+msgid "STORY_CH01_OPEN_15_1"
+msgstr "Call me when you need speed."
+
+msgid "STORY_CH01_OPEN_15_2"
+msgstr "And a reminder from me: don't take too many hits."
+
+msgid "STORY_CH01_OPEN_CARD_TITLE"
+msgstr "Chapter 1 — The Ashen Valley"
+
+msgid "STORY_CH01_OPEN_CARD_SUB"
+msgstr "Objective: cross the valley and get past the Ancient Stone Golem blocking the Hearth's gate."
+
+msgid "STORY_CH01_END_SUMMARY"
+msgstr "The masked henchman is defeated and pulled back through a strange channel. The Mother Hearth burns again and the village is safe. Two seals coded 00 show he was only the henchman of another Manager, serving the leader known as 00. The trail leads to the Guardian Highlands."
+
+msgid "STORY_CH01_END_01_1"
+msgstr "His suit is broken. The Hollow Zone has thinned: everyone can come out."
+
+msgid "STORY_CH01_END_02_1"
+msgstr "Phew… This guy was tougher than the golem."
+
+msgid "STORY_CH01_END_03_1"
+msgstr "So you beat a henchman. My Manager only needed this Hearth dark for one night."
+
+msgid "STORY_CH01_END_04_1"
+msgstr "Stop!"
+
+msgid "STORY_CH01_END_04_2"
+msgstr "He was pulled back into another channel. Format… 00."
+
+msgid "STORY_CH01_END_05_1"
+msgstr "Wake up. It's your turn now."
+
+msgid "STORY_CH01_END_06_1"
+msgstr "…It's burning."
+
+msgid "STORY_CH01_END_06_2"
+msgstr "It's burning! It's really burning!"
+
+msgid "STORY_CH01_END_07_1"
+msgstr "The wind is back too. Listen."
+
+msgid "STORY_CH01_END_07_2"
+msgstr "The Hollow Zone boundary has receded 2 km. Coalhearth Village is safe."
+
+msgid "STORY_CH01_END_08_1"
+msgstr "He dropped this. Same as the one in the golem."
+
+msgid "STORY_CH01_END_09_1"
+msgstr "Both share command source 00. The golem and that man took orders from the same channel network."
+
+msgid "STORY_CH01_END_09_2"
+msgstr "A henchman, then his Manager, then whoever carries code 00…"
+
+msgid "STORY_CH01_END_10_1"
+msgstr "I'll track down every one of them. Nobody puts out my village's fire again."
+
+msgid "STORY_CH01_END_11_1"
+msgstr "I've seen this mark on maps. The guardian workshop up on the stone highlands."
+
+msgid "STORY_CH01_END_11_2"
+msgstr "To command a guardian, they must have gone there first."
+
+msgid "STORY_CH01_END_12_1"
+msgstr "Heading out right away? My legs are still warmed up."
+
+msgid "STORY_CH01_END_13_1"
+msgstr "Let's go. The Hearth burns again. I won't let anywhere else go dark like this."
+
+msgid "STORY_CH01_END_13_2"
+msgstr "Coordinates logged: the Guardian Highlands. Awaiting the Manager's orders."
+
+msgid "STORY_CH01_END_14_1"
+msgstr "So the henchman lost. No matter. Tell 00: there are plenty more guardians on the highlands."
+
+msgid "STORY_CH01_END_CARD_TITLE"
+msgstr "Chapter 1 — Complete"
+
+msgid "STORY_CH01_END_CARD_SUB"
+msgstr "Chapter 2: The Sleeping Stone Workshop — unlocked"
+
+msgid "STORY_UI_AUTO"
+msgstr "Auto"
+
+msgid "STORY_UI_HISTORY"
+msgstr "Log"
+
+msgid "STORY_UI_HIDE"
+msgstr "Hide"
+
+msgid "STORY_UI_SKIP"
+msgstr "Skip"
+
+msgid "STORY_UI_TAP"
+msgstr "Tap to continue"
+
+msgid "STORY_UI_HISTORY_TITLE"
+msgstr "Dialogue log"
+
+msgid "STORY_UI_CLOSE"
+msgstr "Close"
+
+msgid "STORY_UI_SKIP_CONFIRM"
+msgstr "Skip this story scene?"
+
+msgid "STORY_UI_YES"
+msgstr "Skip"
+
+msgid "STORY_UI_NO"
+msgstr "Keep watching"
+
+msgid "STORY_UI_CONTINUE"
+msgstr "Continue"
+
+msgid "STAGE_INFO_REPLAY"
+msgstr "Replay opening"
+
+msgid "STAGE_INFO_REPLAY_END"
+msgstr "Replay ending"
+
+msgid "ARC_ARC_01"
+msgstr "Ash and Sleeping Stone"
+
+msgid "ARC_ARC_02"
+msgstr "Silent Thunder, Last Lamp"
+
+msgid "ARC_ARC_03"
+msgstr "Shadowless Forest, Windless Peak"
+
+msgid "ARC_ARC_04"
+msgstr "Eclipse"
+
+msgid "CHAPTER_01_TITLE"
+msgstr "The Ashen Valley"
+
+msgid "PART_01_1_TITLE"
+msgstr "The Ashen Valley"
+
+msgid "CHAPTER_02_TITLE"
+msgstr "The Sleeping Stone Workshop"
+
+msgid "PART_02_1_TITLE"
+msgstr "Guardian Highlands"
+
+msgid "CHAPTER_03_TITLE"
+msgstr "City of Silent Towers"
+
+msgid "PART_03_1_TITLE"
+msgstr "City of Silent Towers"
+
+msgid "CHAPTER_04_TITLE"
+msgstr "Sanctuary of the Last Lamp"
+
+msgid "PART_04_1_TITLE"
+msgstr "Road to the Sanctuary"
+
+msgid "PART_04_2_TITLE"
+msgstr "The Last Lamp"
+
+msgid "CHAPTER_05_TITLE"
+msgstr "The Shadowless Forest"
+
+msgid "PART_05_1_TITLE"
+msgstr "Edge of the Shadowless Forest"
+
+msgid "PART_05_2_TITLE"
+msgstr "Ruins of the Seventh Pillar"
+
+msgid "CHAPTER_06_TITLE"
+msgstr "The Windless Peak"
+
+msgid "PART_06_1_TITLE"
+msgstr "Foot of the Wind Mountain"
+
+msgid "PART_06_2_TITLE"
+msgstr "The Windless Peak"
+
+msgid "CHAPTER_07_TITLE"
+msgstr "Eclipse"
+
+msgid "PART_07_1_TITLE"
+msgstr "Into the Eclipse"
+
+msgid "PART_07_2_TITLE"
+msgstr "The Bright Ring"
+
+msgid "TUTORIAL_CHAPTER_CARD_1"
+msgstr "This is the journey log. Each group on the left gathers linked chapters; the cards on the right are the chapters."
+
+msgid "TUTORIAL_CHAPTER_CARD_1_R"
+msgstr "Where do we start?"
+
+msgid "TUTORIAL_CHAPTER_CARD"
+msgstr "Tap the Chapter 1 card."
+
+msgid "TUTORIAL_MAP_STAGE_1"
+msgstr "This is the chapter map. Drag sideways to see the whole road ahead."
+
+msgid "TUTORIAL_MAP_STAGE_1_R"
+msgstr "That's a lot of stages."
+
+msgid "TUTORIAL_MAP_STAGE_2"
+msgstr "Each stage has 3 medals for 3 objectives. Collect every medal in a part to open its reward chest."
+
+msgid "TUTORIAL_MAP_STAGE_2_R"
+msgstr "Got it."
+
+msgid "TUTORIAL_MAP_STAGE"
+msgstr "Tap stage 1-1 to begin."
+
+msgid "CHAPTER_LATEST"
+msgstr "Latest Journey"
+
+msgid "CHAPTER_RANGE"
+msgstr "Chapters %d~%d"
+
+msgid "CHAPTER_RANGE_PARTS"
+msgstr "Chapter %d · %d parts"
+
+msgid "CHAPTER_NUM"
+msgstr "Chapter %d"
+
+msgid "CHAPTER_NUM_PART"
+msgstr "Chapter %d · Part %d"
+
+msgid "CHAPTER_PROGRESS"
+msgstr "Current progress %d %%"
+
+msgid "CHAPTER_NEW"
+msgstr "New!"
+
+msgid "CHAPTER_SOON"
+msgstr "Coming soon"
+
+msgid "MAP_TITLE"
+msgstr "Chapter %d: %s"
+
+msgid "MAP_BREADCRUMB"
+msgstr "You are here  Main story > %s"
+
+msgid "MAP_CHEST"
+msgstr "Challenge reward"
+
+msgid "MAP_CHEST_DONE"
+msgstr "Claimed"
+
+msgid "MAP_CHEST_GOT"
+msgstr "Part reward claimed: %s"
+
+msgid "MAP_CHEST_ALREADY"
+msgstr "This part's reward was already claimed."
+
+msgid "MAP_CHEST_NOT_READY"
+msgstr "Earn 100%% of the part's medals to claim it."
+
+msgid "MAP_STAGE_SOON"
+msgstr "Stage %s is coming soon."
+
+msgid "MAP_STAGE_LOCKED"
+msgstr "Clear the previous stage to unlock %s."
+
+# Trang bị 5★, bộ vết thánh
+msgid "EQUIP_EQ_WEAPON_DUSK_INFERNO"
+msgstr "Dusk Inferno"
+
+msgid "EQUIP_EQ_WEAPON_LAST_GALE"
+msgstr "Last Breath of the Gale"
+
+msgid "EQUIP_EQ_WEAPON_TWIN_THUNDER"
+msgstr "Twin Thunderclaps"
+
+msgid "EQUIP_EQ_WEAPON_SOLAR_VERDICT"
+msgstr "Solar Crown Verdict"
+
+msgid "EQUIP_EQ_WEAPON_CRESCENT_PACT"
+msgstr "Crescent Pact Scythe"
+
+msgid "EQUIP_EQ_WEAPON_UNYIELDING_PEAK"
+msgstr "Unyielding Mountain Bone"
+
+msgid "EQUIP_EQ_STIGMA_TOP_LAVOISIER"
+msgstr "Oxygen (Top)"
+
+msgid "EQUIP_EQ_STIGMA_MID_LAVOISIER"
+msgstr "Law of Conservation of Mass (Middle)"
+
+msgid "EQUIP_EQ_STIGMA_BOT_LAVOISIER"
+msgstr "Elementary Treatise on Chemistry (Bottom)"
+
+msgid "SET_SET_LAVOISIER"
+msgstr "Antoine Lavoisier"
+
+msgid "EQUIP_EQ_STIGMA_TOP_DAVINCI"
+msgstr "Aerial Screw (Top)"
+
+msgid "EQUIP_EQ_STIGMA_MID_DAVINCI"
+msgstr "Ornithopter (Middle)"
+
+msgid "EQUIP_EQ_STIGMA_BOT_DAVINCI"
+msgstr "Codex Manuscript (Bottom)"
+
+msgid "SET_SET_DAVINCI"
+msgstr "Leonardo da Vinci"
+
+msgid "EQUIP_EQ_STIGMA_TOP_FRANKLIN"
+msgstr "Kite in the Storm (Top)"
+
+msgid "EQUIP_EQ_STIGMA_MID_FRANKLIN"
+msgstr "Lightning Rod (Middle)"
+
+msgid "EQUIP_EQ_STIGMA_BOT_FRANKLIN"
+msgstr "Poor Richard's Almanack (Bottom)"
+
+msgid "SET_SET_FRANKLIN"
+msgstr "Benjamin Franklin"
+
+msgid "EQUIP_EQ_STIGMA_TOP_NIGHTINGALE"
+msgstr "Lamp of Scutari (Top)"
+
+msgid "EQUIP_EQ_STIGMA_MID_NIGHTINGALE"
+msgstr "Rose Diagram (Middle)"
+
+msgid "EQUIP_EQ_STIGMA_BOT_NIGHTINGALE"
+msgstr "Notes on Nursing (Bottom)"
+
+msgid "SET_SET_NIGHTINGALE"
+msgstr "Florence Nightingale"
+
+msgid "EQUIP_EQ_STIGMA_TOP_POE"
+msgstr "The Raven (Top)"
+
+msgid "EQUIP_EQ_STIGMA_MID_POE"
+msgstr "The Tell-Tale Heart (Middle)"
+
+msgid "EQUIP_EQ_STIGMA_BOT_POE"
+msgstr "The Pit and the Pendulum (Bottom)"
+
+msgid "SET_SET_POE"
+msgstr "Edgar Allan Poe"
+
+msgid "EQUIP_EQ_STIGMA_TOP_DARWIN"
+msgstr "Voyage of the Beagle (Top)"
+
+msgid "EQUIP_EQ_STIGMA_MID_DARWIN"
+msgstr "Natural Selection (Middle)"
+
+msgid "EQUIP_EQ_STIGMA_BOT_DARWIN"
+msgstr "Theory of Evolution (Bottom)"
+
+msgid "SET_SET_DARWIN"
+msgstr "Charles Darwin"
+
+msgid "SET_SET_BLAZE"
+msgstr "Blaze Sovereign Sigil"
+
+msgid "SET_SET_BEDROCK"
+msgstr "Bedrock Sigil"
+
+# Banner 5★ (owner 2026-11-14)
+msgid "BANNER_STAR5_EARTH"
+msgstr "5★ rate-up: Iwagane's weapon & Charles Darwin set"
+
+msgid "BANNER_KIND_STAR5"
+msgstr "5★ gear banner"
+
+msgid "BANNER_TITLE_STAR5_EARTH"
+msgstr "Unyielding Mountain Bone & Charles Darwin"
+
+msgid "GACHA_TIER_STAR5"
+msgstr "5★ gear (per item)"
+
+# Trang bị 5★, bộ vết thánh
+msgid "STATUS_EQB_CRESCENT_CURSE_TEAM"
+msgstr "Crescent: DMG vs Curse"
+
+msgid "STATUS_EQB_DARWIN_LOW_HP"
+msgstr "Darwin: guard"
+
+msgid "STATUS_EQB_DARWIN_TEAM_GUARD"
+msgstr "Darwin: team guard"
+
+msgid "STATUS_EQB_DAVINCI_DODGE"
+msgstr "da Vinci: DMG up"
+
+msgid "STATUS_EQB_DAVINCI_MULTI"
+msgstr "da Vinci: team DMG"
+
+msgid "STATUS_EQB_DUSK_FIRE_TEAM"
+msgstr "Dusk: Fire DMG up"
+
+msgid "STATUS_EQB_DUSK_HEAT_TEAM"
+msgstr "Dusk: Heat DMG up"
+
+msgid "STATUS_EQB_DUSK_ULT"
+msgstr "Dusk: DMG up"
+
+msgid "STATUS_EQB_FRANKLIN_ASPD"
+msgstr "Franklin: attack speed"
+
+msgid "STATUS_EQB_FRANKLIN_BURST"
+msgstr "Franklin: Lightning DMG"
+
+msgid "STATUS_EQB_GALE_MOVE"
+msgstr "Gale: move speed"
+
+msgid "STATUS_EQB_LAVOISIER_HEAT"
+msgstr "Lavoisier: Fire DMG"
+
+msgid "STATUS_EQB_LAVOISIER_ULT"
+msgstr "Lavoisier: team DMG"
+
+msgid "STATUS_EQB_NIGHTINGALE_HEAL"
+msgstr "Nightingale: team DMG"
+
+msgid "STATUS_EQB_PEAK_DEF"
+msgstr "Peak: DEF up"
+
+msgid "STATUS_EQB_PEAK_GUARD"
+msgstr "Peak: guard"
+
+msgid "STATUS_EQB_PEAK_TEAM_GUARD"
+msgstr "Peak: team guard"
+
+msgid "STATUS_EQB_THUNDER_ASPD_TEAM"
+msgstr "Thunder: attack speed"
+
+msgid "STATUS_EQB_THUNDER_EN"
+msgstr "Thunder: EN regen"
+
+msgid "STATUS_EQB_VERDICT_HEAL"
+msgstr "Verdict: DMG up"
+
+msgid "STATUS_EQB_VERDICT_ZONE_TEAM"
+msgstr "Verdict: zone DMG up"
+
+msgid "STATUS_EQB_WIND_ZONE_DMG"
+msgstr "Wind Domain: DMG up"
+
+# Kết quả chiêu mộ (owner 2026-11-15)
+msgid "RECRUIT_NEW"
+msgstr "New"
+
+msgid "RECRUIT_FRAGMENTS"
+msgstr "+%d fragments"
+
+msgid "RECRUIT_UI_SKIP"
+msgstr "Skip"
+
+# Màn Chiêu mộ bố cục mới (owner 2026-11-15)
+msgid "RECRUIT_UI_BACK"
+msgstr "‹ Back"
+
+msgid "RECRUIT_UI_PITY_LEFT"
+msgstr "%d more pulls guarantee %s"
+
+msgid "RECRUIT_UI_FRAG_LEFT"
+msgstr "%d more fragments to reach %s"
+
+msgid "RECRUIT_UI_FRAG_NOT_OWNED"
+msgstr "Not owned yet — duplicates give promotion fragments"
+
+msgid "RECRUIT_UI_FRAG_MAX"
+msgstr "Fully promoted"
+
+msgid "RECRUIT_UI_GIFT"
+msgstr "Gift pack (coming soon)"
+
+msgid "RECRUIT_UI_TRIAL"
+msgstr "Trial"
+
+msgid "RECRUIT_TAB_STARTER"
+msgstr "First recruit"
+
+msgid "STAGE_01_02_NAME"
+msgstr "Coalhearth Village"
+
+msgid "STAGE_01_02_DESC"
+msgstr "The Mother Hearth is still cold and ash Dregs are spilling into the village. The masked figure's channel trace passes through here too. Clear the road and hold Coalhearth's gate."
+
+msgid "ENEMY_SLIME_02"
+msgstr "Big Ash Slime"
+
+msgid "BARK_CH01_2_START"
+msgstr "The strange channel trace heads for the village. The ash Dregs are spilling down too."
+
+msgid "BARK_CH01_2_WAVE1"
+msgstr "Not one of them reaches the village!"
+
+msgid "BARK_CH01_2_WAVE1_NEO"
+msgstr "Ash Dregs ahead. Clear them and move on."
+
+msgid "BARK_CH01_2_WAVE2"
+msgstr "That big one is clumped Dregs. Slow but heavy bites, dodge, then hit back."
+
+msgid "BARK_CH01_2_WAVE2_NEO"
+msgstr "Clumped Dregs. Slow but heavy, dodge and counter."
+
+msgid "BARK_CH01_2_CP2"
+msgstr "I can see the roofs! Chimney smoke, people are still there."
+
+msgid "BARK_CH01_2_CP2_NEO"
+msgstr "Coalhearth Village is just ahead."
+
+msgid "BARK_CH01_2_WAVE3"
+msgstr "The last pack is right at the gate. Give it everything!"
+
+msgid "BARK_CH01_2_CLEAR"
+msgstr "The village is safe for now. Now let's find whoever sent the golem."
+
+msgid "BARK_CH01_2_CLEAR_NEO"
+msgstr "The gate is safe. Head to it to finish."
+
+msgid "STAGE_01_03_NAME"
+msgstr "Coal Tunnels"
+
+msgid "STAGE_01_03_DESC"
+msgstr "The strange channel trace leads down into the old coal tunnels under the village, where the fire vein feeds the Mother Hearth. Someone has choked the vein. Go down and break the Dreg nest in the way."
+
+msgid "BARK_CH01_3_START"
+msgstr "The heat underground is dropping. The strange channel trace goes down these very tunnels."
+
+msgid "BARK_CH01_3_WAVE1"
+msgstr "It's pitch dark and they still found us?!"
+
+msgid "BARK_CH01_3_WAVE1_NEO"
+msgstr "Ash Dregs ahead. They follow warmth."
+
+msgid "BARK_CH01_3_CP1"
+msgstr "The fire vein's been sealed with fresh rock. Someone did this on purpose."
+
+msgid "BARK_CH01_3_CP1_NEO"
+msgstr "The fire vein has been sealed. The traces are fresh."
+
+msgid "BARK_CH01_3_WAVE2"
+msgstr "There's a draft from deep inside. The Dregs are riding it."
+
+msgid "BARK_CH01_3_WAVE2_NEO"
+msgstr "Two big Dregs. Dodge the bite, then counter."
+
+msgid "BARK_CH01_3_CP2"
+msgstr "Three stone rings… same as the golem's back. The guardians dug these tunnels."
+
+msgid "BARK_CH01_3_CP2_NEO"
+msgstr "A three-ring stone carving, matching the mark on the golem's back."
+
+msgid "BARK_CH01_3_WAVE3"
+msgstr "The Dreg nest is at the end of the tunnel, right where the vein was sealed."
+
+msgid "BARK_CH01_3_CLEAR"
+msgstr "The vein is open, but the Hearth still won't light. What else did he do?"
+
+msgid "BARK_CH01_3_CLEAR_NEO"
+msgstr "The nest is gone. Head for the tunnel exit to finish."
+
+msgid "STAGE_01_04_NAME"
+msgstr "Hearth Cliff"
+
+msgid "STAGE_01_04_DESC"
+msgstr "The vents on the Mother Hearth's cliff were deliberately blocked, so the Hearth can't breathe. Climb the narrow cliff path, clear the Dregs and follow whoever blocked them."
+
+msgid "BARK_CH01_4_START"
+msgstr "The cliff vents are blocked. If the Hearth can't breathe, it can't burn."
+
+msgid "BARK_CH01_4_WAVE1"
+msgstr "No wind… and the vents sealed shut. This isn't natural."
+
+msgid "BARK_CH01_4_WAVE1_NEO"
+msgstr "The Hearth's heat is drawing the ash Dregs in."
+
+msgid "BARK_CH01_4_CP1"
+msgstr "Falling from up here would be… nope, not thinking about it."
+
+msgid "BARK_CH01_4_CP1_NEO"
+msgstr "The cliff path is narrow. Watch the drops."
+
+msgid "BARK_CH01_4_WAVE2"
+msgstr "Big Dregs are clinging to the vent mouth. Clear them so the Hearth can breathe."
+
+msgid "BARK_CH01_4_CP2"
+msgstr "Footprints on the ledge, still fresh. He just came through."
+
+msgid "BARK_CH01_4_CP2_NEO"
+msgstr "Fresh traces detected on the ledge."
+
+msgid "BARK_CH01_4_WAVE3"
+msgstr "We're at the top! Clear this lot and we're done!"
+
+msgid "BARK_CH01_4_WAVE3_NEO"
+msgstr "Last vent. Clear out the Dregs."
+
+msgid "BARK_CH01_4_CLEAR"
+msgstr "The vents are clear. But his tracks lead even higher."
+
+msgid "BARK_CH01_4_CLEAR_NEO"
+msgstr "All vents are clear. Head to the clifftop to finish."
+
+msgid "STORY_CH01_GOLEM_SUMMARY"
+msgstr "The golem falls, but the Mother Hearth stays cold: the guardian was only sent to block the way. The seal on its chest is a channel seal coded 00, and a masked figure watches from the cliff before leaving. Whoever is putting out the fire is still in the valley."
+
+msgid "STORY_CH01_GOLEM_01_1"
+msgstr "The guardian has shut down. Opening the channel: everyone can come out."
+
+msgid "STORY_CH01_GOLEM_02_1"
+msgstr "Phew… We're done, right?"
+
+msgid "STORY_CH01_GOLEM_02_2"
+msgstr "Not yet. Look at the Hearth."
+
+msgid "STORY_CH01_GOLEM_03_1"
+msgstr "The Hearth is still cold…"
+
+msgid "STORY_CH01_GOLEM_03_2"
+msgstr "The guardian wasn't draining the fire. It was only blocking the gate."
+
+msgid "STORY_CH01_GOLEM_04_1"
+msgstr "It wasn't evil. Someone sent it to stop us."
+
+msgid "STORY_CH01_GOLEM_05_1"
+msgstr "What's this? It looks a lot like Neo's ring."
+
+msgid "STORY_CH01_GOLEM_06_1"
+msgstr "A channel seal fragment… same format as mine. Command source: 00."
+
+msgid "STORY_CH01_GOLEM_06_2"
+msgstr "Our Neo isn't number 00."
+
+msgid "STORY_CH01_GOLEM_07_1"
+msgstr "Then whoever is really putting out the fire is still in this valley."
+
+msgid "STORY_CH01_GOLEM_08_1"
+msgstr "The guardian was only to buy time. Tell the Manager: the Hearth will die on schedule."
+
+msgid "STORY_CH01_GOLEM_09_1"
+msgstr "Up there! Someone's there!"
+
+msgid "STORY_CH01_GOLEM_10_1"
+msgstr "After him. We have to find him before the Hearth goes out for good."
+
+msgid "STORY_CH01_GOLEM_10_2"
+msgstr "Unknown channel trace logged. Awaiting the Manager's orders."
+
+msgid "STORY_CH01_GOLEM_CARD_TITLE"
+msgstr "Stage 1-1 — Complete"
+
+msgid "STORY_CH01_GOLEM_CARD_SUB"
+msgstr "Next: follow the masked figure through the Ashen Valley."
+
+msgid "STORY_CH01_END_03_2"
+msgstr "Who is your Manager?"
+
+msgid "BOSS_HENCHMAN_01"
+msgstr "Shokuhai"
+
+msgid "STAGE_01_05_NAME"
+msgstr "Dead Grove"
+
+msgid "STAGE_01_05_DESC"
+msgstr "The henchman's tracks lead up into a dead grove on the cliff slope. He has planted seal stakes all over it to call Dregs onto the path. Clear them and keep following his trail."
+
+msgid "BARK_CH01_5_START"
+msgstr "A weak 00 signal, repeating steadily. Like something's planted all over this grove."
+
+msgid "BARK_CH01_5_WAVE1"
+msgstr "Every tree is dead. Not even the dry leaves rustle."
+
+msgid "BARK_CH01_5_WAVE1_NEO"
+msgstr "The strange signal is pulling the ash Dregs in."
+
+msgid "BARK_CH01_5_CP1"
+msgstr "This stone stake has a black-and-white ring! He planted these to call the Dregs?"
+
+msgid "BARK_CH01_5_CP1_NEO"
+msgstr "A seal stake carrying the 00 signal. It's calling Dregs."
+
+msgid "BARK_CH01_5_WAVE2"
+msgstr "Another pack, big Dregs included."
+
+msgid "BARK_CH01_5_CP2"
+msgstr "Pull up every one of these stakes. He doesn't get to use the grove as a fence."
+
+msgid "BARK_CH01_5_CP2_NEO"
+msgstr "Seal stake positions logged."
+
+msgid "BARK_CH01_5_WAVE3"
+msgstr "Last pack! Clear it and the path opens!"
+
+msgid "BARK_CH01_5_WAVE3_NEO"
+msgstr "The last pack is around the big seal stake."
+
+msgid "BARK_CH01_5_CLEAR"
+msgstr "The signal's gone. Let's move, he can't be far."
+
+msgid "BARK_CH01_5_CLEAR_NEO"
+msgstr "The seal stakes are dead. Head to the edge of the grove to finish."
+
+msgid "STAGE_01_06_NAME"
+msgstr "Hanging Stone Bridge"
+
+msgid "STAGE_01_06_DESC"
+msgstr "The only way across the chasm is the guardians' ancient stone bridge, now missing many spans: the henchman wrecked it behind him. Leap the broken spans and clear the Dregs."
+
+msgid "BARK_CH01_6_START"
+msgstr "The guardians' stone bridge, many spans collapsed. If you fall, I'll pull you back to the anchor."
+
+msgid "BARK_CH01_6_WAVE1"
+msgstr "Broken bridge? Leave it to me! Jumping's my specialty."
+
+msgid "BARK_CH01_6_WAVE1_NEO"
+msgstr "Ash Dregs are blocking the bridgehead."
+
+msgid "BARK_CH01_6_CP1"
+msgstr "Fresh cuts on the pillar. He broke it down on purpose."
+
+msgid "BARK_CH01_6_CP1_NEO"
+msgstr "The pillar shows fresh damage."
+
+msgid "BARK_CH01_6_WAVE2"
+msgstr "No room to back off mid-bridge. Fight clean, don't get knocked off."
+
+msgid "BARK_CH01_6_WAVE2_NEO"
+msgstr "Keep your footing. Big Dregs knock you back hard."
+
+msgid "BARK_CH01_6_CP2"
+msgstr "I can see the far end of the bridge!"
+
+msgid "BARK_CH01_6_CP2_NEO"
+msgstr "One more stretch of bridge."
+
+msgid "BARK_CH01_6_WAVE3"
+msgstr "A pack of big Dregs is blocking the far bridgehead."
+
+msgid "BARK_CH01_6_CLEAR"
+msgstr "We made it. He thought wrecking a bridge would shake us off?"
+
+msgid "BARK_CH01_6_CLEAR_NEO"
+msgstr "Chasm crossed. Head to the bridgehead to finish."
+
+msgid "STAGE_01_07_NAME"
+msgstr "Abandoned Guardian Post"
+
+msgid "STAGE_01_07_DESC"
+msgstr "Across the chasm stands an ancient guardian outpost carved with the three-ring mark. The henchman got here first. Go inside and find out what he took."
+
+msgid "BARK_CH01_7_START"
+msgstr "A guardian outpost. Three stone rings, same as on the golem's back."
+
+msgid "BARK_CH01_7_WAVE1"
+msgstr "Many guardians used to stand watch here. Now it's empty."
+
+msgid "BARK_CH01_7_WAVE1_NEO"
+msgstr "Ash Dregs are nesting in the outpost."
+
+msgid "BARK_CH01_7_CP1"
+msgstr "This wall niche is empty. The guardian's core was pulled out."
+
+msgid "BARK_CH01_7_CP1_NEO"
+msgstr "Every guardian core niche is empty."
+
+msgid "BARK_CH01_7_WAVE2"
+msgstr "What does he want with guardian cores?!"
+
+msgid "BARK_CH01_7_WAVE2_NEO"
+msgstr "Big Dregs are clinging around the core niches."
+
+msgid "BARK_CH01_7_CP2"
+msgstr "The golem at the Hearth… its core probably came from here, then it was sent off."
+
+msgid "BARK_CH01_7_CP2_NEO"
+msgstr "The golem's core may have come from this outpost."
+
+msgid "BARK_CH01_7_WAVE3"
+msgstr "The last pack is at the outpost's back exit."
+
+msgid "BARK_CH01_7_CLEAR"
+msgstr "Take a core, send a guardian, kill the fire. He planned all of it."
+
+msgid "BARK_CH01_7_CLEAR_NEO"
+msgstr "The outpost is clear. Take the back exit to finish."
+
+msgid "STAGE_01_08_NAME"
+msgstr "Masked Camp"
+
+msgid "STAGE_01_08_DESC"
+msgstr "The trail leads to the henchman's camp in a rocky gorge. In its middle, a black-and-white channel pylon is siphoning the Mother Hearth's heat. Wreck the camp and uncover his plan."
+
+msgid "BARK_CH01_8_START"
+msgstr "The pylon ahead is siphoning heat into another network. Format 00."
+
+msgid "BARK_CH01_8_WAVE1"
+msgstr "His camp! Leave nothing standing."
+
+msgid "BARK_CH01_8_WAVE1_NEO"
+msgstr "Ash Dregs are guarding the camp."
+
+msgid "BARK_CH01_8_CP1"
+msgstr "A note on the table: \"Kill the Hearth on the night of the deepest eclipse.\" That's tonight."
+
+msgid "BARK_CH01_8_CP1_NEO"
+msgstr "The note gives a deadline: tonight."
+
+msgid "BARK_CH01_8_WAVE2"
+msgstr "Tonight?! Then we have to hurry!"
+
+msgid "BARK_CH01_8_WAVE2_NEO"
+msgstr "Big Dregs are guarding the pylon."
+
+msgid "BARK_CH01_8_CP2"
+msgstr "One branch of the pylon is cut. The Hearth isn't being drained any further."
+
+msgid "BARK_CH01_8_WAVE3"
+msgstr "Finish this, then back to the Hearth gate. He'll be there."
+
+msgid "BARK_CH01_8_WAVE3_NEO"
+msgstr "The last pack guards the camp exit."
+
+msgid "BARK_CH01_8_CLEAR"
+msgstr "The pylon's down. Now he has to show himself."
+
+msgid "BARK_CH01_8_CLEAR_NEO"
+msgstr "The camp is wrecked. Head out through the gorge to finish."
+
+msgid "STAGE_01_09_NAME"
+msgstr "Road Back to the Gate"
+
+msgid "STAGE_01_09_DESC"
+msgstr "Night falls as the eclipse deepens. The night trail leads back down to the Mother Hearth's gate, where the henchman is waiting. The ash Dregs are thicker than ever."
+
+msgid "BARK_CH01_9_START"
+msgstr "The Eclipsed Sun is being covered further. The Hollow Zone thickens by the minute."
+
+msgid "BARK_CH01_9_WAVE1"
+msgstr "It's pitch black and the Dregs keep coming!"
+
+msgid "BARK_CH01_9_WAVE1_NEO"
+msgstr "The Dregs are dense. Keep your rhythm."
+
+msgid "BARK_CH01_9_CP1"
+msgstr "Still no wind… If the Hearth dies tonight, the whole village…"
+
+msgid "BARK_CH01_9_CP1_NEO"
+msgstr "The Hearth's heat is down to 4%."
+
+msgid "BARK_CH01_9_WAVE2"
+msgstr "No stopping. We push straight through."
+
+msgid "BARK_CH01_9_WAVE2_NEO"
+msgstr "Two big Dregs block the path."
+
+msgid "BARK_CH01_9_CP2"
+msgstr "I can see the Hearth gate! Someone's standing in front of it!"
+
+msgid "BARK_CH01_9_CP2_NEO"
+msgstr "Channel 00 signal detected at the Hearth gate."
+
+msgid "BARK_CH01_9_WAVE3"
+msgstr "The last pack before the gate. Then it's him."
+
+msgid "BARK_CH01_9_CLEAR"
+msgstr "Done. Now it's your turn."
+
+msgid "BARK_CH01_9_CLEAR_NEO"
+msgstr "The way is open. Head to the Hearth gate to finish."
+
+msgid "STAGE_01_10_NAME"
+msgstr "The Hearth Gate"
+
+msgid "STAGE_01_10_DESC"
+msgstr "Before the cold, dark gate of the Mother Hearth, the masked henchman waits in his armor. Bring him down before the fire dies for good."
+
+msgid "BARK_CH01_10_START"
+msgstr "The eclipse night. Hearth heat: 2%. We're almost out of time."
+
+msgid "BARK_CH01_10_WAVE1"
+msgstr "He's using Dregs to stall us. Don't fall for it, clear them fast!"
+
+msgid "BARK_CH01_10_WAVE1_NEO"
+msgstr "Ash Dregs block the way to the gate."
+
+msgid "BARK_CH01_10_WAVE2"
+msgstr "The golem's still lying there… This is where it all started."
+
+msgid "BARK_CH01_10_WAVE2_NEO"
+msgstr "This is where the golem fell."
+
+msgid "BARK_CH01_10_BOSS"
+msgstr "You sent the golem, sealed the vein, wrecked the bridge. It ends here!"
+
+msgid "BARK_CH01_10_BOSS_NEO"
+msgstr "Target: the masked henchman. Armored, hits hard."
+
+msgid "BARK_CH01_10_BOSS_B"
+msgstr "His armor takes orders through channel 00. Break the armor and the channel goes with it."
+
+msgid "BARK_CH01_10_PHASE2"
+msgstr "His armor is overloading! He's packing ash into the glaive."
+
+msgid "BARK_CH01_10_QUAKE"
+msgstr "Ash waves both ways, jump!"
+
+msgid "BARK_CH01_10_QUAKE_NEO"
+msgstr "Ash waves both ways! Jump to avoid them."
+
+msgid "RECRUIT_UI_INFO"
+msgstr "Information"
+
+msgid "RECRUIT_UI_WEAPON_SLOT"
+msgstr "Weapon (coming soon)"
+
+# Vật phẩm, trang bị (M5)
+msgid "EQUIP_EQ_WEAPON_BOW_WHIRLWIND"
+msgstr "Whirlwind Bow"
+
+msgid "EQUIP_EQ_STIGMA_TOP_WHIRLWIND"
+msgstr "Whirlwind Sigil (Top)"
+
+msgid "EQUIP_EQ_STIGMA_MID_WHIRLWIND"
+msgstr "Whirlwind Sigil (Middle)"
+
+msgid "EQUIP_EQ_STIGMA_BOT_WHIRLWIND"
+msgstr "Whirlwind Sigil (Bottom)"
+
+msgid "EQUIP_EQ_WEAPON_BLADES_THUNDERCLAP"
+msgstr "Thunderclap Blades"
+
+msgid "EQUIP_EQ_STIGMA_TOP_THUNDERCLAP"
+msgstr "Thunderclap Sigil (Top)"
+
+msgid "EQUIP_EQ_STIGMA_MID_THUNDERCLAP"
+msgstr "Thunderclap Sigil (Middle)"
+
+msgid "EQUIP_EQ_STIGMA_BOT_THUNDERCLAP"
+msgstr "Thunderclap Sigil (Bottom)"
+
+msgid "EQUIP_EQ_WEAPON_STAFF_DAWNLIGHT"
+msgstr "Dawnlight Staff"
+
+msgid "EQUIP_EQ_STIGMA_TOP_DAWNLIGHT"
+msgstr "Dawnlight Sigil (Top)"
+
+msgid "EQUIP_EQ_STIGMA_MID_DAWNLIGHT"
+msgstr "Dawnlight Sigil (Middle)"
+
+msgid "EQUIP_EQ_STIGMA_BOT_DAWNLIGHT"
+msgstr "Dawnlight Sigil (Bottom)"
+
+msgid "EQUIP_EQ_WEAPON_SCYTHE_NIGHTSHADE"
+msgstr "Nightshade Scythe"
+
+msgid "EQUIP_EQ_STIGMA_TOP_NIGHTSHADE"
+msgstr "Nightshade Sigil (Top)"
+
+msgid "EQUIP_EQ_STIGMA_MID_NIGHTSHADE"
+msgstr "Nightshade Sigil (Middle)"
+
+msgid "EQUIP_EQ_STIGMA_BOT_NIGHTSHADE"
+msgstr "Nightshade Sigil (Bottom)"
+
+# Trang bị 5★, bộ vết thánh
+msgid "SET_SET_WHIRLWIND"
+msgstr "Whirlwind Sigil"
+
+msgid "SET_SET_THUNDERCLAP"
+msgstr "Thunderclap Sigil"
+
+msgid "SET_SET_DAWNLIGHT"
+msgstr "Dawnlight Sigil"
+
+msgid "SET_SET_NIGHTSHADE"
+msgstr "Nightshade Sigil"
+
+# Vật phẩm, trang bị (M5)
+msgid "EQUIP_EQ_WEAPON_GREATSWORD_STONE"
+msgstr "Rough Stone Greatsword"
+
+msgid "EQUIP_EQ_WEAPON_STAFF_OAK"
+msgstr "Oak Staff"
+
+msgid "EQUIP_EQ_WEAPON_SCYTHE_IRON"
+msgstr "Black Iron Scythe"
+
+# Vật phẩm, trang bị (M5)
+msgid "ITEM_MAT_WEAPON_ASCEND"
+msgstr "Ascension Crystal"
+
+msgid "WEAPON_UI_DETAIL"
+msgstr "Details"
+
+msgid "WEAPON_UI_TIER"
+msgstr "Tier %d/%d"
+
+msgid "WEAPON_UI_ASCEND"
+msgstr "Ascend"
+
+msgid "WEAPON_UI_SKILLS"
+msgstr "Weapon skills"
+
+msgid "WEAPON_UI_ACTIVE"
+msgstr "Active"
+
+msgid "WEAPON_UI_PASSIVE"
+msgstr "Passive"
+
+msgid "WEAPON_UI_ACTIVE_NOTE"
+msgstr "The weapon skill comes from the equipped battlesuit."
+
+msgid "WEAPON_UI_NO_PASSIVE"
+msgstr "This weapon has no passive skill."
+
+
+msgid "WEAPON_UI_NO_LORE"
+msgstr "No description yet."
+
+msgid "WEAPON_UI_WEARER"
+msgstr "Equipped by: %s"
+
+msgid "WEAPON_UI_CAP_HINT"
+msgstr "Level cap reached. Ascend to unlock %d more levels."
+
+msgid "WEAPON_UI_MAXED"
+msgstr "Maxed"
+
+msgid "WEAPON_UI_NEED_LEVEL"
+msgstr "Enhance to Lv.%d first."
+
+msgid "WEAPON_UI_ASCEND_TIER"
+msgstr "Tier %d → %d"
+
+msgid "WEAPON_UI_ASCEND_CAP"
+msgstr "Level cap %d → %d"
+
+msgid "WEAPON_UI_COST"
+msgstr "Cost: %s %d/%d · %s %d"
+
+msgid "WEAPON_UI_ENHANCE_ROW"
+msgstr "%s ×%d — needs %d · %d %s"
+
+msgid "WEAPON_UI_NEXT"
+msgstr "Lv.%d → Lv.%d"
+
+msgid "WEAPON_UI_CONFIRM"
+msgstr "Confirm"
+
+# Hướng dẫn người mới: NEO chỉ xếp đội sau ải 1-1 (owner 2026-11-15)
+msgid "TUTORIAL_RECRUIT_CLOSE_1"
+msgstr "Raikiba has joined! You now have three suits, Manager: Enkiba, Kazeyumi and Raikiba."
+
+msgid "TUTORIAL_RECRUIT_CLOSE_1_R"
+msgstr "Awesome!"
+
+msgid "TUTORIAL_RECRUIT_CLOSE_2"
+msgstr "But owning suits isn't enough: right now only Enkiba is in the battle party."
+
+msgid "TUTORIAL_RECRUIT_CLOSE_2_R"
+msgstr "So what do I do?"
+
+msgid "TUTORIAL_RECRUIT_CLOSE"
+msgstr "Let's set up your party. Tap Confirm to close the results."
+
+msgid "TUTORIAL_RECRUIT_BACK"
+msgstr "Tap Back to leave Recruit."
+
+msgid "TUTORIAL_HUB_PARTY_1"
+msgstr "The party lives in Sortie, right below the mission types."
+
+msgid "TUTORIAL_HUB_PARTY_1_R"
+msgstr "Let's go."
+
+msgid "TUTORIAL_HUB_PARTY"
+msgstr "Tap Sortie."
+
+msgid "TUTORIAL_SORTIE_PARTY_1"
+msgstr "The Party card shows who goes into battle. Up to three suits; the first one leads."
+
+msgid "TUTORIAL_SORTIE_PARTY_1_R"
+msgstr "Got it."
+
+msgid "TUTORIAL_SORTIE_PARTY"
+msgstr "Tap the Party card."
+
+msgid "TUTORIAL_PARTY_SLOT_1"
+msgstr "A slot with a + is an empty spot in the party."
+
+msgid "TUTORIAL_PARTY_SLOT_1_R"
+msgstr "Let's fill it."
+
+msgid "TUTORIAL_PARTY_SLOT"
+msgstr "Tap the empty slot to pick a suit."
+
+msgid "TUTORIAL_PARTY_ADD_1"
+msgstr "On the left are the suits you own. Tap a suit to add it, tap it again to take it out."
+
+msgid "TUTORIAL_PARTY_ADD_1_R"
+msgstr "Simple enough."
+
+msgid "TUTORIAL_PARTY_ADD_2"
+msgstr "Note: two suits of the same person can't be in the party together."
+
+msgid "TUTORIAL_PARTY_ADD_2_R"
+msgstr "Noted."
+
+msgid "TUTORIAL_PARTY_ADD"
+msgstr "Tap the highlighted suit to add it to the party."
+
+msgid "TUTORIAL_PARTY_CONFIRM_1"
+msgstr "Two in the party! In battle, switching when the reserve's portrait glows triggers an elemental reaction."
+
+msgid "TUTORIAL_PARTY_CONFIRM_1_R"
+msgstr "Nice!"
+
+msgid "TUTORIAL_PARTY_CONFIRM_2"
+msgstr "Come back any time to add Raikiba or change the order. That's the end of my guide."
+
+msgid "TUTORIAL_PARTY_CONFIRM_2_R"
+msgstr "Thanks, NEO!"
+
+msgid "TUTORIAL_PARTY_CONFIRM"
+msgstr "Tap Confirm team to save it."
+
+msgid "WEAPON_UI_WHEN_EQUIPPED"
+msgstr "When equipped by %s:"
+
+# Vật phẩm, trang bị (M5)
+msgid "ITEM_MAT_AFFIX_REROLL"
+msgstr "Affix Reroll Stone"
+
+msgid "AFFIX_ATK"
+msgstr "ATK"
+
+msgid "AFFIX_HP"
+msgstr "HP"
+
+msgid "AFFIX_DEF"
+msgstr "DEF"
+
+msgid "AFFIX_CRIT_RATE"
+msgstr "Crit rate"
+
+msgid "AFFIX_CRIT_DAMAGE"
+msgstr "Crit damage"
+
+msgid "AFFIX_CDR"
+msgstr "Cooldown reduction"
+
+msgid "AFFIX_ALL_DMG"
+msgstr "All damage"
+
+msgid "AFFIX_ELEM_DMG"
+msgstr "Elemental damage"
+
+msgid "AFFIX_ATK_PCT"
+msgstr "ATK %"
+
+msgid "AFFIX_HP_PCT"
+msgstr "HP %"
+
+msgid "AFFIX_HEAL_BONUS"
+msgstr "Healing bonus"
+
+msgid "AFFIX_EN_REGEN"
+msgstr "EN regen"
+
+msgid "STIGMA_UI_TAB_SKILL"
+msgstr "Stigma skill"
+
+msgid "STIGMA_UI_TAB_AFFIX"
+msgstr "Affixes"
+
+msgid "STIGMA_UI_TAB_SET"
+msgstr "Set skill"
+
+msgid "STIGMA_UI_NO_SKILL"
+msgstr "This stigma has no skill of its own."
+
+msgid "STIGMA_UI_AFFIX_NOW"
+msgstr "Current affixes"
+
+msgid "STIGMA_UI_AFFIX_NEW"
+msgstr "New affixes"
+
+msgid "STIGMA_UI_NO_AFFIX"
+msgstr "No affixes."
+
+msgid "STIGMA_UI_REROLL"
+msgstr "Reroll affixes"
+
+msgid "STIGMA_UI_REROLL_COST"
+msgstr "Cost: %s %d/%d"
+
+msgid "STIGMA_UI_KEEP_OLD"
+msgstr "Keep old"
+
+msgid "STIGMA_UI_KEEP_NEW"
+msgstr "Keep new"
+
+msgid "STIGMA_UI_NO_SET"
+msgstr "This stigma is not part of a set."
+
+msgid "STIGMA_UI_SET_PIECES"
+msgstr "%s %d-piece"
+
+msgid "REASON_NEED_LEVEL"
+msgstr "Enhance to the level cap first."
+
+msgid "REASON_NO_AFFIX"
+msgstr "This item has no affixes."
+
+msgid "REASON_PENDING"
+msgstr "Choose to keep the new or old affixes first."
+
+# Mô tả ngắn và giai thoại vũ khí 5★ (owner 2026-11-15)
+msgid "EQUIP_EQ_WEAPON_DUSK_INFERNO_DESC"
+msgstr "A blade forged from the last light of day. It burns brighter as the sky darkens, and answers only to one with fire in their heart."
+
+msgid "EQUIP_EQ_WEAPON_DUSK_INFERNO_LORE"
+msgstr "In the Dusk Valley, where day never lasts beyond a single afternoon hour, lived an old smith named Ha Chieu. He wanted to forge a sword that could hold the moment the sun touches the horizon, for that was when he had once stood beside someone he lost. He waited thirty harvests to gather thirty sunsets, then poured them into the forge.\n\nIts guard is a half-sunken sun, its rays fanned out like flames. People say the sword has never shone under the noon sun; it only blazes as darkness is about to fall. For the one who wields it, the fiercer the fire in their heart, the redder the blade, and no one has ever found its limit."
+
+msgid "EQUIP_EQ_WEAPON_LAST_GALE_DESC"
+msgstr "A bow that needs no arrows. Whoever draws the string calls the last wind of autumn, and that wind becomes the arrow."
+
+msgid "EQUIP_EQ_WEAPON_LAST_GALE_LORE"
+msgstr "There was a migrating bird that flew on without rest, afraid that if it landed, autumn would end. A bowyer in Luc Dong found one of its feathers fallen on the road and made it into the two limbs of a bow. On the tips he carved the yellow leaves he had gathered on the day of the last wind.\n\nThe string is thin and green, like a slender breeze. The bow comes with no arrows, for the elders said the archer need only hold still for one breath. When that breath is released, the last wind of the season flies off wherever the heart has aimed. Later the people of the Luc River came to say: “The last wind of autumn does not come and go. It only waits for a hand that knows how to let go.”"
+
+msgid "EQUIP_EQ_WEAPON_TWIN_THUNDER_DESC"
+msgstr "Two blades born when a lightning strike split one bar of iron. The first thunderclap is a warning; the second is the end."
+
+msgid "EQUIP_EQ_WEAPON_TWIN_THUNDER_LORE"
+msgstr "One stormy night, an untempered blade was struck by lightning right on the anvil. It split lengthwise into two identical curved blades, each bearing along its spine a jagged streak like a lingering bolt. The smith dared not grind or mend them. He only wrapped the hilts in dark blue cloth, tied them with gold cord, and hung them from the rafters.\n\nVillagers say that whenever a storm comes, the two blades ring out twice, the first softly, the second far louder. Those who wield them learn that rhythm: one strike to plant the lightning mark, the second to land the blow. On days their owner walks through a storm, the blades crossed on their back crackle, as if the thunder is still waiting for its second strike."
+
+msgid "EQUIP_EQ_WEAPON_SOLAR_VERDICT_DESC"
+msgstr "The halo of the Sun Temple. It judges with light, so any darkness that refuses to show itself is laid bare."
+
+msgid "EQUIP_EQ_WEAPON_SOLAR_VERDICT_LORE"
+msgstr "Long ago there was a temple to the Sun, where the priests passed sentence not with shackles or decrees. They stood beneath the dome and raised a golden halo. Any liar had only to stand in that light, and their guilt would appear as a mark that could not be hidden. That was the Verdict.\n\nLater the temple fell, leaving only the halo and an ivory staff wound with golden rings. People say it is unlike any other sceptre, for its light has never brought pain to the innocent. Whenever the light overflows and those in need of healing are already whole, the excess does not fade but flows down into a thin shield. The temple's last priest once said: “Judgement without protection is only another fire.”"
+
+msgid "EQUIP_EQ_WEAPON_CRESCENT_PACT_DESC"
+msgstr "A crescent blade missing one corner; the missing piece is the price of a promise. Each pact fulfilled makes the scythe lighter."
+
+msgid "EQUIP_EQ_WEAPON_CRESCENT_PACT_LORE"
+msgstr "The tale goes that one full-moon night, a hired reaper asked the moon to lend him a sickle so he could finish reaping a field his enemies had burned. The moon agreed, but demanded a pact and took a piece of itself as a deposit. That is why the blade has a small notch on its inner edge, and no smith has ever been able to return that piece of moon.\n\nA scroll of the pact, written in violet ink, is wound around the shaft and held by a black chain, some links of which hang loose, tied to nothing. The reaper promised to reap until the work was done. He never said he would stop. So every enemy that falls makes the scythe a little lighter, as if one line of the pact has been struck out. Whoever grips it hears the chain softly trembling, and knows the pact is still unfinished."
+
+msgid "EQUIP_EQ_WEAPON_UNYIELDING_PEAK_DESC"
+msgstr "A slab of a sword carved from the mountain that would not fall. It does not win with a single cut, but by never going down."
+
+msgid "EQUIP_EQ_WEAPON_UNYIELDING_PEAK_LORE"
+msgstr "Mount Unyielding has been struck by lightning, battered by storms and eroded by floods until it cracked, yet it still stands. People dug deep into its core and found the bones of an ancient beast, turned to stone before humankind existed. They carved the rock right beside those bones, with no forge and no heated hammer, and brought forth a cracked stone blade glittering with veins of amber.\n\nIts guard is two arches of bone like a ribcage, enclosing the wielder's hand. The cracks on the blade are not damage but marks of every time the mountain held firm, and the more blows it takes, the brighter they glow. Its first owner said words still carved at the foot of the mountain: “Stone does not win because it is hard. Stone wins because it is still there when everything else is gone.”"
+
+msgid "WEAPON_UI_LORE"
+msgstr "Story"
+
+msgid "EQUIP_PICK_CURRENT"
+msgstr "Currently equipped"
+
+msgid "EQUIP_PICK_DETAIL"
+msgstr "View details"
+
+msgid "STIGMA_UI_NO_ACTIVE_SET"
+msgstr "No set bonus active (needs 2 pieces of one set)."
+
+msgid "TITLE_ONLINE"
+msgstr "Online (test)"
+
+msgid "ONLINE_TITLE"
+msgstr "Online (test)"
+
+
+
+
+msgid "ONLINE_STATUS_OFFLINE"
+msgstr "Not connected."
+
+msgid "ONLINE_STATUS_CONNECTING"
+msgstr "Connecting..."
+
+msgid "ONLINE_STATUS_ONLINE"
+msgstr "Connected."
+
+msgid "ONLINE_STATUS_ERROR"
+msgstr "Error: %s"
+
+msgid "ONLINE_ERR_NO_SERVER"
+msgstr "no server address"
+
+msgid "ONLINE_ERR_UNREACHABLE"
+msgstr "cannot reach the server (wrong address, server down or no network)"
+
+msgid "ONLINE_ERR_AUTH"
+msgstr "the server refused the login (server key mismatch)"
+
+msgid "ONLINE_ERR_NO_SERVICE"
+msgstr "Online service unavailable."
+
+msgid "ONLINE_PLAYER_CODE"
+msgstr "Player code"
+
+msgid "ONLINE_COPY_CODE"
+msgstr "Copy"
+
+msgid "ONLINE_CODE_COPIED"
+msgstr "Player code copied."
+
+msgid "ONLINE_CODE_HINT"
+msgstr "When topping up, put this code in the transfer note so the admin can credit the right account."
+
+msgid "ONLINE_WALLET_HINT"
+msgstr "Server wallet (test build: not merged with local save yet)."
+
+msgid "ONLINE_REFRESH"
+msgstr "Refresh"
+
+msgid "TITLE_ACCOUNT"
+msgstr "Account: %s"
+
+msgid "ONLINE_ACCOUNT"
+msgstr "Account: %s"
+
+msgid "ONLINE_OPEN_LOGIN"
+msgstr "Log in / Create account"
+
+msgid "ONLINE_LOGOUT"
+msgstr "Log out"
+
+msgid "ONLINE_ERR_NOT_LOGGED_IN"
+msgstr "not logged in"
+
+msgid "ONLINE_ERR_SESSION_EXPIRED"
+msgstr "session expired, please log in again"
+
+msgid "LOGIN_TAB_LOGIN"
+msgstr "Log in"
+
+msgid "LOGIN_TAB_REGISTER"
+msgstr "Create account"
+
+msgid "LOGIN_NAME_OR_EMAIL"
+msgstr "Username or email"
+
+msgid "LOGIN_USERNAME"
+msgstr "Username"
+
+msgid "LOGIN_USERNAME_HINT"
+msgstr "3–20 characters: letters, digits, _"
+
+msgid "LOGIN_EMAIL"
+msgstr "Email"
+
+msgid "LOGIN_PASSWORD"
+msgstr "Password"
+
+msgid "LOGIN_PASSWORD_HINT"
+msgstr "At least 8 characters"
+
+msgid "LOGIN_PASSWORD_CONFIRM"
+msgstr "Confirm password"
+
+msgid "LOGIN_REMEMBER"
+msgstr "Remember me"
+
+msgid "LOGIN_SUBMIT"
+msgstr "Log in"
+
+msgid "LOGIN_REGISTER_SUBMIT"
+msgstr "Create account"
+
+
+msgid "LOGIN_SERVER"
+msgstr "Server: %s"
+
+msgid "LOGIN_SERVER_CHANGE"
+msgstr "Change"
+
+msgid "LOGIN_SERVER_SAVE"
+msgstr "Save"
+
+msgid "LOGIN_RESUMING"
+msgstr "Logging back in as %s..."
+
+msgid "LOGIN_ERR_EMPTY"
+msgstr "Enter your username (or email) and password."
+
+msgid "LOGIN_ERR_USERNAME"
+msgstr "Username: 3–20 characters, letters, digits, underscore."
+
+msgid "LOGIN_ERR_EMAIL"
+msgstr "Invalid email."
+
+msgid "LOGIN_ERR_PASSWORD_SHORT"
+msgstr "Password needs at least 8 characters."
+
+msgid "LOGIN_ERR_PASSWORD_MISMATCH"
+msgstr "Passwords do not match."
+
+msgid "LOGIN_ERR_BAD_CREDENTIALS"
+msgstr "Wrong username / email or password."
+
+msgid "LOGIN_ERR_USERNAME_TAKEN"
+msgstr "Username already taken."
+
+msgid "LOGIN_ERR_EMAIL_TAKEN"
+msgstr "Email already has an account (wrong password). Please log in."
+
+msgid "CLOUD_LOADING"
+msgstr "Loading your account's world..."
+
+msgid "CLOUD_ERR_OPEN"
+msgstr "Could not open server data: %s"
+
+msgid "CLOUD_ERR_NOT_READY"
+msgstr "not logged in"
+
+msgid "CLOUD_ERR_NEWER"
+msgstr "data was saved by a newer game version, please update"
+
+msgid "CLOUD_ERR_BAD_DATA"
+msgstr "server data is damaged, please contact an admin"
+
+msgid "CLOUD_ERR_CONFLICT"
+msgstr "This account was just played on another device. Log in again to get the latest data."
+
+msgid "CLOUD_IMPORT_TITLE"
+msgstr "This account has no data yet"
+
+msgid "CLOUD_IMPORT_TEXT"
+msgstr "This device has offline play data. Move it to your account, or start a new world? The offline data stays on this device."
+
+msgid "CLOUD_IMPORT_YES"
+msgstr "Move data to account"
+
+msgid "CLOUD_IMPORT_NO"
+msgstr "Start a new world"
+
+msgid "CLOUD_STATE_OFF"
+msgstr "Cloud save: not open"
+
+msgid "CLOUD_STATE_SYNCING"
+msgstr "Cloud save: syncing..."
+
+msgid "CLOUD_STATE_SYNCED"
+msgstr "Cloud save: synced"
+
+msgid "CLOUD_STATE_SYNCED_AT"
+msgstr "Cloud save: synced at %s"
+
+msgid "CLOUD_STATE_PENDING"
+msgstr "Cloud save: not sent yet (offline), will retry"
+
+msgid "CLOUD_SYNC_NOW"
+msgstr "Sync now"
+
+msgid "RHYTHM_MATERIAL_TITLE"
+msgstr "Material Stages · Rhythm"
+
+msgid "RHYTHM_MATERIAL_SUB"
+msgstr "Fight to the music for extra level-up materials. Clear stage 5 to unlock Endless."
+
+msgid "RHYTHM_STAGE_01_NAME"
+msgstr "Ember Beat"
+
+msgid "RHYTHM_STAGE_02_NAME"
+msgstr "Wind Road"
+
+msgid "RHYTHM_STAGE_03_NAME"
+msgstr "Thunder Lane"
+
+msgid "RHYTHM_STAGE_04_NAME"
+msgstr "Hall of Light"
+
+msgid "RHYTHM_STAGE_05_NAME"
+msgstr "Boss: Hollow Crescent"
+
+msgid "RHYTHM_BOSS"
+msgstr "BOSS"
+
+msgid "SORTIE_MATERIAL_TAG"
+msgstr "Rhythm"
+
+msgid "RHYTHM_LOCKED"
+msgstr "Locked"
+
+msgid "RHYTHM_LOCKED_HINT"
+msgstr "Clear the previous stage to unlock this one."
+
+msgid "RHYTHM_CLEARED"
+msgstr "Cleared"
+
+msgid "RHYTHM_LEVEL"
+msgstr "Level %d"
+
+msgid "RHYTHM_ENDLESS_TITLE"
+msgstr "Endless"
+
+msgid "RHYTHM_ENDLESS_SUB"
+msgstr "Pick any song and difficulty, play as much as you like."
+
+msgid "RHYTHM_ENDLESS_LOCKED"
+msgstr "Clear stage N-5 (boss) to unlock Endless."
+
+msgid "RHYTHM_CATALOG_LOADING"
+msgstr "Loading the song list..."
+
+msgid "RHYTHM_CATALOG_OFFLINE"
+msgstr "Server unreachable: only downloaded songs can be played."
+
+msgid "RHYTHM_CATALOG_NONE"
+msgstr "Server unreachable and no songs downloaded yet. Check your connection and try again."
+
+msgid "RHYTHM_DOWNLOADING"
+msgstr "Downloading song (%.1f MB)..."
+
+msgid "RHYTHM_DOWNLOAD_FAILED"
+msgstr "Download failed (%s). Try again later."
+
+msgid "RHYTHM_DIFF_EASY"
+msgstr "Easy"
+
+msgid "RHYTHM_DIFF_NORMAL"
+msgstr "Normal"
+
+msgid "RHYTHM_DIFF_HARD"
+msgstr "Hard"
+
+msgid "RHYTHM_FAVORITES"
+msgstr "Favorites"
+
+msgid "RHYTHM_NO_SONGS"
+msgstr "No songs here yet."
+
+msgid "RHYTHM_PLAY"
+msgstr "Play"
+
+msgid "RHYTHM_BEST_SCORE"
+msgstr "Best %d"
+
+msgid "RHYTHM_SCORE"
+msgstr "SCORE"
+
+msgid "RHYTHM_COMBO"
+msgstr "COMBO"
+
+msgid "RHYTHM_FEVER"
+msgstr "FEVER"
+
+msgid "RHYTHM_GO"
+msgstr "GO!"
+
+msgid "RHYTHM_PERFECT"
+msgstr "PERFECT"
+
+msgid "RHYTHM_GREAT"
+msgstr "GREAT"
+
+msgid "RHYTHM_MISS"
+msgstr "MISS"
+
+msgid "RHYTHM_WRONG"
+msgstr "WRONG"
+
+msgid "RHYTHM_HINT_UP"
+msgstr "Upper: D / F / ↑ (tap left half)"
+
+msgid "RHYTHM_HINT_DOWN"
+msgstr "Lower: J / K / ↓ (tap right half)"
+
+msgid "RHYTHM_PAUSED"
+msgstr "Paused"
+
+msgid "RHYTHM_RESUME"
+msgstr "Resume"
+
+msgid "RHYTHM_QUIT"
+msgstr "Quit"
+
+msgid "RHYTHM_CLEAR"
+msgstr "CLEAR"
+
+msgid "RHYTHM_FAILED"
+msgstr "FAILED"
+
+msgid "RHYTHM_FAILED_HINT"
+msgstr "Out of HP. Remember: each note takes exactly one choice (upper, lower or both)."
+
+msgid "RHYTHM_NEW_BEST"
+msgstr "New best!"
+
+msgid "RHYTHM_RESULT_SCORE"
+msgstr "Score: %d"
+
+msgid "RHYTHM_RESULT_COMBO"
+msgstr "Max combo: %d"
+
+msgid "RHYTHM_RESULT_ACCURACY"
+msgstr "Accuracy: %.1f%%"
+
+msgid "RHYTHM_RESULT_COUNTS"
+msgstr "Perfect %d · Great %d · Good %d · Normal %d · Miss %d · Wrong %d"
+
+msgid "RHYTHM_LOAD_ERROR"
+msgstr "Could not open this song (not downloaded or damaged). Go back and download it again."
+
+msgid "RHYTHM_GOOD"
+msgstr "GOOD"
+
+msgid "RHYTHM_NORMAL"
+msgstr "NORMAL"
+
+msgid "RHYTHM_SPEED"
+msgstr "Speed ×%.1f"
+
+msgid "RHYTHM_TUT_TITLE"
+msgstr "Tutorial %d/%d"
+
+msgid "RHYTHM_TUT_UP"
+msgstr "Note Bats fly in the UPPER lane. Press D / F / ↑ (or tap the left half) when the yellow hitbox fits the upper white ring."
+
+msgid "RHYTHM_TUT_DOWN"
+msgstr "Beat Slugs run in the LOWER lane. Press J / K / ↓ (or tap the right half) when the yellow hitbox fits the lower ring."
+
+msgid "RHYTHM_TUT_MIX"
+msgstr "Now upper and lower mixed. Watch the yellow hitbox and press the right lane. Pressing before it touches the ring is harmless."
+
+msgid "RHYTHM_TUT_BOTH"
+msgstr "Twin Tones are linked by a golden staff: press BOTH keys together. Pressing only one is WRONG (costs HP in the real song)."
+
+msgid "RHYTHM_TUT_GRADES"
+msgstr "The closer the fit, the more points: PERFECT > GREAT > GOOD > NORMAL. Only touching the outer rim is a MISS."
+
+msgid "RHYTHM_TUT_PROGRESS"
+msgstr "Hits %d/%d"
+
+msgid "RHYTHM_TUT_RETRY"
+msgstr "Not quite, try again!"
+
+msgid "RHYTHM_TUT_DONE"
+msgstr "Well done! The song starts now..."
+
+msgid "RHYTHM_TUT_SKIP"
+msgstr "Skip tutorial"
+
+msgid "RHYTHM_INTRO_HOLD"
+msgstr "New: Silver Serpent — hold the key from head to the end of its body; letting go early breaks it. Big drum — mash the key until it bursts."
+
+msgid "HUB_TAB_CHAT"
+msgstr "Chat"
+
+msgid "HUB_ICON_CHAT"
+msgstr "Chat"
+
+msgid "CHAT_TAB_WORLD"
+msgstr "World"
+
+msgid "CHAT_TAB_FRIENDS"
+msgstr "Friends"
+
+msgid "CHAT_DM_LIST"
+msgstr "Direct messages"
+
+msgid "CHAT_DM_TITLE"
+msgstr "Direct message: %s"
+
+msgid "CHAT_CONNECTING"
+msgstr "Connecting to chat..."
+
+msgid "CHAT_EMPTY"
+msgstr "No messages yet. Say hello!"
+
+msgid "CHAT_NEED_LOGIN"
+msgstr "Log in to use chat."
+
+msgid "CHAT_INPUT_HINT"
+msgstr "Type a message (max 200 characters)"
+
+msgid "CHAT_SEND"
+msgstr "Send"
+
+msgid "CHAT_ACT_DM"
+msgstr "Message"
+
+msgid "CHAT_ACT_FRIEND"
+msgstr "Add friend"
+
+msgid "CHAT_ACT_BLOCK"
+msgstr "Block"
+
+msgid "CHAT_ACT_REPORT"
+msgstr "Report"
+
+msgid "CHAT_REPORT_REASON"
+msgstr "Reason:"
+
+msgid "CHAT_REASON_SPAM"
+msgstr "Spam"
+
+msgid "CHAT_REASON_ABUSE"
+msgstr "Abuse"
+
+msgid "CHAT_REASON_INAPPROPRIATE"
+msgstr "Inappropriate"
+
+msgid "CHAT_REASON_CHEAT"
+msgstr "Cheating"
+
+msgid "CHAT_REASON_OTHER"
+msgstr "Other"
+
+msgid "CHAT_REPORTED"
+msgstr "Report sent to the admins."
+
+msgid "CHAT_ADD_BY_CODE"
+msgstr "Add a friend by player code"
+
+msgid "CHAT_CODE_HINT"
+msgstr "Friend's 8-digit code"
+
+msgid "CHAT_ADD_FRIEND"
+msgstr "Add"
+
+msgid "CHAT_FRIEND_SENT"
+msgstr "Friend request sent."
+
+msgid "CHAT_FRIENDS_INVITES"
+msgstr "Friend requests"
+
+msgid "CHAT_FRIENDS_LIST"
+msgstr "Friends"
+
+msgid "CHAT_FRIENDS_SENT"
+msgstr "Requests sent"
+
+msgid "CHAT_FRIENDS_BLOCKED"
+msgstr "Blocked"
+
+msgid "CHAT_FRIENDS_EMPTY"
+msgstr "No friends yet. Add by player code or tap a name in the World room."
+
+msgid "CHAT_FRIEND_ACCEPT"
+msgstr "Accept"
+
+msgid "CHAT_FRIEND_DECLINE"
+msgstr "Decline"
+
+msgid "CHAT_FRIEND_REMOVE"
+msgstr "Remove"
+
+msgid "CHAT_FRIEND_CANCEL"
+msgstr "Cancel"
+
+msgid "CHAT_FRIEND_UNBLOCK"
+msgstr "Unblock"
+
+msgid "CHAT_NOTICE_FRIEND_INVITE"
+msgstr "You have a new friend request."
+
+msgid "CHAT_ERR_EMPTY"
+msgstr "Type something first."
+
+msgid "CHAT_ERR_TOO_LONG"
+msgstr "Messages are limited to 200 characters."
+
+msgid "CHAT_ERR_RATE"
+msgstr "You are sending too fast, wait a moment."
+
+msgid "CHAT_ERR_MUTED"
+msgstr "You are muted."
+
+msgid "CHAT_ERR_MUTED_UNTIL"
+msgstr "You are muted until %s."
+
+msgid "CHAT_ERR_BLOCKED"
+msgstr "Not sent: this player has blocked you."
+
+msgid "CHAT_ERR_NOT_FOUND"
+msgstr "No player found with this code."
+
+msgid "CHAT_ERR_SELF"
+msgstr "That is your own code."
+
+msgid "CHAT_ERR_OFFLINE"
+msgstr "Chat is not connected."
+
+msgid "CHAT_ERR_SEND"
+msgstr "Could not send, try again later."
+
+
+msgid "TOPUP_NEED_LOGIN"
+msgstr "Log in to top up (a server connection is required)."
+
+msgid "TOPUP_ERR_LOAD"
+msgstr "Could not load the price list: %s"
+
+msgid "TOPUP_ERR_CARD_TODAY"
+msgstr "You already claimed today's monthly card reward."
+
+msgid "TOPUP_ERR_CARD_NONE"
+msgstr "You do not have a monthly card."
+
+msgid "TOPUP_CARD_CLAIMED"
+msgstr "Received %d Gems from the monthly card."
+
+msgid "TOPUP_RECEIVED"
+msgstr "Received %d Gems."
+
+msgid "TOPUP_REVOKED"
+msgstr "An admin revoked %d Gems."
+
+
+msgid "TOPUP_FIRST_BONUS"
+msgstr "First top-up: +%d"
+
+msgid "TOPUP_GEMS_PACKS"
+msgstr "Gem packs"
+
+
+msgid "TOPUP_CARD_TITLE"
+msgstr "Monthly card"
+
+msgid "TOPUP_CARD_RULES"
+msgstr "Each card gives %d claims: %d Gems a day, and every %d claims %d bonus Gems."
+
+msgid "TOPUP_CARD_LEFT"
+msgstr "%d claims left · %d claimed so far"
+
+msgid "TOPUP_CARD_NONE"
+msgstr "You have no monthly card."
+
+msgid "TOPUP_CARD_CLAIM"
+msgstr "Claim today (+%d Gems)"
+
+msgid "TOPUP_CARD_DONE_TODAY"
+msgstr "Claimed today"
+
+msgid "TOPUP_CARD_CLAIM_NONE"
+msgstr "No card"
+
+msgid "TOPUP_LOG_TITLE"
+msgstr "Recent top-ups"
+
+msgid "TOPUP_LOG_EMPTY"
+msgstr "No top-ups yet."
+
+msgid "TOPUP_PICK_PACK"
+msgstr "Pick a pack to top up."
+
+msgid "TOPUP_BANK"
+msgstr "Bank"
+
+msgid "TOPUP_ACCOUNT"
+msgstr "Account no."
+
+msgid "TOPUP_OWNER"
+msgstr "Account holder"
+
+msgid "TOPUP_AMOUNT"
+msgstr "Amount"
+
+msgid "TOPUP_MEMO"
+msgstr "Transfer note"
+
+msgid "TOPUP_COPY"
+msgstr "Copy"
+
+msgid "TOPUP_COPIED"
+msgstr "Copied."
+
+msgid "TOPUP_HOW"
+msgstr "Scan the QR with your banking app (or transfer by hand with the EXACT note and amount). An admin confirms and credits your pack, usually within minutes; this screen updates by itself."
+
+msgid "EVENT_MATERIAL_TITLE"
+msgstr "Material Event"
+
+msgid "MODE_RHYTHM_TITLE"
+msgstr "Rhythm"
+
+msgid "MODE_RHYTHM_SUB"
+msgstr "Strike Sound Residue to the music in the Echo Rift to gather Essence."
+
+msgid "EVENT_LOCK"
+msgstr "Locked"
+
+msgid "EVENT_LOCKED_NEED"
+msgstr "Clear %s to unlock"
+
+msgid "EVENT_STARS"
+msgstr "★ %d/%d"
+
+msgid "EVENT_PLAYS_LEFT"
+msgstr "Rewarded plays: %d/%d"
+
+msgid "EVENT_PLAYS_UNLIMITED"
+msgstr "Unlimited plays"
+
+msgid "EVENT_RESET_IN"
+msgstr "resets in %s"
+
+msgid "EVENT_TIME_DH"
+msgstr "%dd %dh"
+
+msgid "EVENT_TIME_HM"
+msgstr "%dh %dm"
+
+msgid "EVENT_PLAY"
+msgstr "Play"
+
+msgid "EVENT_PLAY_NO_REWARD"
+msgstr "Play (no rewards)"
+
+msgid "EVENT_STAR_CONDITIONS"
+msgstr "Star goals"
+
+msgid "EVENT_DROPS"
+msgstr "Possible drops"
+
+msgid "EVENT_FIRST_CLEAR"
+msgstr "First clear"
+
+msgid "EVENT_BEST"
+msgstr "Best: %d · Rank %s"
+
+msgid "EVENT_PARTY_MIN"
+msgstr "Needs a party of %d"
+
+msgid "EVENT_PARTY_TOO_SMALL"
+msgstr "Your party has %d, this stage needs %d. Add members in the Party screen."
+
+msgid "EVENT_STAGE_LOCKED"
+msgstr "Clear the previous stage first."
+
+msgid "EVENT_RESULT_CLEAR"
+msgstr "CLEAR"
+
+msgid "EVENT_RESULT_FAIL"
+msgstr "FAILED"
+
+msgid "EVENT_RESULT_SCORE"
+msgstr "Score: %d"
+
+msgid "EVENT_NEW"
+msgstr "New!"
+
+msgid "EVENT_NO_REWARD_LIMIT"
+msgstr "No rewarded plays left this week: no rewards for this run."
+
+msgid "EVENT_FIRST_CLEAR_DONE"
+msgstr "First clear bonus received."
+
+msgid "EVENT_BACK_TO_SELECT"
+msgstr "Back"
+
+msgid "EVENT_BACK_HINT"
+msgstr "Go back and try again later."
+
+msgid "EVENT_CAPTAIN_EXP"
+msgstr "Manager EXP"
+
+msgid "STAR_CLEAR"
+msgstr "Clear the stage"
+
+msgid "STAR_RANK"
+msgstr "Rank %s or better"
+
+msgid "STAR_SCORE"
+msgstr "Score %d or more"
+
+msgid "STAT_ACCURACY"
+msgstr "Accuracy"
+
+msgid "STAT_MAX_COMBO"
+msgstr "Max combo"
+
+msgid "STAT_PERFECT_RATIO"
+msgstr "Perfect rate"
+
+msgid "STAT_MISS"
+msgstr "Miss / Wrong"
+
+msgid "STAT_HP_LEFT_RATIO"
+msgstr "HP left"
+
+msgid "STAT_HOLDS_BROKEN"
+msgstr "Broken serpents"
+
+msgid "EVT_RESULT_S"
+msgstr "Perfect! The rift closes and Essence pours in."
+
+msgid "EVT_RESULT_A"
+msgstr "Great. Barely a speck of Essence missed."
+
+msgid "EVT_RESULT_B"
+msgstr "Good, a few dark spots remain."
+
+msgid "EVT_RESULT_C"
+msgstr "Made it, but only just."
+
+msgid "EVT_RESULT_D"
+msgstr "Cleared… gather more carefully next time."
+
+msgid "EVT_RESULT_FAIL"
+msgstr "NEO pulled the team out. Try again."
+
+msgid "EVENT_DATA_ERROR"
+msgstr "material_events.json has %d error(s), first: %s"
+
+msgid "DEBUG_GIFT_LINE_EVENT_CLEAR"
+msgstr "Event stages unlocked: %s"
+
+msgid "DEBUG_GIFT_LINE_EVENT_RESET"
+msgstr "Material Event rewarded plays reset"
+
+msgid "DEBUG_GIFT_LINE_STAGE_CLEAR"
+msgstr "Unlocked %d story stages (marked cleared, tutorial set to done)"
+
+msgid "DEBUG_GIFT_LINE_CLIPS_RESET"
+msgstr "Cleared the seen story clips (they play again like the first time)"
+
+msgid "MODE_RHYTHM_DROPS"
+msgstr "EXP books"
+
+msgid "MODE_RUNNER_TITLE"
+msgstr "Element Run"
+
+msgid "MODE_RUNNER_SUB"
+msgstr "Run, jump and swap through Resonance Gates in the Drifting Rift."
+
+msgid "MODE_RUNNER_DROPS"
+msgstr "Enhancement materials"
+
+msgid "MODE_JET_TITLE"
+msgstr "Element Flight"
+
+msgid "MODE_JET_SUB"
+msgstr "Fly with the Thruster and gather Essence Cores in the Hollow Rift."
+
+msgid "MODE_JET_DROPS"
+msgstr "Ascension materials"
+
+msgid "RUNNER_N1_TITLE"
+msgstr "Drifting Road"
+
+msgid "RUNNER_N2_TITLE"
+msgstr "First Gate"
+
+msgid "RUNNER_N3_TITLE"
+msgstr "Three Colors"
+
+msgid "RUNNER_N1_INTRO"
+msgstr "The ground is drifting toward the shadow. Keep running, jump over the Dregs. (Jump: Space / W / ↑)"
+
+msgid "RUNNER_N2_INTRO"
+msgstr "Gates only open for the right suit. Swap before you touch! (Swap: E / Shift / →, direct: 1 2 3)"
+
+msgid "RUNNER_N3_INTRO"
+msgstr "Three gates, three people. Read the symbols ○ △ □, not just the colors."
+
+msgid "RUNNER_PERFECT"
+msgstr "PERFECT!"
+
+msgid "RUNNER_GOOD"
+msgstr "GATE"
+
+msgid "RUNNER_WRONG_GATE"
+msgstr "WRONG SUIT!"
+
+msgid "RUNNER_FEVER"
+msgstr "FEVER!"
+
+msgid "RUNNER_FEVER_LABEL"
+msgstr "Fever"
+
+msgid "RUNNER_COMBO"
+msgstr "%d COMBO"
+
+msgid "RUNNER_LOAD_ERROR"
+msgstr "Could not load the stage data."
+
+msgid "STAT_HITS_TAKEN"
+msgstr "Hits taken"
+
+msgid "STAT_COLLECT_RATIO"
+msgstr "Shards collected"
+
+msgid "STAT_PERFECT_SWAPS"
+msgstr "Perfect gates"
+
+msgid "STAT_PERFECT_SWAP_RATIO"
+msgstr "Perfect gate ratio"
+
+msgid "STAT_DISTANCE_RATIO"
+msgstr "Distance"
+
+msgid "RUNNER_N4_TITLE"
+msgstr "Jump and Swap"
+
+msgid "RUNNER_N5_TITLE"
+msgstr "The Waning Ring"
+
+msgid "RUNNER_N4_INTRO"
+msgstr "Gates right on top of Dregs now: jump and swap at the same time."
+
+msgid "RUNNER_N5_INTRO"
+msgstr "It is swallowing the ground itself. Run for the heart of the Rift! What it throws comes fast."
+
+msgid "RUNNER_BOSS_NAME"
+msgstr "The Waning Ring"
+
+msgid "RUNNER_ENDLESS_TITLE"
+msgstr "Endless"
+
+msgid "RUNNER_ENDLESS_SUB"
+msgstr "Long fixed routes, three difficulties."
+
+msgid "RUNNER_ENDLESS_INFO"
+msgstr "%d px/s · %d s · needs a party of %d"
+
+msgid "RUNNER_ROUTE_DRIFT"
+msgstr "The Long Drift"
+
+msgid "RUNNER_ROUTE_RIFT"
+msgstr "Deep Rift"
+
+msgid "RUNNER_ROUTE_UMBRA"
+msgstr "Umbra Rim"
+
+msgid "RUNNER_ROUTE_SEED"
+msgstr "Fixed route #%d"
+
+msgid "JET_N1_TITLE"
+msgstr "First Flight"
+
+msgid "JET_N2_TITLE"
+msgstr "Headwind"
+
+msgid "JET_N3_TITLE"
+msgstr "Thunder Valves"
+
+msgid "JET_N4_TITLE"
+msgstr "The Hollow Floor"
+
+msgid "JET_N5_TITLE"
+msgstr "The Waning Ring"
+
+msgid "JET_N1_INTRO"
+msgstr "Hold to fly, let go to fall. Grab the Tinh Cores! (Hold: Space / W / ↑, or touch and hold)"
+
+msgid "JET_N2_INTRO"
+msgstr "The wind keeps turning. Touch the glowing box when you see it."
+
+msgid "JET_N3_INTRO"
+msgstr "The valve gap fits you fine, if you don't panic."
+
+msgid "JET_N4_INTRO"
+msgstr "The deeper we go, the hotter it gets. Keep the Dragon as long as you can."
+
+msgid "JET_N5_INTRO"
+msgstr "It swallows Tinh and wind alike. Don't watch its hands, watch the arrows!"
+
+msgid "JET_ZONE_ASH_NAME"
+msgstr "Ash Pipe"
+
+msgid "JET_ZONE_WIND_NAME"
+msgstr "Headwind Vale"
+
+msgid "JET_ZONE_THUNDER_NAME"
+msgstr "Mute Thunder Cave"
+
+msgid "JET_ZONE_ASH_RULE"
+msgstr "Flying burns Tinh: grab blue Tinh Cores to refill."
+
+msgid "JET_ZONE_WIND_RULE"
+msgstr "The wind turns in waves: lean by the arrows."
+
+msgid "JET_ZONE_THUNDER_RULE"
+msgstr "Sweeping beams and thunder valves: slip through the gaps."
+
+msgid "JET_FORM_DRAGON"
+msgstr "Dragon"
+
+msgid "JET_FORM_ROBO"
+msgstr "Warden"
+
+msgid "JET_FORM_DRAGON_PICK"
+msgstr "Something roars in the box!"
+
+msgid "JET_FORM_ROBO_PICK"
+msgstr "The warden… wakes for a moment."
+
+msgid "JET_FORM_DRAGON_BREAK"
+msgstr "The dragon scatters into wind."
+
+msgid "JET_FORM_ROBO_BREAK"
+msgstr "The warden goes back to sleep."
+
+msgid "JET_FORM_END"
+msgstr "Form faded"
+
+msgid "JET_ENERGY"
+msgstr "Jet pack"
+
+msgid "JET_HINT_HOLD"
+msgstr "Hold to fly, release to fall"
+
+msgid "JET_HINT_TAP"
+msgstr "Tap to jump"
+
+msgid "JET_LOAD_ERROR"
+msgstr "Could not load the stage data."
+
+msgid "JET_ENDLESS_TITLE"
+msgstr "Endless"
+
+msgid "JET_ENDLESS_SUB"
+msgstr "Fly through the zones until you run out of hearts."
+
+msgid "JET_ENDLESS_INFO"
+msgstr "The route changes daily · clear at 1500 m · records are in meters"
+
+msgid "JET_ENDLESS_ALL"
+msgstr "Endless (all zones)"
+
+msgid "JET_ENDLESS_ALL_SUB"
+msgstr "Ash Pipe → Headwind Vale → Mute Thunder Cave, getting faster."
+
+msgid "JET_PRACTICE_ASH"
+msgstr "Practice: Ash Pipe"
+
+msgid "JET_PRACTICE_WIND"
+msgstr "Practice: Headwind Vale"
+
+msgid "JET_PRACTICE_THUNDER"
+msgstr "Practice: Mute Thunder Cave"
+
+msgid "JET_PRACTICE_NOTE"
+msgstr "Practice: no plays used, no rewards"
+
+msgid "JET_BEST_M"
+msgstr "Best: %d m"
+
+msgid "STAT_DISTANCE_M"
+msgstr "Distance (m)"
+
+msgid "STAT_ORB_RATIO"
+msgstr "Shards collected"
+
+msgid "STAT_CORES_COLLECTED"
+msgstr "Tinh Cores"
+
+msgid "STAT_FORMS_USED"
+msgstr "Transformations"
+
+msgid "STAT_ZONES_PASSED"
+msgstr "Zones passed"
+
+msgid "CURRENCY_MOONLIGHT"
+msgstr "Moonlight"
+
+msgid "TOPUP_MOONLIGHT_PACKS"
+msgstr "Moonlight packs (monthly card, special-effect outfits, Battle Pass)"
+
+msgid "TOPUP_CARD_BUY"
+msgstr "Buy card (%d %s)"
+
+msgid "TOPUP_CARD_BOUGHT"
+msgstr "Monthly card bought: +%d claims."
+
+msgid "TOPUP_ERR_CARD_NOT_ENOUGH"
+msgstr "Not enough Moonlight for the monthly card."
+
+msgid "TOPUP_ERR_CARD_MAX"
+msgstr "The monthly card stacks up to %d claims."
+
+msgid "TOPUP_LOG_CARD"
+msgstr "Monthly card (+%d claims)"
+
+msgid "CONN_LOST_TITLE"
+msgstr "Connection lost"
+
+msgid "CONN_LOST_RETRYING"
+msgstr "The game is paused. Reconnecting..."
+
+msgid "CONN_TRYING"
+msgstr "Connecting..."
+
+msgid "CONN_LOST_RETRY_N"
+msgstr "Still offline (attempt %d). Retrying shortly."
+
+msgid "CONN_RETRY_NOW"
+msgstr "Retry now"
+
+msgid "CONN_BACK_TO_LOGIN"
+msgstr "Back to login"
+
+msgid "CHEAT_REJECTED_TITLE"
+msgstr "Invalid game data"
+
+msgid "CHEAT_REJECTED_TEXT"
+msgstr "The server refused the data just sent (it does not match the game rules). Your last valid data has been reloaded. If you changed nothing, please contact an admin with your player code."
+
+msgid "CLOUD_ERR_REJECTED"
+msgstr "the server refused invalid data, the valid copy was reloaded"
+
+msgid "RECRUIT_UI_PULLING"
+msgstr "Recruiting..."
+
+msgid "SORTIE_GUEST_TRIAL"
+msgstr "Trial"
+
+msgid "ENEMY_STATUE_01"
+msgstr "Small Guard Statue"
+
+msgid "ENEMY_SLIME_03"
+msgstr "Stone Dreg"
+
+msgid "BOSS_MINION_CUTTER"
+msgstr "The Rope-Cutter"
+
+msgid "BOSS_MINION_MINER"
+msgstr "The Rock-Knocker"
+
+msgid "BOSS_MINION_FILER"
+msgstr "The Mask-Filer"
+
+msgid "BOSS_MINION_CARRIER"
+msgstr "The Core-Carrier"
+
+msgid "BOSS_IWAGANE_01"
+msgstr "Iwagane (Sparring)"
+
+msgid "BOSS_GATE_01"
+msgstr "The Gate Guardian"
+
+msgid "STAGE_02_01_NAME"
+msgstr "Guardian Slope"
+
+msgid "STAGE_02_01_DESC"
+msgstr "The team reaches the foot of the plateau, following the three stone rings. Strange wheel tracks cut the road, and a small guard statue with clouded eyes lurches into the way."
+
+msgid "BARK_CH02_1_START"
+msgstr "Coordinates match: Guardian Highlands. Earth element density 18% and falling."
+
+msgid "BARK_CH02_1_WAVE1"
+msgstr "Too quiet. A guardian workshop and not one hammer ringing."
+
+msgid "BARK_CH02_1_WAVE1_NEO"
+msgstr "No one at the first guard post."
+
+msgid "BARK_CH02_1_WAVE2"
+msgstr "Their eyes are clouded, they've been forced awake. Don't strike harder than you must."
+
+msgid "BARK_CH02_1_WAVE2_NEO"
+msgstr "Small guard statues: young guardians, robbed of their rest."
+
+msgid "BARK_CH02_1_CLEAR"
+msgstr "I smashed one of these back home. Now I feel sick about it."
+
+msgid "BARK_CH02_1_CLEAR_NEO"
+msgstr "The slope is clear. Reach the top to finish."
+
+msgid "STAGE_02_02_NAME"
+msgstr "Broken Stone Bridge"
+
+msgid "STAGE_02_02_DESC"
+msgstr "The bridge across the chasm is half collapsed. Kazeyumi reads the chisel marks: cut from the inside. A masked henchman, the Rope-Cutter, is cutting the last cables."
+
+msgid "BARK_CH02_2_START"
+msgstr "The bridge is falling span by span. The cuts are clean and even, not guardian work."
+
+msgid "BARK_CH02_2_WAVE1"
+msgstr "Let me run ahead and test which spans still hold."
+
+msgid "BARK_CH02_2_WAVE1_NEO"
+msgstr "Spans 3 and 5 still hold."
+
+msgid "BARK_CH02_2_BOSS"
+msgstr "The cables were cut from the inside. He wears armor with a 00 ring!"
+
+msgid "BARK_CH02_2_BOSS_NEO"
+msgstr "Target: the Rope-Cutter. Very fast, short telegraphs."
+
+msgid "STAGE_02_03_NAME"
+msgstr "Silent Quarry"
+
+msgid "STAGE_02_03_DESC"
+msgstr "The quarry has stopped. Miners fled saying the stone woke in the night. The Rock-Knocker guards the shaft, his hammer shaking the walls."
+
+msgid "BARK_CH02_3_START"
+msgstr "An old quarry. Thick stone dust, Earth density uneven."
+
+msgid "BARK_CH02_3_WAVE1"
+msgstr "These Dregs are caked with stone dust, tough. Hit where it glows."
+
+msgid "BARK_CH02_3_WAVE1_NEO"
+msgstr "Stone Dregs: very tanky, very slow."
+
+msgid "BARK_CH02_3_BOSS"
+msgstr "Huge hammer. Slow, but don't stand close!"
+
+msgid "BARK_CH02_3_BOSS_NEO"
+msgstr "Target: the Rock-Knocker. Heavy hits, long telegraph."
+
+msgid "STAGE_02_04_NAME"
+msgstr "The Stone Houses"
+
+msgid "STAGE_02_04_DESC"
+msgstr "A small village on the plateau is harassed by young statues. The villagers suspect the team: strangers arrive and the stone goes wild. Defend them, let no one fall."
+
+msgid "BARK_CH02_4_START"
+msgstr "The villagers are watching us. Don't let them see anyone fall."
+
+msgid "BARK_CH02_4_WAVE2"
+msgstr "They have reason to be afraid. Just show them we're here to protect."
+
+msgid "BARK_CH02_4_WAVE2_NEO"
+msgstr "Bonus goal: nobody goes down."
+
+msgid "BARK_CH02_4_CLEAR"
+msgstr "That old lady just handed me water! Looks like we're good."
+
+msgid "BARK_CH02_4_CLEAR_NEO"
+msgstr "Village safe. Reach the end to finish."
+
+msgid "STAGE_02_05_NAME"
+msgstr "Hall of Statues"
+
+msgid "STAGE_02_05_DESC"
+msgstr "A workshop hall lined with silent sleeping statues. Kazeyumi notices every one has an empty chest hollow: their cores have been taken."
+
+msgid "BARK_CH02_5_START"
+msgstr "The statue hall. No sound but our own footsteps."
+
+msgid "BARK_CH02_5_CP1"
+msgstr "Look at their chests. Empty hollows. Their cores were taken."
+
+msgid "BARK_CH02_5_CP1_NEO"
+msgstr "Logged: empty core hollows."
+
+msgid "BARK_CH02_5_CLEAR"
+msgstr "Whoever did this didn't want them sleeping. They wanted them awake and coreless."
+
+msgid "BARK_CH02_5_CLEAR_NEO"
+msgstr "The workshop gate is at the end of the hall."
+
+msgid "STAGE_02_06_NAME"
+msgstr "The Workshop Gate"
+
+msgid "STAGE_02_06_DESC"
+msgstr "Iwagane blocks the workshop gate, demanding the cores back. A sparring trial: pass it and you may enter."
+
+msgid "BARK_CH02_6_START"
+msgstr "The workshop gate. One person stands in the way, greatsword planted in the ground."
+
+msgid "BARK_CH02_6_BOSS"
+msgstr "We didn't take the cores. If you won't trust words, trust the fight."
+
+msgid "BARK_CH02_6_BOSS_NEO"
+msgstr "Target: Iwagane (sparring). Sturdy, clear attacks. This is not an enemy."
+
+msgid "BARK_CH02_6_PHASE2"
+msgstr "She's getting serious now. Block carefully."
+
+msgid "BARK_CH02_6_PHASE2_NEO"
+msgstr "Iwagane enters phase two. Faster attacks."
+
+msgid "STAGE_02_07_NAME"
+msgstr "The Cold Forge"
+
+msgid "STAGE_02_07_DESC"
+msgstr "Iwagane lets the team into the workshop. The Master is wounded and the forge is cold, its cores stolen. She joins the team to hold the forge yard against waking statues."
+
+msgid "BARK_CH02_7_START"
+msgstr "Iwagane joins the channel. Guest slot: trial. Every empty core is a watch left unmanned."
+
+msgid "BARK_CH02_7_WAVE1"
+msgstr "I've held this yard for years. Let me stand in front."
+
+msgid "BARK_CH02_7_WAVE1_NEO"
+msgstr "Iwagane: tank, taunts enemies."
+
+msgid "BARK_CH02_7_CLEAR"
+msgstr "The forge is so cold. It's not broken, it's been abandoned."
+
+msgid "BARK_CH02_7_CLEAR_NEO"
+msgstr "The way to the core vault is open."
+
+msgid "STAGE_02_08_NAME"
+msgstr "The Core Vault"
+
+msgid "STAGE_02_08_DESC"
+msgstr "The core vault holds over a dozen empty hollows. Raikiba's 00 seal shard hums with the remaining cores: same source. Clear the awakened statues inside."
+
+msgid "BARK_CH02_8_START"
+msgstr "The core vault. Fourteen empty hollows. The 00 seal shard is vibrating."
+
+msgid "BARK_CH02_8_CP2"
+msgstr "This lights up whenever I get close to a core. They recognize each other!"
+
+msgid "BARK_CH02_8_CP2_NEO"
+msgstr "Frequencies match. Guardian cores and the Neo share a material structure."
+
+msgid "BARK_CH02_8_CLEAR"
+msgstr "So your Neo and the workshop's cores are kin."
+
+msgid "BARK_CH02_8_CLEAR_NEO"
+msgstr "Vault area complete."
+
+msgid "STAGE_02_09_NAME"
+msgstr "The Night Shift"
+
+msgid "STAGE_02_09_DESC"
+msgstr "The first night standing watch with Iwagane: statues wake in waves, and the Mask-Filer strikes right at the shift change. The team understands the paired watch."
+
+msgid "BARK_CH02_9_START"
+msgstr "The Gác don't wake guardians. We change their shifts."
+
+msgid "BARK_CH02_9_START_NEO"
+msgstr "The night shift begins. Iwagane is on trial."
+
+msgid "BARK_CH02_9_WAVE2"
+msgstr "Have you ever stood watch alone?"
+
+msgid "BARK_CH02_9_WAVE2_NEO"
+msgstr "No answer yet."
+
+msgid "BARK_CH02_9_BOSS"
+msgstr "He struck right at the shift change. He knows the watch schedule!"
+
+msgid "BARK_CH02_9_BOSS_NEO"
+msgstr "Target: the Mask-Filer. Lots of feints, don't jump early."
+
+msgid "STAGE_02_10_NAME"
+msgstr "The Core Smugglers' Trail"
+
+msgid "STAGE_02_10_DESC"
+msgstr "Following the thieves' trail: a hidden cart channel under the cliff, full of pits and traps. The tracks lead north."
+
+msgid "BARK_CH02_10_START"
+msgstr "Three cart tracks, same direction: north."
+
+msgid "BARK_CH02_10_WAVE1"
+msgstr "Fresh wheel marks. They can't be far!"
+
+msgid "BARK_CH02_10_WAVE1_NEO"
+msgstr "Many pits ahead, careful."
+
+msgid "BARK_CH02_10_CLEAR"
+msgstr "The guardians here have foreign cores. I don't want to think who did it."
+
+msgid "BARK_CH02_10_CLEAR_NEO"
+msgstr "The trail exits onto the north slope."
+
+msgid "STAGE_02_11_NAME"
+msgstr "Thunder-Spill Slope"
+
+msgid "STAGE_02_11_DESC"
+msgstr "The team meets the Core-Carrier hauling two cores. He releases statues to block the way. Bring him down and keep the core he drops fleeing."
+
+msgid "BARK_CH02_11_START"
+msgstr "00 signal dead ahead. Someone is hauling cores."
+
+msgid "BARK_CH02_11_BOSS"
+msgstr "Loaded like that and still fast! Don't let him escape!"
+
+msgid "BARK_CH02_11_BOSS_NEO"
+msgstr "Target: the Core-Carrier. Fight until he flees."
+
+msgid "BARK_CH02_11_PHASE2"
+msgstr "He's straining both cores. I'll hold, you strike!"
+
+msgid "BARK_CH02_11_PHASE2_NEO"
+msgstr "Phase two: he's channeling both cores."
+
+msgid "STAGE_02_12_NAME"
+msgstr "The Guardian Gate"
+
+msgid "STAGE_02_12_DESC"
+msgstr "The plateau's greatest guardian, fitted with a foreign core, rages across the gate. Iwagane steps up to hold it, and the team shares the watch with her."
+
+msgid "BARK_CH02_12_START"
+msgstr "The Gate Guardian. The foreign core in its chest carries a 00 ring."
+
+msgid "BARK_CH02_12_BOSS"
+msgstr "This gate is mine to hold. But I won't hold it alone."
+
+msgid "BARK_CH02_12_BOSS_NEO"
+msgstr "Target: the Gate Guardian. Very sturdy, big attacks."
+
+msgid "BARK_CH02_12_PHASE2"
+msgstr "The 00 ring is showing on its chest! Break the foreign core!"
+
+msgid "BARK_CH02_12_PHASE2_NEO"
+msgstr "The foreign core is overloading. Phase two."
+
+msgid "NPC_ISHIRO"
+msgstr "Master Ishiro"
+
+msgid "STORY_CH02_OPEN_SUMMARY"
+msgstr "Following the three stone rings, the team climbs the Guardian Highlands where guardians are made. The workshop is silent, strange wheel tracks cut the road, and young guardians with clouded eyes are being forced awake. Goal: find out who took the guardian cores."
+
+msgid "STORY_CH02_OPEN_01_1"
+msgstr "Coordinates match: the Guardian Highlands. Earth element density 18% and falling."
+
+msgid "STORY_CH02_OPEN_02_1"
+msgstr "Too quiet. A guardian workshop and not one hammer ringing."
+
+msgid "STORY_CH02_OPEN_03_1"
+msgstr "Someone hauled something heavy through here. Recently."
+
+msgid "STORY_CH02_OPEN_04_1"
+msgstr "Small guard statue: a young guardian. No core detected in its chest."
+
+msgid "STORY_CH02_OPEN_05_1"
+msgstr "Wait. Its eyes… it can't even stand properly. It's being forced awake."
+
+msgid "STORY_CH02_OPEN_06_1"
+msgstr "I just smashed one of these back in my village."
+
+msgid "STORY_CH02_OPEN_07_1"
+msgstr "Three haul tracks logged. Destination unknown."
+
+msgid "STORY_CH02_OPEN_08_1"
+msgstr "Let's go. We need to know who took the cores."
+
+msgid "STORY_CH02_OPEN_CARD_TITLE"
+msgstr "Chapter 2 — The Sleeping Stone Workshop"
+
+msgid "STORY_CH02_OPEN_CARD_SUB"
+msgstr "The Guardian Highlands"
+
+msgid "STORY_CH02_GATE_SUMMARY"
+msgstr "Iwagane guards the workshop gate and suspects the team of stealing cores, since they carry a seal taken from a guardian's chest. She offers a sparring trial: pass it and you may enter."
+
+msgid "STORY_CH02_GATE_01_1"
+msgstr "Stop right there."
+
+msgid "STORY_CH02_GATE_02_1"
+msgstr "You carry a seal pulled from a guardian's chest."
+
+msgid "STORY_CH02_GATE_03_1"
+msgstr "Hold on! We picked it up at the golem's feet, we didn't…"
+
+msgid "STORY_CH02_GATE_04_1"
+msgstr "The workshop lost fourteen cores in a single night. Then you show up carrying exactly that seal."
+
+msgid "STORY_CH02_GATE_05_1"
+msgstr "If you won't trust our words, trust a fight."
+
+msgid "STORY_CH02_GATE_06_1"
+msgstr "A trial. Pass it and you may enter."
+
+msgid "STORY_CH02_END_SUMMARY"
+msgstr "The Gate Guardian falls and the foreign core shatters. The misunderstanding clears: the golem in the Ashen Valley had to stand watch alone because its paired watcher's core was taken. The haul tracks lead to the City of Silent Towers, Raikiba's home. Iwagane stays to guard the workshop; a masked figure gathers the leftover cores."
+
+msgid "STORY_CH02_END_01_1"
+msgstr "The gate still stands."
+
+msgid "STORY_CH02_END_02_1"
+msgstr "How do you hold a door that doesn't budge?"
+
+msgid "STORY_CH02_END_02_2"
+msgstr "Stand long enough and the ground learns your name."
+
+msgid "STORY_CH02_END_03_1"
+msgstr "This core isn't the workshop's. Something else was forced into it."
+
+msgid "STORY_CH02_END_04_1"
+msgstr "I wrongly suspected you."
+
+msgid "STORY_CH02_END_05_1"
+msgstr "It's fine. I almost smashed those young statues by mistake."
+
+msgid "STORY_CH02_END_06_1"
+msgstr "The golem in your valley… its paired watcher lies in our vault. It waited over a season for a relief that never came."
+
+msgid "STORY_CH02_END_07_1"
+msgstr "Probable destination: the City of Silent Towers."
+
+msgid "STORY_CH02_END_08_1"
+msgstr "My home is there."
+
+msgid "STORY_CH02_END_09_1"
+msgstr "This watch passes to you, child. Not alone."
+
+msgid "STORY_CH02_END_10_1"
+msgstr "I have to stay and hold the gate. But if your channel has room, call me."
+
+msgid "STORY_CH02_END_10_2"
+msgstr "Noted. Iwagane channel: closed, opens when called."
+
+msgid "STORY_CH02_END_11_1"
+msgstr "See you again, Iwagane. We'll go ahead."
+
+msgid "STORY_CH02_END_12_1"
+msgstr "Coordinates logged. Awaiting the Manager's orders."
+
+msgid "STORY_CH02_END_CARD_TITLE"
+msgstr "Chapter 2 — Complete"
+
+msgid "STORY_CH02_END_CARD_SUB"
+msgstr "Chapter 3: The City of Silent Towers — coming soon"
+
+msgid "STORY_CH02_END_13_1"
+msgstr "Is that all of them? The lightning will handle the rest."
+
+msgid "LOGIN_GOOGLE_HINT"
+msgstr "Sign in with your Google account to play and save your progress online."
+
+msgid "LOGIN_GOOGLE_PROMPT"
+msgstr "Press the Google sign-in button below."
+
+msgid "LOGIN_ERR_GOOGLE"
+msgstr "Google sign-in failed. Please try again."
+
+msgid "LOGIN_ERR_GOOGLE_NOT_CONFIGURED"
+msgstr "The server has no Google sign-in configured (missing GOOGLE_CLIENT_ID)."

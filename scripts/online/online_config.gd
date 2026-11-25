@@ -1,0 +1,74 @@
+class_name OnlineConfig
+extends RefCounted
+## Cấu hình kết nối máy chủ (M9-1): giá trị mặc định đọc từ data/config/online_config.json, địa chỉ máy chủ
+## người chơi tự nhập (vd đường hầm trycloudflare.com đổi mỗi lần chạy) lưu riêng ở user://online.cfg.
+
+const DATA_PATH := "res://data/config/online_config.json"
+const USER_PATH := "user://online.cfg"
+## Địa chỉ mặc định cũ (trước M10: game gọi thẳng Nakama). Máy đã lưu địa chỉ này được chuyển sang mặc định mới
+## (cổng vào server/gateway.mjs có thêm /music/ cho chế độ nhịp điệu), nếu không tải bài nhịp điệu sẽ lỗi 404.
+const LEGACY_URLS: Array[String] = ["http://127.0.0.1:7350", "http://localhost:7350"]
+
+var default_server_url := "http://127.0.0.1:7360"
+var server_key := ""
+var timeout_sec := 12.0
+var currencies_shown: Array = ["gems", "gold"]
+## Địa chỉ đang dùng (người chơi nhập, hoặc mặc định).
+var server_url := ""
+var user_path := USER_PATH
+
+
+## Game chỉ chơi online (owner 2026-11-21: kiểm soát bug / gian lận). Ngoại lệ DUY NHẤT cho dev: bản debug chạy với tham số
+## `--offline`, hoặc chạy headless trong bản debug (test tự động). Bản phát hành (export release) luôn bắt đăng nhập.
+static func dev_offline() -> bool:
+	if not OS.is_debug_build():
+		return false
+	return DisplayServer.get_name() == "headless" or OS.get_cmdline_user_args().has("--offline")
+
+
+## Địa chỉ trang game đang chạy (chỉ bản web); chuỗi rỗng nếu không phải web.
+static func web_origin() -> String:
+	if not OS.has_feature("web"):
+		return ""
+	var o: Variant = JavaScriptBridge.eval("window.location.origin", true)
+	return str(o) if o != null else ""
+
+
+static func load_from(data_path := DATA_PATH, user_cfg_path := USER_PATH) -> OnlineConfig:
+	var c := OnlineConfig.new()
+	c.user_path = user_cfg_path
+	var f := FileAccess.open(data_path, FileAccess.READ)
+	if f:
+		var d: Variant = JSON.parse_string(f.get_as_text())
+		if d is Dictionary:
+			c.default_server_url = NakamaApi.normalize_url(str(d.get("default_server_url", c.default_server_url)))
+			c.server_key = str(d.get("server_key", ""))
+			c.timeout_sec = float(d.get("timeout_sec", c.timeout_sec))
+			if d.get("currencies_shown") is Array:
+				c.currencies_shown = d["currencies_shown"]
+	else:
+		push_warning("OnlineConfig: không đọc được %s" % data_path)
+	c.server_url = c.default_server_url
+	# Bản web (Netlify): máy chủ cùng địa chỉ với trang game; không dùng địa chỉ người chơi đã lưu.
+	var origin := web_origin()
+	if not origin.is_empty():
+		c.default_server_url = origin
+		c.server_url = origin
+		return c
+	var cfg := ConfigFile.new()
+	if cfg.load(user_cfg_path) == OK:
+		var saved := NakamaApi.normalize_url(str(cfg.get_value("server", "url", "")))
+		if not saved.is_empty() and not saved in LEGACY_URLS:
+			c.server_url = saved
+	return c
+
+
+## Đổi địa chỉ máy chủ và lưu lại; chuỗi rỗng = về mặc định. Trả về địa chỉ đã chuẩn hóa.
+func set_server_url(raw: String) -> String:
+	var url := NakamaApi.normalize_url(raw)
+	server_url = url if not url.is_empty() else default_server_url
+	var cfg := ConfigFile.new()
+	cfg.load(user_path)
+	cfg.set_value("server", "url", "" if server_url == default_server_url else server_url)
+	cfg.save(user_path)
+	return server_url

@@ -1,0 +1,22 @@
+{
+	"_huong_dan": "Cấu hình 5 ải Bay Nguyên Tố sinh bằng máy (JetGenerator, docs/design/JET_MODE.md mục 8, 10). Sửa xong chạy: <godot> --headless --path . -s tools/jet/bake_levels.gd (level boss cần thêm: -- --force-boss). Công cụ thử seed, seed+1… tới khi validator hành lang đạt và bot bay qua với 0 lần trúng, rồi ghi data/jet/levels/<level_id>.json. kinds: loại cụm cho phép (beam, mis, swp, gate, orb; rỗng = theo vùng); forms: hình hộp (dragon, robo); boxes: có Hộp Ký Ức; first_form: hình hộp đầu tiên; max_core_gap_m: Tinh Lõi cách nhau tối đa.",
+	"levels": [
+		{"level_id": "jet_mat_01", "seed": 101, "length_m": 800, "scroll_base": 500, "scroll_ramp": 0.15,
+			"zones": [{"from_m": 0, "id": "ash"}], "forms": [], "kinds": ["beam", "orb"], "boxes": false,
+			"max_core_gap_m": 900, "bgm": "song_ember_steps", "bpm": 112, "boss": null},
+		{"level_id": "jet_mat_02", "seed": 202, "length_m": 1200, "scroll_base": 560, "scroll_ramp": 0.15,
+			"zones": [{"from_m": 0, "id": "ash"}, {"from_m": 600, "id": "wind"}], "forms": ["dragon"], "kinds": ["beam", "orb", "mis"],
+			"boxes": true, "first_form": "dragon", "max_core_gap_m": 900, "bgm": "song_gale_runner", "bpm": 126, "boss": null},
+		{"level_id": "jet_mat_03", "seed": 303, "length_m": 1600, "scroll_base": 620, "scroll_ramp": 0.15,
+			"zones": [{"from_m": 0, "id": "ash"}, {"from_m": 600, "id": "wind"}, {"from_m": 1200, "id": "thunder"}],
+			"forms": ["dragon", "robo"], "kinds": [], "boxes": true, "first_form": "robo", "max_core_gap_m": 1200,
+			"bgm": "song_thunder_lane", "bpm": 138, "boss": null},
+		{"level_id": "jet_mat_04", "seed": 404, "length_m": 2000, "scroll_base": 680, "scroll_ramp": 0.15,
+			"zones": [{"from_m": 0, "id": "wind"}, {"from_m": 600, "id": "thunder"}, {"from_m": 1200, "id": "wind"}, {"from_m": 1800, "id": "thunder"}],
+			"forms": ["dragon", "robo"], "kinds": [], "boxes": true, "max_core_gap_m": 1200, "bgm": "song_lumen_waltz", "bpm": 132, "boss": null},
+		{"level_id": "jet_mat_05", "seed": 505, "length_m": 2400, "scroll_base": 740, "scroll_ramp": 0.15,
+			"zones": [{"from_m": 0, "id": "ash"}, {"from_m": 600, "id": "wind"}, {"from_m": 1200, "id": "thunder"}, {"from_m": 1800, "id": "ash"}],
+			"forms": ["dragon", "robo"], "kinds": [], "boxes": true, "max_core_gap_m": 1200, "bgm": "song_eclipse_boss", "bpm": 140,
+			"boss": {"id": "vang_khuyet", "throw_x": 1750}}
+	]
+}

@@ -1,0 +1,12 @@
+{
+	"_huong_dan": "Vùng của Bay Nguyên Tố (docs/design/JET_MODE.md mục 6). weights: trọng số sinh cụm vật (beam Thanh Cặn, mis Cặn Phóng, swp Tia Quét, gate Van Sét, orb hàng Hạt Tinh). forms: hình Hộp Ký Ức có thể ra ở vùng này. wind: có gió đổi chiều. sky: 2 màu nền trời (trên, dưới); accent: màu viền / biểu ngữ. endless_cycle: thứ tự vùng ở Vô tận (mỗi vùng zone_length_m mét, xem data/jet/jet_rules.tres).",
+	"zones": {
+		"ash": {"title_key": "JET_ZONE_ASH_NAME", "rule_key": "JET_ZONE_ASH_RULE", "sky": ["#1E1416", "#4A2A24"], "accent": "#FF8A4D",
+			"weights": {"beam": 5, "mis": 3, "orb": 4}, "forms": ["dragon", "robo"], "wind": false},
+		"wind": {"title_key": "JET_ZONE_WIND_NAME", "rule_key": "JET_ZONE_WIND_RULE", "sky": ["#10202A", "#24505A"], "accent": "#5FE3C0",
+			"weights": {"beam": 2, "mis": 2, "orb": 4}, "forms": ["dragon", "robo"], "wind": true},
+		"thunder": {"title_key": "JET_ZONE_THUNDER_NAME", "rule_key": "JET_ZONE_THUNDER_RULE", "sky": ["#12102A", "#2E2A5C"], "accent": "#FFE066",
+			"weights": {"swp": 4, "gate": 4, "beam": 1, "mis": 1, "orb": 3}, "forms": ["dragon", "robo"], "wind": false}
+	},
+	"endless_cycle": ["ash", "wind", "thunder"]
+}

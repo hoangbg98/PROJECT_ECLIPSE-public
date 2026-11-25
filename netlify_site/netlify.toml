@@ -1,0 +1,7 @@
+# Cấu hình Netlify cho bản web PROJECT ECLIPSE. Deploy bằng CLI (xem docs/WEB_DEPLOY.md): netlify deploy --prod --dir=. --functions=netlify/functions
+[build]
+  publish = "."
+  functions = "netlify/functions"
+
+[functions]
+  node_bundler = "esbuild"

@@ -1,0 +1,208 @@
+<title>Ảnh truyện Chương 1–2</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Be+Vietnam+Pro:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap">
+<style>
+/* Layout: bảng sản xuất truyện tranh — thanh tiến độ trên cùng, cột thông tin chương / lô, rồi lưới ô truyện theo từng clip như trang storyboard */
+:root{
+  --bg:#ECEAE7; --surface:#F7F6F4; --ink:#211E1C; --muted:#6E6762; --line:#D7D2CD;
+  --ember:#C4541A; --ember-soft:rgba(196,84,26,.12); --ok:#2F7A4A; --ok-soft:rgba(47,122,74,.13); --todo:#8A817A; --todo-soft:rgba(138,129,122,.14);
+  --f-display:"Barlow Condensed","Arial Narrow",system-ui,sans-serif;
+  --f-body:"Be Vietnam Pro",system-ui,"Segoe UI",sans-serif;
+  --f-mono:"JetBrains Mono",ui-monospace,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#171615; --surface:#201E1C; --ink:#EDE8E3; --muted:#A39A92; --line:#36312D;
+  --ember:#EE8A44; --ember-soft:rgba(238,138,68,.16); --ok:#6FC08A; --ok-soft:rgba(111,192,138,.15); --todo:#9C928A; --todo-soft:rgba(156,146,138,.15); color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#171615; --surface:#201E1C; --ink:#EDE8E3; --muted:#A39A92; --line:#36312D;
+  --ember:#EE8A44; --ember-soft:rgba(238,138,68,.16); --ok:#6FC08A; --ok-soft:rgba(111,192,138,.15); --todo:#9C928A; --todo-soft:rgba(156,146,138,.15); color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:14px;line-height:1.55}
+.wrap{max-width:1180px;margin:0 auto;padding-block:24px 64px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:36px}
+h1,h2,h3{font-family:var(--f-display);font-weight:700;letter-spacing:.01em;margin:0;text-wrap:balance}
+h1{font-size:44px;line-height:1}
+h2{font-size:26px;line-height:1.1}
+h3{font-size:20px}
+.eyebrow{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.muted{color:var(--muted)}
+.mono{font-family:var(--f-mono);font-size:12px}
+header{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:16px 32px;align-items:end;border-bottom:2px solid var(--ink);padding-bottom:18px}
+@media (max-width:700px){header{grid-template-columns:minmax(0,1fr)}}
+.big{font-family:var(--f-display);font-size:64px;line-height:.9;font-weight:700;font-variant-numeric:tabular-nums}
+.big small{font-size:28px;color:var(--muted)}
+.bar{height:8px;border-radius:4px;background:var(--todo-soft);overflow:hidden}
+.bar i{display:block;height:100%;background:var(--ember)}
+.bar.ok i{background:var(--ok)}
+.clipchips{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.chip{font-size:12px;padding:3px 10px;border-radius:99px;background:var(--todo-soft);color:var(--ink);font-variant-numeric:tabular-nums;white-space:nowrap}
+.chip.ok{background:var(--ok-soft);color:var(--ok)}
+.chip.ember{background:var(--ember-soft);color:var(--ember)}
+.grid2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:28px}
+@media (max-width:900px){.grid2{grid-template-columns:minmax(0,1fr)}}
+section{display:flex;flex-direction:column;gap:14px;min-width:0}
+.tbl{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:13px}
+th{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);text-align:left;font-weight:600;padding:6px 8px;border-bottom:1px solid var(--line)}
+td{padding:8px;border-bottom:1px solid var(--line);vertical-align:top;font-variant-numeric:tabular-nums}
+tr.cur td{background:var(--ember-soft)}
+.lots{display:flex;flex-direction:column;gap:10px}
+.lot{display:grid;grid-template-columns:28px minmax(0,1fr) 76px;gap:10px;align-items:start}
+.lot .n{font-family:var(--f-display);font-size:24px;line-height:1;font-weight:700;color:var(--muted)}
+.lot.done .n{color:var(--ok)}
+.lot.next .n{color:var(--ember)}
+.lot .t{font-weight:600}
+.lot .k{font-size:12px;color:var(--muted)}
+.lot .p{font-size:12px;text-align:right;font-variant-numeric:tabular-nums;display:flex;flex-direction:column;gap:4px}
+.prompt{position:relative;background:var(--surface);border:1px solid var(--line);border-radius:8px}
+.prompt pre{margin:0;padding:14px 16px;white-space:pre-wrap;word-break:break-word;font-family:var(--f-mono);font-size:12px;line-height:1.6;max-height:360px;overflow:auto}
+.copy{font:inherit;font-size:12px;font-weight:600;cursor:pointer;border:1px solid var(--ink);background:var(--ink);color:var(--bg);border-radius:6px;padding:5px 12px}
+.copy.ghost{background:transparent;color:var(--ink);border-color:var(--line)}
+.copy:hover{opacity:.85}
+.copy:focus-visible,.fbtn:focus-visible,summary:focus-visible{outline:2px solid var(--ember);outline-offset:2px}
+.promptbar{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:8px 10px 8px 16px;border-bottom:1px solid var(--line)}
+.refs{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
+.ref{display:flex;flex-direction:column;gap:6px;min-width:0}
+.ref img{width:100%;aspect-ratio:3/2;object-fit:cover;border-radius:6px;border:1px solid var(--line);background:var(--surface)}
+.ref .mono{word-break:break-all;color:var(--muted);font-size:11px}
+.filters{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.fbtn{font:inherit;font-size:12px;cursor:pointer;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:99px;padding:4px 12px}
+.fbtn[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.clip{display:flex;flex-direction:column;gap:14px}
+.cliphead{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:6px 16px;align-items:end;border-top:2px solid var(--ink);padding-top:14px}
+.cliphead p{margin:4px 0 0;max-width:80ch}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px}
+@media (max-width:420px){.cards{grid-template-columns:minmax(0,1fr)}}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:8px;overflow:hidden;display:flex;flex-direction:column;min-width:0}
+.card.done{border-color:var(--ok)}
+.card .img{background:var(--todo-soft);display:flex;align-items:center;justify-content:center;aspect-ratio:16/8}
+.card .img img{max-height:100%;max-width:100%;object-fit:contain}
+.card .body{padding:12px 14px;display:flex;flex-direction:column;gap:8px;flex:1}
+.card .top{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.card .desc{margin:0}
+.lines{margin:0;padding:0;list-style:none;font-size:12px;color:var(--muted);display:flex;flex-direction:column;gap:2px}
+.lines b{color:var(--ink);font-weight:600}
+.reflist{display:flex;flex-direction:column;gap:2px}
+.reflist .mono{font-size:11px;color:var(--muted);word-break:break-all}
+.actions{display:flex;gap:8px;align-items:center;margin-top:auto;flex-wrap:wrap}
+details{font-size:12px}
+details pre{white-space:pre-wrap;word-break:break-word;font-family:var(--f-mono);font-size:11px;line-height:1.55;background:var(--bg);border-radius:6px;padding:10px;margin:8px 0 0;max-height:260px;overflow:auto}
+summary{cursor:pointer;color:var(--muted)}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:8px 16px;border-radius:99px;font-size:13px;opacity:0;transition:opacity .2s;pointer-events:none}
+.toast.on{opacity:1}
+@media (prefers-reduced-motion:reduce){.toast{transition:none}}
+</style>
+
+<div class="wrap" id="app">
+  <header>
+    <div>
+      <div class="eyebrow">PROJECT ECLIPSE · Chương 1 — Thung Lũng Tro Tàn · Chương 2 — Xưởng Đá Ngủ</div>
+      <h1>Ảnh truyện Chương 1–2</h1>
+      <p class="muted" style="margin:8px 0 0;max-width:70ch">Theo dõi ô truyện tranh cần vẽ, trạng thái từng file trong repo và prompt gửi Codex. Trạng thái lấy từ repo lúc dựng trang (<span id="built"></span>).</p>
+    </div>
+    <div>
+      <div class="big" id="bigcount"></div>
+      <div class="bar" style="margin-top:8px"><i id="bigbar"></i></div>
+      <div class="clipchips" id="clipchips"></div>
+    </div>
+  </header>
+
+  <div class="grid2">
+    <section>
+      <h2>Tiến độ cốt truyện</h2>
+      <div class="tbl"><table><thead><tr><th>Chương</th><th>Tên</th><th>Ải có màn</th><th>Clip truyện</th><th>Map / thẻ</th></tr></thead><tbody id="chapters"></tbody></table></div>
+      <p class="muted" style="margin:0;font-size:12px">Chương 3–7 đã có trên bản đồ nhưng khóa "Sắp ra mắt" cho tới khi có màn chơi.</p>
+    </section>
+    <section>
+      <h2>Thứ tự làm cho Codex</h2>
+      <div class="lots" id="lots"></div>
+    </section>
+  </div>
+
+  <section>
+    <h2>Prompt chính gửi Codex</h2>
+    <p class="muted" style="margin:0">Dán nguyên khối cho Codex (đã liên kết repo). Codex làm từng lô theo bảng trên, dừng ở bản xem trước, chờ bạn trả lời từ khóa duyệt của lô.</p>
+    <div class="prompt">
+      <div class="promptbar"><span class="mono muted">docs/prompts/ART_MASTER.md · mục 1</span><button class="copy" id="copyMaster" type="button">Chép prompt</button></div>
+      <pre id="master"></pre>
+    </div>
+  </section>
+
+  <section>
+    <h2>Ảnh tham chiếu nhân vật và quái</h2>
+    <p class="muted" style="margin:0">Mỗi prompt ô truyện đã ghi ảnh nào cần đính kèm. Kẻ Đeo Mặt Nạ dùng bảng thiết kế v1.</p>
+    <div class="refs" id="refs"></div>
+  </section>
+
+  <section>
+    <div style="display:flex;justify-content:space-between;align-items:end;gap:12px;flex-wrap:wrap">
+      <h2>Ô truyện theo clip</h2>
+      <div class="filters" role="group" aria-label="Lọc ô truyện">
+        <button class="fbtn" data-f="all" aria-pressed="true" type="button">Tất cả</button>
+        <button class="fbtn" data-f="todo" aria-pressed="false" type="button">Chưa vẽ</button>
+        <button class="fbtn" data-f="done" aria-pressed="false" type="button">Đã có</button>
+      </div>
+    </div>
+    <div id="clips" style="display:flex;flex-direction:column;gap:36px"></div>
+  </section>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+const D = /*__DATA__*/null;
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const pct = (a, b) => b ? Math.round(a * 100 / b) : 0;
+$("#built").textContent = D.built;
+$("#bigcount").innerHTML = `${D.panels_done}<small> / ${D.panels_total} ô</small>`;
+$("#bigbar").style.width = pct(D.panels_done, D.panels_total) + "%";
+$("#clipchips").innerHTML = D.clips.map(c => { const d = c.items.filter(i => i.done).length;
+  return `<span class="chip ${d === c.items.length ? "ok" : d ? "ember" : ""}">${esc(c.label)} ${d}/${c.items.length}</span>`; }).join("");
+$("#chapters").innerHTML = D.chapters.map(c => `<tr class="${c.num === 2 ? "cur" : ""}"><td>${c.num}</td><td>${esc(c.title)}</td>
+  <td>${c.built}/${c.stages}</td><td>${c.clips ? c.clips + " ải có clip" : "—"}</td><td>${(c.map ? "✅" : "⬜") + " / " + (c.card ? "✅" : "⬜")}</td></tr>`).join("");
+const firstOpen = D.lots.findIndex(l => l.done < l.total);
+$("#lots").innerHTML = D.lots.map((l, i) => `<div class="lot ${l.done >= l.total ? "done" : i === firstOpen ? "next" : ""}">
+  <div class="n">${esc(l.n)}</div>
+  <div><div class="t">${esc(l.what)}</div><div class="k">${esc(l.why)} · duyệt: <span class="mono">${esc(l.key)}</span></div></div>
+  <div class="p">${l.done}/${l.total}${i === firstOpen ? " · làm tiếp" : ""}<div class="bar ${l.done >= l.total ? "ok" : ""}"><i style="width:${pct(l.done, l.total)}%"></i></div></div></div>`).join("");
+$("#master").textContent = D.master;
+$("#refs").innerHTML = D.refs.map(r => `<div class="ref">${r.thumb ? `<img src="${r.thumb}" alt="${esc(r.name)}">` : ""}
+  <strong>${esc(r.name)}</strong><span class="mono">${esc(r.file)}</span></div>`).join("");
+
+let filter = "all";
+try { filter = localStorage.getItem("story-filter") || "all"; } catch (e) {}
+function card(it) {
+  const lines = it.lines.length ? `<ul class="lines">${it.lines.map(([s, t]) => `<li><b>${esc(s === "unknown" ? "???" : s)}:</b> ${esc(t)}</li>`).join("")}</ul>` : "";
+  const refs = it.refs.length ? `<div class="reflist"><span class="eyebrow">Đính kèm</span>${it.refs.map(r => `<span class="mono">${esc(r)}</span>`).join("")}</div>` : "";
+  return `<article class="card ${it.done ? "done" : ""}" data-done="${it.done}">
+    <div class="img">${it.thumb ? `<img src="${it.thumb}" alt="${esc(it.id)}" loading="lazy">` : ""}</div>
+    <div class="body">
+      <div class="top"><span class="mono">${esc(it.id)} · trang ${it.page}</span><span class="chip ${it.done ? "ok" : ""}">${it.done ? "Đã có" : "Chưa vẽ"}</span></div>
+      <p class="desc">${esc(it.desc)}</p>${lines}${refs}
+      <div class="mono muted">${it.w}×${it.h} px (2×: ${it.w * 2}×${it.h * 2}) → ${esc(it.file)}</div>
+      <div class="actions"><button class="copy ghost" type="button" data-copy="${esc(it.id)}">Chép prompt ô này</button></div>
+      <details><summary>Xem prompt ảnh</summary><pre>${esc(it.prompt)}</pre></details>
+    </div></article>`;
+}
+$("#clips").innerHTML = D.clips.map(c => { const d = c.items.filter(i => i.done).length;
+  return `<div class="clip"><div class="cliphead"><div><div class="eyebrow">${esc(c.when)} · <span class="mono">${esc(c.id)}</span></div>
+    <h3>${esc(c.label)}</h3><p class="muted">${esc(c.summary)}</p></div><span class="chip ${d === c.items.length ? "ok" : d ? "ember" : ""}">${d}/${c.items.length} ô</span></div>
+    <div class="cards">${c.items.map(card).join("")}</div></div>`; }).join("");
+function applyFilter() {
+  document.querySelectorAll(".fbtn").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.f === filter)));
+  document.querySelectorAll(".card").forEach(el => { const d = el.dataset.done === "true"; el.hidden = (filter === "todo" && d) || (filter === "done" && !d); });
+  try { localStorage.setItem("story-filter", filter); } catch (e) {}
+}
+document.querySelectorAll(".fbtn").forEach(b => b.addEventListener("click", () => { filter = b.dataset.f; applyFilter(); }));
+applyFilter();
+const prompts = Object.fromEntries(D.clips.flatMap(c => c.items.map(i => [i.id, i.prompt])));
+let tt;
+function toast(t) { const el = $("#toast"); el.textContent = t; el.classList.add("on"); clearTimeout(tt); tt = setTimeout(() => el.classList.remove("on"), 1600); }
+async function copy(text, label, fallbackEl) {
+  try { await navigator.clipboard.writeText(text); toast("Đã chép " + label); }
+  catch (e) { if (fallbackEl) { const r = document.createRange(); r.selectNodeContents(fallbackEl); const s = getSelection(); s.removeAllRanges(); s.addRange(r); } toast("Không chép được tự động — đã bôi đen, bấm Ctrl+C"); }
+}
+$("#copyMaster").addEventListener("click", () => copy(D.master, "prompt chính", $("#master")));
+document.addEventListener("click", e => { const b = e.target.closest("[data-copy]"); if (!b) return;
+  const det = b.closest(".body").querySelector("details"); det.open = true; copy(prompts[b.dataset.copy], b.dataset.copy, det.querySelector("pre")); });
+</script>

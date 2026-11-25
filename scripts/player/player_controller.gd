@@ -1,0 +1,582 @@
+class_name PlayerController
+extends CharacterBody2D
+## Điều khiển nhân vật trên sân: vật lý di chuyển + state machine + chiến đấu + animation.
+## Gốc node là chân nhân vật (pivot đáy giữa, README 2.2).
+## Thông số di chuyển, chỉ số, kỹ năng lấy từ CharacterDef (data/characters/{id}.tres).
+
+signal state_changed(from: StringName, to: StringName)
+signal jumped
+signal landed
+## Né hoàn hảo (mục 0): đòn tới trong cửa sổ đầu của khung bất tử khi né.
+signal perfect_dodged(hit: HitInfo)
+## HP về 0.
+signal player_died
+## Kit báo sự kiện riêng của nhân vật cho PartyManager (giảm SI-CD, SwitchInDef.REDUCE_*).
+signal kit_event(trigger: String)
+
+const DEFAULT_CONFIG := preload("res://data/config/movement_default.tres")
+const CHARACTER_DATA := "res://data/characters/%s.tres"
+
+## Màu tạm tô lên placeholder theo nguyên tố (token vòng Liên kết, README 17.5).
+## Chỉ dùng khi nhân vật chưa có hình thật.
+const PLACEHOLDER_TINT := {
+	"fire": Color("#FF6A3D"), "wind": Color("#3DDBB5"), "lightning": Color("#FFD93D"),
+	"light": Color("#FFF2B8"), "dark": Color("#A855F7"), "earth": Color("#D99A3E"),
+}
+
+@export var character_id := "char_fire_01"
+@export var config: MovementConfig = DEFAULT_CONFIG
+## Tắt để test tự cấp input qua `intent` và tự gọi `step()`.
+@export var use_player_input := true
+
+var intent := PlayerIntent.new()
+var fsm := StateMachine.new()
+## 1 = phải, -1 = trái.
+var facing := 1
+var character: CharacterDef
+## Kỹ năng state Attack sẽ chạy (rỗng = đòn thường kế tiếp).
+var pending_skill := ""
+## Kỹ năng vừa bị từ chối; state Attack trả về ngay.
+var skill_failed := false
+## Đang nạp đòn giữ (đi chậm).
+var charging := false
+## Đang lao xuống (đáp đất): miễn đẩy lùi (M3-6).
+var plunging := false
+## State ghi đè vận tốc (lao xuống).
+var velocity_override_active := false
+var velocity_override := Vector2.ZERO
+## Số đòn trên không đã ra trong lần nhảy này (tối đa 2).
+var air_attacks_used := 0
+## Logic riêng của nhân vật (CharacterDef.kit_script), có thể null.
+var kit: Node
+## Chỉ số thay cho chỉ số gốc của CharacterDef (cấp + trang bị, do PartyManager gán trước khi vào cây).
+var stats_override: CombatStats
+## Cấp kỹ năng theo SkillDef.key (từ hồ sơ người chơi); thiếu key = cấp 1.
+var skill_levels: Dictionary = {}
+## Hiệu ứng trang bị đã gom (PartyManager gán trước khi vào cây); null = không có.
+var loadout: EquipmentResolver.Loadout
+## Hiệu ứng trang bị theo sự kiện (null nếu không có loadout).
+var equip_triggers: EquipTriggers
+## Combatant của cả đội (PartyManager gán sau khi tạo đủ thành viên); rỗng = chỉ mình nhân vật này.
+var team_combatants: Array[Combatant] = []
+## Còn bấy nhiêu giây không dùng được đòn thường (SkillDef.blocks_normal_ms, vd Raikiba ném đao).
+var normal_lock_sec := 0.0
+## Phát animation bắt vũ khí (SkillDef.catch_animation) sau bấy nhiêu giây; < 0 = không chờ.
+var catch_left_sec := -1.0
+
+var _catch_anim := &""
+## Animation chen ngang state hiện tại (bắt đao); hết thì quay lại animation của state.
+var _overlay_anim := &""
+
+var _perfect_dodge_icd := 0.0
+var _knock_v := 0.0
+var _knock_t := 0.0
+var _hurt_flash := 0.0
+var _base_modulate := Color.WHITE
+
+var _coyote_left := 0.0
+var _jumped_this_tick := false
+
+@onready var sprite: AnimatedSprite2D = $Sprite
+@onready var combatant: Combatant = $Combatant
+@onready var runner: SkillRunner = $Skills
+@onready var hurtbox: Hurtbox = $Hurtbox
+
+
+func _ready() -> void:
+	_load_character()
+	if config == null:
+		config = DEFAULT_CONFIG
+	_setup_sprite()
+	sprite.animation_finished.connect(_on_sprite_animation_finished)
+	combatant.setup()
+	combatant.equip = loadout
+	var skills: Dictionary = character.load_skills() if character else {}
+	if loadout:
+		skills = EquipmentResolver.apply_to_skills(skills, loadout)
+	runner.setup(self, combatant, skills, hurtbox)
+	if loadout:
+		combatant.cooldowns.set_floor(&"weapon", loadout.rules.cd_floor_ratio)
+	runner.skill_started.connect(_on_skill_started)
+	runner.level_provider = func(s: SkillDef) -> int: return int(skill_levels.get(s.key, 1))
+	var hold: SkillDef = runner.skills.get("hold_1")
+	if hold and hold.charge_start_ms > 0.0:
+		intent.hold_threshold = hold.charge_start_ms / 1000.0
+	hurtbox.hit_evaded.connect(_on_hit_evaded)
+	combatant.damaged.connect(_on_damaged)
+	combatant.resources.died.connect(_on_died)
+	add_to_group(EnemyController.PLAYER_GROUP)
+	if character and character.kit_script:
+		kit = character.kit_script.new()
+		kit.name = "Kit"
+		add_child(kit)
+		kit.attach(self, EquipmentResolver.apply_to_kit_config(character.kit_config, loadout) if loadout else character.kit_config)
+	if loadout:
+		for param: String in loadout.params:
+			if param.begins_with("self_status_dur_pct:"):
+				combatant.statuses.incoming_duration_scale[param.get_slice(":", 1)] = float(loadout.params[param])
+		equip_triggers = EquipTriggers.new()
+		equip_triggers.attach(self, loadout)
+	var dust := FootDust.new()   # bụi dưới chân khi chạy (chỉ hình ảnh)
+	add_child(dust)
+	dust.attach(self)
+	MovementStates.register(fsm, self)
+	CombatStates.register(fsm, self)
+	fsm.state_changed.connect(_on_state_changed)
+	fsm.start(MovementStates.FALL)
+	_play(MovementStates.FALL)
+
+
+func _load_character() -> void:
+	var path := CHARACTER_DATA % character_id
+	if not ResourceLoader.exists(path):
+		push_warning("PlayerController: không có %s" % path)
+		return
+	character = load(path)
+	if character.movement:
+		config = character.movement
+	if stats_override:
+		combatant.stats = stats_override
+	elif character.stats:
+		combatant.stats = character.stats
+
+
+func _physics_process(delta: float) -> void:
+	if use_player_input:
+		intent.read_from_input(config.jump_buffer_time)
+	step(delta)
+
+
+## Một tick vật lý. Tách riêng để test gọi với delta cố định.
+func step(delta: float) -> void:
+	_jumped_this_tick = false
+	var was_on_floor := is_on_floor()
+
+	combatant.tick(delta)
+	if kit:
+		kit.tick(delta)
+	if equip_triggers:
+		equip_triggers.tick(delta)
+	_perfect_dodge_icd = maxf(_perfect_dodge_icd - delta, 0.0)
+	normal_lock_sec = maxf(normal_lock_sec - delta, 0.0)
+	_tick_catch(delta)
+	fsm.physics_update(delta)
+	runner.advance(delta * attack_speed_factor())
+	_apply_horizontal(delta)
+	if velocity_override_active:
+		velocity = velocity_override
+		move_and_slide()
+	elif runner.suspends_gravity():
+		velocity.y = runner.velocity_y()
+		move_and_slide()
+	else:
+		# Chia trọng lực hai nửa quanh bước di chuyển (tích phân điểm giữa): đỉnh nhảy đúng
+		# jump_height ở mọi tốc độ khung hình, thay vì thấp hơn ~v·dt/2.
+		_apply_gravity(delta * 0.5)
+		move_and_slide()
+		_apply_gravity(delta * 0.5)
+
+	# Coyote: rời mặt đất mà không phải do nhảy thì còn được nhảy trong coyote_time.
+	if was_on_floor and not is_on_floor() and not _jumped_this_tick:
+		_coyote_left = config.coyote_time
+	elif is_on_floor():
+		_coyote_left = 0.0
+	else:
+		_coyote_left = maxf(0.0, _coyote_left - delta)
+	if is_on_floor() and not runner.is_running():
+		air_attacks_used = 0
+
+	intent.tick(delta)
+	_update_facing()
+	_hurt_flash = maxf(_hurt_flash - delta, 0.0)
+	if sprite:
+		sprite.modulate = Color(2.2, 2.2, 2.2) if _hurt_flash > 0.0 else _base_modulate
+
+
+func start_jump() -> void:
+	velocity.y = -config.jump_velocity()
+	intent.consume_jump()
+	_coyote_left = 0.0
+	_jumped_this_tick = true
+	jumped.emit()
+
+
+func can_coyote_jump() -> bool:
+	return _coyote_left > 0.0
+
+
+func current_state() -> StringName:
+	return fsm.current_name
+
+
+# ---------- Chiến đấu ----------
+
+## State di chuyển gọi đầu tiên: có cần chuyển sang né / đánh không.
+## Nút kỹ năng → khóa kỹ năng (ưu tiên từ trên xuống).
+const SKILL_BUTTONS := [[PlayerIntent.ULTIMATE, "ultimate"], [PlayerIntent.WEAPON, "weapon"],
+		[PlayerIntent.SKILL, "skill"]]
+
+
+func combat_transition() -> StringName:
+	if intent.has(PlayerIntent.DODGE) and can_dodge():
+		return CombatStates.DODGE
+	for pair in SKILL_BUTTONS:
+		if intent.has(pair[0]) and runner.has_skill(pair[1]):
+			intent.consume(pair[0])
+			var reason := runner.check(pair[1])
+			if reason == "":
+				pending_skill = pair[1]
+				return CombatStates.ATTACK
+			runner.skill_rejected.emit(pair[1], reason)
+	if is_on_floor():
+		if normal_lock_sec > 0.0:
+			return &""
+		if intent.is_holding_attack() and runner.has_skill("hold_1") and runner.check("hold_1") == "":
+			return CombatStates.CHARGE
+		if intent.has(PlayerIntent.ATTACK) and runner.has_skill(SkillRunner.NORMAL_FIRST):
+			intent.consume(PlayerIntent.ATTACK)
+			pending_skill = ""
+			return CombatStates.ATTACK
+	elif intent.has(PlayerIntent.ATTACK) and normal_lock_sec <= 0.0:
+		var k := air_action()
+		if k != "":
+			intent.consume(PlayerIntent.ATTACK)
+			if k == "landing":
+				return CombatStates.PLUNGE
+			pending_skill = k
+			return CombatStates.ATTACK
+	return &""
+
+
+## Bấm đánh khi đang ở trên không: đáp đất (đã có ≥ 1 đòn trên không, đang rơi, đủ cao),
+## không thì đòn trên không kế tiếp (tối đa 2 mỗi lần nhảy).
+func air_action() -> String:
+	var landing: SkillDef = runner.skills.get("landing")
+	if landing and air_attacks_used >= 1 and velocity.y > 0.0 \
+			and height_above_ground() >= landing.min_height_px and runner.check("landing") == "":
+		return "landing"
+	# Số đòn trên không mỗi lần nhảy = số kỹ năng air_N (Enkiba, Kazeyumi 2; Raikiba 3).
+	var next := "air_%d" % (air_attacks_used + 1)
+	if runner.has_skill(next) and runner.check(next) == "":
+		return next
+	return ""
+
+
+## Khoảng cách từ chân xuống mặt đất bên dưới (px); không có đất thì rất lớn.
+func height_above_ground() -> float:
+	var space := get_world_2d().direct_space_state
+	var q := PhysicsRayQueryParameters2D.create(global_position, global_position + Vector2(0, 4000),
+			PhysicsLayers.bit(PhysicsLayers.WORLD), [get_rid()])
+	var hit := space.intersect_ray(q)
+	return 100000.0 if hit.is_empty() else (hit["position"] as Vector2).y - global_position.y
+
+
+## Đòn kết khi nhả đòn giữ kéo dài: kit quyết định nếu có (Iwagane: đã chặn đòn hay chưa), không thì release_skill.
+func release_skill_for(s: SkillDef) -> String:
+	if kit and kit.has_method("release_skill_for"):
+		return kit.release_skill_for(s)
+	return s.release_skill
+
+
+## Đòn giữ `fire_on_charge` đã đủ thời gian nạp khi vẫn đang giữ (ms); không có = "".
+func auto_hold_skill_for(held_ms: float) -> String:
+	for k: String in runner.skills:
+		var s: SkillDef = runner.skills[k]
+		if s.key == "hold" and s.fire_on_charge and s.charge_level_ms <= held_ms:
+			return k
+	return ""
+
+
+## Đòn giữ ứng với thời gian đã giữ (ms): cấp cao nhất đạt được; chưa đạt cấp nào = "" (đòn thường).
+func hold_skill_for(held_ms: float) -> String:
+	var best := ""
+	var best_level := -1.0
+	for k: String in runner.skills:
+		var s: SkillDef = runner.skills[k]
+		if s.key == "hold" and s.charge_level_ms <= held_ms and s.charge_level_ms > best_level:
+			best = k
+			best_level = s.charge_level_ms
+	return best
+
+
+func can_dodge() -> bool:
+	return runner.has_skill("dodge") and combatant.resources.dodge_charges > 0 \
+			and runner.check("dodge") == ""
+
+
+## Hướng cho hành động mới: theo nút hướng đang giữ, không thì hướng đang nhìn.
+func facing_for_action() -> int:
+	if intent.move_x > MovementStates.MOVE_EPSILON:
+		facing = 1
+	elif intent.move_x < -MovementStates.MOVE_EPSILON:
+		facing = -1
+	return facing
+
+
+func idle_or_air_state() -> StringName:
+	if not is_on_floor():
+		return MovementStates.FALL
+	if absf(intent.move_x) > MovementStates.MOVE_EPSILON:
+		return MovementStates.RUN
+	return MovementStates.IDLE
+
+
+# ---------- Vật lý ----------
+
+func _apply_horizontal(delta: float) -> void:
+	if _knock_t > 0.0:
+		_knock_t -= delta
+		velocity.x = _knock_v
+		return
+	if fsm.current_name in [CombatStates.HURT, CombatStates.DOWN]:
+		velocity.x = move_toward(velocity.x, 0.0, config.ground_decel * delta)
+		return
+	if runner.is_running():
+		var mult := runner.current.move_while_active
+		if mult > 0.0 and not combatant.statuses.blocks_movement():
+			# Đòn giữ kéo dài cho đi chậm (cầu nguyện, xoay hái, chắn).
+			velocity.x = move_toward(velocity.x, intent.move_x * config.run_speed * mult, config.ground_accel * delta)
+		elif not runner.keeps_momentum():
+			velocity.x = runner.velocity_x()
+		return
+	var st := combatant.statuses
+	var equip_speed := loadout.stat("move_speed") if loadout else 0.0
+	var speed := config.run_speed * maxf(1.0 + st.move_speed_up() + equip_speed - st.move_slow(), 0.0)
+	if charging:
+		var hold: SkillDef = runner.skills.get("hold_1")
+		speed *= 1.0 - (hold.charge_move_slow if hold else 0.0)
+	if combatant.statuses.blocks_movement():
+		speed = 0.0
+	var target := intent.move_x * speed
+	var on_floor := is_on_floor()
+	var speeding_up := absf(target) > 0.0 and (signf(target) == signf(velocity.x) or is_zero_approx(velocity.x))
+	var rate: float
+	if on_floor:
+		rate = config.ground_accel if speeding_up else config.ground_decel
+	else:
+		rate = config.air_accel if speeding_up else config.air_decel
+	velocity.x = move_toward(velocity.x, target, rate * delta)
+
+
+func _apply_gravity(delta: float) -> void:
+	if is_on_floor() and velocity.y >= 0.0:
+		return
+	var g := config.rise_gravity() if velocity.y < 0.0 else config.fall_gravity()
+	velocity.y = minf(velocity.y + g * delta, config.max_fall_speed)
+
+
+func _update_facing() -> void:
+	# Hướng khóa trong lúc ra đòn (SkillRunner giữ hướng lúc bắt đầu).
+	if not runner.is_running():
+		if intent.move_x > MovementStates.MOVE_EPSILON:
+			facing = 1
+		elif intent.move_x < -MovementStates.MOVE_EPSILON:
+			facing = -1
+	else:
+		facing = runner.facing
+	if sprite:
+		sprite.flip_h = facing < 0
+
+
+func _setup_sprite() -> void:
+	var result := AnimationSetBuilder.build_for_character(character_id)
+	for e in result.errors:
+		push_warning("PlayerController %s: %s" % [character_id, e])
+	sprite.sprite_frames = result.sprite_frames
+	sprite.centered = true
+	sprite.offset = result.sprite_offset
+	var element := str(result.manifest.get("element", ""))
+	var all_placeholder := result.placeholder_animations.size() == result.sprite_frames.get_animation_names().size()
+	sprite.modulate = PLACEHOLDER_TINT.get(element, Color.WHITE) if all_placeholder else Color.WHITE
+	_base_modulate = sprite.modulate
+
+
+## Trúng đòn: khựng + đẩy lùi, trừ khi kỹ năng đang chạy có kháng khựng hoặc đang lao xuống (miễn đẩy lùi).
+func _on_damaged(_result: DamageCalculator.Result, hit: HitInfo) -> void:
+	_hurt_flash = 0.1
+	if combatant.resources.is_dead():
+		return
+	if plunging or runner.has_super_armor() or combatant.statuses.stagger_immune():
+		return
+	runner.cancel()
+	var t := combatant.rules.knockback_time_sec
+	if hit.knockback_px > 0.0:
+		_knock_v = signf(hit.knockback_dir.x) * hit.knockback_px / t
+		_knock_t = t
+	fsm.transition(CombatStates.HURT)
+	_play(&"hurt")
+
+
+func _on_died() -> void:
+	_knock_t = 0.0
+	fsm.transition(CombatStates.DOWN)
+	_play(&"down")
+	player_died.emit()
+
+
+## Hồi đầy máu và đứng dậy (màn thử nghiệm; hồi sinh trong game thật tắt theo Q6).
+func restore_full() -> void:
+	var r := combatant.resources
+	r.hp = r.max_hp
+	r.hp_changed.emit(r.hp, r.max_hp)
+	for id in combatant.statuses.active_ids():
+		combatant.statuses.remove(id)
+	_knock_t = 0.0
+	velocity = Vector2.ZERO
+
+
+# ---------- Đội (M4-1) ----------
+
+## Đang trong kỹ năng khóa chuyển nhân vật (tuyệt kỹ loại chuỗi đòn).
+func is_switch_locked() -> bool:
+	return runner.is_running() and runner.current != null and runner.current.locks_switch
+
+
+## Rời sân: dừng mọi hành động; PartyManager gỡ node khỏi cây ngay sau đó.
+func leave_field() -> void:
+	runner.cancel()
+	intent.clear()
+	intent.move_x = 0.0
+	intent.attack_held = false
+	intent.jump_held = false
+	charging = false
+	plunging = false
+	normal_lock_sec = 0.0
+	catch_left_sec = -1.0
+	_overlay_anim = &""
+	velocity_override_active = false
+	velocity = Vector2.ZERO
+	_knock_t = 0.0
+	_hurt_flash = 0.0
+	combatant.resources.on_field = false
+
+
+## Vào sân tại `pos` (chân), nhìn theo `dir`. Gọi sau khi node đã vào cây.
+func enter_field(pos: Vector2, dir: int) -> void:
+	global_position = pos
+	facing = dir
+	velocity = Vector2.ZERO
+	_coyote_left = 0.0
+	combatant.resources.on_field = true
+	if combatant.resources.is_dead():
+		fsm.transition(CombatStates.DOWN)
+	else:
+		fsm.transition(MovementStates.FALL)
+	_update_facing()
+
+
+## Kỹ năng chịu tốc độ tấn công (đòn cơ bản); kỹ năng, vũ khí, tuyệt kỹ, né, vào sân thì không.
+const ATTACK_SPEED_KEYS := ["normal", "hold", "air", "landing"]
+
+
+## Hệ số thời gian cho kỹ năng đang chạy (1 + % tốc độ tấn công nếu là đòn cơ bản).
+func attack_speed_factor() -> float:
+	if runner.current != null and runner.current.key in ATTACK_SPEED_KEYS:
+		var from_status := combatant.statuses.attack_speed_up()
+		return 1.0 + (loadout.attack_speed(from_status) if loadout else from_status)
+	return 1.0
+
+
+## Chạy Kĩ năng vào sân `key` (switch_in / switch_in_linked) qua state Attack. Trả về true nếu chạy được.
+func start_switch_in(key: String) -> bool:
+	if not runner.has_skill(key):
+		return false
+	pending_skill = key
+	fsm.transition(CombatStates.ATTACK)
+	return runner.current_key == key
+
+
+## Tick khi ở dự bị (không có node trên sân): tài nguyên, hồi chiêu, trạng thái, kit vẫn chạy (mục 8.1).
+func tick_reserve(delta: float) -> void:
+	combatant.tick(delta)
+	if kit:
+		kit.tick(delta)
+	if equip_triggers:
+		equip_triggers.tick(delta)
+	_perfect_dodge_icd = maxf(_perfect_dodge_icd - delta, 0.0)
+
+
+## Đòn bị né khi đang bất tử: nếu tới trong cửa sổ đầu của cú né → né hoàn hảo (mục 0):
+## kẻ đánh chậm 30% trong 0.6 s, hoàn 1 lượt né, ICD 1.0 s, kit nhận hiệu ứng riêng.
+func _on_hit_evaded(hit: HitInfo) -> void:
+	if runner.current_key != "dodge" or _perfect_dodge_icd > 0.0:
+		return
+	var rules := combatant.rules
+	if runner.elapsed_ms > runner.current.invuln_from_ms + rules.perfect_dodge_window_sec * 1000.0:
+		return
+	_perfect_dodge_icd = rules.perfect_dodge_icd_sec
+	combatant.resources.refund_dodge()
+	var src := Combatant.of(hit.attacker)
+	if src:
+		src.statuses.apply("slow", rules.perfect_dodge_slow_sec, rules.perfect_dodge_enemy_slow, combatant)
+	perfect_dodged.emit(hit)
+
+
+func _on_skill_started(_key: String, s: SkillDef) -> void:
+	_play(StringName(s.animation))
+	if s.blocks_normal_ms > 0.0:
+		normal_lock_sec = s.blocks_normal_ms / 1000.0
+	if s.catch_animation != "":
+		_catch_anim = StringName(s.catch_animation)
+		catch_left_sec = s.catch_at_ms / 1000.0
+	if s.key == "air":
+		air_attacks_used += 1
+	if s.key == "ultimate":
+		var bus := get_tree().root.get_node_or_null("EventBus")
+		if bus:
+			bus.ultimate_started.emit(self, s)
+
+
+## Vũ khí bay về (Raikiba bắt đao): đang đứng yên thì phát animation bắt, không khóa điều khiển.
+func _tick_catch(delta: float) -> void:
+	if catch_left_sec < 0.0:
+		return
+	catch_left_sec -= delta
+	if catch_left_sec > 0.0:
+		return
+	catch_left_sec = -1.0
+	if fsm.current_name == MovementStates.IDLE and not runner.is_running():
+		_overlay_anim = _play(_catch_anim)
+
+
+func _on_sprite_animation_finished() -> void:
+	if _overlay_anim != &"" and sprite.animation == _overlay_anim:
+		_overlay_anim = &""
+		_play(fsm.current_name)
+
+
+func _on_state_changed(from: StringName, to: StringName) -> void:
+	_overlay_anim = &""
+	if to == CombatStates.CHARGE:
+		_play(&"hold_charge")
+	elif to == CombatStates.PLUNGE:
+		_play(&"landing_attack")
+	elif to not in [CombatStates.ATTACK, CombatStates.DODGE]:
+		_play(to)
+	if to == MovementStates.LAND:
+		landed.emit()
+	state_changed.emit(from, to)
+
+
+## Phát animation (hoặc bản gốc nếu biến thể chưa có hình); trả về tên đã phát, rỗng nếu không có.
+func _play(anim: StringName) -> StringName:
+	if not (sprite and sprite.sprite_frames):
+		return &""
+	var name := animation_or_fallback(sprite.sprite_frames, anim)
+	if name != &"":
+		sprite.play(name)
+	return name
+
+
+## Animation biến thể chưa có hình thì dùng bản gốc: "air_2" → "air_1", "hold_release_2" → "hold_release".
+static func animation_or_fallback(frames: SpriteFrames, anim: StringName) -> StringName:
+	if frames.has_animation(anim):
+		return anim
+	var s := String(anim)
+	var cut := s.rfind("_")
+	if cut > 0 and s.substr(cut + 1).is_valid_int():
+		var base := s.substr(0, cut)
+		for alt in [base + "_1", base]:
+			if alt != s and frames.has_animation(StringName(alt)):
+				return StringName(alt)
+	return &""

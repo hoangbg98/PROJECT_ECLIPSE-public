@@ -1,0 +1,167 @@
+"""Sinh dữ liệu khởi điểm cho M5-2 / M5-3: luật tăng trưởng, nguyên liệu, trang bị + khóa dịch.
+Chạy: python -X utf8 tools/gen_item_data.py   (ghi đè data/config/progression.tres, data/items/*.tres, data/equipment/*.tres)
+Mọi số là giá trị Claude đặt làm khởi điểm (README chưa có); owner chỉnh trong file .tres.
+"""
+import io
+import os
+
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+SRC = "Số khởi điểm do Claude đặt (README chưa có); owner chỉnh."
+
+
+def write(rel, script, cls, fields):
+    p = os.path.join(ROOT, rel)
+    os.makedirs(os.path.dirname(p), exist_ok=True)
+    lines = ['[gd_resource type="Resource" script_class="%s" load_steps=2 format=3]' % cls, "",
+             '[ext_resource type="Script" path="res://scripts/progression/%s" id="1"]' % script, "",
+             "[resource]", 'script = ExtResource("1")']
+    for k, v in fields:
+        if isinstance(v, bool):
+            v = "true" if v else "false"
+        elif isinstance(v, str) and not v.startswith("Packed") and not v.startswith("{"):
+            v = '"%s"' % v
+        lines.append("%s = %s" % (k, v))
+    lines.append('metadata/source = "%s"' % SRC)
+    io.open(p, "w", encoding="utf-8", newline="\n").write("\n".join(lines) + "\n")
+
+
+write("data/config/progression.tres", "progression_rules.gd", "ProgressionRules", [
+    ("max_level", 50), ("exp_base", 100.0), ("exp_exponent", 1.5),
+    ("hp_growth_per_level", 0.06), ("atk_growth_per_level", 0.06), ("def_growth_per_level", 0.05),
+    ("gold_per_exp", 0.2), ("skill_max_level", 10), ("skill_upgrade_gold_base", 500),
+    ("captain_max_level", 50), ("captain_exp_base", 50.0), ("promotion_fragments", "PackedInt32Array(10, 20, 25)"),
+    ("promotion_stat_bonus", 0.05),
+    # Bậc cường hóa (owner 2026-11-15): vũ khí 3★ 15-20-25, 4★ 25-30-35, 5★ 25-40-45-50; vết thánh 30-40-50.
+    # Giá mỗi bước nâng bậc do Claude đặt.
+    ("weapon_level_caps", '{"3": PackedInt32Array(15, 20, 25), "4": PackedInt32Array(25, 30, 35), '
+                          '"5": PackedInt32Array(25, 40, 45, 50)}'),
+    ("stigma_level_caps", "PackedInt32Array(30, 40, 50)"),
+    ("ascend_material", "mat_weapon_ascend"), ("ascend_material_count", "PackedInt32Array(2, 4, 6)"),
+    ("ascend_gold", "PackedInt32Array(5000, 10000, 20000)"),
+    # Phụ tố vết thánh (owner 2026-11-15; số Claude đặt): số dòng, hệ số giá trị, giá tẩy theo 1★..5★.
+    ("affix_count", "PackedInt32Array(1, 1, 1, 2, 2)"),
+    ("affix_value_scale", "PackedFloat32Array(0.4, 0.5, 0.6, 0.8, 1.0)"),
+    ("affix_reroll_material", "mat_affix_reroll"), ("affix_reroll_cost", "PackedInt32Array(1, 1, 1, 1, 2)")])
+
+EXP, ENHANCE, MISC = 0, 1, 2
+ITEMS = [  # id, kind, value, rarity, vi, en
+    ("mat_exp_small", EXP, 100, 1, "Sách kinh nghiệm nhỏ", "Small EXP Book"),
+    ("mat_exp_medium", EXP, 500, 2, "Sách kinh nghiệm vừa", "Medium EXP Book"),
+    ("mat_exp_large", EXP, 2000, 3, "Sách kinh nghiệm lớn", "Large EXP Book"),
+    ("mat_enhance_ore", ENHANCE, 50, 1, "Quặng cường hóa", "Enhancement Ore"),
+    ("mat_enhance_crystal", ENHANCE, 250, 3, "Tinh thể cường hóa", "Enhancement Crystal"),
+    ("mat_weapon_ascend", MISC, 0, 4, "Tinh thể nâng bậc", "Ascension Crystal"),
+    ("mat_affix_reroll", MISC, 0, 4, "Đá tẩy phụ tố", "Affix Reroll Stone"),
+]
+for iid, kind, value, rarity, vi, en in ITEMS:
+    write("data/items/%s.tres" % iid, "item_def.gd", "ItemDef",
+          [("id", iid), ("name_key", "ITEM_" + iid.upper()), ("kind", kind), ("value", value), ("rarity", rarity)])
+
+# Trang bị (owner, 2026-11-12): mỗi nhân vật mang 1 vũ khí + 3 vết thánh theo thứ tự Đầu / Thân / Chân.
+# Độ hiếm 3★ / 4★ (khớp tiếp tế vũ khí). `cost` là hệ số giá cường hóa giữ từ thiết kế trước (200 vàng, 100 điểm × cost).
+WEAPON_TYPE = {"eq_weapon_iron": "sword", "eq_weapon_flame": "sword", "eq_weapon_bow_gale": "bow",
+               "eq_weapon_blades_spark": "dual_blades", "eq_weapon_greatsword_magma": "greatsword",
+               # Bộ 4★ cho từng loại vũ khí (owner 2026-11-15): kiếm, đại kiếm đã có; thêm cung, song đao, trượng, lưỡi hái.
+               "eq_weapon_bow_whirlwind": "bow", "eq_weapon_blades_thunderclap": "dual_blades",
+               "eq_weapon_staff_dawnlight": "staff", "eq_weapon_scythe_nightshade": "scythe",
+               # Vũ khí 3★ cho 3 loại còn thiếu (owner 2026-11-15).
+               "eq_weapon_greatsword_stone": "greatsword", "eq_weapon_staff_oak": "staff", "eq_weapon_scythe_iron": "scythe"}
+EQUIP = [  # id, slot, rarity, cost, atk, hp, def, crit_rate, crit_dmg, cdr, vi, en
+    ("eq_weapon_iron", "weapon", 3, 1, 80.0, 0.0, 0.0, 0.0, 0.0, 0.0, "Lõi vũ khí sắt", "Iron Weapon Core"),
+    ("eq_weapon_flame", "weapon", 4, 3, 160.0, 0.0, 0.0, 0.05, 0.0, 0.0, "Lõi vũ khí hỏa tinh", "Flame Weapon Core"),
+    ("eq_weapon_bow_gale", "weapon", 3, 1, 75.0, 0.0, 0.0, 0.0, 0.0, 0.0, "Cung gió lốc", "Gale Bow"),
+    ("eq_weapon_blades_spark", "weapon", 3, 1, 78.0, 0.0, 0.0, 0.0, 0.0, 0.0, "Song đao tia lửa", "Spark Blades"),
+    # Owner 2026-11-15: mỗi loại vũ khí có vũ khí 3★ (thêm Đại kiếm, Trượng, Lưỡi hái). Số tạm cùng khoảng ATK 75–82.
+    ("eq_weapon_greatsword_stone", "weapon", 3, 1, 82.0, 0.0, 0.0, 0.0, 0.0, 0.0, "Đại kiếm đá thô", "Rough Stone Greatsword"),
+    ("eq_weapon_staff_oak", "weapon", 3, 1, 70.0, 300.0, 0.0, 0.0, 0.0, 0.0, "Trượng gỗ sồi", "Oak Staff"),
+    ("eq_weapon_scythe_iron", "weapon", 3, 1, 80.0, 0.0, 0.0, 0.0, 0.0, 0.0, "Lưỡi hái sắt đen", "Black Iron Scythe"),
+    ("eq_stigma_top_elite", "stigma_top", 3, 2, 30.0, 0.0, 0.0, 0.04, 0.10, 0.0, "Ấn Tinh Anh (Đầu)", "Elite Sigil (Top)"),
+    ("eq_stigma_mid_hide", "stigma_mid", 3, 1, 0.0, 900.0, 40.0, 0.0, 0.0, 0.0, "Ấn Da Thú (Thân)", "Hide Sigil (Middle)"),
+    ("eq_stigma_mid_guardian", "stigma_mid", 4, 3, 0.0, 1800.0, 90.0, 0.0, 0.0, 0.0, "Ấn Hộ Vệ (Thân)", "Guardian Sigil (Middle)"),
+    ("eq_stigma_bot_hourglass", "stigma_bot", 4, 3, 0.0, 400.0, 0.0, 0.0, 0.0, 0.08, "Ấn Đồng Hồ Cát (Chân)", "Hourglass Sigil (Bottom)"),
+    # Bộ vết thánh 4★ đề cử cho Aether (banner tiếp tế, owner 2026-11-13) + vết thánh Chân 3★ cho đủ 3 ô ở bậc 3★.
+    ("eq_stigma_top_blaze", "stigma_top", 4, 3, 60.0, 0.0, 0.0, 0.06, 0.0, 0.0, "Ấn Viêm Hoàng (Đầu)", "Blaze Sovereign Sigil (Top)"),
+    ("eq_stigma_mid_blaze", "stigma_mid", 4, 3, 40.0, 1500.0, 0.0, 0.0, 0.0, 0.0, "Ấn Viêm Hoàng (Thân)", "Blaze Sovereign Sigil (Middle)"),
+    ("eq_stigma_bot_blaze", "stigma_bot", 4, 3, 50.0, 0.0, 0.0, 0.0, 0.0, 0.06, "Ấn Viêm Hoàng (Chân)", "Blaze Sovereign Sigil (Bottom)"),
+    ("eq_stigma_bot_sandal", "stigma_bot", 3, 1, 0.0, 500.0, 30.0, 0.0, 0.0, 0.0, "Ấn Dép Cỏ (Chân)", "Straw Sandal Sigil (Bottom)"),
+    # Đồ 4★ đề cử cho Iwagane (banner đầu tiên, owner 2026-11-13). Số tạm.
+    ("eq_weapon_greatsword_magma", "weapon", 4, 3, 170.0, 0.0, 0.0, 0.0, 0.10, 0.0, "Đại kiếm Dung Nham", "Magma Greatsword"),
+    ("eq_stigma_top_bedrock", "stigma_top", 4, 3, 30.0, 800.0, 0.0, 0.0, 0.0, 0.0, "Ấn Nham Thạch (Đầu)", "Bedrock Sigil (Top)"),
+    ("eq_stigma_mid_bedrock", "stigma_mid", 4, 3, 0.0, 1600.0, 80.0, 0.0, 0.0, 0.0, "Ấn Nham Thạch (Thân)", "Bedrock Sigil (Middle)"),
+    ("eq_stigma_bot_bedrock", "stigma_bot", 4, 3, 40.0, 0.0, 60.0, 0.0, 0.0, 0.05, "Ấn Nham Thạch (Chân)", "Bedrock Sigil (Bottom)"),
+    # Bộ 4★ theo loại vũ khí (owner 2026-11-15): 1 vũ khí + 3 vết thánh. Số tạm Claude đặt (≈ bộ Viêm Hoàng / Nham Thạch).
+    # Cung (Kazeyumi, Phong)
+    ("eq_weapon_bow_whirlwind", "weapon", 4, 3, 155.0, 0.0, 0.0, 0.05, 0.0, 0.0, "Cung Lốc Xoáy", "Whirlwind Bow"),
+    ("eq_stigma_top_whirlwind", "stigma_top", 4, 3, 60.0, 0.0, 0.0, 0.06, 0.0, 0.0, "Ấn Lốc Xoáy (Đầu)", "Whirlwind Sigil (Top)"),
+    ("eq_stigma_mid_whirlwind", "stigma_mid", 4, 3, 40.0, 1500.0, 0.0, 0.0, 0.0, 0.0, "Ấn Lốc Xoáy (Thân)", "Whirlwind Sigil (Middle)"),
+    ("eq_stigma_bot_whirlwind", "stigma_bot", 4, 3, 50.0, 0.0, 0.0, 0.0, 0.0, 0.06, "Ấn Lốc Xoáy (Chân)", "Whirlwind Sigil (Bottom)"),
+    # Song đao (Raikiba, Lôi)
+    ("eq_weapon_blades_thunderclap", "weapon", 4, 3, 160.0, 0.0, 0.0, 0.0, 0.10, 0.0, "Song đao Lôi Đình", "Thunderclap Blades"),
+    ("eq_stigma_top_thunderclap", "stigma_top", 4, 3, 60.0, 0.0, 0.0, 0.06, 0.0, 0.0, "Ấn Lôi Đình (Đầu)", "Thunderclap Sigil (Top)"),
+    ("eq_stigma_mid_thunderclap", "stigma_mid", 4, 3, 40.0, 1500.0, 0.0, 0.0, 0.0, 0.0, "Ấn Lôi Đình (Thân)", "Thunderclap Sigil (Middle)"),
+    ("eq_stigma_bot_thunderclap", "stigma_bot", 4, 3, 50.0, 0.0, 0.0, 0.0, 0.0, 0.06, "Ấn Lôi Đình (Chân)", "Thunderclap Sigil (Bottom)"),
+    # Trượng (Hikarine, Quang — hỗ trợ: thiên HP / DEF như bộ Nham Thạch)
+    ("eq_weapon_staff_dawnlight", "weapon", 4, 3, 140.0, 800.0, 0.0, 0.0, 0.0, 0.0, "Trượng Bình Minh", "Dawnlight Staff"),
+    ("eq_stigma_top_dawnlight", "stigma_top", 4, 3, 30.0, 800.0, 0.0, 0.0, 0.0, 0.0, "Ấn Bình Minh (Đầu)", "Dawnlight Sigil (Top)"),
+    ("eq_stigma_mid_dawnlight", "stigma_mid", 4, 3, 0.0, 1600.0, 80.0, 0.0, 0.0, 0.0, "Ấn Bình Minh (Thân)", "Dawnlight Sigil (Middle)"),
+    ("eq_stigma_bot_dawnlight", "stigma_bot", 4, 3, 40.0, 0.0, 60.0, 0.0, 0.0, 0.05, "Ấn Bình Minh (Chân)", "Dawnlight Sigil (Bottom)"),
+    # Lưỡi hái (Yomigari, Ám)
+    ("eq_weapon_scythe_nightshade", "weapon", 4, 3, 170.0, 0.0, 0.0, 0.04, 0.0, 0.0, "Lưỡi hái Dạ Ảnh", "Nightshade Scythe"),
+    ("eq_stigma_top_nightshade", "stigma_top", 4, 3, 60.0, 0.0, 0.0, 0.06, 0.0, 0.0, "Ấn Dạ Ảnh (Đầu)", "Nightshade Sigil (Top)"),
+    ("eq_stigma_mid_nightshade", "stigma_mid", 4, 3, 40.0, 1500.0, 0.0, 0.0, 0.0, 0.0, "Ấn Dạ Ảnh (Thân)", "Nightshade Sigil (Middle)"),
+    ("eq_stigma_bot_nightshade", "stigma_bot", 4, 3, 50.0, 0.0, 0.0, 0.0, 0.0, 0.06, "Ấn Dạ Ảnh (Chân)", "Nightshade Sigil (Bottom)"),
+]
+# Bộ vết thánh 4★ (hiệu ứng bộ ở data/equipment/sets/, sinh bằng tools/gen_equipment_5star.py).
+SET_ID = {"eq_stigma_%s_%s" % (slot, k): "set_" + k for slot in ("top", "mid", "bot")
+          for k in ("blaze", "bedrock", "whirlwind", "thunderclap", "dawnlight", "nightshade")}
+def growth(slot, rarity):
+    """% chỉ số mỗi cấp: ở cấp tối đa (vũ khí 3★ 25, 4★ 35, 5★ 50; vết thánh 50) gấp ~2.5–3 lần cấp 0."""
+    if slot != "weapon":
+        return 0.04
+    return {3: 0.06, 4: 0.05}.get(rarity, 0.04)
+
+
+for eid, slot, rarity, cost, atk, hp, df, cr, cd, cdr, vi, en in EQUIP:
+    write("data/equipment/%s.tres" % eid, "equipment_def.gd", "EquipmentDef",
+          [("id", eid), ("name_key", "EQUIP_" + eid.upper()), ("slot", slot), ("rarity", rarity),
+           ("weapon_type", WEAPON_TYPE.get(eid, ""))] + ([("set_id", SET_ID[eid])] if eid in SET_ID else []) + [("max_level", 10),
+           ("atk", atk), ("max_hp", hp), ("def", df), ("crit_rate", cr), ("crit_damage", cd), ("cdr", cdr),
+           ("growth_per_level", growth(slot, rarity)), ("enhance_gold_base", 20 * cost),
+           ("enhance_points_base", 10 * cost)])
+
+AFFIXES = [  # id, stat, min, max, weight, vi, en (giá trị ở 5★; độ hiếm thấp nhân affix_value_scale)
+    ("affix_atk", "atk", 20.0, 60.0, 12, "Tấn công", "ATK"),
+    ("affix_hp", "max_hp", 200.0, 600.0, 12, "HP", "HP"),
+    ("affix_def", "def", 15.0, 45.0, 12, "Phòng thủ", "DEF"),
+    ("affix_crit_rate", "crit_rate", 0.02, 0.06, 10, "Tỉ lệ bạo kích", "Crit rate"),
+    ("affix_crit_damage", "crit_damage", 0.04, 0.12, 10, "ST bạo kích", "Crit damage"),
+    ("affix_cdr", "cdr", 0.02, 0.05, 8, "Giảm hồi chiêu", "Cooldown reduction"),
+    ("affix_all_dmg", "all_dmg", 0.02, 0.06, 8, "Tất cả ST", "All damage"),
+    ("affix_elem_dmg", "elem_dmg", 0.03, 0.08, 8, "ST nguyên tố", "Elemental damage"),
+    ("affix_atk_pct", "atk_pct", 0.03, 0.08, 10, "% Tấn công", "ATK %"),
+    ("affix_hp_pct", "hp_pct", 0.03, 0.08, 10, "% HP", "HP %"),
+    ("affix_heal_bonus", "heal_bonus", 0.03, 0.08, 6, "Hiệu quả hồi máu", "Healing bonus"),
+    ("affix_en_regen", "en_regen", 0.03, 0.08, 6, "Tốc độ nạp EN", "EN regen"),
+]
+for aid, stat, lo, hi, w, vi, en in AFFIXES:
+    write("data/equipment/affixes/%s.tres" % aid, "affix_def.gd", "AffixDef",
+          [("id", aid), ("name_key", aid.upper()), ("stat", stat), ("min_value", lo), ("max_value", hi), ("weight", w)])
+
+EXTRA = [("CURRENCY_GOLD", "Vàng", "Gold"), ("CURRENCY_GEMS", "Ngọc", "Gems"),
+         ("SLOT_WEAPON", "Vũ khí", "Weapon"), ("SLOT_STIGMA_TOP", "Vết thánh Đầu", "Stigma (Top)"),
+         ("SLOT_STIGMA_MID", "Vết thánh Thân", "Stigma (Middle)"), ("SLOT_STIGMA_BOT", "Vết thánh Chân", "Stigma (Bottom)"),
+         ("WEAPON_TYPE_SWORD", "Kiếm", "Sword"), ("WEAPON_TYPE_BOW", "Cung", "Bow"),
+         ("WEAPON_TYPE_DUAL_BLADES", "Song đao", "Dual Blades"), ("WEAPON_TYPE_STAFF", "Trượng", "Staff"),
+         ("WEAPON_TYPE_SCYTHE", "Lưỡi hái", "Scythe"), ("WEAPON_TYPE_GREATSWORD", "Đại kiếm", "Greatsword")]
+for po, idx in (("vi.po", 0), ("en.po", 1)):
+    p = os.path.join(ROOT, "localization", po)
+    s = io.open(p, encoding="utf-8").read()
+    add = ""
+    rows = [("ITEM_" + i[0].upper(), i[4], i[5]) for i in ITEMS] + [("EQUIP_" + e[0].upper(), e[10], e[11]) for e in EQUIP] + EXTRA
+    rows += [(a[0].upper(), a[5], a[6]) for a in AFFIXES]
+    for key, vi, en in rows:
+        if 'msgid "%s"' % key not in s:
+            add += '\nmsgid "%s"\nmsgstr "%s"\n' % (key, (vi, en)[idx])
+    if add:
+        io.open(p, "w", encoding="utf-8", newline="\n").write(s.rstrip("\n") + "\n\n# Vật phẩm, trang bị (M5)" + add)
+print("ok")

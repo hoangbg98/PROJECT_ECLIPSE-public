@@ -1,0 +1,12 @@
+{
+	"_huong_dan": "Cấu hình các level Chạy Nguyên Tố sinh bằng máy (RunnerGenerator). Sửa xong chạy: <godot> --headless --path . -s tools/runner/build_levels.gd (level boss cần thêm: -- --force-boss). Công cụ thử seed, seed+1… tới khi bot qua với 0 lần trúng rồi ghi data/runner/levels/<level_id>.json. weights: trọng số khối H, H2, HH, P, L, F, G, GG, GH (docs/design/RUNNER_MODE.md mục 10).",
+	"levels": [
+		{"level_id": "runner_mat_04", "seed": 404, "speed": 900, "length_sec": 90, "slots_used": [0, 1, 2], "gate_gap": 0.7,
+			"overlap": true, "theme": "n4", "bgm": "song_lumen_waltz", "bpm": 132, "boss": null,
+			"weights": {"H": 3, "H2": 1, "HH": 1, "P": 2, "L": 1, "F": 1, "G": 2, "GG": 1, "GH": 3}},
+		{"level_id": "runner_mat_05", "seed": 505, "speed": 1000, "length_sec": 120, "slots_used": [0, 1, 2], "gate_gap": 0.6,
+			"overlap": true, "theme": "boss", "bgm": "song_eclipse_boss", "bpm": 140,
+			"boss": {"id": "vang_khuyet", "throw_x": 1750},
+			"weights": {"H": 3, "H2": 2, "HH": 1, "P": 2, "L": 1, "F": 2, "G": 2, "GG": 2, "GH": 3}}
+	]
+}

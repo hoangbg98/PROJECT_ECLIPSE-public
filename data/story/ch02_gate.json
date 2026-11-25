@@ -1,0 +1,197 @@
+{
+	"_comment": "Sinh bởi tools/story/gen_story_clips_02.py — sửa ở đó rồi chạy lại.",
+	"id": "ch02_gate",
+	"design_size": [
+		1920,
+		1080
+	],
+	"image_dir": "res://assets/story/ch02",
+	"placeholder_dir": "res://assets/placeholders/story",
+	"summary": "STORY_CH02_GATE_SUMMARY",
+	"pages": [
+		{
+			"layout": "G",
+			"panels": [
+				{
+					"image": "ch02_gate_01",
+					"poly": [
+						[
+							40,
+							40
+						],
+						[
+							940,
+							40
+						],
+						[
+							925,
+							404
+						],
+						[
+							40,
+							424
+						]
+					],
+					"enter": "left",
+					"desc": "Cổng xưởng; bóng một người cao lớn ngược sáng, đại kiếm cắm xuống đất chặn lối.",
+					"lines": [
+						{
+							"speaker": "char_earth_01",
+							"text": "STORY_CH02_GATE_01_1"
+						}
+					]
+				},
+				{
+					"image": "ch02_gate_02",
+					"poly": [
+						[
+							964,
+							40
+						],
+						[
+							1880,
+							40
+						],
+						[
+							1880,
+							384
+						],
+						[
+							949,
+							403
+						]
+					],
+					"enter": "up",
+					"desc": "Iwagane nhìn chằm chằm vào túi Raikiba, nơi lộ ra mảnh ấn mã 00.",
+					"lines": [
+						{
+							"speaker": "char_earth_01",
+							"text": "STORY_CH02_GATE_02_1"
+						}
+					]
+				},
+				{
+					"image": "ch02_gate_03",
+					"poly": [
+						[
+							40,
+							448
+						],
+						[
+							924,
+							428
+						],
+						[
+							904,
+							800
+						],
+						[
+							40,
+							800
+						]
+					],
+					"enter": "right",
+					"desc": "Raikiba giơ hai tay, cười gượng.",
+					"lines": [
+						{
+							"speaker": "char_lightning_01",
+							"text": "STORY_CH02_GATE_03_1"
+						}
+					]
+				},
+				{
+					"image": "ch02_gate_04",
+					"poly": [
+						[
+							948,
+							427
+						],
+						[
+							1880,
+							408
+						],
+						[
+							1880,
+							800
+						],
+						[
+							928,
+							800
+						]
+					],
+					"enter": "down",
+					"desc": "Iwagane nhìn qua vai vào xưởng trống: hơn chục hốc lõi trống trong bóng tối.",
+					"lines": [
+						{
+							"speaker": "char_earth_01",
+							"text": "STORY_CH02_GATE_04_1"
+						}
+					]
+				}
+			]
+		},
+		{
+			"layout": "C",
+			"panels": [
+				{
+					"image": "ch02_gate_05",
+					"poly": [
+						[
+							40,
+							40
+						],
+						[
+							1300,
+							40
+						],
+						[
+							900,
+							800
+						],
+						[
+							40,
+							800
+						]
+					],
+					"enter": "left",
+					"desc": "Enkiba bước lên trước, thu kiếm về vai.",
+					"lines": [
+						{
+							"speaker": "char_fire_01",
+							"text": "STORY_CH02_GATE_05_1"
+						}
+					]
+				},
+				{
+					"image": "ch02_gate_06",
+					"poly": [
+						[
+							1324,
+							40
+						],
+						[
+							1880,
+							40
+						],
+						[
+							1880,
+							800
+						],
+						[
+							924,
+							800
+						]
+					],
+					"enter": "up",
+					"desc": "Iwagane nhấc đại kiếm lên, khí thế đè xuống.",
+					"lines": [
+						{
+							"speaker": "char_earth_01",
+							"text": "STORY_CH02_GATE_06_1"
+						}
+					]
+				}
+			]
+		}
+	]
+}

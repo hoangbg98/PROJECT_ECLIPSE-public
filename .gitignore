@@ -1,0 +1,63 @@
+# Godot 4 editor cache and generated imports (regenerated on open)
+.godot/
+
+# Android build template installed by the editor
+/android/
+
+# Export output
+/build/
+/export/
+
+# Signing material: never commit keystores or credentials
+*.keystore
+*.jks
+export_credentials.cfg
+
+# OS / editor noise
+Thumbs.db
+Desktop.ini
+.DS_Store
+*.tmp
+.vscode/
+
+# GdUnit4 test reports
+/reports/
+
+# Frame AI chờ owner duyệt (tools/frames/), không vào git
+/art_review/
+__pycache__/
+
+# Dữ liệu chạy và file đính kèm của Codex trên máy
+/.codex/
+/.codex-attachments/
+
+# Máy chủ thử nghiệm: bản portable, DB, khóa bí mật (server/setup_local.ps1), .env của VPS
+/server/.runtime/
+/server/.env
+
+# Chế độ nhịp điệu (M10): nhạc, bản nốt sinh ra và danh mục dựng bằng tools/rhythm/build_catalog.py (không vào git;
+# bản cố định server/music/fixed/ và songs.json thì có)
+/server/music/*.wav
+/server/music/*.ogg
+/server/music/*.mp3
+/server/music/charts/
+/server/music/catalog.json
+
+# Local Netlify folder
+.netlify
+
+# Thông tin nhận tiền (ngân hàng / số tài khoản) và các file SINH RA từ nó: không công khai, xem docs/PUBLIC_REPO_CHECKLIST.md
+/server/private/
+/tools/web/function_src/catalog.json
+/tools/web/function_src/rules.json
+/tools/web/function_src/module_source.mjs
+/netlify_site/netlify/functions/api.mjs
+
+# Ảnh tham chiếu chụp từ game khác (bản quyền bên thứ ba): chỉ giữ ở máy owner, không đưa lên repo
+/docs/reference/ref_0*
+
+# Art / audio is not part of the public repository (kept in a private repo).
+/assets/
+/docs/preview/
+/docs/reference/
+/docs/prompts/codex_frames/*/ref/

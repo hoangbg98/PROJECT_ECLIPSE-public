@@ -1,0 +1,52 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=5
+
+[application]
+
+config/name="Project Eclipse"
+config/version="0.1.0-m1"
+run/main_scene="res://scenes/main/boot.tscn"
+config/quit_on_go_back=false
+config/features=PackedStringArray("4.6", "GL Compatibility")
+
+[autoload]
+
+GameConfig="*res://scripts/core/game_config.gd"
+EventBus="*res://scripts/core/event_bus.gd"
+InputRouter="*res://scripts/input/input_router.gd"
+SceneRouter="*res://scripts/core/scene_router.gd"
+AudioRouter="*res://scripts/core/audio_router.gd"
+SaveService="*res://scripts/save/save_service.gd"
+TutorialGuide="*res://scripts/ui/tutorial_guide.gd"
+OnlineService="*res://scripts/online/online_service.gd"
+
+[display]
+
+window/size/viewport_width=1920
+window/size/viewport_height=1080
+window/size/window_width_override=1280
+window/size/window_height_override=720
+window/stretch/mode="canvas_items"
+window/stretch/aspect="expand"
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/gdUnit4/plugin.cfg")
+
+[internationalization]
+
+locale/translations=PackedStringArray("res://localization/vi.po", "res://localization/en.po")
+locale/fallback="vi"
+
+[rendering]
+
+renderer/rendering_method="gl_compatibility"
+renderer/rendering_method.mobile="gl_compatibility"
+textures/vram_compression/import_etc2_astc=true

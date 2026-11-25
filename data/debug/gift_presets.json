@@ -1,0 +1,28 @@
+{
+	"_huong_dan": [
+		"Gói quà mẫu cho công cụ gửi quà thử nghiệm (màn 'Quà thử nghiệm' trong bản debug và tools/give_gift.ps1). Owner sửa file này để đổi hoặc thêm gói; không cần sửa code.",
+		"'gift' dùng cú pháp quà: gems=5000 gold=100000 item:<id>=<n> equip:<id>=<n> char:<id> frag:<id>=<n> captain=<cấp> captain_exp=<n> preset:<tên gói khác> event:<chế độ>/<ải> (hoặc event:<chế độ>/all, event:all: mở sẵn ải Event nguyên liệu) event_reset (đặt lại lượt có thưởng).",
+		"item:all, equip:all, char:all, frag:all=<n> áp cho mọi ID hiện có. Có ID lạ thì cả gói bị từ chối (không áp nửa chừng).",
+		"Danh sách ID: powershell -ExecutionPolicy Bypass -File tools\\give_gift.ps1 --list.",
+		"Thư mục data/debug/ bị loại khỏi bản Release (không có gói nào, công cụ chỉ chạy ở bản debug)."
+	],
+	"presets": {
+		"rich": {"title": "Giàu có", "gift": "gems=50000 gold=500000"},
+		"open_stages": {"title": "Mở toàn bộ ải cốt truyện (trừ ải cuối) + qua hướng dẫn + xem lại mọi clip", "gift": "stage:all clips_reset"},
+		"gacha_10x10": {"title": "Đủ quay 10 lần ×10 (25 200 ngọc)", "gift": "gems=25200"},
+		"level_up": {"title": "Đồ tăng cấp nhân vật + cấp người chơi 50", "gift": "item:mat_exp_small=50 item:mat_exp_medium=50 item:mat_exp_large=50 captain=50 gold=200000"},
+		"enhance": {"title": "Đồ cường hóa trang bị", "gift": "item:mat_enhance_ore=100 item:mat_enhance_crystal=100 gold=200000"},
+		"gear": {"title": "Mỗi trang bị một món", "gift": "equip:all"},
+		"all_characters": {"title": "Mở khóa mọi nhân vật", "gift": "char:all"},
+		"promotion": {"title": "Mảnh tiến cấp (100 mảnh mỗi nhân vật)", "gift": "frag:all=100"},
+		"lavoisier": {"title": "Bộ vết thánh Antoine Lavoisier (Enkiba)", "gift": "equip:eq_stigma_top_lavoisier equip:eq_stigma_mid_lavoisier equip:eq_stigma_bot_lavoisier"},
+		"davinci": {"title": "Bộ vết thánh Leonardo da Vinci (Kazeyumi)", "gift": "equip:eq_stigma_top_davinci equip:eq_stigma_mid_davinci equip:eq_stigma_bot_davinci"},
+		"franklin": {"title": "Bộ vết thánh Benjamin Franklin (Raikiba)", "gift": "equip:eq_stigma_top_franklin equip:eq_stigma_mid_franklin equip:eq_stigma_bot_franklin"},
+		"nightingale": {"title": "Bộ vết thánh Florence Nightingale (Hikarine)", "gift": "equip:eq_stigma_top_nightingale equip:eq_stigma_mid_nightingale equip:eq_stigma_bot_nightingale"},
+		"upgrade": {"title": "Đồ nâng bậc và tẩy phụ tố", "gift": "item:mat_weapon_ascend=30 item:mat_affix_reroll=30 gold=200000"},
+		"event_open": {"title": "Mở sẵn mọi ải Event nguyên liệu (cả Vô tận)", "gift": "event:all"},
+		"event_open_to_boss": {"title": "Mở Nhịp điệu tới ải boss N-5", "gift": "event:rhythm/rhythm_mat_01 event:rhythm/rhythm_mat_02 event:rhythm/rhythm_mat_03 event:rhythm/rhythm_mat_04"},
+		"event_plays": {"title": "Đặt lại lượt có thưởng Event nguyên liệu", "gift": "event_reset"},
+		"everything": {"title": "Tất cả các gói trên", "gift": "preset:rich preset:level_up preset:enhance preset:upgrade preset:gear preset:all_characters preset:promotion"}
+	}
+}

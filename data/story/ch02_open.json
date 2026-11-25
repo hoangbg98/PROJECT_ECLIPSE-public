@@ -1,0 +1,266 @@
+{
+	"_comment": "Sinh bởi tools/story/gen_story_clips_02.py — sửa ở đó rồi chạy lại.",
+	"id": "ch02_open",
+	"design_size": [
+		1920,
+		1080
+	],
+	"image_dir": "res://assets/story/ch02",
+	"placeholder_dir": "res://assets/placeholders/story",
+	"summary": "STORY_CH02_OPEN_SUMMARY",
+	"pages": [
+		{
+			"layout": "A",
+			"panels": [
+				{
+					"image": "ch02_open_01",
+					"poly": [
+						[
+							40,
+							40
+						],
+						[
+							1880,
+							40
+						],
+						[
+							1880,
+							360
+						],
+						[
+							40,
+							420
+						]
+					],
+					"enter": "left",
+					"desc": "Cao nguyên đá xa, vách xẻ thành xưởng, Mặt Trời Khuyết lệch hẳn về một phía; Neo lơ lửng trước ống kính.",
+					"lines": [
+						{
+							"speaker": "neo",
+							"text": "STORY_CH02_OPEN_01_1"
+						}
+					]
+				},
+				{
+					"image": "ch02_open_02",
+					"poly": [
+						[
+							40,
+							444
+						],
+						[
+							1000,
+							413
+						],
+						[
+							940,
+							800
+						],
+						[
+							40,
+							800
+						]
+					],
+					"enter": "up",
+					"desc": "Raikiba nhìn quanh con dốc im lặng, tay gõ lên chuôi dao.",
+					"lines": [
+						{
+							"speaker": "char_lightning_01",
+							"text": "STORY_CH02_OPEN_02_1"
+						}
+					]
+				},
+				{
+					"image": "ch02_open_03",
+					"poly": [
+						[
+							1024,
+							412
+						],
+						[
+							1880,
+							384
+						],
+						[
+							1880,
+							800
+						],
+						[
+							964,
+							800
+						]
+					],
+					"enter": "right",
+					"desc": "Kazeyumi cúi xuống nhìn vệt bánh xe nặng hằn trên đá.",
+					"lines": [
+						{
+							"speaker": "char_wind_01",
+							"text": "STORY_CH02_OPEN_03_1"
+						}
+					]
+				}
+			]
+		},
+		{
+			"layout": "B",
+			"panels": [
+				{
+					"image": "ch02_open_04",
+					"poly": [
+						[
+							40,
+							40
+						],
+						[
+							760,
+							40
+						],
+						[
+							700,
+							800
+						],
+						[
+							40,
+							800
+						]
+					],
+					"enter": "down",
+					"desc": "Một Tượng gác nhỏ mắt đục loạng choạng giữa đường, hốc ngực trống.",
+					"lines": [
+						{
+							"speaker": "neo",
+							"text": "STORY_CH02_OPEN_04_1"
+						}
+					]
+				},
+				{
+					"image": "ch02_open_05",
+					"poly": [
+						[
+							784,
+							40
+						],
+						[
+							1880,
+							40
+						],
+						[
+							1880,
+							380
+						],
+						[
+							754,
+							420
+						]
+					],
+					"enter": "left",
+					"desc": "Enkiba rút kiếm; Kazeyumi đặt tay chặn lại.",
+					"lines": [
+						{
+							"speaker": "char_wind_01",
+							"text": "STORY_CH02_OPEN_05_1"
+						}
+					]
+				},
+				{
+					"image": "ch02_open_06",
+					"poly": [
+						[
+							752,
+							444
+						],
+						[
+							1880,
+							404
+						],
+						[
+							1880,
+							800
+						],
+						[
+							724,
+							800
+						]
+					],
+					"enter": "up",
+					"desc": "Enkiba nghiến răng, hạ mũi kiếm xuống.",
+					"lines": [
+						{
+							"speaker": "char_fire_01",
+							"text": "STORY_CH02_OPEN_06_1"
+						}
+					]
+				}
+			]
+		},
+		{
+			"layout": "C",
+			"panels": [
+				{
+					"image": "ch02_open_07",
+					"poly": [
+						[
+							40,
+							40
+						],
+						[
+							1300,
+							40
+						],
+						[
+							900,
+							800
+						],
+						[
+							40,
+							800
+						]
+					],
+					"enter": "right",
+					"desc": "Neo chiếu bản đồ: ba vệt chở kéo dài về phía bắc.",
+					"lines": [
+						{
+							"speaker": "neo",
+							"text": "STORY_CH02_OPEN_07_1"
+						}
+					]
+				},
+				{
+					"image": "ch02_open_08",
+					"poly": [
+						[
+							1324,
+							40
+						],
+						[
+							1880,
+							40
+						],
+						[
+							1880,
+							800
+						],
+						[
+							924,
+							800
+						]
+					],
+					"enter": "down",
+					"desc": "Ba người đứng trước vách xưởng tối, quyết định đi tiếp.",
+					"lines": [
+						{
+							"speaker": "char_fire_01",
+							"text": "STORY_CH02_OPEN_08_1"
+						}
+					]
+				}
+			]
+		},
+		{
+			"card": {
+				"title": "STORY_CH02_OPEN_CARD_TITLE",
+				"sub": "STORY_CH02_OPEN_CARD_SUB"
+			}
+		}
+	]
+}

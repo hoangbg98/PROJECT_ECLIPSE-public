@@ -1,0 +1,8 @@
+{
+  "_comment": "MẪU. Thông tin nhận tiền thật nằm ở server/private/payment.json (không vào git): chép file này sang đó rồi điền thật. bank_bin = mã ngân hàng theo danh mục NAPAS (VietQR), memo_prefix = tiền tố nội dung chuyển khoản.",
+  "bank_name": "TPBank",
+  "bank_bin": "970423",
+  "account_number": "0123456789",
+  "account_name": "NGUYEN VAN A",
+  "memo_prefix": "ECL"
+}

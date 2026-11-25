@@ -1,0 +1,434 @@
+{
+	"_huong_dan": [
+		"FILE CẤU HÌNH EVENT NGUYÊN LIỆU (M11). Owner sửa trực tiếp, không cần sửa code. Giải thích đầy đủ từng mục + khoảng giá trị an toàn: docs/design/EVENT_DATA_GUIDE.md.",
+		"Sửa xong: chạy game từ Godot (F5) rồi mở lại màn Ải nguyên liệu là áp dụng ngay (đang chạy cũng được: thoát ra hub rồi vào lại). Ghi sai thì hub hiện dòng lỗi màu cam ở trên.",
+		"Mỗi ải chia 5 mục: thông tin (id, code, title_key, pos, requires, party_min) · params (cách chơi: nhạc, tốc độ, mật độ quái, hướng dẫn) · stars (3 điều kiện sao) · rewards (phần thưởng) — mục 'params' chỉ màn chơi đọc.",
+		"params.speed.note_speed: tốc độ quái chạy tới (px/giây, 300–2000). Nhanh hơn = ít thời gian nhìn; vòng chấm tự to theo nên Perfect vẫn ±21 ms.",
+		"params.speed.song_speed: tốc độ vượt ải = tốc độ cả bài (0.5–2.0; 1.0 = gốc). 1.2 = bài nhanh hơn 20%, qua ải nhanh hơn, quái tới dày hơn theo thời gian; nhạc cao giọng hơn.",
+		"params.spawn.density: mật độ sinh quái (0.1–1.0; 1.0 = đủ mọi nốt của bản nốt, 0.5 = giữ 1/2, rải đều). params.spawn.min_gap_sec: khoảng cách tối thiểu giữa hai quái liên tiếp (giây, 0–2; 0 = theo bản nốt). params.spawn.kinds: loại quái cho phép ['tap', 'hold', 'mash']; loại khác đổi thành quái ấn 1 lần; rỗng = tất cả.",
+		"params.music.chart: bản nốt gốc 'easy' | 'normal' | 'hard' | 'boss' (sinh từ nhạc bằng tools/rhythm/build_catalog.py; càng khó càng nhiều quái).",
+		"rewards.base: thưởng mỗi lần qua (nhân rank_mult theo hạng; captain_exp không nhân). rewards.first_clear: lần qua đầu. rewards.star_bonus.'2' / '3': khi đạt sao 2 / sao 3 lần đầu. Vật phẩm: mat_exp_small, mat_exp_medium, mat_exp_large, mat_enhance_ore, mat_enhance_crystal, mat_weapon_ascend, mat_affix_reroll; tiền: gold, gems; captain_exp.",
+		"stars: đúng 3 điều kiện: 'clear' | 'rank>=S|A|B|C|D' | 'score>=N' | 'stat:<khóa><>=|<=|==><số>' với khóa (Nhịp điệu) accuracy, max_combo, perfect_ratio, miss, hp_left_ratio, holds_broken; (Chạy Nguyên Tố) accuracy, max_combo, hits_taken, collect_ratio, perfect_swaps, perfect_swap_ratio, distance_ratio, hp_left_ratio.",
+		"Chạy Nguyên Tố: params.level.id = file level data/runner/levels/<id>.json (vật cản, cổng, hạt, tốc độ gốc); params.speed.multiplier = tốc độ vượt ải (0.5–2.0, nhân tốc độ level); params.guide.intro_key = dòng giới thiệu lần đầu. Luật chung ở data/runner/runner_rules.tres.",
+		"Bay Nguyên Tố: params.level.id = file level data/jet/levels/<id>.json (bake bằng tools/jet/bake_levels.gd từ data/jet/baked_levels.json); khóa sao stat: accuracy, distance_m, distance_ratio, hits_taken, hp_left_ratio, orb_ratio, cores_collected, forms_used, zones_passed. Vô tận Bay: endless.entries (practice true = luyện, không tốn lượt / không thưởng), endless.params.endless.scroll_base / scroll_ramp / zone_length_m.",
+		"card (mỗi chế độ): thẻ ở màn chọn chế độ — drops_key (chữ xanh: loại nguyên liệu rơi), bg (2 màu nền), art (các lớp ảnh: path, rect [x, y, rộng, cao] theo tỉ lệ khung ảnh, fit 'fit' | 'cover' | 'cover_top'). Có ảnh thẻ thật thì để một lớp rect [0,0,1,1] fit cover. status 'soon' = thẻ Sắp ra mắt. limit (mỗi chế độ): lượt có thưởng mỗi tuần; hết lượt vẫn chơi được nhưng không thưởng. pos: vị trí nút trên đồ thị (0..1). requires: ải phải qua trước. party_min: số người tối thiểu trong đội."
+	],
+	"format": 1,
+	"events": [
+		{
+			"id": "evt_material",
+			"title_key": "EVENT_MATERIAL_TITLE",
+			"category": "material",
+			"schedule": {"kind": "always"},
+			"modes": [
+				{
+					"id": "rhythm",
+					"_mo_ta": "Nhịp điệu: 5 ải mở lần lượt, ải 5 là boss (bản nốt cố định).",
+					"title_key": "MODE_RHYTHM_TITLE",
+					"sub_key": "MODE_RHYTHM_SUB",
+					"color": "#FF5FA8",
+					"card": {
+						"drops_key": "MODE_RHYTHM_DROPS",
+						"bg": ["#5B2BC2", "#FF5FA8"],
+						"art": [
+							{"path": "res://assets/rhythm/rh_boss_eclipse/idle/rh_boss_eclipse_idle_000.png", "rect": [-0.18, 0.02, 1.36, 0.95], "fit": "fit"},
+							{"path": "res://assets/rhythm/rh_bat/fly/rh_bat_fly_000.png", "rect": [0.02, 0.04, 0.42, 0.28], "fit": "fit"},
+							{"path": "res://assets/rhythm/rh_slime/run/rh_slime_run_000.png", "rect": [0.56, 0.68, 0.44, 0.30], "fit": "fit"}
+						]
+					},
+					"scene": "res://scenes/main/minigame/rhythm_minigame.tscn",
+					"layout": "graph",
+					"limit": {"period": "weekly", "max": 50, "reset_hour": 4},
+					"stages": [
+						{
+							"id": "rhythm_mat_01", "code": "N-1", "title_key": "RHYTHM_STAGE_01_NAME",
+							"pos": [0.10, 0.62], "requires": [], "party_min": 1,
+							"params": {
+								"music": {"song": "song_ember_steps", "chart": "easy"},
+								"speed": {"note_speed": 300, "song_speed": 1.0},
+								"spawn": {"density": 1.0, "min_gap_sec": 1.0, "kinds": ["tap"]},
+								"guide": {"tutorial": true, "intro_key": ""},
+								"boss": false
+							},
+							"stars": ["clear", "stat:accuracy>=0.90", "stat:miss==0"],
+							"rewards": {
+								"base": {"gold": 1500, "captain_exp": 300, "materials": {"mat_exp_small": 8, "mat_exp_medium": 1}},
+								"first_clear": {"gems": 50, "materials": {"mat_exp_medium": 3}},
+								"star_bonus": {"2": {"materials": {"mat_exp_small": 3}}, "3": {"materials": {"mat_exp_medium": 2}}},
+								"rank_mult": {"S": 1.5, "A": 1.25, "B": 1.0, "C": 1.0, "D": 1.0}
+							}
+						},
+						{
+							"id": "rhythm_mat_02", "code": "N-2", "title_key": "RHYTHM_STAGE_02_NAME",
+							"pos": [0.30, 0.34], "requires": ["rhythm_mat_01"], "party_min": 1,
+							"params": {
+								"music": {"song": "song_gale_runner", "chart": "normal"},
+								"speed": {"note_speed": 400, "song_speed": 1.0},
+								"spawn": {"density": 1.0, "min_gap_sec": 1.0, "kinds": []},
+								"guide": {"tutorial": false, "intro_key": "RHYTHM_INTRO_HOLD"},
+								"boss": false
+							},
+							"stars": ["clear", "rank>=A", "stat:holds_broken==0"],
+							"rewards": {
+								"base": {"gold": 1800, "captain_exp": 380, "materials": {"mat_exp_small": 8, "mat_exp_medium": 3}},
+								"first_clear": {"gems": 50, "materials": {"mat_exp_medium": 4}},
+								"star_bonus": {"2": {"materials": {"mat_exp_small": 3}}, "3": {"materials": {"mat_exp_medium": 2}}},
+								"rank_mult": {"S": 1.5, "A": 1.25, "B": 1.0, "C": 1.0, "D": 1.0}
+							}
+						},
+						{
+							"id": "rhythm_mat_03", "code": "N-3", "title_key": "RHYTHM_STAGE_03_NAME",
+							"pos": [0.50, 0.62], "requires": ["rhythm_mat_02"], "party_min": 1,
+							"params": {
+								"music": {"song": "song_thunder_lane", "chart": "hard"},
+								"speed": {"note_speed": 500, "song_speed": 1.0},
+								"spawn": {"density": 1.0, "min_gap_sec": 1.0, "kinds": []},
+								"guide": {"tutorial": false, "intro_key": ""},
+								"boss": false
+							},
+							"stars": ["clear", "rank>=A", "stat:miss<=5"],
+							"rewards": {
+								"base": {"gold": 2100, "captain_exp": 460, "materials": {"mat_exp_medium": 5, "mat_enhance_ore": 3}},
+								"first_clear": {"gems": 60, "materials": {"mat_exp_large": 1}},
+								"star_bonus": {"2": {"materials": {"mat_exp_medium": 1}}, "3": {"materials": {"mat_enhance_ore": 2}}},
+								"rank_mult": {"S": 1.5, "A": 1.25, "B": 1.0, "C": 1.0, "D": 1.0}
+							}
+						},
+						{
+							"id": "rhythm_mat_04", "code": "N-4", "title_key": "RHYTHM_STAGE_04_NAME",
+							"pos": [0.70, 0.34], "requires": ["rhythm_mat_03"], "party_min": 1,
+							"params": {
+								"music": {"song": "song_lumen_waltz", "chart": "hard"},
+								"speed": {"note_speed": 600, "song_speed": 1.0},
+								"spawn": {"density": 1.0, "min_gap_sec": 1.0, "kinds": []},
+								"guide": {"tutorial": false, "intro_key": ""},
+								"boss": false
+							},
+							"stars": ["clear", "rank>=A", "stat:max_combo>=150"],
+							"rewards": {
+								"base": {"gold": 2500, "captain_exp": 540, "materials": {"mat_exp_medium": 6, "mat_exp_large": 1, "mat_enhance_ore": 4}},
+								"first_clear": {"gems": 60, "materials": {"mat_exp_large": 2}},
+								"star_bonus": {"2": {"materials": {"mat_exp_medium": 2}}, "3": {"materials": {"mat_exp_large": 1}}},
+								"rank_mult": {"S": 1.5, "A": 1.25, "B": 1.0, "C": 1.0, "D": 1.0}
+							}
+						},
+						{
+							"id": "rhythm_mat_05", "code": "N-5", "title_key": "RHYTHM_STAGE_05_NAME",
+							"pos": [0.90, 0.58], "requires": ["rhythm_mat_04"], "party_min": 1,
+							"params": {
+								"music": {"song": "song_eclipse_boss", "chart": "boss"},
+								"speed": {"note_speed": 650, "song_speed": 1.0},
+								"spawn": {"density": 1.0, "min_gap_sec": 1.0, "kinds": []},
+								"guide": {"tutorial": false, "intro_key": ""},
+								"boss": true
+							},
+							"stars": ["clear", "rank>=B", "stat:hp_left_ratio>=0.5"],
+							"rewards": {
+								"base": {"gold": 3200, "captain_exp": 700, "materials": {"mat_exp_medium": 6, "mat_exp_large": 3, "mat_enhance_crystal": 2}},
+								"first_clear": {"gems": 120, "materials": {"mat_exp_large": 3, "mat_enhance_crystal": 2}},
+								"star_bonus": {"2": {"materials": {"mat_exp_large": 1}}, "3": {"materials": {"mat_enhance_crystal": 1}}},
+								"rank_mult": {"S": 1.5, "A": 1.25, "B": 1.0, "C": 1.0, "D": 1.0}
+							}
+						}
+					]
+				},
+				{
+					"id": "rhythm_endless",
+					"_mo_ta": "Vô tận: mọi bài trong danh mục máy chủ, người chơi chọn độ khó. Mỗi độ khó một bộ params + thưởng; dùng chung lượt có thưởng với 'rhythm'. parent: không có thẻ riêng ở màn chọn chế độ, mở bằng nút 'Vô tận' trong màn chọn ải của chế độ cha.",
+					"parent": "rhythm",
+					"title_key": "RHYTHM_ENDLESS_TITLE",
+					"sub_key": "RHYTHM_ENDLESS_SUB",
+					"color": "#9C6BFF",
+					"scene": "res://scenes/main/minigame/rhythm_minigame.tscn",
+					"layout": "list",
+					"list_scene": "res://scenes/main/rhythm_song_list_screen.tscn",
+					"stages_provider": "rhythm_library",
+					"unlock": {"requires_stage_cleared": "rhythm/rhythm_mat_05"},
+					"limit": {"share_with": "rhythm"},
+					"endless": {
+						"difficulties": ["easy", "normal", "hard"],
+						"stars": ["clear", "rank>=A", "rank>=S"],
+						"by_difficulty": {
+							"easy": {
+								"params": {"speed": {"note_speed": 300, "song_speed": 1.0}, "spawn": {"density": 1.0, "min_gap_sec": 1.0, "kinds": []}},
+								"rewards": {"base": {"gold": 1200, "captain_exp": 250, "materials": {"mat_exp_small": 6, "mat_exp_medium": 1}}, "rank_mult": {"S": 1.5, "A": 1.25, "B": 1.0, "C": 1.0, "D": 1.0}}
+							},
+							"normal": {
+								"params": {"speed": {"note_speed": 500, "song_speed": 1.0}, "spawn": {"density": 1.0, "min_gap_sec": 1.0, "kinds": []}},
+								"rewards": {"base": {"gold": 1800, "captain_exp": 400, "materials": {"mat_exp_small": 6, "mat_exp_medium": 3}}, "rank_mult": {"S": 1.5, "A": 1.25, "B": 1.0, "C": 1.0, "D": 1.0}}
+							},
+							"hard": {
+								"params": {"speed": {"note_speed": 1000, "song_speed": 1.0}, "spawn": {"density": 1.0, "min_gap_sec": 1.0, "kinds": []}},
+								"rewards": {"base": {"gold": 2600, "captain_exp": 600, "materials": {"mat_exp_medium": 5, "mat_exp_large": 2}}, "rank_mult": {"S": 1.5, "A": 1.25, "B": 1.0, "C": 1.0, "D": 1.0}}
+							}
+						}
+					}
+				},
+				{
+					"id": "runner",
+					"_mo_ta": "Chạy Nguyên Tố (M11-4, docs/design/RUNNER_MODE.md): 3 ải mở lần lượt. Vật cản / cổng / tốc độ gốc của từng ải ở data/runner/levels/<params.level.id>.json; luật chung (nhảy, HP, điểm, Fever) ở data/runner/runner_rules.tres.",
+					"title_key": "MODE_RUNNER_TITLE",
+					"sub_key": "MODE_RUNNER_SUB",
+					"color": "#4FD1FF",
+					"card": {
+						"drops_key": "MODE_RUNNER_DROPS",
+						"bg": ["#14365C", "#4FD1FF"],
+						"art": [{"path": "res://assets/characters/char_lightning_01/splash/char_lightning_01_splash_overview.png", "rect": [0.0, 0.0, 1.0, 1.0], "fit": "cover_top"}]
+					},
+					"scene": "res://scenes/main/minigame/runner_stage.tscn",
+					"layout": "graph",
+					"limit": {"period": "weekly", "max": 50, "reset_hour": 4},
+					"stages": [
+						{
+							"id": "runner_mat_01", "code": "N-1", "title_key": "RUNNER_N1_TITLE",
+							"pos": [0.10, 0.62], "requires": [], "party_min": 1,
+							"params": {
+								"level": {"id": "runner_mat_01"},
+								"speed": {"multiplier": 1.0},
+								"guide": {"intro_key": "RUNNER_N1_INTRO"}
+							},
+							"stars": ["clear", "stat:collect_ratio>=0.80", "stat:hits_taken==0"],
+							"rewards": {
+								"base": {"gold": 1500, "captain_exp": 300, "materials": {"mat_enhance_ore": 6}},
+								"first_clear": {"gems": 50, "materials": {"mat_enhance_ore": 6}},
+								"star_bonus": {"2": {"materials": {"mat_enhance_ore": 2}}, "3": {"materials": {"mat_enhance_ore": 4}}},
+								"rank_mult": {"S": 1.5, "A": 1.25, "B": 1.0, "C": 1.0, "D": 1.0}
+							}
+						},
+						{
+							"id": "runner_mat_02", "code": "N-2", "title_key": "RUNNER_N2_TITLE",
+							"pos": [0.30, 0.34], "requires": ["runner_mat_01"], "party_min": 2,
+							"params": {
+								"level": {"id": "runner_mat_02"},
+								"speed": {"multiplier": 1.0},
+								"guide": {"intro_key": "RUNNER_N2_INTRO"}
+							},
+							"stars": ["clear", "rank>=A", "stat:perfect_swap_ratio>=0.50"],
+							"rewards": {
+								"base": {"gold": 1800, "captain_exp": 380, "materials": {"mat_enhance_ore": 8, "mat_enhance_crystal": 1}},
+								"first_clear": {"gems": 50, "materials": {"mat_enhance_crystal": 2}},
+								"star_bonus": {"2": {"materials": {"mat_enhance_ore": 3}}, "3": {"materials": {"mat_enhance_crystal": 1}}},
+								"rank_mult": {"S": 1.5, "A": 1.25, "B": 1.0, "C": 1.0, "D": 1.0}
+							}
+						},
+						{
+							"id": "runner_mat_03", "code": "N-3", "title_key": "RUNNER_N3_TITLE",
+							"pos": [0.50, 0.62], "requires": ["runner_mat_02"], "party_min": 3,
+							"params": {
+								"level": {"id": "runner_mat_03"},
+								"speed": {"multiplier": 1.0},
+								"guide": {"intro_key": "RUNNER_N3_INTRO"}
+							},
+							"stars": ["clear", "rank>=A", "stat:perfect_swap_ratio>=0.50"],
+							"rewards": {
+								"base": {"gold": 2200, "captain_exp": 460, "materials": {"mat_enhance_ore": 10, "mat_enhance_crystal": 2}},
+								"first_clear": {"gems": 80, "materials": {"mat_enhance_crystal": 3}},
+								"star_bonus": {"2": {"materials": {"mat_enhance_ore": 4}}, "3": {"materials": {"mat_enhance_crystal": 2}}},
+								"rank_mult": {"S": 1.5, "A": 1.25, "B": 1.0, "C": 1.0, "D": 1.0}
+							}
+						},
+						{
+							"id": "runner_mat_04", "code": "N-4", "title_key": "RUNNER_N4_TITLE",
+							"pos": [0.70, 0.34], "requires": ["runner_mat_03"], "party_min": 3,
+							"params": {
+								"level": {"id": "runner_mat_04"},
+								"speed": {"multiplier": 1.0},
+								"guide": {"intro_key": "RUNNER_N4_INTRO"}
+							},
+							"stars": ["clear", "rank>=A", "stat:perfect_swap_ratio>=0.50"],
+							"rewards": {
+								"base": {"gold": 2600, "captain_exp": 540, "materials": {"mat_enhance_ore": 12, "mat_enhance_crystal": 3}},
+								"first_clear": {"gems": 80, "materials": {"mat_enhance_crystal": 4}},
+								"star_bonus": {"2": {"materials": {"mat_enhance_ore": 5}}, "3": {"materials": {"mat_enhance_crystal": 2}}},
+								"rank_mult": {"S": 1.5, "A": 1.25, "B": 1.0, "C": 1.0, "D": 1.0}
+							}
+						},
+						{
+							"id": "runner_mat_05", "code": "N-5", "title_key": "RUNNER_N5_TITLE",
+							"pos": [0.90, 0.58], "requires": ["runner_mat_04"], "party_min": 3,
+							"params": {
+								"level": {"id": "runner_mat_05"},
+								"speed": {"multiplier": 1.0},
+								"guide": {"intro_key": "RUNNER_N5_INTRO"}
+							},
+							"stars": ["clear", "rank>=B", "stat:hits_taken<=2"],
+							"rewards": {
+								"base": {"gold": 3200, "captain_exp": 700, "materials": {"mat_enhance_ore": 15, "mat_enhance_crystal": 5}},
+								"first_clear": {"gems": 120, "materials": {"mat_enhance_crystal": 6}},
+								"star_bonus": {"2": {"materials": {"mat_enhance_crystal": 2}}, "3": {"materials": {"mat_enhance_crystal": 4}}},
+								"rank_mult": {"S": 1.5, "A": 1.25, "B": 1.0, "C": 1.0, "D": 1.0}
+							}
+						}
+					]
+				},
+				{
+					"id": "runner_endless",
+					"_mo_ta": "Vô tận Chạy Nguyên Tố: các tuyến cố định (seed), mỗi tuyến 3 độ khó; level sinh lúc chơi bằng RunnerGenerator từ params.gen (speed px/s, length_sec, gate_gap giây tối thiểu giữa hai cổng, overlap cổng được trùng Cặn Thấp). Dùng chung lượt có thưởng với 'runner'; mở sau khi qua N-5; cần đội 3 người. Thêm tuyến: thêm mục vào endless.routes (id, title_key, seed mới).",
+					"parent": "runner",
+					"title_key": "RUNNER_ENDLESS_TITLE",
+					"sub_key": "RUNNER_ENDLESS_SUB",
+					"color": "#3FA9FF",
+					"scene": "res://scenes/main/minigame/runner_stage.tscn",
+					"layout": "list",
+					"list_scene": "res://scenes/main/minigame/runner_route_list_screen.tscn",
+					"stages_provider": "routes",
+					"unlock": {"requires_stage_cleared": "runner/runner_mat_05"},
+					"limit": {"share_with": "runner"},
+					"endless": {
+						"party_min": 3,
+						"routes": [
+							{"id": "route_drift", "title_key": "RUNNER_ROUTE_DRIFT", "seed": 4101},
+							{"id": "route_rift", "title_key": "RUNNER_ROUTE_RIFT", "seed": 4202},
+							{"id": "route_umbra", "title_key": "RUNNER_ROUTE_UMBRA", "seed": 4303}
+						],
+						"difficulties": ["easy", "normal", "hard"],
+						"stars": ["clear", "rank>=A", "rank>=S"],
+						"by_difficulty": {
+							"easy": {
+								"params": {"gen": {"speed": 700, "length_sec": 120, "gate_gap": 1.0, "overlap": false}},
+								"rewards": {
+									"base": {"gold": 1200, "captain_exp": 250, "materials": {"mat_enhance_ore": 6}},
+									"rank_mult": {"S": 1.5, "A": 1.25, "B": 1.0, "C": 1.0, "D": 1.0}
+								}
+							},
+							"normal": {
+								"params": {"gen": {"speed": 850, "length_sec": 150, "gate_gap": 0.8, "overlap": true}},
+								"rewards": {
+									"base": {"gold": 1800, "captain_exp": 400, "materials": {"mat_enhance_ore": 8, "mat_enhance_crystal": 2}},
+									"rank_mult": {"S": 1.5, "A": 1.25, "B": 1.0, "C": 1.0, "D": 1.0}
+								}
+							},
+							"hard": {
+								"params": {"gen": {"speed": 1000, "length_sec": 180, "gate_gap": 0.6, "overlap": true}},
+								"rewards": {
+									"base": {"gold": 2600, "captain_exp": 600, "materials": {"mat_enhance_ore": 10, "mat_enhance_crystal": 4}},
+									"rank_mult": {"S": 1.5, "A": 1.25, "B": 1.0, "C": 1.0, "D": 1.0}
+								}
+							}
+						}
+					}
+				},
+				{
+					"id": "jet",
+					"_mo_ta": "Bay Nguyên Tố (M11-5, docs/design/JET_MODE.md): 5 ải mở lần lượt, ải 5 là boss. Vật cản / vùng / tốc độ cuộn của từng ải ở data/jet/levels/<params.level.id>.json (sinh bằng tools/jet/bake_levels.gd từ data/jet/baked_levels.json); luật chung (bay, năng lượng, tim, hình) ở data/jet/jet_rules.tres; vùng ở data/jet/zones.json. Chỉ người ô 1 bay.",
+					"title_key": "MODE_JET_TITLE",
+					"sub_key": "MODE_JET_SUB",
+					"color": "#7DFFB0",
+					"card": {
+						"drops_key": "MODE_JET_DROPS",
+						"bg": ["#0F3B3A", "#7DFFB0"],
+						"art": [{"path": "res://assets/jet/jet_card.png", "rect": [0.0, 0.0, 1.0, 1.0], "fit": "cover"}]
+					},
+					"scene": "res://scenes/main/minigame/jet_stage.tscn",
+					"layout": "graph",
+					"limit": {"period": "weekly", "max": 50, "reset_hour": 4},
+					"stages": [
+						{
+							"id": "jet_mat_01", "code": "N-1", "title_key": "JET_N1_TITLE",
+							"pos": [0.10, 0.62], "requires": [], "party_min": 1,
+							"params": {
+								"level": {"id": "jet_mat_01"},
+								"guide": {"intro_key": "JET_N1_INTRO"}
+							},
+							"stars": ["clear", "stat:orb_ratio>=0.80", "stat:hits_taken==0"],
+							"rewards": {
+								"base": {"gold": 1500, "captain_exp": 300, "materials": {"mat_weapon_ascend": 2, "mat_affix_reroll": 1}},
+								"first_clear": {"gems": 50, "materials": {"mat_weapon_ascend": 3}},
+								"star_bonus": {"2": {"materials": {"mat_affix_reroll": 1}}, "3": {"materials": {"mat_weapon_ascend": 2}}},
+								"rank_mult": {"S": 1.5, "A": 1.25, "B": 1.0, "C": 1.0, "D": 1.0}
+							}
+						},
+						{
+							"id": "jet_mat_02", "code": "N-2", "title_key": "JET_N2_TITLE",
+							"pos": [0.30, 0.34], "requires": ["jet_mat_01"], "party_min": 1,
+							"params": {
+								"level": {"id": "jet_mat_02"},
+								"guide": {"intro_key": "JET_N2_INTRO"}
+							},
+							"stars": ["clear", "rank>=A", "stat:forms_used>=1"],
+							"rewards": {
+								"base": {"gold": 1800, "captain_exp": 380, "materials": {"mat_weapon_ascend": 3, "mat_affix_reroll": 1}},
+								"first_clear": {"gems": 50, "materials": {"mat_weapon_ascend": 4}},
+								"star_bonus": {"2": {"materials": {"mat_affix_reroll": 1}}, "3": {"materials": {"mat_weapon_ascend": 2}}},
+								"rank_mult": {"S": 1.5, "A": 1.25, "B": 1.0, "C": 1.0, "D": 1.0}
+							}
+						},
+						{
+							"id": "jet_mat_03", "code": "N-3", "title_key": "JET_N3_TITLE",
+							"pos": [0.50, 0.62], "requires": ["jet_mat_02"], "party_min": 1,
+							"params": {
+								"level": {"id": "jet_mat_03"},
+								"guide": {"intro_key": "JET_N3_INTRO"}
+							},
+							"stars": ["clear", "rank>=A", "stat:forms_used>=1"],
+							"rewards": {
+								"base": {"gold": 2200, "captain_exp": 460, "materials": {"mat_weapon_ascend": 4, "mat_affix_reroll": 2}},
+								"first_clear": {"gems": 80, "materials": {"mat_weapon_ascend": 5}},
+								"star_bonus": {"2": {"materials": {"mat_affix_reroll": 2}}, "3": {"materials": {"mat_weapon_ascend": 3}}},
+								"rank_mult": {"S": 1.5, "A": 1.25, "B": 1.0, "C": 1.0, "D": 1.0}
+							}
+						},
+						{
+							"id": "jet_mat_04", "code": "N-4", "title_key": "JET_N4_TITLE",
+							"pos": [0.70, 0.34], "requires": ["jet_mat_03"], "party_min": 1,
+							"params": {
+								"level": {"id": "jet_mat_04"},
+								"guide": {"intro_key": "JET_N4_INTRO"}
+							},
+							"stars": ["clear", "rank>=A", "stat:forms_used>=1"],
+							"rewards": {
+								"base": {"gold": 2600, "captain_exp": 540, "materials": {"mat_weapon_ascend": 5, "mat_affix_reroll": 2}},
+								"first_clear": {"gems": 80, "materials": {"mat_weapon_ascend": 6}},
+								"star_bonus": {"2": {"materials": {"mat_affix_reroll": 2}}, "3": {"materials": {"mat_weapon_ascend": 3}}},
+								"rank_mult": {"S": 1.5, "A": 1.25, "B": 1.0, "C": 1.0, "D": 1.0}
+							}
+						},
+						{
+							"id": "jet_mat_05", "code": "N-5", "title_key": "JET_N5_TITLE",
+							"pos": [0.90, 0.58], "requires": ["jet_mat_04"], "party_min": 1,
+							"params": {
+								"level": {"id": "jet_mat_05"},
+								"guide": {"intro_key": "JET_N5_INTRO"}
+							},
+							"stars": ["clear", "rank>=B", "stat:hits_taken<=2"],
+							"rewards": {
+								"base": {"gold": 3200, "captain_exp": 700, "materials": {"mat_weapon_ascend": 7, "mat_affix_reroll": 3}},
+								"first_clear": {"gems": 120, "materials": {"mat_weapon_ascend": 8}},
+								"star_bonus": {"2": {"materials": {"mat_affix_reroll": 3}}, "3": {"materials": {"mat_weapon_ascend": 4}}},
+								"rank_mult": {"S": 1.5, "A": 1.25, "B": 1.0, "C": 1.0, "D": 1.0}
+							}
+						}
+					]
+				},
+				{
+					"id": "jet_endless",
+					"_mo_ta": "Vô tận Bay Nguyên Tố: 'all' bay qua vòng vùng tới khi hết tim (qua = ≥ 1500 m, hạng theo mét: S ≥ 3000, A ≥ 2250, B ≥ 1800, C ≥ 1500); 'zone_<n>' luyện một vùng (không tốn lượt, không thưởng). Đường bay đổi theo ngày. params.endless: scroll_base (tốc độ cuộn đầu, px/s), scroll_ramp (tăng thêm px/s mỗi mét), zone_length_m (độ dài mỗi vùng). Dùng chung lượt có thưởng với 'jet'; mở sau khi qua N-5.",
+					"parent": "jet",
+					"title_key": "JET_ENDLESS_TITLE",
+					"sub_key": "JET_ENDLESS_SUB",
+					"color": "#20B486",
+					"scene": "res://scenes/main/minigame/jet_stage.tscn",
+					"layout": "list",
+					"list_scene": "res://scenes/main/minigame/jet_endless_screen.tscn",
+					"stages_provider": "entries",
+					"unlock": {"requires_stage_cleared": "jet/jet_mat_05"},
+					"limit": {"share_with": "jet"},
+					"endless": {
+						"entries": [
+							{"id": "all", "title_key": "JET_ENDLESS_ALL", "sub_key": "JET_ENDLESS_ALL_SUB", "zone": "", "practice": false},
+							{"id": "zone_1", "title_key": "JET_PRACTICE_ASH", "sub_key": "JET_ZONE_ASH_RULE", "zone": "ash", "practice": true},
+							{"id": "zone_2", "title_key": "JET_PRACTICE_WIND", "sub_key": "JET_ZONE_WIND_RULE", "zone": "wind", "practice": true},
+							{"id": "zone_3", "title_key": "JET_PRACTICE_THUNDER", "sub_key": "JET_ZONE_THUNDER_RULE", "zone": "thunder", "practice": true}
+						],
+						"params": {"endless": {"scroll_base": 520, "scroll_ramp": 0.15, "zone_length_m": 600}},
+						"stars": ["clear", "rank>=A", "rank>=S"],
+						"rewards": {
+							"base": {"gold": 2000, "captain_exp": 450, "materials": {"mat_weapon_ascend": 4, "mat_affix_reroll": 2}},
+							"rank_mult": {"S": 1.5, "A": 1.25, "B": 1.0, "C": 1.0, "D": 1.0}
+						}
+					}
+				}
+			]
+		}
+	]
+}

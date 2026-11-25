@@ -1,0 +1,308 @@
+{
+	"_huong_dan": [
+		"Bố cục màn Chiêu mộ (owner 2026-11-15, theo 2 ảnh gợi ý: banner trang bị và banner nhân vật). Sửa file này rồi mở lại màn để thấy thay đổi; không cần sửa code.",
+		"Tọa độ theo khung thiết kế 1920×1080. rect = [x, y, rộng, cao] tính từ góc trên-trái của khung thiết kế.",
+		"anchor: 'left' (mặc định) giữ khoảng cách mép trái; 'right' dời theo phần màn hình rộng thêm (màn > 16:9); 'center' dời một nửa.",
+		"font = cỡ chữ (px). color = mã màu '#RRGGBB' hoặc '#RRGGBBAA'. Thiếu mục nào thì màn dùng giá trị mặc định trong code, không lỗi.",
+		"Ảnh banner: đặt vào assets/ui/recruit/ theo tên {id banner}_banner.png (lớn) và {id banner}_thumb.png (nhỏ), xem README.md trong thư mục đó.",
+		"Tỉ lệ chi tiết không nằm trên màn chính: bấm nút Chi tiết."
+	],
+	"design_size": [
+		1920,
+		1080
+	],
+	"colors": {
+		"background": "#1B1E2B",
+		"panel": "#14161FE0",
+		"panel_light": "#2A2E3E",
+		"button": "#1E2130F0",
+		"button_border": "#5C6380",
+		"button_selected": "#FFFFFF",
+		"text": "#FFFFFF",
+		"text_dark": "#1B1E2B",
+		"text_dim": "#B8BCCB",
+		"accent": "#FF7A3D",
+		"accent_blue": "#7FD4FF",
+		"orange_box": "#D9552B",
+		"rank_s": "#FFD23F",
+		"rank_a": "#C77DFF",
+		"rank_b": "#4CC9F0",
+		"star": "#FFD23F",
+		"placeholder_fill": "#3A3F55",
+		"placeholder_figure": "#5B6180",
+		"placeholder_text": "#D8DCEB",
+		"button_yellow": "#FFD84A",
+		"button_yellow_border": "#C99A12",
+		"tab": "#3D5FC4E6",
+		"tab_selected": "#F2F4FA",
+		"callout": "#FFD84A",
+		"tag": "#4A63D9",
+		"guarantee_text": "#D23B3B"
+	},
+	"top": {
+		"back_button": {
+			"rect": [
+				40,
+				22,
+				230,
+				68
+			],
+			"font": 30
+		},
+		"title": {
+			"rect": [
+				300,
+				28,
+				400,
+				56
+			],
+			"font": 34,
+			"text_key": "RECRUIT_UI_TITLE"
+		},
+		"gold_pill": {
+			"rect": [
+				1150,
+				28,
+				240,
+				58
+			],
+			"anchor": "right",
+			"font": 28
+		},
+		"gems_pill": {
+			"rect": [
+				1410,
+				28,
+				270,
+				58
+			],
+			"anchor": "right",
+			"font": 28
+		},
+		"gems_plus": {
+			"rect": [
+				1696,
+				28,
+				58,
+				58
+			],
+			"anchor": "right",
+			"font": 34
+		}
+	},
+	"list": {
+		"origin": [
+			0,
+			116
+		],
+		"item": [
+			330,
+			104
+		],
+		"step": 112,
+		"font": 30
+	},
+	"panel": {
+		"rect": [
+			330,
+			0,
+			1590,
+			1080
+		],
+		"anchor": "center",
+		"kind_tag": {
+			"rect": [
+				560,
+				110,
+				700,
+				40
+			],
+			"font": 26
+		},
+		"title": {
+			"rect": [
+				560,
+				150,
+				900,
+				120
+			],
+			"font": 76
+		},
+		"callout_1": {
+			"rect": [
+				580,
+				500,
+				470,
+				100
+			]
+		},
+		"callout_2": {
+			"rect": [
+				1240,
+				620,
+				470,
+				100
+			]
+		},
+		"callout": {
+			"font": 38
+		},
+		"pity_box": {
+			"rect": [
+				1330,
+				104,
+				560,
+				62
+			],
+			"anchor": "right",
+			"font": 30
+		},
+		"icons": {
+			"origin": [
+				1440,
+				180
+			],
+			"size": 104,
+			"step": 112,
+			"anchor": "right"
+		},
+		"time": {
+			"rect": [
+				1290,
+				296,
+				600,
+				44
+			],
+			"anchor": "right",
+			"font": 28
+		},
+		"gift_card": {
+			"rect": [
+				1530,
+				348,
+				360,
+				120
+			],
+			"anchor": "right",
+			"font": 26
+		},
+		"fragment_line": {
+			"rect": [
+				1150,
+				480,
+				740,
+				96
+			],
+			"anchor": "right",
+			"font": 30
+		},
+		"showcase": {
+			"_ghi_chu": "Banner thường (không pity, vĩnh viễn): 3 ô vũ khí trưng bày. slots = ảnh vũ khí, bars = thanh tên (cùng thứ tự).",
+			"slots": [
+				[
+					560,
+					330,
+					380,
+					380
+				],
+				[
+					990,
+					250,
+					420,
+					420
+				],
+				[
+					1440,
+					300,
+					380,
+					380
+				]
+			],
+			"bars": [
+				[
+					600,
+					730,
+					420,
+					74
+				],
+				[
+					1030,
+					680,
+					400,
+					74
+				],
+				[
+					1500,
+					700,
+					380,
+					74
+				]
+			],
+			"font": 30
+		}
+	},
+	"bottom": {
+		"side": {
+			"origin": [
+				400,
+				640
+			],
+			"item": [
+				330,
+				76
+			],
+			"step": 92,
+			"font": 30
+		},
+		"guarantee_note": {
+			"rect": [
+				1530,
+				780,
+				350,
+				108
+			],
+			"anchor": "right",
+			"font": 22
+		},
+		"wish_1": {
+			"rect": [
+				1150,
+				900,
+				350,
+				136
+			],
+			"anchor": "right",
+			"font": 34
+		},
+		"wish_10": {
+			"rect": [
+				1530,
+				900,
+				350,
+				136
+			],
+			"anchor": "right",
+			"font": 34
+		}
+	},
+	"overlay": {
+		"rect": [
+			300,
+			110,
+			1320,
+			860
+		],
+		"anchor": "center",
+		"font": 26,
+		"result_card": [
+			168,
+			620
+		],
+		"result_gap": 14,
+		"result_reveal_interval": 0.8,
+		"result_reveal_fade": 0.4,
+		"result_reveal_slide": 90,
+		"result_shake_px": 14,
+		"result_shake_sec": 0.45
+	}
+}

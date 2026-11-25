@@ -1,0 +1,10 @@
+# Đầu ra export web (sinh lại bằng tools/web/build_web.sh), không commit
+index.pck
+index.wasm
+index.js
+index.html
+index.png
+index.icon.png
+index.apple-touch-icon.png
+index.audio*.js
+.netlify/

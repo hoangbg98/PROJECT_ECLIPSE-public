@@ -1,0 +1,11 @@
+{
+	"_comment": "Giáp thử cho ô khách của màn cốt truyện (owner 2026-11-21): hạng gốc của giáp (S), mặc đủ các món đề cử dưới đây, cấp nhân vật = cấp tối đa theo cấp quản lý (GuestSlot.trial_profile). Dựng riêng trong bộ nhớ, không ghi vào save. Danh sách món lấy theo bộ đề cử của banner 5 sao của nhân vật đó (data/banners/).",
+	"char_earth_01": {
+		"equipment": [
+			"eq_weapon_unyielding_peak",
+			"eq_stigma_top_darwin",
+			"eq_stigma_mid_darwin",
+			"eq_stigma_bot_darwin"
+		]
+	}
+}

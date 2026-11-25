@@ -1,0 +1,303 @@
+extends GdUnitTestSuite
+## Test OnlineService + OnlineConfig + màn Đăng nhập + màn Tài khoản (M9-1) với máy chủ giả FakeNakama (không dùng mạng).
+
+const SERVICE_SCRIPT := preload("res://scripts/online/online_service.gd")
+const SAVE_SCRIPT := preload("res://scripts/save/save_service.gd")
+const LOGIN_SCENE := preload("res://scenes/main/login_screen.tscn")
+const ONLINE_SCENE := preload("res://scenes/main/online_screen.tscn")
+const DEVICE_FILE := "user://test_online_device.cfg"
+const SESSION_FILE := "user://test_online_session.cfg"
+const USER_CFG := "user://test_online.cfg"
+const OFFLINE_DIR := "user://test_online_offline"
+const CLOUD_ROOT := "user://test_online_cloud"
+
+var fake: FakeNakama
+
+
+func before_test() -> void:
+	fake = FakeNakama.new()
+	_cleanup()
+
+
+func after_test() -> void:
+	_cleanup()
+
+
+func _cleanup() -> void:
+	for f in [DEVICE_FILE, SESSION_FILE, USER_CFG]:
+		DirAccess.remove_absolute(f)
+	OnlineTestKit.remove_tree(OFFLINE_DIR)
+	OnlineTestKit.remove_tree(CLOUD_ROOT)
+
+
+func _make_service(key := FakeNakama.SERVER_KEY) -> Node:
+	var saves: Node = auto_free(SAVE_SCRIPT.new())
+	add_child(saves)
+	saves.offline_dir = OFFLINE_DIR
+	saves.use_store(SaveStore.new(OFFLINE_DIR))
+	var s: Node = auto_free(SERVICE_SCRIPT.new())
+	s.config = OnlineConfig.load_from(OnlineConfig.DATA_PATH, USER_CFG)
+	s.config.server_key = key
+	s.device_file = DEVICE_FILE
+	s.session_file = SESSION_FILE
+	s.cloud_root = CLOUD_ROOT
+	s.save_service = saves
+	s.push_delay = 0.0
+	s.chat_auto_start = false
+	s.connection_guard = false
+	s.transport = fake.handle
+	add_child(s)
+	return s
+
+
+func test_legacy_direct_nakama_url_moves_to_gateway() -> void:
+	var cfg := ConfigFile.new()
+	cfg.set_value("server", "url", "http://127.0.0.1:7350")
+	cfg.save(USER_CFG)
+	var c := OnlineConfig.load_from(OnlineConfig.DATA_PATH, USER_CFG)
+	assert_str(c.server_url).is_equal(c.default_server_url)
+	assert_str(c.server_url).is_equal("http://127.0.0.1:7360")
+	DirAccess.remove_absolute(USER_CFG)
+
+
+func test_config_reads_data_and_saves_user_url() -> void:
+	var c := OnlineConfig.load_from(OnlineConfig.DATA_PATH, USER_CFG)
+	assert_str(c.server_url).is_equal("http://127.0.0.1:7360")
+	assert_str(c.server_key).is_not_empty()
+	assert_str(c.set_server_url("abc.trycloudflare.com/")).is_equal("https://abc.trycloudflare.com")
+	assert_str(OnlineConfig.load_from(OnlineConfig.DATA_PATH, USER_CFG).server_url).is_equal("https://abc.trycloudflare.com")
+	c.set_server_url("")
+	assert_str(OnlineConfig.load_from(OnlineConfig.DATA_PATH, USER_CFG).server_url).is_equal(c.default_server_url)
+
+
+func test_register_validates_before_sending() -> void:
+	var s := _make_service()
+	assert_bool(await s.register("a b", "x@example.com", "matkhau123", "matkhau123")).is_false()
+	assert_str(s.last_error).is_equal("LOGIN_ERR_USERNAME")
+	assert_bool(await s.register("newbie", "khong-phai-email", "matkhau123", "matkhau123")).is_false()
+	assert_str(s.last_error).is_equal("LOGIN_ERR_EMAIL")
+	assert_bool(await s.register("newbie", "n@example.com", "1234567", "1234567")).is_false()
+	assert_str(s.last_error).is_equal("LOGIN_ERR_PASSWORD_SHORT")
+	assert_bool(await s.register("newbie", "n@example.com", "matkhau123", "matkhau124")).is_false()
+	assert_str(s.last_error).is_equal("LOGIN_ERR_PASSWORD_MISMATCH")
+	assert_int(fake.sent.size()).is_equal(0)
+
+
+func test_register_then_login_by_name_and_email() -> void:
+	var s := _make_service()
+	assert_bool(await s.register("newbie", "n@example.com", "matkhau123", "matkhau123")).is_true()
+	assert_bool(s.is_online()).is_true()
+	assert_str(s.username()).is_equal("newbie")
+	assert_int(str(s.profile["code"]).length()).is_equal(8)
+	assert_str(fake.sent[0]["url"]).contains("create=true&username=newbie")
+	s.logout()
+	assert_bool(s.is_online()).is_false()
+	assert_bool(await s.login_account("newbie", "matkhau123")).is_true()
+	s.logout()
+	assert_bool(await s.login_account("n@example.com", "matkhau123")).is_true()
+	assert_str(s.username()).is_equal("newbie")
+
+
+func test_login_and_register_errors() -> void:
+	var s := _make_service()
+	assert_bool(await s.login_account("tester1", "sai_mat_khau")).is_false()
+	assert_str(s.last_error).is_equal("LOGIN_ERR_BAD_CREDENTIALS")
+	assert_bool(await s.login_account("tester1", "sai")).is_false()
+	assert_str(s.last_error).is_equal("LOGIN_ERR_BAD_CREDENTIALS")
+	assert_bool(await s.login_account("khongco", "matkhau123")).is_false()
+	assert_str(s.last_error).is_equal("LOGIN_ERR_BAD_CREDENTIALS")
+	assert_bool(await s.login_account("", "")).is_false()
+	assert_str(s.last_error).is_equal("LOGIN_ERR_EMPTY")
+	assert_bool(await s.register("tester1", "z@example.com", "matkhau123", "matkhau123")).is_false()
+	assert_str(s.last_error).is_equal("LOGIN_ERR_USERNAME_TAKEN")
+	var wrong := _make_service("sai")
+	assert_bool(await wrong.login_account("tester1", "matkhau123")).is_false()
+	assert_str(wrong.last_error).is_equal("ONLINE_ERR_AUTH")
+	fake.down = true
+	assert_bool(await s.login_account("tester1", "matkhau123")).is_false()
+	assert_str(s.last_error).is_equal("ONLINE_ERR_UNREACHABLE")
+
+
+func test_remember_resume_and_logout() -> void:
+	var s := _make_service()
+	assert_bool(await s.login_account("tester1", "matkhau123", true)).is_true()
+	assert_bool(s.has_saved_session()).is_true()
+	assert_str(s.saved_username()).is_equal("tester1")
+	var s2 := _make_service()
+	assert_bool(await s2.resume()).is_true()
+	assert_str(s2.username()).is_equal("tester1")
+	assert_int(fake.requests_to("/v2/account/session/refresh")).is_equal(1)
+	s2.logout()
+	assert_bool(s2.has_saved_session()).is_false()
+	assert_bool(await s.login_account("tester1", "matkhau123", false)).is_true()
+	assert_bool(s.has_saved_session()).is_false()
+
+
+func test_resume_other_server_is_dropped() -> void:
+	var s := _make_service()
+	assert_bool(await s.login_account("tester1", "matkhau123", true)).is_true()
+	var s2 := _make_service()
+	s2.config.server_url = "https://khac.trycloudflare.com"
+	assert_bool(await s2.resume()).is_false()
+	assert_bool(s2.has_saved_session()).is_false()
+
+
+func test_expired_token_refreshes_in_memory() -> void:
+	var s := _make_service()
+	assert_bool(await s.login_account("tester1", "matkhau123", false)).is_true()
+	fake.expire_once = true
+	fake.sent.clear()
+	assert_bool(await s.refresh_profile()).is_true()
+	assert_int(fake.sent.size()).is_equal(3)
+	assert_str(fake.sent[1]["url"]).ends_with("/v2/account/session/refresh")
+
+
+func test_device_login_still_works() -> void:
+	var s := _make_service()
+	var a: String = s.device_id()
+	assert_int(a.length()).is_equal(32)
+	assert_str(s.device_id()).is_equal(a)
+	assert_bool(await s.login_device()).is_true()
+	assert_int(s.wallet_amount("gems")).is_equal(600)
+	assert_int(s.wallet_amount("gold")).is_equal(0)
+
+
+func _make_login(s: Node) -> Control:
+	var screen: Control = LOGIN_SCENE.instantiate()
+	screen.service = s
+	screen.navigate = false
+	add_child(screen)
+	auto_free(screen)
+	return screen
+
+
+func test_login_screen_register_and_login() -> void:
+	var s := _make_service()
+	var screen := _make_login(s)
+	assert_bool((screen.find_child("TabLogin", true, false) as Button).button_pressed).is_true()
+	screen.set_mode(LoginScreen.Mode.REGISTER)
+	screen.field("reg_name").text = "newbie"
+	screen.field("reg_email").text = "n@example.com"
+	screen.field("reg_password").text = "matkhau123"
+	screen.field("reg_confirm").text = "khac"
+	assert_bool(await screen.submit()).is_false()
+	assert_str(screen.status_text()).is_equal(tr("LOGIN_ERR_PASSWORD_MISMATCH"))
+	assert_int(screen.entered).is_equal(0)
+	screen.field("reg_confirm").text = "matkhau123"
+	assert_bool(await screen.submit()).is_true()
+	assert_int(screen.entered).is_equal(1)
+	s.logout()
+	screen.set_mode(LoginScreen.Mode.LOGIN)
+	screen.field("login_name").text = "newbie"
+	screen.field("login_password").text = "matkhau123"
+	assert_bool(await screen.submit()).is_true()
+	assert_int(screen.entered).is_equal(2)
+
+
+func test_login_screen_resumes_saved_session_and_has_no_offline_button() -> void:
+	var s := _make_service()
+	assert_bool(await s.login_account("tester1", "matkhau123", true)).is_true()
+	var s2 := _make_service()
+	var screen := _make_login(s2)
+	await await_millis(50)
+	assert_int(screen.entered).is_equal(1)
+	assert_bool(s2.is_online()).is_true()
+	var s3 := _make_service()
+	s3.logout()
+	var screen2 := _make_login(s3)
+	assert_object(screen2.find_child("OfflineButton", true, false)).is_null()   # owner 2026-11-21: không có chơi ngoại tuyến
+	assert_bool(screen2.has_method("play_offline")).is_false()
+	assert_int(screen2.entered).is_equal(0)
+
+
+func test_dev_offline_only_in_debug_headless_or_flag() -> void:
+	# Test chạy headless trong bản debug của editor → được phép bỏ qua đăng nhập (test tự động). Bản release: luôn false.
+	assert_bool(OnlineConfig.dev_offline()).is_equal(OS.is_debug_build())
+	assert_bool(load("res://scripts/ui/boot.gd").show_login()).is_equal(not OS.is_debug_build())
+
+
+func test_connection_lost_overlay_pauses_and_recovers() -> void:
+	var s := _make_service()
+	s.connection_guard = true
+	assert_bool(await s.login_account("tester1", "matkhau123", false)).is_true()
+	assert_str(await s.open_cloud_world()).is_equal("ok")
+	assert_bool(s.is_logged_in()).is_true()
+	# máy chủ tắt: kiểm tra định kỳ thất bại → lớp phủ
+	fake.down = true
+	var ov := ConnectionOverlay.new()
+	ov.pause_game = false
+	ov.navigate = false
+	ov.service = s
+	add_child(auto_free(ov))
+	s.overlay = ov
+	assert_bool(await s.check_connection(true)).is_false()
+	await await_idle_frame()
+	assert_bool(ov.is_showing()).is_true()
+	assert_bool(s.is_logged_in()).is_true()                  # vẫn giữ phiên, chỉ chờ mạng
+	assert_bool(await ov.try_reconnect()).is_false()
+	assert_str((ov.find_child("Status", true, false) as Label).text).is_equal(tr("CONN_LOST_RETRY_N") % 1)
+	# mạng về: thử lại được, lớp phủ ẩn
+	fake.down = false
+	assert_bool(await ov.try_reconnect()).is_true()
+	assert_bool(ov.is_showing()).is_false()
+	assert_bool(s.is_online()).is_true()
+	# bấm Về đăng nhập: đăng xuất
+	ov.show_lost()
+	ov.back_to_login()
+	assert_bool(ov.is_showing()).is_false()
+	assert_bool(s.is_logged_in()).is_false()
+
+
+func test_overlay_notice_mode() -> void:
+	var ov := ConnectionOverlay.new()
+	ov.pause_game = false
+	ov.navigate = false
+	add_child(auto_free(ov))
+	ov.show_notice(tr("CHEAT_REJECTED_TITLE"), tr("CHEAT_REJECTED_TEXT"))
+	assert_bool(ov.is_showing()).is_true()
+	assert_bool(ov.notice_mode).is_true()
+	assert_str((ov.find_child("Title", true, false) as Label).text).is_equal(tr("CHEAT_REJECTED_TITLE"))
+	assert_bool((ov.find_child("OkButton", true, false) as Control).visible).is_true()
+	assert_bool((ov.find_child("RetryButton", true, false) as Control).visible).is_false()
+	ov.acknowledge_notice()
+	assert_bool(ov.is_showing()).is_false()
+	ov.show_lost()
+	assert_bool(ov.notice_mode).is_false()
+	assert_str((ov.find_child("Title", true, false) as Label).text).is_equal(tr("CONN_LOST_TITLE"))
+	assert_bool((ov.find_child("RetryButton", true, false) as Control).visible).is_true()
+	ov.hide_overlay()
+
+
+func test_connection_guard_off_or_no_world_never_shows_overlay() -> void:
+	var s := _make_service()
+	s.connection_guard = true
+	assert_bool(await s.login_account("tester1", "matkhau123", false)).is_true()
+	fake.down = true
+	assert_bool(await s.check_connection(true)).is_false()   # chưa vào thế giới (màn Đăng nhập): không phủ
+	assert_object(s.overlay).is_null()
+
+
+func test_login_screen_changes_server() -> void:
+	var s := _make_service()
+	var screen := _make_login(s)
+	screen.apply_server("abc.trycloudflare.com")
+	assert_str(s.config.server_url).is_equal("https://abc.trycloudflare.com")
+	assert_str((screen.find_child("ServerLabel", true, false) as Label).text).contains("abc.trycloudflare.com")
+
+
+func test_online_screen_shows_account_code_wallet_and_cloud() -> void:
+	var s := _make_service()
+	var screen: Control = ONLINE_SCENE.instantiate()
+	screen.service = s
+	add_child(screen)
+	auto_free(screen)
+	var profile_box: Control = screen.find_child("Profile", true, false)
+	assert_bool(profile_box.visible).is_false()
+	assert_bool((screen.find_child("LoginButton", true, false) as Control).visible).is_true()
+	assert_bool(await s.login_account("tester1", "matkhau123", false)).is_true()
+	assert_str(await s.open_cloud_world()).is_equal("ok")
+	assert_bool(profile_box.visible).is_true()
+	assert_str((screen.find_child("Account", true, false) as Label).text).contains("tester1")
+	assert_str((screen.find_child("Code", true, false) as Label).text).is_equal("3235 4120")
+	assert_str((screen.find_child("Wallet", true, false) as Label).text).contains("600")
+	assert_str((screen.find_child("CloudStatus", true, false) as Label).text).is_equal(tr("CLOUD_STATE_SYNCED"))

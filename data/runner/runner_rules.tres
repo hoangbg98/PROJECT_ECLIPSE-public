@@ -1,0 +1,45 @@
+[gd_resource type="Resource" script_class="RunnerRules" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/minigame/runner/runner_rules.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+player_x = 480.0
+ground_y = 840.0
+spawn_x = 2000.0
+jump_velocity = 1300.0
+gravity = 4000.0
+coyote_time = 0.08
+jump_buffer = 0.12
+swap_cooldown = 0.12
+perfect_swap_window = 0.3
+gate_grace = 0.05
+hurt_width = 110.0
+hurt_height = 230.0
+pickup_radius = 60.0
+hp_max = 100
+hit_damage = 20
+gate_damage = 25
+invuln_time = 1.2
+pit_invuln_time = 1.5
+score_pass = 50
+score_gate_perfect = 200
+score_gate = 100
+score_orb = 10
+score_orb_match = 20
+combo_bonus_step = 0.002
+combo_bonus_cap = 100
+fever_max = 100.0
+fever_gate_perfect = 4.0
+fever_pass = 1.0
+fever_orb = 0.25
+fever_hit = -20.0
+fever_duration = 8.0
+fever_multiplier = 1.5
+fever_magnet_radius = 300.0
+gate_normal_weight = 0.8
+rank_s = 0.95
+rank_a = 0.9
+rank_b = 0.8
+rank_c = 0.7
+countdown_sec = 3.0

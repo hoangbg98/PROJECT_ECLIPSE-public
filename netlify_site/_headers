@@ -1,0 +1,10 @@
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Cross-Origin-Opener-Policy: same-origin-allow-popups
+/index.pck
+  Cache-Control: public, max-age=0, must-revalidate
+/index.wasm
+  Content-Type: application/wasm
+/v2/*
+  Cache-Control: no-store

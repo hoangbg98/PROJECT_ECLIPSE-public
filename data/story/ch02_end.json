@@ -1,0 +1,458 @@
+{
+	"_comment": "Sinh bởi tools/story/gen_story_clips_02.py — sửa ở đó rồi chạy lại.",
+	"id": "ch02_end",
+	"design_size": [
+		1920,
+		1080
+	],
+	"image_dir": "res://assets/story/ch02",
+	"placeholder_dir": "res://assets/placeholders/story",
+	"summary": "STORY_CH02_END_SUMMARY",
+	"pages": [
+		{
+			"layout": "A",
+			"panels": [
+				{
+					"image": "ch02_end_01",
+					"poly": [
+						[
+							40,
+							40
+						],
+						[
+							1880,
+							40
+						],
+						[
+							1880,
+							360
+						],
+						[
+							40,
+							420
+						]
+					],
+					"enter": "right",
+					"desc": "Thủ Vệ Cổng gục, vòng 00 nứt vỡ trên ngực; Iwagane chống đại kiếm thở dốc dưới bình minh.",
+					"lines": [
+						{
+							"speaker": "char_earth_01",
+							"text": "STORY_CH02_END_01_1"
+						}
+					]
+				},
+				{
+					"image": "ch02_end_02",
+					"poly": [
+						[
+							40,
+							444
+						],
+						[
+							1000,
+							413
+						],
+						[
+							940,
+							800
+						],
+						[
+							40,
+							800
+						]
+					],
+					"enter": "down",
+					"desc": "Raikiba xoa vai, nhìn Iwagane ngưỡng mộ.",
+					"lines": [
+						{
+							"speaker": "char_lightning_01",
+							"text": "STORY_CH02_END_02_1"
+						},
+						{
+							"speaker": "char_earth_01",
+							"text": "STORY_CH02_END_02_2"
+						}
+					]
+				},
+				{
+					"image": "ch02_end_03",
+					"poly": [
+						[
+							1024,
+							412
+						],
+						[
+							1880,
+							384
+						],
+						[
+							1880,
+							800
+						],
+						[
+							964,
+							800
+						]
+					],
+					"enter": "left",
+					"desc": "Kazeyumi nâng mảnh lõi lạ vỡ vụn trong tay.",
+					"lines": [
+						{
+							"speaker": "char_wind_01",
+							"text": "STORY_CH02_END_03_1"
+						}
+					]
+				}
+			]
+		},
+		{
+			"layout": "B",
+			"panels": [
+				{
+					"image": "ch02_end_04",
+					"poly": [
+						[
+							40,
+							40
+						],
+						[
+							760,
+							40
+						],
+						[
+							700,
+							800
+						],
+						[
+							40,
+							800
+						]
+					],
+					"enter": "up",
+					"desc": "Iwagane quay sang đội, cúi đầu thật sâu.",
+					"lines": [
+						{
+							"speaker": "char_earth_01",
+							"text": "STORY_CH02_END_04_1"
+						}
+					]
+				},
+				{
+					"image": "ch02_end_05",
+					"poly": [
+						[
+							784,
+							40
+						],
+						[
+							1880,
+							40
+						],
+						[
+							1880,
+							380
+						],
+						[
+							754,
+							420
+						]
+					],
+					"enter": "right",
+					"desc": "Enkiba vẫy tay, cười.",
+					"lines": [
+						{
+							"speaker": "char_fire_01",
+							"text": "STORY_CH02_END_05_1"
+						}
+					]
+				},
+				{
+					"image": "ch02_end_06",
+					"poly": [
+						[
+							752,
+							444
+						],
+						[
+							1880,
+							404
+						],
+						[
+							1880,
+							800
+						],
+						[
+							724,
+							800
+						]
+					],
+					"enter": "down",
+					"desc": "Iwagane nhìn xuống đất; Enkiba siết chặt tay.",
+					"lines": [
+						{
+							"speaker": "char_earth_01",
+							"text": "STORY_CH02_END_06_1"
+						}
+					]
+				}
+			]
+		},
+		{
+			"layout": "F",
+			"panels": [
+				{
+					"image": "ch02_end_07",
+					"poly": [
+						[
+							40,
+							40
+						],
+						[
+							1880,
+							40
+						],
+						[
+							1880,
+							360
+						],
+						[
+							40,
+							460
+						]
+					],
+					"enter": "left",
+					"desc": "Neo chiếu bản đồ: vệt chở lõi kéo về một thành có những cột sét cao.",
+					"lines": [
+						{
+							"speaker": "neo",
+							"text": "STORY_CH02_END_07_1"
+						}
+					]
+				},
+				{
+					"image": "ch02_end_08",
+					"poly": [
+						[
+							40,
+							484
+						],
+						[
+							1880,
+							384
+						],
+						[
+							1880,
+							800
+						],
+						[
+							40,
+							800
+						]
+					],
+					"enter": "up",
+					"desc": "Raikiba tái mặt, ngẩng lên.",
+					"lines": [
+						{
+							"speaker": "char_lightning_01",
+							"text": "STORY_CH02_END_08_1"
+						}
+					]
+				}
+			]
+		},
+		{
+			"layout": "D",
+			"panels": [
+				{
+					"image": "ch02_end_09",
+					"poly": [
+						[
+							40,
+							40
+						],
+						[
+							1160,
+							40
+						],
+						[
+							40,
+							660
+						]
+					],
+					"enter": "right",
+					"desc": "Thợ Cả Ishiro, được dìu ra, đặt một vòng đá ba vòng chồng nhau vào tay Iwagane.",
+					"lines": [
+						{
+							"speaker": "ishiro",
+							"text": "STORY_CH02_END_09_1"
+						}
+					]
+				},
+				{
+					"image": "ch02_end_10",
+					"poly": [
+						[
+							1200,
+							40
+						],
+						[
+							1880,
+							40
+						],
+						[
+							1880,
+							140
+						],
+						[
+							720,
+							800
+						],
+						[
+							40,
+							800
+						],
+						[
+							40,
+							704
+						]
+					],
+					"enter": "down",
+					"desc": "Iwagane nhìn Neo rồi nhìn xưởng.",
+					"lines": [
+						{
+							"speaker": "char_earth_01",
+							"text": "STORY_CH02_END_10_1"
+						},
+						{
+							"speaker": "neo",
+							"text": "STORY_CH02_END_10_2"
+						}
+					]
+				},
+				{
+					"image": "ch02_end_11",
+					"poly": [
+						[
+							1880,
+							180
+						],
+						[
+							1880,
+							800
+						],
+						[
+							760,
+							800
+						]
+					],
+					"enter": "left",
+					"desc": "Ba người cười, vẫy tay chào.",
+					"lines": [
+						{
+							"speaker": "char_wind_01",
+							"text": "STORY_CH02_END_11_1"
+						}
+					]
+				}
+			]
+		},
+		{
+			"layout": "E",
+			"panels": [
+				{
+					"image": "ch02_end_12",
+					"poly": [
+						[
+							40,
+							40
+						],
+						[
+							1880,
+							40
+						],
+						[
+							1880,
+							800
+						],
+						[
+							40,
+							800
+						]
+					],
+					"enter": "up",
+					"desc": "Cả đội đi xuống bậc đá về phía bắc; Mặt Trời Khuyết nhô lên.",
+					"lines": [
+						{
+							"speaker": "neo",
+							"text": "STORY_CH02_END_12_1"
+						}
+					]
+				}
+			]
+		},
+		{
+			"card": {
+				"title": "STORY_CH02_END_CARD_TITLE",
+				"sub": "STORY_CH02_END_CARD_SUB"
+			}
+		},
+		{
+			"layout": "C",
+			"panels": [
+				{
+					"image": "ch02_end_13",
+					"poly": [
+						[
+							40,
+							40
+						],
+						[
+							1300,
+							40
+						],
+						[
+							900,
+							800
+						],
+						[
+							40,
+							800
+						]
+					],
+					"enter": "right",
+					"desc": "Dưới chân cổng bình minh, Shokuhai giáp vá lại bước qua thân Thủ Vệ Cổng, nhặt các lõi nhỏ rơi vãi.",
+					"lines": [
+						{
+							"speaker": "unknown",
+							"text": "STORY_CH02_END_13_1"
+						}
+					]
+				},
+				{
+					"image": "ch02_end_14",
+					"poly": [
+						[
+							1324,
+							40
+						],
+						[
+							1880,
+							40
+						],
+						[
+							1880,
+							800
+						],
+						[
+							924,
+							800
+						]
+					],
+					"enter": "down",
+					"desc": "Shokuhai hấp thụ lõi vào giáp: vòng 00 lóe lên, vết nứt trên mặt nạ liền lại một phần.",
+					"lines": []
+				}
+			]
+		}
+	]
+}

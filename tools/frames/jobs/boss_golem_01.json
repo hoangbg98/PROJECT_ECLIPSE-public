@@ -1,0 +1,28 @@
+{
+	"_huong_dan": "Phiếu việc tạo frame cho boss Golem Đá Cổ (boss_golem_01). kind = enemy, khung 768×512 (tâm x = 384, chân y = 464; khung ngang rộng vì đòn đập / húc với tới ~320 px trước mặt), asset ở assets/enemies/boss_golem_01/. Tên animation đòn đánh khớp SkillDef.animation trong data/enemies/boss_golem_01.tres (slam, charge, quake); thời gian lấy từ đòn pha 1 (pha 2 dùng chung animation, code phát nhanh hơn). Phiếu Markdown ở docs/prompts/codex_frames/boss_golem_01/ viết tay (Claude 2026-11-19) từ docs/design/MONSTERS.md mục 4, 7.3 và bảng bộ phận owner đã điền.",
+	"kind": "enemy",
+	"character_id": "boss_golem_01",
+	"display_name": "Golem Đá Cổ",
+	"suit_name": "",
+	"canvas": {"width": 768, "height": 512},
+	"pivot_x": 384,
+	"baseline_y": 464,
+	"standing_height_px": 330,
+	"default_weapon_state": "none",
+	"design_en": "Ancient Stone Golem, a huge hulking cartoon stone guardian boss: massive body built from big angular grey-brown boulders with thin glowing orange lava cracks; a small blocky head sunk between huge boulder shoulders, with narrow glowing yellow-orange eye slits; enormous boulder shoulders with short iron chains holding small hanging stones; a broad chest with a round seal in the middle that is half white and half black inside a dark ring; giant blocky stone forearms ending in huge fists; short thick boulder legs with blocky feet. Thick dark brown-black outline, 2-tone cel shading.",
+	"refs_always": [
+		["docs/prompts/codex_frames/boss_golem_01/ref/boss_golem_01_ref_p01_than_day_du.png", "Thân đầy đủ (số 01): hình khối, xích vai, lõi ấn trắng-đen, màu, nét viền"],
+		["docs/prompts/codex_frames/boss_golem_01/ref/boss_golem_01_ref_p33_pose_dung.png", "Pose đứng (số 33): tỉ lệ, góc 3/4 quay phải"]
+	],
+	"order": ["idle", "move", "slam", "charge", "quake", "stun", "phase", "death"],
+	"animations": {
+		"idle": {"target_frames": 6, "fps": 8, "loop": true, "grounded": true},
+		"move": {"target_frames": 8, "fps": 8, "loop": true, "grounded": true, "ref_frame": 0, "ref_ratio": 1.0},
+		"slam": {"target_frames": 18, "timing_ms": [700, 150, 700], "hits_ms": [[700, 150]], "loop": false, "grounded": true, "ref_frame": 0, "ref_ratio": 1.0},
+		"charge": {"target_frames": 22, "timing_ms": [600, 400, 800], "hits_ms": [[600, 400]], "loop": false, "grounded": true, "ref_frame": 0, "ref_ratio": 1.0},
+		"quake": {"target_frames": 20, "timing_ms": [800, 200, 700], "hits_ms": [[800, 200]], "loop": false, "grounded": true, "ref_frame": 0, "ref_ratio": 1.0},
+		"stun": {"target_frames": 6, "fps": 8, "loop": true, "grounded": true, "ref_frame": 0, "ref_ratio": 0.75},
+		"phase": {"target_frames": 12, "fps": 10, "loop": false, "grounded": true, "ref_frame": 0, "ref_ratio": 1.0},
+		"death": {"target_frames": 12, "fps": 10, "loop": false, "grounded": true, "ref_frame": 0, "ref_ratio": 0.95}
+	}
+}

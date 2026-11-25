@@ -1,0 +1,42 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/vfx/vfx_aether_ultimate.gd" id="1_vfx"]
+
+[node name="VfxAetherUltimate" type="Node2D"]
+script = ExtResource("1_vfx")
+gather_frame_paths = PackedStringArray("res://assets/characters/char_fire_01/vfx/char_fire_01_vfx_ultimate_flame_gather_000.png", "res://assets/characters/char_fire_01/vfx/char_fire_01_vfx_ultimate_flame_gather_001.png", "res://assets/characters/char_fire_01/vfx/char_fire_01_vfx_ultimate_flame_gather_002.png", "res://assets/characters/char_fire_01/vfx/char_fire_01_vfx_ultimate_flame_gather_003.png")
+phoenix_frame_paths = PackedStringArray("res://assets/characters/char_fire_01/vfx/char_fire_01_vfx_ultimate_phoenix_000.png", "res://assets/characters/char_fire_01/vfx/char_fire_01_vfx_ultimate_phoenix_001.png", "res://assets/characters/char_fire_01/vfx/char_fire_01_vfx_ultimate_phoenix_002.png", "res://assets/characters/char_fire_01/vfx/char_fire_01_vfx_ultimate_phoenix_003.png", "res://assets/characters/char_fire_01/vfx/char_fire_01_vfx_ultimate_phoenix_004.png")
+slash_frame_paths = PackedStringArray("res://assets/characters/char_fire_01/vfx/char_fire_01_vfx_ultimate_slash_000.png", "res://assets/characters/char_fire_01/vfx/char_fire_01_vfx_ultimate_slash_001.png", "res://assets/characters/char_fire_01/vfx/char_fire_01_vfx_ultimate_slash_002.png", "res://assets/characters/char_fire_01/vfx/char_fire_01_vfx_ultimate_slash_003.png", "res://assets/characters/char_fire_01/vfx/char_fire_01_vfx_ultimate_slash_004.png")
+explosion_frame_paths = PackedStringArray("res://assets/characters/char_fire_01/vfx/char_fire_01_vfx_ultimate_explosion_000.png", "res://assets/characters/char_fire_01/vfx/char_fire_01_vfx_ultimate_explosion_001.png", "res://assets/characters/char_fire_01/vfx/char_fire_01_vfx_ultimate_explosion_002.png", "res://assets/characters/char_fire_01/vfx/char_fire_01_vfx_ultimate_explosion_003.png", "res://assets/characters/char_fire_01/vfx/char_fire_01_vfx_ultimate_explosion_004.png", "res://assets/characters/char_fire_01/vfx/char_fire_01_vfx_ultimate_explosion_005.png")
+
+[node name="FlameGather" type="AnimatedSprite2D" parent="."]
+
+[node name="Phoenix" type="AnimatedSprite2D" parent="."]
+
+[node name="Explosion" type="AnimatedSprite2D" parent="."]
+
+[node name="Slash000" type="Sprite2D" parent="."]
+
+[node name="Slash001" type="Sprite2D" parent="."]
+
+[node name="Slash002" type="Sprite2D" parent="."]
+
+[node name="Slash003" type="Sprite2D" parent="."]
+
+[node name="Slash004" type="Sprite2D" parent="."]
+
+[node name="Shockwave000" type="Line2D" parent="."]
+
+[node name="Shockwave001" type="Line2D" parent="."]
+
+[node name="Shockwave002" type="Line2D" parent="."]
+
+[node name="Shockwave003" type="Line2D" parent="."]
+
+[node name="Shockwave004" type="Line2D" parent="."]
+
+[node name="Aura" type="CPUParticles2D" parent="."]
+
+[node name="FlameTail" type="CPUParticles2D" parent="."]
+
+[node name="Embers" type="CPUParticles2D" parent="."]

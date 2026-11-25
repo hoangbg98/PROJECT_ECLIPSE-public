@@ -1,0 +1,27 @@
+{
+  "_comment": "Bảng giá nạp (owner 2026-11-16 / 2026-11-21, ảnh docs/reference/topup_price_table.png). NGUỒN CHÍNH của bảng giá (KHÔNG chứa thông tin nhận tiền: ngân hàng / số tài khoản nằm ở server\\private\\payment.json, không vào git, grant.ps1 và build_function.mjs tự gộp vào; mẫu: data\\shop\\payment.example.json): server\\grant.ps1 tự đẩy file này lên máy chủ khi dùng -Pack (hoặc -SyncPacks); game hiển thị bảng giá lấy từ máy chủ (đổi giá chỉ cần sửa file này, không cần build lại). price = đồng (VND). first_bonus: nạp lần đầu (mỗi tài khoản, mỗi gói, mỗi kỳ) được thêm đúng số lượng gói, chỉ gói Ngọc; QTV mở lại thưởng bằng grant.ps1 -ResetFirstBonus. Tiền nạp riêng 'moonlight' (Nguyệt Quang) chỉ có qua nạp: mua thẻ tháng (card.cost), sau này trang phục có hiệu ứng riêng, Battle Pass.",
+  "price_currency": "VND",
+  "card": {
+    "days": 30,
+    "daily": 30,
+    "milestone_every": 15,
+    "milestone_bonus": 500,
+    "max_days": 180,
+    "reset_utc_offset_hours": 7,
+    "cost_currency": "moonlight",
+    "cost": 330
+  },
+  "packs": [
+    { "id": "gems_330", "kind": "currency", "currency": "gems", "amount": 330, "price": 70000, "first_bonus": true },
+    { "id": "gems_660", "kind": "currency", "currency": "gems", "amount": 660, "price": 140000, "first_bonus": true },
+    { "id": "gems_1320", "kind": "currency", "currency": "gems", "amount": 1320, "price": 280000, "first_bonus": true },
+    { "id": "gems_3300", "kind": "currency", "currency": "gems", "amount": 3300, "price": 700000, "first_bonus": true },
+    { "id": "gems_6600", "kind": "currency", "currency": "gems", "amount": 6600, "price": 1400000, "first_bonus": true },
+    { "id": "moonlight_330", "kind": "currency", "currency": "moonlight", "amount": 330, "price": 70000, "first_bonus": false },
+    { "id": "moonlight_990", "kind": "currency", "currency": "moonlight", "amount": 990, "price": 210000, "first_bonus": false },
+    { "id": "moonlight_1320", "kind": "currency", "currency": "moonlight", "amount": 1320, "price": 280000, "first_bonus": false },
+    { "id": "moonlight_1980", "kind": "currency", "currency": "moonlight", "amount": 1980, "price": 420000, "first_bonus": false },
+    { "id": "moonlight_3300", "kind": "currency", "currency": "moonlight", "amount": 3300, "price": 700000, "first_bonus": false },
+    { "id": "moonlight_6600", "kind": "currency", "currency": "moonlight", "amount": 6600, "price": 1400000, "first_bonus": false }
+  ]
+}

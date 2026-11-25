@@ -1,0 +1,64 @@
+[gd_resource type="Resource" script_class="JetRules" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/minigame/jet/jet_rules.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+player_x = 420.0
+floor_y = 900.0
+ceiling_y = 110.0
+spawn_x = 2070.0
+px_per_meter = 60.0
+scroll_cap = 1000.0
+gravity = 2200.0
+thrust = 3600.0
+vy_up_max = 900.0
+vy_down_max = 1100.0
+energy_max = 100.0
+energy_drain = 24.0
+energy_regen_ground = 10.0
+core_gain = 30.0
+hurt_radius = 32.0
+hit_scale = 0.8
+pickup_pad = 22.0
+obstacle_thickness = 13.0
+missile_radius = 28.0
+missile_speed = 650.0
+missile_warn = 1.0
+gate_gap = 300.0
+gate_width = 70.0
+sweep_half = 130.0
+orb_spacing = 70.0
+orb_wave = 80.0
+lives = 3
+invuln_hit = 1.5
+invuln_form_break = 1.2
+dragon_up = 2600.0
+dragon_down = 1500.0
+dragon_vy_up = 650.0
+dragon_vy_down = 800.0
+dragon_radius = 60.0
+dragon_time = 14.0
+robo_gravity = 3400.0
+robo_jump = 1300.0
+robo_radius = 58.0
+robo_time = 10.0
+robo_crush_orbs = 5
+box_orbs = 10
+zone_length_m = 600.0
+zone_banner_sec = 3.2
+wind_cycle = 5.0
+wind_on = 1.5
+wind_off = 3.5
+wind_accel = 1300.0
+score_per_orb = 5
+endless_clear_m = 1500.0
+endless_rank_s = 2.0
+endless_rank_a = 1.5
+endless_rank_b = 1.2
+endless_rank_c = 1.0
+rank_s = 0.95
+rank_a = 0.9
+rank_b = 0.8
+rank_c = 0.7
+countdown_sec = 3.0

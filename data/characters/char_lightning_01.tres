@@ -1,0 +1,55 @@
+[gd_resource type="Resource" script_class="CharacterDef" load_steps=10 format=3]
+
+[ext_resource type="Script" path="res://scripts/characters/character_def.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/characters/combat_stats.gd" id="2"]
+[ext_resource type="Resource" path="res://data/config/movement_default.tres" id="3"]
+[ext_resource type="Script" path="res://scripts/party/switch_in_def.gd" id="si_def"]
+[ext_resource type="Script" path="res://scripts/combat/status_application.gd" id="si_st"]
+[ext_resource type="Script" path="res://scripts/characters/kits/lightning_kit.gd" id="kit_s"]
+[ext_resource type="Resource" path="res://data/characters/char_lightning_01_kit.tres" id="kit_c"]
+
+[sub_resource type="Resource" id="stats"]
+script = ExtResource("2")
+max_hp = 10500.0
+atk = 950.0
+def = 450.0
+crit_rate = 0.05
+crit_damage = 0.5
+cdr = 0.0
+metadata/source = "Số tạm do Claude đặt (README chưa có chỉ số gốc); owner chỉnh."
+
+[sub_resource type="Resource" id="si_l_0"]
+script = ExtResource("si_st")
+status_id = "attack_speed_up"
+duration = 4.0
+magnitude = 0.15
+
+[sub_resource type="Resource" id="switch_in"]
+script = ExtResource("si_def")
+self_statuses_normal = Array[ExtResource("si_st")]([])
+self_statuses_linked = Array[ExtResource("si_st")]([SubResource("si_l_0")])
+reduce_on = "lightning_burst"
+reduce_sec = 1.0
+reduce_max_per_cycle_sec = 3.0
+reduce_window_sec = 5.0
+reduce_icd_sec = 0.0
+metadata/source = "Mục 8.7: Liên kết +15% tốc độ tấn công 4s; mỗi Bùng nổ Sét trong 5s sau khi vào sân -1.0s (tối đa -3.0s)"
+
+[resource]
+script = ExtResource("1")
+id = "char_lightning_01"
+name_key = "CHAR_LIGHTNING_01"
+element = "lightning"
+rank = "B"
+person_id = "raikiba"
+suit_key = "SUIT_LIGHTNING_01"
+weapon_type = "dual_blades"
+stats = SubResource("stats")
+movement = ExtResource("3")
+link_condition = "elemental_status"
+switch_in_cd_sec = 8.0
+switch_in = SubResource("switch_in")
+skills_dir = "res://data/skills/char_lightning_01"
+kit_script = ExtResource("kit_s")
+kit_config = ExtResource("kit_c")
+metadata/source = "Q5: di chuyển, đòn thường, né, switch-in. Kỹ năng khác ngoài slice."

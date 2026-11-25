@@ -1,0 +1,26 @@
+{
+	"_huong_dan": "Phiếu việc tạo frame cho quái Cặn tro (enemy_slime_01). Khác nhân vật: kind = enemy, khung 256×256 (tâm x = 128, chân y = 224), asset ở assets/enemies/enemy_slime_01/. Thời gian đòn attack lấy từ data/enemies/enemy_slime_01.tres (startup 500 / active 150 / recovery 600 ms) ghi vào timing_ms. Phiếu Markdown ở docs/prompts/codex_frames/enemy_slime_01/ viết tay (Claude 2026-11-19) từ docs/design/MONSTERS.md và bảng bộ phận owner đã điền; công cụ chỉ đọc file này để biết số frame / fps / khung. Cần làm phiếu 00_CONG_CU.md trước để tools/frames hiểu kind = enemy.",
+	"kind": "enemy",
+	"character_id": "enemy_slime_01",
+	"display_name": "Cặn tro",
+	"suit_name": "",
+	"canvas": 256,
+	"pivot_x": 128,
+	"baseline_y": 224,
+	"standing_height_px": 100,
+	"default_weapon_state": "none",
+	"design_en": "Ash Dreg, a small cartoon rock-ash blob monster: a squat mound / cone-shaped body built from overlapping grey-brown stone-ash flakes layered like roof shingles, thick dark brown-black outline, 2-tone cel shading, tiny glowing orange ember specks and thin orange cracks between the flakes; two round glowing orange eyes with bright yellow-orange centres and a simple small dark mouth on the front of the mound (no nose, no ears, no arms); two short stubby stone feet under the mound.",
+	"refs_always": [
+		["docs/prompts/codex_frames/enemy_slime_01/ref/enemy_slime_01_ref_p01_than_day_du.png", "Thân đầy đủ (số 01): hình khối, lớp vảy, màu, nét viền"],
+		["docs/prompts/codex_frames/enemy_slime_01/ref/enemy_slime_01_ref_p36_pose_dung_rung.png", "Pose đứng (số 36): tỉ lệ thân / chân, góc nhìn ngang"]
+	],
+	"order": ["idle", "move", "attack", "hurt", "stun", "death"],
+	"animations": {
+		"idle": {"target_frames": 6, "fps": 8, "loop": true, "grounded": true},
+		"move": {"target_frames": 8, "fps": 12, "loop": true, "grounded": false, "ref_frame": 0, "ref_ratio": 1.0},
+		"attack": {"target_frames": 15, "timing_ms": [500, 150, 600], "hits_ms": [[500, 150]], "loop": false, "grounded": false, "ref_frame": 0, "ref_ratio": 1.0},
+		"hurt": {"target_frames": 3, "fps": 12, "loop": false, "grounded": true, "ref_frame": 0, "ref_ratio": 0.85},
+		"stun": {"target_frames": 6, "fps": 8, "loop": true, "grounded": true, "ref_frame": 0, "ref_ratio": 0.8},
+		"death": {"target_frames": 6, "fps": 10, "loop": false, "grounded": true, "ref_frame": 0, "ref_ratio": 1.0}
+	}
+}

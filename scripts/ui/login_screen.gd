@@ -1,0 +1,353 @@
+class_name LoginScreen
+extends Control
+## Màn Đăng nhập (M9-1b, owner 2026-11-16): luôn hiện sau Boot (dev: bản debug + `--offline` bỏ qua, xem OnlineConfig.dev_offline).
+## Hai thẻ: Đăng nhập (tên hoặc email + mật khẩu) và Tạo tài khoản (tên, email, mật khẩu, nhập lại).
+## Có phiên đã ghi nhớ thì tự vào lại. Không có chơi ngoại tuyến (owner 2026-11-21): phải đăng nhập mới vào game.
+## Đăng nhập xong thì mở thế giới của tài khoản (cloud save, M9-3); máy chủ chưa có save mà máy này có save ngoại tuyến
+## thì hỏi mang lên hay bắt đầu mới.
+## Máy chủ coi như dịch vụ ngoài dự án: chỉ biết địa chỉ (mặc định trong data, đổi ở dòng "Máy chủ").
+## Màn chỉ gọi OnlineService; không chứa luật.
+
+enum Mode { LOGIN, REGISTER }
+
+## Bản web (Netlify): chỉ đăng nhập bằng Google (nút Google của trình duyệt phủ lên canvas, xem GoogleSignIn). Ẩn form email,
+## đổi máy chủ. Test gán true để thử luồng Google bằng service giả.
+var google_mode := GoogleSignIn.supported()
+
+## Test gán service giả; null = autoload OnlineService.
+var service: Node
+## false: không chuyển màn khi vào game (test).
+var navigate := true
+## Số lần đã vào game (test đọc).
+var entered := 0
+var mode := Mode.LOGIN
+
+var _fields := {}
+var _status: Label
+var _login_box: VBoxContainer
+var _register_box: GridContainer
+var _tab_login: Button
+var _tab_register: Button
+var _submit: Button
+var _remember: CheckBox
+var _server_label: Label
+var _server_row: HBoxContainer
+var _busy := false
+var _form: Control
+var _import_box: VBoxContainer
+var _tabs: Control
+var _bottom: Control
+var _google: GoogleSignIn
+
+
+func _ready() -> void:
+	set_anchors_preset(Control.PRESET_FULL_RECT)
+	if service == null:
+		service = UiKit.autoload("OnlineService")
+	_build()
+	if google_mode:
+		_apply_google_mode()
+	set_mode(Mode.LOGIN)
+	if google_mode and service:
+		await service.fetch_server_config()   # trước khi vào thế giới: biết có chat hay không
+	if service and service.has_saved_session():
+		await _try_resume()
+	if google_mode and service and not service.is_logged_in() and is_inside_tree():
+		_start_google()
+
+
+func set_mode(m: Mode) -> void:
+	mode = m
+	if google_mode:
+		return
+	_login_box.visible = m == Mode.LOGIN
+	_register_box.visible = m == Mode.REGISTER
+	_tab_login.button_pressed = m == Mode.LOGIN
+	_tab_register.button_pressed = m == Mode.REGISTER
+	_submit.text = tr("LOGIN_SUBMIT") if m == Mode.LOGIN else tr("LOGIN_REGISTER_SUBMIT")
+	_set_status("")
+
+
+func field(key: String) -> LineEdit:
+	return _fields[key]
+
+
+## Bấm nút chính của thẻ đang mở. Trả về true nếu đã vào game.
+func submit() -> bool:
+	if _busy or service == null:
+		return false
+	_busy = true
+	_submit.disabled = true
+	_set_status(tr("ONLINE_STATUS_CONNECTING"))
+	var ok: bool
+	if mode == Mode.LOGIN:
+		ok = await service.login_account(field("login_name").text, field("login_password").text, _remember.button_pressed)
+	else:
+		ok = await service.register(field("reg_name").text, field("reg_email").text, field("reg_password").text,
+				field("reg_confirm").text, _remember.button_pressed)
+	if ok:
+		ok = await _open_world()
+	else:
+		_set_status(tr(service.last_error), true)
+	_busy = false
+	_submit.disabled = false
+	return ok
+
+
+## Đăng nhập bằng ID token Google do nút của trình duyệt trả về. Trả về true nếu đã vào game.
+func submit_google(id_token: String) -> bool:
+	if _busy or service == null:
+		return false
+	_busy = true
+	_set_status(tr("ONLINE_STATUS_CONNECTING"))
+	var ok: bool = await service.login_google(id_token, true)
+	if ok:
+		if _google:
+			_google.hide_button()
+		ok = await _open_world()
+	else:
+		_set_status(tr(service.last_error), true)
+	_busy = false
+	return ok
+
+
+## Trả lời câu hỏi mang save ngoại tuyến lên tài khoản. Trả về true nếu đã vào game.
+func answer_import(import_offline: bool) -> bool:
+	_import_box.visible = false
+	_form.visible = true
+	return await _open_world(import_offline)
+
+
+func is_asking_import() -> bool:
+	return _import_box.visible
+
+
+## Mở thế giới của tài khoản rồi vào game. Trả về true nếu đã vào.
+func _open_world(import_offline: Variant = null) -> bool:
+	_set_status(tr("CLOUD_LOADING"))
+	var r: String = await service.open_cloud_world(import_offline)
+	match r:
+		"ok":
+			_enter_game()
+			return true
+		"ask":
+			_form.visible = false
+			_import_box.visible = true
+			_set_status("")
+		_:
+			_set_status(tr("CLOUD_ERR_OPEN") % tr(service.cloud_error), true)
+	return false
+
+
+## Lưu địa chỉ máy chủ mới (chuỗi rỗng = mặc định).
+func apply_server(raw: String) -> void:
+	service.config.set_server_url(raw)
+	_server_label.text = tr("LOGIN_SERVER") % service.config.server_url
+	_server_row.visible = false
+
+
+func status_text() -> String:
+	return _status.text
+
+
+func _start_google() -> void:
+	var cfg: Dictionary = await service.fetch_server_config()
+	var client_id := str(cfg.get("google_client_id", ""))
+	if client_id.is_empty():
+		_set_status(tr("LOGIN_ERR_GOOGLE_NOT_CONFIGURED"), true)
+		return
+	if _google == null:
+		_google = GoogleSignIn.new()
+		_google.credential_received.connect(submit_google)
+		_google.failed.connect(func(_r: String) -> void: _set_status(tr("LOGIN_ERR_GOOGLE"), true))
+	_set_status(tr("LOGIN_GOOGLE_PROMPT"))
+	if not _google.show_button(client_id):
+		_set_status(tr("LOGIN_ERR_GOOGLE"), true)
+
+
+## Bản web: ẩn form email / mật khẩu / đổi máy chủ, chừa chỗ cho nút Google (JS đặt ở giữa, khoảng 62% chiều cao trang).
+func _apply_google_mode() -> void:
+	for n: Control in [_tabs, _login_box, _register_box, _remember, _submit, _bottom, _server_row]:
+		n.visible = false
+	var hint := UiKit.label(tr("LOGIN_GOOGLE_HINT"), 30, HORIZONTAL_ALIGNMENT_CENTER)
+	hint.name = "GoogleHint"
+	_form.add_child(hint)
+	var space := Control.new()
+	space.custom_minimum_size = Vector2(0, 120)   # chỗ cho nút Google
+	_form.add_child(space)
+
+
+func _try_resume() -> void:
+	_busy = true
+	_submit.disabled = true
+	_set_status(tr("LOGIN_RESUMING") % service.saved_username())
+	var ok: bool = await service.resume()
+	if ok:
+		await _open_world()
+	else:
+		field("login_name").text = service.saved_username()
+		_set_status(tr(service.last_error) if not service.last_error.is_empty() else "", true)
+	_busy = false
+	_submit.disabled = false
+
+
+func _enter_game() -> void:
+	entered += 1
+	if not navigate:
+		return
+	var router := UiKit.autoload("SceneRouter")
+	if router:
+		router.replace(GameConfig.SCENE_TITLE)
+
+
+func _set_status(text: String, is_error := false) -> void:
+	_status.text = text
+	_status.add_theme_color_override("font_color", Color("#FF8A80") if is_error else Color("#C8D0E0"))
+
+
+# ---------- Dựng giao diện ----------
+
+func _build() -> void:
+	var bg := ColorRect.new()
+	bg.color = Color(0.07, 0.09, 0.16, 1)
+	bg.set_anchors_preset(Control.PRESET_FULL_RECT)
+	add_child(bg)
+	var center := CenterContainer.new()
+	center.set_anchors_preset(Control.PRESET_FULL_RECT)
+	add_child(center)
+	var col := UiKit.vbox(24)
+	col.custom_minimum_size.x = 960.0
+	center.add_child(col)
+
+	col.add_child(UiKit.label("PROJECT ECLIPSE", 88, HORIZONTAL_ALIGNMENT_CENTER))
+
+	var panel := PanelContainer.new()
+	var sb := StyleBoxFlat.new()
+	sb.bg_color = Color("#1B1E2B")
+	sb.set_corner_radius_all(16)
+	sb.set_content_margin_all(40)
+	panel.add_theme_stylebox_override("panel", sb)
+	col.add_child(panel)
+	var outer := UiKit.vbox(20)
+	panel.add_child(outer)
+	var box := UiKit.vbox(20)
+	_form = box
+	outer.add_child(box)
+	_import_box = UiKit.vbox(20)
+	_import_box.name = "ImportBox"
+	_import_box.visible = false
+	_import_box.add_child(UiKit.label(tr("CLOUD_IMPORT_TITLE"), 34))
+	_import_box.add_child(UiKit.label(tr("CLOUD_IMPORT_TEXT"), 26))
+	var yes := UiKit.button(tr("CLOUD_IMPORT_YES"), 320.0, 30)
+	yes.name = "ImportYes"
+	yes.custom_minimum_size.y = 96.0
+	yes.pressed.connect(func() -> void: answer_import(true))
+	_import_box.add_child(yes)
+	var no := UiKit.button(tr("CLOUD_IMPORT_NO"), 320.0, 30)
+	no.name = "ImportNo"
+	no.custom_minimum_size.y = 96.0
+	no.pressed.connect(func() -> void: answer_import(false))
+	_import_box.add_child(no)
+	outer.add_child(_import_box)
+
+	var tabs := UiKit.hbox(12)
+	_tabs = tabs
+	var group := ButtonGroup.new()
+	_tab_login = _tab_button(tr("LOGIN_TAB_LOGIN"), group, "TabLogin")
+	_tab_login.pressed.connect(func() -> void: set_mode(Mode.LOGIN))
+	_tab_register = _tab_button(tr("LOGIN_TAB_REGISTER"), group, "TabRegister")
+	_tab_register.pressed.connect(func() -> void: set_mode(Mode.REGISTER))
+	tabs.add_child(_tab_login)
+	tabs.add_child(_tab_register)
+	box.add_child(tabs)
+
+	_login_box = UiKit.vbox(14)
+	_add_field(_login_box, "login_name", tr("LOGIN_NAME_OR_EMAIL"), false)
+	_add_field(_login_box, "login_password", tr("LOGIN_PASSWORD"), true)
+	box.add_child(_login_box)
+
+	_register_box = GridContainer.new()
+	_register_box.columns = 2
+	_register_box.add_theme_constant_override("h_separation", 20)
+	_register_box.add_theme_constant_override("v_separation", 14)
+	_add_field(_register_box, "reg_name", tr("LOGIN_USERNAME"), false, tr("LOGIN_USERNAME_HINT"))
+	_add_field(_register_box, "reg_email", tr("LOGIN_EMAIL"), false)
+	_add_field(_register_box, "reg_password", tr("LOGIN_PASSWORD"), true, tr("LOGIN_PASSWORD_HINT"))
+	_add_field(_register_box, "reg_confirm", tr("LOGIN_PASSWORD_CONFIRM"), true)
+	box.add_child(_register_box)
+
+	_remember = CheckBox.new()
+	_remember.name = "Remember"
+	_remember.text = tr("LOGIN_REMEMBER")
+	_remember.button_pressed = true
+	_remember.add_theme_font_size_override("font_size", 26)
+	box.add_child(_remember)
+
+	_status = UiKit.label("", 26)
+	_status.name = "Status"
+	outer.add_child(_status)
+
+	_submit = UiKit.button(tr("LOGIN_SUBMIT"), 320.0, 34)
+	_submit.name = "SubmitButton"
+	_submit.custom_minimum_size.y = 96.0
+	_submit.pressed.connect(submit)
+	box.add_child(_submit)
+
+	var bottom := UiKit.hbox(16)
+	_bottom = bottom
+	_server_label = UiKit.label(tr("LOGIN_SERVER") % (service.config.server_url if service else ""), 22)
+	_server_label.name = "ServerLabel"
+	_server_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_server_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	_server_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	bottom.add_child(_server_label)
+	var change := UiKit.button(tr("LOGIN_SERVER_CHANGE"), 160.0, 24)
+	change.name = "ServerChange"
+	change.custom_minimum_size.y = 72.0
+	change.pressed.connect(func() -> void: _server_row.visible = not _server_row.visible)
+	bottom.add_child(change)
+	col.add_child(bottom)
+
+	_server_row = UiKit.hbox(12)
+	_server_row.name = "ServerRow"
+	_server_row.visible = false
+	var url := LineEdit.new()
+	url.name = "ServerUrl"
+	url.text = service.config.server_url if service else ""
+	url.placeholder_text = "https://..."
+	url.custom_minimum_size = Vector2(0, 72)
+	url.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	url.add_theme_font_size_override("font_size", 24)
+	url.text_submitted.connect(apply_server)
+	_server_row.add_child(url)
+	var save := UiKit.button(tr("LOGIN_SERVER_SAVE"), 160.0, 24)
+	save.custom_minimum_size.y = 72.0
+	save.pressed.connect(func() -> void: apply_server(url.text))
+	_server_row.add_child(save)
+	col.add_child(_server_row)
+
+
+func _tab_button(text: String, group: ButtonGroup, node_name: String) -> Button:
+	var b := UiKit.button(text, 0.0, 30)
+	b.name = node_name
+	b.toggle_mode = true
+	b.button_group = group
+	b.custom_minimum_size.y = 80.0
+	b.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	return b
+
+
+func _add_field(parent: Control, key: String, caption: String, secret: bool, hint := "") -> void:
+	var row := UiKit.vbox(6)
+	row.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	row.add_child(UiKit.label(caption, 24))
+	var e := LineEdit.new()
+	e.name = key.to_pascal_case()
+	e.secret = secret
+	e.placeholder_text = hint
+	e.custom_minimum_size = Vector2(0, 72)
+	e.add_theme_font_size_override("font_size", 28)
+	e.text_submitted.connect(func(_t: String) -> void: submit())
+	row.add_child(e)
+	parent.add_child(row)
+	_fields[key] = e

@@ -1,0 +1,13 @@
+{
+  "_comment": "Luật chống gian lận phía máy chủ (M9-2b, owner 2026-11-21). Máy chủ kiểm mỗi lần game gửi save lên (save_put). Đổi số ở đây rồi chạy: powershell -ExecutionPolicy Bypass -File server\\audit.ps1 -SyncRules (gộp cùng server/rules/game_rules.json sinh từ dữ liệu game bằng tools/export_server_rules.gd). hard_reject = false: chỉ đánh dấu, không từ chối (dùng khi thử nghiệm luật mới). server_gacha = true: gacha chỉ quay trên máy chủ (RPC gacha_pull); save do game gửi tự thêm lượt quay / sửa pity bị từ chối. Mức kiếm theo giờ là mức NGHI NGỜ (vượt thì đánh dấu cho QTV xem, không từ chối).",
+  "hard_reject": true,
+  "server_gacha": true,
+  "max_currency": { "gems": 10000000, "gold": 2000000000 },
+  "soft": {
+    "gems_per_hour": 3000,
+    "gems_burst": 6000,
+    "gold_per_hour": 400000,
+    "gold_burst": 800000,
+    "max_hours_counted": 48
+  }
+}

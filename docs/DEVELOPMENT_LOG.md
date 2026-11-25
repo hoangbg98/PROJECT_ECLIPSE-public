@@ -1,0 +1,3212 @@
+# Nhật ký phát triển
+
+> Định dạng theo README 11. Trạng thái: `IMPLEMENTED`, `TESTED`, `VERIFIED`,
+> `BLOCKED`. `VERIFIED` chỉ dùng khi đã quan sát kết quả và có bằng chứng.
+
+---
+
+## 2026-11-11 — M0-0 Kiểm tra workspace
+
+- **Milestone / task:** 0 / M0-0
+- **Trạng thái:** TESTED
+- **File tạo/sửa:** không
+- **Đã chạy:**
+  - Đọc toàn bộ `README` (mục 1–17), `docs/design/CHARACTER_SKILLS.md` (mục 0–8.11), 6 `frames_manifest.json`, `assets/characters/README.md`.
+  - Đối chiếu tên animation trong manifest với thư mục `frames/` và bảng combo README 17.4.
+  - `C:\Godot\4.6.3\Godot_v4.6.3-stable_win64_console.exe --version`
+- **Kết quả thật:**
+  - Godot trả về `4.6.3.stable.official.7d41c59c4` (đúng phiên bản khóa). Godot không có trong PATH.
+  - Không có `project.godot`, scene, script, data hay test.
+  - 6 manifest khớp thư mục frame và bảng combo; mọi animation `frames: 0`, `frames_delivered: false`.
+  - `CHARACTER_SKILLS.md` là bản export thật (không còn dòng STUB).
+  - Repo git có sẵn nằm ở **thư mục người dùng** (`C:\Users\default...`), chưa có commit, theo dõi cả dữ liệu cá nhân.
+- **Lỗi / cảnh báo:** không có lỗi. Rủi ro: repo git ở thư mục người dùng; đường dẫn có dấu cách và ngoặc.
+
+## 2026-11-11 — M0-1 Repo riêng và đổi tên README
+
+- **Milestone / task:** 0 / M0-1
+- **Trạng thái:** IMPLEMENTED
+- **File tạo/sửa:** `.git/` (repo mới, nhánh `main`), `.gitignore`, `.gitattributes`; đổi tên `README_PROJECT_ECLIPSE.md` → `README.md`.
+- **Đã chạy:** `git init -b main` trong thư mục dự án; `git rev-parse --show-toplevel` trả về thư mục dự án.
+- **Ghi chú:** repo ở thư mục người dùng **không bị sửa hay xóa**. Chưa có commit nào.
+
+## 2026-11-11 — M0-2 Tài liệu nền
+
+- **Milestone / task:** 0 / M0-2
+- **Trạng thái:** IMPLEMENTED
+- **File tạo:** `docs/PROJECT_OVERVIEW.md`, `ARCHITECTURE.md`, `SYSTEM_DEPENDENCIES.md`, `FOLDER_STRUCTURE.md`, `IMPLEMENTATION_ROADMAP.md`, `ACCEPTANCE_TESTS.md`, `DEVELOPMENT_LOG.md`, `ASSET_LICENSES.md`, `UI_UX_SPEC.md`.
+- **Ghi chú:** tài liệu viết bằng tiếng Việt (ngôn ngữ của owner), thuật ngữ kỹ thuật giữ tiếng Anh.
+
+### Quyết định đã được owner duyệt (2026-11-11)
+
+| ID | Quyết định |
+|---|---|
+| — | Dùng tên tạm của nhân vật cho giai đoạn phát triển (đổi Aether, Noctis trước khi công khai) |
+| W1 | Repo git riêng trong thư mục dự án; không đụng repo ở thư mục người dùng |
+| W2 | Đổi tên README thành `README.md` |
+| W3 | Khuyến nghị chuyển dự án sang đường dẫn không dấu cách trước M1 (chưa làm) |
+| Q1 | Sát thương: `ATK × % × (1 + 0.06×(cấp−1)) × bonus × K/(K+DEF) × crit × giảm nhận`, K = 500 (config) |
+| Q2 | Chí mạng mặc định 5% tỉ lệ, +50% sát thương (config) |
+| Q3 | Debuff DEF khác tên cộng dồn, cùng tên làm mới thời gian; tổng giảm DEF tối đa 40% |
+| Q4 | Thêm Mù cát, Khiên, Khiêu khích vào trạng thái dùng chung |
+| Q5 | Slice: Aether đủ bộ; Kael, Lyra có switch-in + di chuyển + đòn thường + né |
+| Q6 | `revive_enabled` mặc định tắt |
+
+Các giá trị Q1–Q6 là **tuning trong data**, không sửa `CHARACTER_SKILLS.md`.
+
+### Còn chặn / chờ
+
+- Tỉ lệ gacha, pity, rate-up, bảo hiểm: chờ owner (chặn M5-4).
+- GdUnit4: chờ owner duyệt plugin (M1-6).
+
+### Ba ưu tiên tiếp theo
+
+1. Owner xem tài liệu M0 và duyệt kiến trúc (điều kiện xong Milestone 0).
+2. (Khuyến nghị) chuyển thư mục dự án sang `C:\Dev\PROJECT_ECLIPSE\`.
+3. Bắt đầu M1: `project.godot`, autoload, luồng Boot → Title → Hub.
+
+## 2026-11-11 — M1-0 Chuyển thư mục dự án (W3)
+
+- **Milestone / task:** 1 / M1-0
+- **Trạng thái:** VERIFIED
+- **Thay đổi:** sao chép toàn bộ dự án (kể cả `.git/`) từ
+  `C:\Users\<user>\Desktop\New folder (3)\PROJECT_ECLIPSE_kickoff\`
+  sang `C:\Dev\PROJECT_ECLIPSE\`.
+- **Đã chạy:** `cp -a`, `diff -r` giữa hai thư mục, đếm mục bằng `find`, `git status`, `git log`, `git fsck`.
+- **Kết quả thật:** 451 mục ở cả hai nơi; `diff -r` chỉ báo khác `.git/index`
+  (Git làm mới thông tin thời gian của file, bình thường); cây làm việc sạch;
+  commit `84c6335` còn nguyên; `git fsck` không báo lỗi.
+- **Còn lại:** không còn. Owner đã đồng ý xóa thư mục cũ (xem bên dưới).
+
+### 2026-11-11 — M1-0 Xóa thư mục cũ
+
+- **Trạng thái:** VERIFIED
+- **Thay đổi:** owner xóa
+  `C:\Users\<user>\Desktop\New folder (3)\PROJECT_ECLIPSE_kickoff\`.
+  Nội dung bị xóa trước; thư mục rỗng ban đầu bị tiến trình khác giữ nên owner xóa nốt thủ công.
+- **Kết quả thật:** đã kiểm tra, thư mục không còn trong `New folder (3)`. Bản duy nhất
+  của dự án là `C:\Dev\PROJECT_ECLIPSE\`.
+
+## 2026-11-11 — M1-1..M1-3 Nền tảng project, autoload, luồng Boot → Title → Hub
+
+- **Milestone / task:** 1 / M1-1, M1-2, M1-3
+- **Trạng thái:** TESTED (chạy headless; chưa mở bằng editor/cửa sổ thật)
+- **File tạo:**
+  - `project.godot` (1920×1080, stretch `canvas_items`, aspect `expand`, renderer `gl_compatibility`, bật nén ETC2/ASTC, `quit_on_go_back=false`).
+  - Autoload: `scripts/core/game_config.gd`, `event_bus.gd`, `scene_router.gd`.
+  - Scene: `scenes/main/boot.tscn`, `title.tscn`, `hub.tscn`; script `scripts/ui/boot.gd`, `title.gd`, `hub.gd`.
+  - Test khói: `tests/smoke/m1_flow_check.gd`.
+- **Đã chạy:**
+  - `Godot_v4.6.3 --headless --path . --import`
+  - `Godot_v4.6.3 --headless --path . --script res://tests/smoke/m1_flow_check.gd`
+- **Kết quả thật:** 10/10 điều kiện đạt, mã thoát 0, không có lỗi script trong log. Luồng Boot → Title → Hub, Esc ở Hub quay về Title, Tiếp tục bị khóa vì chưa có save.
+- **Quyết định tạm (đổi được):**
+  - Renderer `gl_compatibility` cho cả Windows và Android (an toàn nhất cho 2D trên Android). Chốt lại khi đo máy thật ở M2-4.
+  - Aspect `expand`: màn dài hơn 16:9 mở rộng khung nhìn, không viền đen (theo UI_UX_SPEC). UI cần neo theo góc/safe area ở M7.
+- **Hạn chế đã biết:**
+  - Chữ đang viết thẳng trong scene (tiếng Việt/Anh trộn), chưa qua `tr()`; chuyển ở M1-5.
+  - Chưa quan sát bằng mắt: bố cục, kích thước nút, hiệu ứng mờ. Test chỉ kiểm tra logic luồng.
+  - Phím Back Android chưa thử trên máy thật (chỉ Esc được mô phỏng).
+  - Bấm nút khi đang chuyển cảnh (khoảng 0,2 s) bị bỏ qua, chưa xếp hàng.
+- **Chưa làm trong M1:** M1-4 (InputRouter), M1-5 (dịch), M1-6 (GdUnit4, chờ owner duyệt), M1-7 (export), M1-8 (APK, owner chạy máy thật).
+
+### Ba ưu tiên tiếp theo
+
+1. Owner mở project bằng Godot 4.6.3 để xem Boot/Title/Hub bằng mắt.
+2. M1-4: `InputRouter` và InputMap (bàn phím, tay cầm), khung điều khiển cảm ứng.
+3. M1-5: chuyển chữ sang `tr()` và file dịch nguồn.
+
+## 2026-11-11 — M1-4 InputRouter, InputMap, khung điều khiển cảm ứng
+
+- **Milestone / task:** 1 / M1-4
+- **Trạng thái:** TESTED (headless; chưa thử bằng phím/tay cầm/cảm ứng thật)
+- **File tạo/sửa:**
+  - `scripts/input/input_router.gd` (autoload `InputRouter`, đặt trước `SceneRouter`): đăng ký action bằng code, `get_move_x()`, bộ đệm input 120 ms (`consume_buffered`, `clear_buffer`).
+  - `scripts/input/touch_button.gd`, `virtual_joystick.gd`, `touch_controls.gd`: joystick ảo trái, 6 nút phải, 2 nút đổi nhân vật; mỗi ngón theo dõi riêng (multitouch); chỉ hiện khi có màn hình cảm ứng hoặc `force_visible`.
+  - `project.godot`: thêm autoload `InputRouter`. `SceneRouter` nay nghe action `ui_back` (trước là `ui_cancel`).
+  - `tests/smoke/m1_input_check.gd` (mới); `m1_flow_check.gd` đổi sang `ui_back`.
+- **Đã chạy:** `m1_flow_check.gd` và `m1_input_check.gd` bằng `Godot_v4.6.3 --headless --path . --script ...`
+- **Kết quả thật:** cả hai mã thoát 0, 0 lỗi (flow 10 điều kiện; input 32 điều kiện: 12 action có phím, bộ đệm nhấn sớm/một lần/hết hạn, 2 ngón độc lập, joystick -1..1 có vùng chết, nút ≥ 128 px, các vùng chạm không chồng nhau, ẩn lớp thì nhả nút).
+- **Bản đồ phím tạm (đổi được):**
+
+| Action | Bàn phím | Tay cầm |
+|---|---|---|
+| move_left / right | A, D, ←, → | cần trái, D-pad trái/phải |
+| jump | Space, K | A |
+| attack | J | X |
+| dodge | L, Shift | B |
+| skill | U | Y |
+| weapon | I | LB |
+| ultimate | O | RB |
+| switch_1 / 2 | Q, 1 / E, 2 | D-pad lên / xuống |
+| pause | P | Start |
+| ui_back | Esc | Back/Select |
+
+- **Hạn chế đã biết:**
+  - Action đăng ký bằng code nên chưa thấy/sửa được trong tab Input Map của editor.
+  - Chưa quan sát bằng mắt hình dạng/vị trí điều khiển cảm ứng; chưa tính safe area/tai thỏ (M7).
+  - Nhấn "pause" bằng Esc chưa nối vào gameplay (chưa có scene trận); hiện Esc = `ui_back`.
+  - Cảm ứng thật, tay cầm thật, phím Back Android chưa thử trên thiết bị (M1-8).
+  - Bố cục nút phải là sắp xếp tạm, owner chỉnh sau khi thử máy thật.
+
+## 2026-11-11 — M1-5 Localization (`tr()` + file dịch nguồn)
+
+- **Milestone / task:** 1 / M1-5
+- **Trạng thái:** TESTED (headless; chưa xem bằng mắt trong cửa sổ game)
+- **File tạo/sửa:**
+  - `localization/vi.po`, `localization/en.po` (10 khóa: Title và Hub); đăng ký trong `project.godot` mục `[internationalization]`, ngôn ngữ dự phòng `vi`.
+  - `scenes/main/title.tscn`, `hub.tscn`: chữ nút/nhãn đổi sang khóa `UPPER_SNAKE` (Godot tự dịch `Button`/`Label`). `scripts/ui/hub.gd` dùng `tr()` cho nội dung tab.
+  - `scripts/core/game_config.gd`: thêm `LANGUAGES` và `set_language(code)` (màn Cài đặt M7 sẽ gọi).
+  - `tests/smoke/m1_i18n_check.gd` (mới).
+- **Đã chạy:** cả 3 test khói (`m1_flow_check`, `m1_input_check`, `m1_i18n_check`) bằng `Godot_v4.6.3 --headless --path . --script ...`
+- **Kết quả thật:** cả ba mã thoát 0, 0 lỗi. Test i18n kiểm tra: vi và en cùng tập khóa; mọi khóa dịch ra khác chính nó ở cả hai ngôn ngữ; ngôn ngữ lạ bị từ chối; mọi chữ trong `scenes/main` là khóa có trong file dịch (trừ `PROJECT ECLIPSE` và `v0`); Hub ở `en` hiện "Home | (work in progress)".
+- **Quyết định tạm (đổi được):**
+  - Dùng `.po` thay vì `.csv`: Godot nạp thẳng, không cần bước import, dễ cho người dịch.
+  - Ngôn ngữ dự phòng là tiếng Việt (ngôn ngữ của owner). Máy có locale `en` sẽ nhận tiếng Anh; locale khác nhận tiếng Việt.
+- **Hạn chế đã biết:**
+  - Tên thương hiệu `PROJECT ECLIPSE` và nhãn phím cảm ứng (J, U, ↑…) không dịch (cố ý).
+  - Chưa có font bảo đảm hiển thị đủ dấu tiếng Việt trên mọi máy Android; dùng font mặc định của Godot, cần kiểm tra trên máy thật (M1-8).
+  - Chưa có lựa chọn ngôn ngữ trong game (M7); hiện theo locale hệ thống.
+  - Test chỉ quét `scenes/main`; khi thêm thư mục scene mới phải thêm vào `SCENE_DIRS` của test.
+
+## 2026-11-11 — M1-7 Bộ lọc export, preset Windows + Android debug
+
+- **Milestone / task:** 1 / M1-7
+- **Trạng thái:** TESTED (đóng gói PCK; chưa xuất được `.exe`/`.apk` vì máy chưa cài export templates)
+- **File tạo:** `export_presets.cfg` với 3 preset:
+
+| Preset | Đầu ra | Loại khỏi gói |
+|---|---|---|
+| Windows Desktop (dev) | `build/windows/ProjectEclipse.exe` | `docs/*`, `tests/*`, `addons/gdUnit4/*` |
+| Windows Release | `build/windows-release/ProjectEclipse.exe` | như trên + `*placeholder_*` |
+| Android Debug | `build/android/ProjectEclipse-debug.apk` | `docs/*`, `tests/*`, `addons/gdUnit4/*` |
+
+- **Đã chạy:**
+  - `Godot_v4.6.3 --headless --path . --export-pack "<preset>" <file>.pck` cho cả 3 preset (có tạm một file `assets/placeholders/placeholder_probe.png` để thử lọc, đã xóa sau đó).
+  - Nạp từng PCK vào một project trống bằng `ProjectSettings.load_resource_pack` rồi liệt kê file thật trong gói.
+- **Kết quả thật:** cả 3 lệnh mã thoát 0. Không gói nào chứa file trong `docs/` hay `tests/`. Hai preset debug có file placeholder thử; preset Release không có. Gói chứa scene, script đã biên dịch, `vi.po`/`en.po`, 6 `frames_manifest.json`.
+- **Quyết định tạm (đổi được):**
+  - Bản dev/debug **giữ** `placeholder_*` vì game cần chúng khi animation còn `frames: 0`; chỉ bản Release loại bỏ (theo FOLDER_STRUCTURE "Loại khỏi export").
+  - Android: chỉ `arm64-v8a`, không dùng Gradle build, chế độ toàn màn hình, tên gói tạm `com.projecteclipse.dev` (**owner chốt tên gói thật trước khi phát hành**; đổi sau khi đã cài lên máy sẽ thành app khác).
+  - Windows: `application/modify_resources=false` để không cần công cụ rcedit; icon `.exe` làm sau.
+- **Hạn chế đã biết:**
+  - Chưa cài export templates 4.6.3 (thư mục `%APPDATA%\Godot\export_templates\4.6.3.stable` không có) nên chưa xuất được `.exe`/`.apk`; cài ở M1-8.
+  - Cache UID trong gói (`.godot/uid_cache.bin`) vẫn ghi tên đường dẫn của `docs/`, `tests/` dưới dạng chuỗi, nhưng không có file nội dung. Chấp nhận được ở giai đoạn này.
+  - Android Debug cần keystore debug và JDK/SDK (M1-8).
+
+## 2026-11-11 — M1-8 Hướng dẫn cài đặt xuất bản (phần 1)
+
+- **Milestone / task:** 1 / M1-8
+- **Trạng thái:** BLOCKED — chờ owner cài export templates, JDK 17, Android SDK và cắm điện thoại
+- **File tạo:**
+  - `docs/ANDROID_SETUP.md`: 6 bước (templates, JDK 17, Android SDK, điện thoại, build/cài, bảng thử 9 mục trên máy thật) và mẫu báo kết quả.
+  - `tools/check_build_env.ps1`: script chỉ đọc, báo `[OK]`/`[THIẾU]` cho Godot, templates, JDK, SDK, keystore, điện thoại. Lưu UTF-8 **có BOM** (PowerShell 5.1 cần BOM để đọc tiếng Việt; nếu editor nào lưu lại mất BOM thì chữ sẽ lỗi).
+- **Đã chạy:** `powershell -ExecutionPolicy Bypass -File tools\check_build_env.ps1`
+- **Kết quả thật (tình trạng máy):**
+  - OK: Godot 4.6.3, keystore debug (`%APPDATA%\Godot\keystores\debug.keystore`).
+  - THIẾU: export templates 4.6.3 (Windows và Android); Android SDK (Editor trỏ tới `%LOCALAPPDATA%\Android\Sdk` nhưng thư mục không tồn tại), không có platform-tools, build-tools, platforms.
+  - JDK: Editor đang trỏ JDK 25 (Liberica); tài liệu Godot khuyến nghị JDK 17, script đánh dấu THIẾU cho tới khi đổi.
+  - Có adb cũ 30.0.3 ở `C:\Windows\adb.exe`, có thể xung đột với adb của SDK.
+- **Chưa làm:** build `.exe`/`.apk` và thử trên điện thoại (cần các bước trên).
+- **Ghi chú:** số phiên bản SDK trong hướng dẫn (API 35, Build-Tools 35.0.1) theo tài liệu Godot 4.x, chưa đối chiếu được trên máy; nếu hộp thoại Export báo khác thì làm theo hộp thoại.
+
+## 2026-11-11 — M1-8 Build Windows debug (phần 2)
+
+- **Milestone / task:** 1 / M1-8
+- **Trạng thái:** Windows: TESTED. Android: vẫn BLOCKED (chờ JDK 17, Android SDK, điện thoại).
+- **Owner đã làm:** import project vào Project Manager, mở editor; cài export templates 4.6.3 bằng **Install from File** (tải `.tpz` thủ công vì Godot báo "Can't connect to the mirror", editor đang ở chế độ Offline).
+- **Editor tự sửa `project.godot`:** định dạng lại và bỏ `window/handheld/orientation=0` (0 = ngang là mặc định nên không đổi hành vi). Đã commit nguyên trạng.
+- **Đã chạy:**
+  - `Godot_v4.6.3 --headless --path . --export-debug "Windows Desktop" build/windows/ProjectEclipse.exe`
+  - `build/windows/ProjectEclipse.console.exe --headless --verbose --quit-after 2000`
+- **Kết quả thật:**
+  - Xuất thành công, mã thoát 0: `ProjectEclipse.exe` (~96 MB, PCK nhúng) và `ProjectEclipse.console.exe`. Cảnh báo duy nhất: "Unable to open Android 'build-tools' directory" (do chưa có SDK, không ảnh hưởng Windows).
+  - Chạy bản build: nạp `vi.po`, `en.po`, 4 autoload, Boot rồi Title; không có dòng lỗi/cảnh báo; mã thoát 0.
+- **Chưa kiểm chứng:** chạy có cửa sổ và thao tác bằng chuột/bàn phím trên bản `.exe` (owner mở `build/windows/ProjectEclipse.exe`).
+
+## 2026-11-11 — Quyết định: hoãn Android, tập trung Windows
+
+- **Owner quyết định:** build APK debug và thử trên điện thoại để sau; ưu tiên bản Windows.
+- **Ảnh hưởng:**
+  - M1 coi là xong khi bản Windows build và chạy được (đã đạt, xem M1-8 phần 2). Phần Android của M1-8 chuyển sang **PENDING (hoãn)**.
+  - Vẫn giữ: preset Android Debug, nén ETC2/ASTC, khung điều khiển cảm ứng, xử lý phím Back, để không phải làm lại.
+  - Phải làm lại phần Android trước M2-4 (đo bộ nhớ texture) và chậm nhất trước M7. Các kiểm tra chỉ làm được trên máy thật dồn về lúc đó.
+  - Còn mở của M1: M1-6 (GdUnit4, chờ owner duyệt plugin).
+
+## 2026-11-11 — M1-6 GdUnit4 + test headless
+
+- **Milestone / task:** 1 / M1-6
+- **Trạng thái:** TESTED
+- **Owner duyệt:** cài GdUnit4 ("Làm M1-6").
+- **Plugin:** GdUnit4 **6.2.3**, MIT, từ kho chính thức `godot-gdunit-labs/gdUnit4` (zip mã nguồn của tag `v6.2.3`, 475 KB, SHA-256 ghi trong ASSET_LICENSES). README của bản này ghi tương thích Godot 4.6.3. Chỉ chép `addons/gdUnit4/` (272 file, 1,8 MB: GDScript, scene, ảnh, mẫu báo cáo HTML; không có file thực thi). Đã đọc `runtest.cmd` và `bin/GdUnitCmdTool.gd` trước khi dùng.
+- **File tạo/sửa:**
+  - `addons/gdUnit4/` (plugin); `project.godot` thêm `[editor_plugins]` bật plugin.
+  - `tests/unit/core/test_game_config.gd` (6 test), `tests/unit/input/test_input_router.gd` (7 test).
+  - `tools/run_tests.ps1`: chạy GdUnit4 + mọi test khói, in bảng ĐẠT/LỖI, mã thoát 0 nếu tất cả đạt (UTF-8 có BOM).
+  - `.gitignore` thêm `/reports/` (báo cáo HTML/XML của GdUnit4).
+  - `docs/ASSET_LICENSES.md`: cập nhật dòng GdUnit4.
+- **Đã chạy:**
+  - `Godot --headless --path . -s -d --remote-debug tcp://127.0.0.1:0 res://addons/gdUnit4/bin/GdUnitCmdTool.gd -a res://tests/unit --ignoreHeadlessMode -rd reports`
+  - Một test cố tình sai (`1 + 1 == 3`) trong thư mục tạm, rồi xóa.
+  - `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`
+  - `--export-pack` cho cả 3 preset, nạp vào project trống và đếm file.
+- **Kết quả thật:**
+  - GdUnit4: 13/13 đạt, 0 lỗi, 0 orphan, mã thoát 0.
+  - Test cố tình sai: báo FAILED, mã thoát 100 (runner bắt được lỗi thật).
+  - `run_tests.ps1`: GdUnit4 + 3 test khói đều ĐẠT, mã thoát 0.
+  - Cả 3 gói export: 0 file trong `addons/`, `tests/`, `docs/`; 20 file trong `scripts/`.
+- **Hạn chế đã biết:**
+  - GdUnit4 cảnh báo: chạy headless thì InputEvent không truyền qua engine, nên test tương tác UI bằng sự kiện phải chạy có cửa sổ. Test khói hiện dùng `push_input`/`action_press` nên vẫn chạy được headless.
+  - Test khói (`tests/smoke/`) chưa chuyển sang GdUnit4; giữ nguyên vì đang chạy tốt. Test mới từ M2 viết bằng GdUnit4.
+  - Plugin bật trong editor: lần mở editor tới sẽ có tab GdUnit; chưa kiểm tra bằng mắt.
+
+### Milestone 1: tổng kết
+
+| Task | Trạng thái |
+|---|---|
+| M1-0 Chuyển thư mục | VERIFIED |
+| M1-1 project.godot | TESTED |
+| M1-2 Autoload | TESTED |
+| M1-3 Boot → Title → Hub | TESTED (owner đã mở editor) |
+| M1-4 InputRouter + cảm ứng | TESTED (headless) |
+| M1-5 Localization | TESTED |
+| M1-6 GdUnit4 | TESTED |
+| M1-7 Export presets | TESTED (PCK) |
+| M1-8 Windows build | TESTED; **Android hoãn** theo quyết định owner |
+
+Điều kiện xong M1 (bản đã sửa): project mở không lỗi, luồng scene và input chạy, bản Windows build và chạy được — **đạt**, chờ owner xác nhận bằng mắt.
+
+## 2026-11-11 — Thêm pixelfx (tư liệu VFX) và thiết lập Codex
+
+- **Trạng thái:** IMPLEMENTED (render thử được; chưa có sprite sheet nào trong game)
+- **Owner yêu cầu:** đưa kho https://github.com/patch-gg/pixelfx vào dự án làm tư liệu VFX; cho Codex (đã cài trên máy) làm việc trong dự án.
+- **pixelfx:**
+  - MIT. Thư viện JavaScript (244 hiệu ứng là code), xuất sprite sheet PNG + JSON kiểu Aseprite cho Godot bằng Node (`v26.13.0` có sẵn trên máy).
+  - Chép vào `tools/pixelfx/` + `.gdignore`; nguồn, SHA-256 và phạm vi chép ở `tools/pixelfx/UPSTREAM.md`. Không chép `gallery/` (font không thuộc MIT), GIF minh họa, `.github/`, `.claude-plugin/`.
+  - Đã đọc trước khi chạy: `tools/lib/fxlib.mjs` chỉ gọi `ffmpeg` (tùy chọn, cho GIF/MP4); `tools/serve.mjs` chỉ mở gallery ở localhost. Không gọi mạng khi render.
+  - Skill pixelfx cài ở `.claude/skills/pixelfx/` (Claude) và `.agents/skills/pixelfx/` (Codex), nguyên văn upstream.
+  - `docs/ASSET_LICENSES.md`: thêm dòng pixelfx và bảng 1.1 cho từng sprite sheet sẽ dùng.
+- **Codex:** owner chọn "Codex làm việc trong dự án". Tạo `AGENTS.md` (quy tắc, lệnh test/build, quy ước, asset, quyết định đang hiệu lực, cách làm chung nhiều agent); `CLAUDE.md` chỉ gồm `@AGENTS.md` để hai agent dùng chung một bộ quy tắc.
+- **Đã chạy:**
+  - `node tools/render.mjs fire/fire-ring --sheet` (trong `tools/pixelfx/`): 118 frame, 224×128, 30 fps, pivot (112, 92); đã xem `contact.png`, hiệu ứng hiển thị đúng.
+  - `tools/run_tests.ps1`: GdUnit4 + 3 test khói đều ĐẠT, mã thoát 0 (thư mục mới không ảnh hưởng project).
+- **Hạn chế đã biết:**
+  - Hiệu ứng pixelfx là pixel art độ phân giải thấp; nhân vật cao ~256 px trên canvas 384. Cần phóng to (nearest) và owner xem phong cách có hợp nét vẽ nhân vật không (OD-2).
+  - Chưa kiểm tra Codex có nhận skill trong `.agents/skills/` hay không (owner mở dự án trong Codex để xem).
+  - Chưa có importer Godot cho JSON của pixelfx; làm khi cần VFX (M3-7).
+
+## 2026-11-11 — M2-1 AnimationSetBuilder
+
+- **Milestone / task:** 2 / M2-1
+- **Trạng thái:** TESTED
+- **File tạo/sửa:**
+  - `scripts/characters/animation_set_builder.gd` (`class_name AnimationSetBuilder`): đọc `frames_manifest.json` → `SpriteFrames` (fps, loop, số frame từ manifest); `frames: 0` hoặc thiếu file → placeholder và ghi lỗi, không crash; `validate_frame_counts()` so số PNG với `frames` và phát hiện đánh số hở; `sprite_offset()` đặt chân (192, 336) đúng gốc node → `(0, -144)`.
+  - `assets/placeholders/placeholder_character_384.png` + `tools/gen_placeholders.gd` (script sinh ảnh, chạy tay).
+  - `tests/unit/characters/test_animation_set_builder.gd` (13 test).
+  - `export_presets.cfg`: cả 3 preset loại thêm `tools/*` (thư mục này giờ có `.gd`).
+  - `docs/ASSET_LICENSES.md`: ghi placeholder.
+- **Đã chạy:** `tools/gen_placeholders.gd` (đã xem ảnh: thân đứng đúng vạch chân, mũi hướng phải); `tools/run_tests.ps1`.
+- **Kết quả thật:** GdUnit4 26/26 đạt (13 mới), 3 test khói đạt, mã thoát 0. Test kiểm tra: 6 manifest thật có đủ animation theo README 17.4 (số đòn thường/trên không từng nhân vật), số PNG khớp `frames` (hiện tất cả 0), fps/loop đúng manifest, animation chưa giao dùng placeholder; với dữ liệu giả trong `user://`: frame nạp đúng thứ tự, thiếu frame → placeholder + lỗi, đánh số hở bị bắt, thiếu thư mục/manifest/JSON hỏng/giá trị âm đều báo lỗi.
+- **Hạn chế đã biết:**
+  - Chưa có scene nào dùng builder; nhân vật lên màn ở M2-2/M2-3.
+  - Bản **Windows Release** loại `placeholder_*`, nên nếu còn animation `frames: 0` thì animation đó rỗng (không hiện gì). Chỉ build Release khi đã đủ hình.
+  - Chưa gom frame thành atlas, chưa chọn chế độ lọc/nén cho ảnh nhân vật; quyết khi có frame thật và đo bộ nhớ (M2-4).
+  - `validate_frame_counts()` chỉ chạy được khi phát triển (bản export không còn PNG gốc).
+
+## 2026-11-11 — M2-2 State machine + controller di chuyển
+
+- **Milestone / task:** 2 / M2-2
+- **Trạng thái:** TESTED (headless, input giả; chưa điều khiển bằng tay)
+- **File tạo:**
+  - `scripts/player/movement_config.gd` (`MovementConfig`) + `data/config/movement_default.tres`: tốc độ chạy, gia tốc đất/không, độ cao nhảy + thời gian lên đỉnh (trọng lực và vận tốc nhảy **suy ra**), hệ số rơi, hệ số cắt nhảy, coyote 0.10 s, bộ đệm nhảy 0.12 s, thời gian Land.
+  - `scripts/player/player_intent.gd` (`PlayerIntent`): input của một tick (move_x, giữ nhảy, bộ đệm nhảy theo thời gian vật lý); đọc từ action của InputRouter.
+  - `scripts/player/state_machine.gd` (`StateMachine`), `states/player_state.gd`, `states/movement_states.gd`: `idle`, `run`, `jump_up`, `fall`, `land` (tên trùng animation).
+  - `scripts/player/player_controller.gd` (`PlayerController`, CharacterBody2D) + `scenes/player/player_character.tscn`: gốc node ở chân; capsule 80×240; dựng SpriteFrames bằng AnimationSetBuilder; lật hướng bằng `flip_h`; placeholder tô màu nguyên tố; signal `state_changed`, `jumped`, `landed`.
+  - `tests/unit/player/test_player_movement.gd` (12 test).
+- **Đã chạy:** `tools/run_tests.ps1`.
+- **Kết quả thật:** GdUnit4 38/38 đạt (12 mới), 3 test khói đạt, mã thoát 0. Test: rơi → đáp → đứng đúng mặt sàn (±2 px); chạy đạt đúng `run_speed`, analog 0.5 → nửa tốc độ, đổi hướng lật sprite, thả nút dừng và giữ hướng; nhảy giữ nút đạt `jump_height` ±4 %; nhả sau 3 tick cao < 50 %; không nhảy đôi trên không; coyote: nhảy được ở nửa cửa sổ, bị từ chối khi quá cửa sổ; bộ đệm: nhấn ~70 ms trước khi chạm đất thì nhảy ngay khi chạm, nhấn quá sớm thì bỏ.
+- **Lỗi tìm thấy và sửa:** lần chạy đầu đỉnh nhảy chỉ 306 px thay vì 320 (sai số tích phân, mất khoảng v·dt/2). Sửa controller: cộng trọng lực hai nửa quanh `move_and_slide` (tích phân điểm giữa); nay đúng độ cao cấu hình.
+- **Hạn chế đã biết:**
+  - Chưa có màn chơi nào đặt nhân vật; chưa thử cảm giác bằng tay (M2-3).
+  - Bộ đệm nhảy của controller tính theo thời gian vật lý (`PlayerIntent`), tách khỏi bộ đệm thời gian thật của `InputRouter`; đòn đánh/né sau này dùng cùng cách.
+  - Chưa có platform một chiều, platform di chuyển, dốc; làm cùng stage ở M2-3 nếu cần.
+  - Mọi nhân vật dùng chung `movement_default.tres`; cấu hình riêng từng nhân vật làm khi có `CharacterDef`.
+
+## 2026-11-11 — M2-3 Stage thử nghiệm + camera
+
+- **Milestone / task:** 2 / M2-3
+- **Trạng thái:** TESTED (headless). **Chờ owner chơi thử trong Godot** để chấm cảm giác.
+- **File tạo/sửa:**
+  - `data/stages/test_stage.json`: bản đồ ký tự 112×17 ô (ô 64 px): cột cao 1–4 ô + bậc 5 ô sát cột 4 ô, hố rộng 3/4/5 ô, 3 platform một chiều xếp tầng. Sửa layout bằng file này.
+  - `scripts/world/stage_map.gd` (`StageMap`): đọc/kiểm tra bản đồ, dựng `TileMapLayer` + TileSet (va chạm layer 1, platform một chiều).
+  - `scripts/world/follow_camera.gd` (`FollowCamera`): bám mượt, nhìn trước 220 px theo hướng mặt, vùng chết dọc lệch (lên 360 px, xuống 64 px), khóa trong biên màn.
+  - `scripts/world/test_stage.gd` + `scenes/stages/test_stage.tscn`: đặt nhân vật tại `P`, camera, hồi sinh khi rơi hố, overlay debug, điều khiển cảm ứng (chỉ hiện trên máy cảm ứng).
+  - `scripts/ui/debug_overlay.gd`: phím + state/vận tốc/chạm đất/FPS; chỉ ở bản debug; F3 bật/tắt.
+  - Hub: tab Battle có nút **Màn thử nghiệm** (tạm, thay ở M7). Khóa dịch `HUB_TEST_STAGE`, `STAGE_HINT` (vi/en).
+  - `assets/placeholders/placeholder_tiles_64.png` (sinh bằng `tools/gen_placeholders.gd`).
+  - Test: `tests/unit/world/test_test_stage.gd` (11), `tests/smoke/m2_stage_check.gd` (màn chạy bằng vòng lặp thật). Test i18n quét thêm `scenes/stages`.
+- **Đã chạy:** `tools/run_tests.ps1`; export "Windows Desktop"; nạp PCK vào project trống kiểm tra file.
+- **Kết quả thật:**
+  - GdUnit4 49/49 đạt (11 mới), 4 test khói đạt, mã thoát 0. Kiểm: bản đồ đọc đúng, bản đồ lỗi bị báo (ký tự lạ, hàng lệch, 2 điểm P); nhân vật đứng đúng y = 896; nhảy xuyên platform một chiều từ dưới và đứng trên nó (y = 704); khối đặc chặn đường chạy; rơi hố → hồi sinh tại P; camera nhìn trước ±220 px theo hướng; nhảy cao nhất không làm camera nhấp nhô (< 1 px); bước khỏi platform camera theo xuống 192 px; camera không lộ ngoài biên.
+  - Bản build Windows có đủ bản đồ, config, scene, placeholder; không có `tools/`, `tests/`.
+- **Lỗi tìm thấy và sửa:**
+  - Bản đồ: bậc 5 ô (= độ cao nhảy tối đa) chặn đường → đặt sát cột 4 ô thành bậc thang.
+  - Camera: vùng chết dọc 180 px < độ cao nhảy 320 px → camera nhấp nhô mỗi cú nhảy; đổi sang vùng chết lệch lên 360 / xuống 64.
+- **Phát hiện cần lưu ý:** cửa sổ **hẹp hơn 16:9** (4:3, hoặc kéo cửa sổ Windows cao) với stretch `expand` làm khung nhìn cao hơn 1080; bản đồ cao 1088 px sẽ lộ khoảng trống trên/dưới. Cần quyết ở M6/M7: bản đồ cao hơn, hoặc khóa tỉ lệ tối thiểu 16:9 (viền cho màn hẹp).
+- **Hạn chế đã biết:** chưa có parallax, platform di chuyển, dốc, rơi xuyên platform (chưa có action "xuống"); nền một màu.
+
+## 2026-11-11 — Sửa lỗi: nút Màn thử nghiệm không hiện ở tab Battle
+
+- **Trạng thái:** TESTED
+- **Owner báo:** chơi thử trong Godot, tab Chiến đấu chỉ hiện "Battle (work in progress)", không có nút vào màn thử nghiệm.
+- **Nguyên nhân:** khi làm M2-3, dòng `_test_stage.visible = tab_name == "BattleTab"` trong `scripts/ui/hub.gd` không được ghi: script Python tôi dùng để sửa file thay chuỗi không khớp và **không báo lỗi**. Test không bắt được vì chỉ mở thẳng màn thử nghiệm, không đi qua Hub.
+- **Sửa:** thêm lại dòng đó. `tests/smoke/m1_flow_check.gd` thêm 6 bước: nút ẩn ở Home, hiện ở Battle, ẩn lại khi về Home, bấm vào màn thử nghiệm, Esc về Hub, Esc về Title.
+- **Đã chạy:** test khói luồng **trước** khi sửa → báo FAIL đúng chỗ; **sau** khi sửa → 15/15 đạt; `tools/run_tests.ps1` → tất cả đạt.
+- **Bài học:** sửa file bằng thay chuỗi phải kiểm tra lại kết quả (grep dòng mới) hoặc dùng công cụ Edit báo lỗi khi không khớp; mỗi đường vào màn chơi cần test đi qua đúng nút bấm.
+
+## 2026-11-11 — Ngôn ngữ mặc định: tiếng Việt
+
+- **Owner quyết định:** mặc định tiếng Việt, không theo ngôn ngữ Windows/Android (ảnh chụp owner: Windows tiếng Anh nên game hiện tiếng Anh).
+- **Sửa:** `GameConfig._ready()` đặt `DEFAULT_LANGUAGE = "vi"`; thử ngôn ngữ khác bằng tham số người dùng `-- --lang=en` (tham số `--language` của Godot bị engine dùng trước nên script không đọc được). Sau này ngôn ngữ đã lưu trong Cài đặt sẽ thay mặc định (M5-1/M7).
+- **Tài liệu:** sửa dòng M1-5 ở bảng mốc thử trong `IMPLEMENTATION_ROADMAP.md`, mục 9 bảng thử Android trong `ANDROID_SETUP.md`.
+- **Test:** thêm 2 test (giả lập locale `en_US` → vẫn tiếng Việt; đọc tham số `--lang=`); GdUnit4 nhóm core 8/8 đạt.
+- **Ghi chú:** editor đã lưu lại `scenes/main/boot.tscn` (owner mở/lưu), trong đó nền `Background` lệch `offset_left = 4`, `offset_top = -6`... — có thể do kéo nhầm; đã báo owner, chưa hoàn tác.
+
+## 2026-11-11 — M2-4 hoãn
+
+- **Trạng thái:** PENDING (hoãn). Đo bộ nhớ texture cần điện thoại Android và frame thật; owner đang hoãn Android và chưa giao frame. Ghi trong `IMPLEMENTATION_ROADMAP.md`. Chuyển sang M3-1.
+
+## 2026-11-11 — M3-1 CombatRules + StatusDef
+
+- **Milestone / task:** 3 / M3-1
+- **Trạng thái:** TESTED
+- **File tạo/sửa:**
+  - `scripts/combat/combat_rules.gd` (`CombatRules`) + `data/config/combat_rules.tres`: Q1 (hệ số cấp 0.06, K = 500), Q2 (chí mạng 5% / +50%), Q3 (trần giảm DEF 40%), trần CDR 40%, EN/UG/lượt né theo mục 0, dự bị EN +1/s và UG 30% theo **ghi đè 8.1**, né hoàn hảo (150 ms, chậm 30% trong 0.6 s, hoàn 1 lượt, ICD 1.0 s), Q6 `revive_enabled = false`; `validate()`.
+  - `scripts/combat/status_def.gd` (`StatusDef`): loại, cách cộng (REFRESH/STACKS), thời gian mặc định, hệ số boss, kháng sau khi hết, tick, độ mạnh + ý nghĩa, cờ (chặn di chuyển/hành động, kháng khựng, tính là hiệu ứng nguyên tố cho Liên kết của Kael), sự kiện đủ tầng; `validate()`, `tick_count()`, `duration_for()`.
+  - `data/statuses/*.tres` (11): burn, slow, lightning_mark, judgment, curse, earth_guard, root, stun (mục 0); sand_blind, shield, taunt (Q4). Mỗi file có `metadata/source` ghi nguồn số liệu.
+  - `scripts/combat/status_library.gd` (`StatusLibrary`): nạp thư mục bằng `ResourceLoader.list_directory` (xử lý `.remap` khi export), kiểm id = tên file.
+  - `GameConfig`: nạp `combat_rules` và `statuses` khi khởi động, báo lỗi ra log.
+  - Khóa dịch `STATUS_*` (11, vi/en).
+  - `tests/unit/combat/test_combat_data.gd` (16 test).
+- **Đã chạy:** `tools/run_tests.ps1`; export PCK và nạp trong project trống.
+- **Kết quả thật:** GdUnit4 67/67 đạt (16 mới), 4 test khói đạt, mã thoát 0. Trong bản export, thư mục `data/statuses` chứa `*.tres.remap` (liệt kê thường sẽ không thấy gì); `list_directory` trả đúng 11 tên, nạp được `stun` (2.0 s) và `combat_rules` (K = 500).
+- **Giá trị Claude tự đặt (owner chỉnh):**
+  - `damage_taken_reduction_cap = 0.80`: đặc tả chỉ ghi "cap đặt trong config".
+  - `taunt.boss_duration_multiplier = 0.5` (theo Terra 3 s → boss 1.5 s; kỹ năng khác có thể ghi đè, vd ảo ảnh của Seraphine boss miễn).
+  - `slow.default_magnitude = 0.30` (mức phổ biến nhất; kỹ năng ghi X% riêng).
+  - `sand_blind.counts_as_elemental = true` (mục 8.3 liệt kê "..." nên chưa chắc; xác nhận khi làm LinkTracker M4-3).
+- **Hạn chế đã biết:** mới là dữ liệu tĩnh; áp/làm mới/hết hạn/tick do `StatusController` (chưa làm); `LinkRules` (mục 8.2, 8.3) làm ở M4-3.
+
+## 2026-11-12 — M3-2 Hitbox / Hurtbox theo track AnimationPlayer
+
+- **Milestone / task:** 3 / M3-2
+- **Trạng thái:** TESTED (headless; chưa có đòn đánh nào trong game để xem bằng mắt — M3-5)
+- **File tạo/sửa:**
+  - `scripts/combat/physics_layers.gd` (`PhysicsLayers`): lớp 1 thế giới, 2 thân người chơi, 3 thân quái, 4/5 hitbox người chơi/quái, 6/7 hurtbox người chơi/quái; hàm bit/mask theo phe. Không sửa `project.godot` (editor đang mở có thể ghi đè).
+  - `scripts/combat/hit_info.gd` (`HitInfo`): hit_id, phe, người đánh, skill_id, % ATK, sức choáng, vị trí, hướng/độ đẩy.
+  - `scripts/combat/hitbox.gd` (`Hitbox`): tắt mặc định; `activate(keep_hit_id)` cấp hit_id mới (bộ đếm toàn cục) hoặc giữ id cũ cho đòn nhiều nhịp chỉ trúng một lần; quét vùng chồng mỗi tick vật lý; signal `hit_landed`.
+  - `scripts/combat/hurtbox.gd` (`Hurtbox`): nhận mỗi hit_id một lần, bỏ qua cùng phe và chính chủ; đang bất tử → `hit_evaded` và vẫn ghi nhớ id (hết bất tử giữa chừng không bị chính lần chém đó trúng); quên id sau 3 s; đồng hồ thay được để test.
+  - `scripts/combat/hitbox_track.gd` (`HitboxTrack`): frame + fps → cửa sổ giây; dựng track method gọi activate/deactivate; cửa sổ chồng/rỗng/vượt độ dài bị bỏ và báo lỗi.
+  - `scenes/player/player_character.tscn`: thêm `Hurtbox` (phe người chơi, cùng capsule thân).
+  - `AGENTS.md`: thêm quy ước lớp va chạm và Hitbox/Hurtbox.
+  - `tests/unit/combat/test_hitbox_hurtbox.gd` (15 test).
+- **Đã chạy:** `tools/run_tests.ps1`.
+- **Kết quả thật:** GdUnit4 82/82 đạt (15 mới), 4 test khói đạt, mã thoát 0. Kiểm: ghép phe đúng lớp; mỗi lần bật trúng 1 lần dù gọi nhiều lần; giữ id không trúng lại, bật mới thì trúng; id không trùng giữa hitbox; cùng phe/chính chủ bị bỏ; bất tử né cả lần chém; quên id sau 3 s; HitInfo đúng (sức choáng 0.7 × 1.5, hướng đẩy theo hướng mặt); AnimationPlayer bật đúng frame 3–4, tắt ở khởi động và hồi phục; 3 cửa sổ → 3 hit_id → 3 lần trúng; **vật lý thật**: chồng nhau 6 frame chỉ trúng 1 lần, bật lại trúng lần 2, ngoài tầm không trúng.
+- **Lỗi tìm thấy và sửa:**
+  - Lớp con tên `Window` trùng lớp có sẵn của Godot → đổi thành `HitWindow`.
+  - Test đặt Hitbox và Hurtbox cùng một node cha → kiểm tra "không tự đánh mình" chặn đúng; sửa test cho mỗi Hurtbox một chủ riêng.
+  - Đợi thời gian thật trong GdUnit không ổn định (`create_timer(..., ignore_time_scale)` trả về ngay) → Hurtbox dùng đồng hồ thay được, test dùng đồng hồ giả.
+- **Hạn chế đã biết:**
+  - Bộ nhớ hit_id tính theo thời gian thật; khi có hit-stop/tạm dừng (M3-7) cần xem lại.
+  - Hai Hitbox của cùng một đòn (hai vùng chạm) chưa dùng chung hit_id; làm khi kỹ năng cần.
+  - Chưa tính sát thương (M3-3) và chưa có máu (M3-4).
+
+## 2026-11-12 — M3-3 DamageCalculator
+
+- **Milestone / task:** 3 / M3-3
+- **Trạng thái:** TESTED
+- **File tạo:**
+  - `scripts/core/random_source.gd` (`RandomSource`): RNG có seed, `chance()`, lưu/khôi phục trạng thái; lớp `Fixed` trả giá trị cố định để test ép chí mạng.
+  - `scripts/combat/damage_calculator.gd` (`DamageCalculator`): hàm thuần `compute()` theo ARCHITECTURE mục 5 (Q1 hệ số cấp + K = 500, Q2 chí mạng, Q3 giảm DEF khác tên cộng dồn, trần 40%, trần giảm sát thương nhận từ CombatRules); `heal()`; trả `Result` kèm từng hệ số (raw, bonus, dealt, mitigation, crit, taken).
+  - `tests/unit/combat/test_damage_calculator.gd` (19 test).
+- **Đã chạy:** `tools/run_tests.ps1`.
+- **Kết quả thật:** GdUnit4 101/101 đạt (19 mới), 4 test khói đạt, mã thoát 0. Ví dụ đã kiểm bằng số tính tay: ATK 1000, đòn 70%, DEF 500 → 350; cấp 10 → 539; chí mạng → 525; Nguyền 15% + 20% → 606; 45% → trần 40% → 625; Nguyền áp hai lần vẫn tính một lần → 541; Giáp Địa 35% + 40% → 125, thêm 15% → trần 80% → 100; Mù cát → 400; đủ mọi yếu tố → 446; hồi máu 1000×50% + 10000×3% = 800, cấp 3 → 896; 10 000 roll với seed: chí mạng trong 4–6 %.
+- **Diễn giải Claude thêm (owner xác nhận):**
+  - **Mù cát** (−20% sát thương kẻ địch gây ra) không có trong công thức ARCHITECTURE → thêm hệ số riêng `dealt = 1 − Σ%giảm sát thương gây ra` (chặn 0..1), không gộp vào `bonus`.
+  - **Hồi máu** (mục 0: "% ATK + % HP tối đa của mục tiêu") tăng theo cấp kỹ năng như sát thương, không chí mạng, không bị DEF.
+  - Làm tròn `round()` (0.5 làm tròn ra xa 0); không có sát thương tối thiểu 1 (đòn 0 ATK gây 0).
+  - Sức choáng (SC) chưa tính ở đây; làm cùng quái và thanh SC ở M3-6.
+
+## 2026-11-12 — M3-4 ResourceComponent + CooldownController
+
+- **Milestone / task:** 3 / M3-4
+- **Trạng thái:** TESTED
+- **File tạo:**
+  - `scripts/combat/resource_component.gd` (`ResourceComponent`, RefCounted + `tick`): HP (nhận sát thương trả lượng thực mất; mất HP cộng UG 0.3 mỗi 1% HP tối đa; gục một lần; không hồi khi đã gục), hồi máu trả phần thừa (cho khiên của Seraphine), EN (+2/s trên sân, +1/s dự bị, trần 100, tiêu EN từ chối an toàn khi thiếu), UG (trần 100, báo `ultimate_ready` một lần, `use_ultimate` về 0), `register_hit(kind)` cộng EN/UG theo loại đòn và trả lượng UG để chia 30% cho dự bị, 2 lượt né hồi 4 s/lượt có CDR (trần 40%), hoàn lượt khi né hoàn hảo.
+  - `scripts/combat/cooldown_controller.gd` (`CooldownController`, RefCounted + `tick`): đăng ký khóa (Kĩ năng thường, vũ khí, SI-CD…), CDR áp khi bắt đầu hồi với trần 40%, khóa có thể không chịu CDR, `reduce()` rút CD riêng không bị trần CDR nhưng có mức tối đa mỗi chu kỳ, `progress()` cho vòng hồi HUD, signal bắt đầu/sẵn sàng.
+  - `tests/unit/combat/test_resources_cooldowns.gd` (20 test).
+- **Đã chạy:** `tools/run_tests.ps1`.
+- **Kết quả thật:** GdUnit4 121/121 đạt (20 mới), 4 test khói đạt, mã thoát 0.
+- **Lỗi tìm thấy và sửa:** trừ 0.1 s tám mươi lần khỏi 8.0 s còn dư ~1e-15 s → hồi chiêu chậm "sẵn sàng" một khung hình. CooldownController coi phần dư < 1 µs là 0.
+- **Diễn giải Claude chọn (owner xác nhận):**
+  - "+3 EN / +2 UG mỗi đòn trúng" tính **một lần mỗi nhát (hit_id)**, không nhân theo số kẻ địch trúng, để đòn diện rộng không nạp quá nhanh.
+  - CDR "chốt" lúc bắt đầu hồi: đổi CDR giữa chừng không ảnh hưởng chu kỳ đang chạy.
+  - Hồi sinh tắt (Q6): đã gục thì không hồi máu, không hồi EN, không né.
+- **Hạn chế đã biết:** chưa nối với nhân vật/HUD (cần SkillRunner, M3-5); HP tối đa tạm truyền vào, sau lấy từ `CharacterDef`; chia UG 30% cho dự bị do PartyManager làm ở M4.
+
+## 2026-11-12 — M3-5 phần 1: nền kỹ năng, StatusController, đòn thường + né Aether, hình nộm
+
+- **Milestone / task:** 3 / M3-5 (phần 1/3)
+- **Trạng thái:** TESTED (headless). **Owner chơi thử được**: màn thử nghiệm có 2 hình nộm, J đánh, L/Shift né.
+- **File tạo:**
+  - Dữ liệu kỹ năng: `scripts/combat/skill_def.gd` (`SkillDef`: pha ms, EN, CD, vùng gây đòn, di chuyển, bất tử, kháng khựng, nối đòn), `hit_def.gd` (`HitDef`: thời điểm, % ATK, SC, hình cung/tròn/chữ nhật, đẩy lùi, trạng thái, vùng tách bay/tick), `status_application.gd`.
+  - `scripts/characters/combat_stats.gd`, `character_def.gd` + `data/characters/char_fire_01.tres` (**chỉ số tạm: HP 12000, ATK 1000, DEF 500** — README chưa có).
+  - `data/skills/char_fire_01/normal_1..4.tres`, `dodge.tres` (sinh bằng `tools/gen_aether_data.py`, ghi nguồn ở `metadata/source`).
+  - `scripts/combat/status_controller.gd` (`StatusController`): áp/làm mới (giữ mức mạnh hơn)/cộng tầng, nhịp sát thương, hết hạn, kháng sau Choáng, boss, gộp chỉ số cho DamageCalculator.
+  - `scripts/combat/combatant.gd` (`Combatant`): chỉ số + ResourceComponent + CooldownController + StatusController; nhận đòn từ Hurtbox, tính sát thương bằng chỉ số người đánh, áp trạng thái, cộng EN/UG một lần mỗi hit_id, sát thương Cháy (không chí mạng).
+  - `scripts/combat/skill_runner.gd` (`SkillRunner`): dựng một animation/kỹ năng với track bật Hitbox (HitboxTrack), tiêu EN, hồi chiêu, khóa hướng, di chuyển, bất tử, nối đòn + reset 0.8 s, huỷ bằng né nửa sau hồi phục. `detached_hit.gd` cho sóng lửa / vệt lửa.
+  - Player: state `attack`, `dodge` (`scripts/player/states/combat_states.gd`); `PlayerIntent` đệm mọi nút, đòn thường tính khi **nhả** nút (giữ ≥ 400 ms để dành cho đòn giữ); controller nạp `CharacterDef`.
+  - Hình nộm: `scenes/world/training_dummy.tscn` (HP 200 000, DEF 500, hồi đầy sau 3 s không bị đánh, hiện máu/DPS/trạng thái), `scripts/ui/floating_number.gd`; bản đồ thêm ký tự `D`.
+  - Hitbox tự vẽ vùng khi bật (cam trong suốt) thay VFX tạm.
+  - Dòng debug: HP/EN/UG/lượt né/hồi chiêu, kỹ năng đang chạy.
+  - Test: `test_status_controller.gd` (9), `test_aether_basic.gd` (12).
+- **Đã chạy:** `tools/run_tests.ps1`.
+- **Kết quả thật:** GdUnit4 142/142 đạt (21 mới), 4 test khói đạt, mã thoát 0. Kiểm: tổng Hỏa Trảm 355% ATK; đòn 1 trúng hình nộm đúng 1 lần = 350; chuỗi 4 đòn ra 350, 375, 425 rồi kiếm 425 + sóng 200, áp Cháy; Cháy 3 s = 6 nhịp × 40; chuỗi reset sau 0.8 s; mỗi đòn tiến 40 px; né lướt 280 px, bất tử trong 40–220 ms, theo hướng đang giữ; vệt lửa 2 × 125 và không nạp EN; hết lượt không né được; né chỉ huỷ được nửa sau hồi phục.
+- **Lỗi tìm thấy và sửa:**
+  - `SkillRunner` xoá đòn đã xếp hàng trước khi đọc → chuỗi không nối quá đòn 1. Sửa: đọc hàng đợi trước khi dừng đòn.
+  - `_ready` của node con chạy trước cha → Combatant dựng tài nguyên với chỉ số mặc định. Thêm `auto_setup`, controller gọi `setup()` sau khi gán chỉ số.
+  - `StatusController.tick` viết lần đầu rối → viết lại: thời gian trôi → phát nhịp đến hạn (kể cả nhịp đúng lúc hết hạn) → xét hết hạn.
+- **Diễn giải Claude chọn (owner xác nhận):**
+  - "Nối đòn nếu bấm trong 260 ms cuối pha hồi phục" nhưng đòn 1–2 chỉ hồi phục 160 ms → tính **260 ms cuối cả đòn**; đòn kế chạy khi đòn hiện tại kết thúc (chỉ né mới huỷ được hồi phục).
+  - Đòn thường tính khi **nhả** nút (vì giữ ≥ 400 ms là đòn giữ).
+  - Sóng lửa đòn 4 bay 220 px trong 300 ms; cả kiếm và sóng đều áp Cháy 3 s, SC ×1.5.
+  - Vệt lửa khi né không nạp EN/UG (`HitKind.NONE`).
+- **Chưa làm (phần 2–3):** giữ nút, trên không, đáp đất; kỹ năng, kỹ năng vũ khí, tuyệt kỹ, nội tại Nhiệt, né hoàn hảo — Hơi Nóng.
+
+## 2026-11-12 — M3-5 phần 2: đòn giữ, trên không, đáp đất (Aether)
+
+- **Milestone / task:** 3 / M3-5 (phần 2/3)
+- **Trạng thái:** TESTED (headless). Owner chơi thử được: giữ J để nạp, J khi nhảy, J khi đang rơi cao để lao xuống.
+- **File tạo/sửa:**
+  - `data/skills/char_fire_01/hold_1.tres`, `hold_2.tres`, `air_1.tres`, `air_2.tres`, `landing.tres` (thêm vào `tools/gen_aether_data.py`).
+  - `SkillDef`: `cooldown_group` (hold_1/hold_2 chung khóa "hold"), `extra_en_on_hit`, cửa sổ tắt trọng lực, `keep_momentum`, thông số nạp (`charge_start_ms`, `charge_level_ms`, `charge_move_slow`), lao xuống (`dive_speed_px`, `min_height_px`, `pre_dive_ms`).
+  - State `charge` (nạp, đi chậm 40%) và `plunge` (treo 60 ms, lao 1400 px/s, chạm đất chạy kỹ năng `landing`).
+  - Controller: chọn đòn trên không/đáp đất, đếm đòn trên không mỗi lần nhảy, đo độ cao bằng tia xuống đất, cấp nạp theo thời gian giữ.
+  - SkillRunner: nối đòn cho mọi kỹ năng có `next_skill` (air_1 → air_2); EN cộng thêm truyền qua Hitbox/HitInfo tới Combatant (cả vùng tách).
+  - Gợi ý phím cập nhật.
+  - `tests/unit/combat/test_aether_air_hold.gd` (12 test).
+- **Đã chạy:** `tools/run_tests.ps1`.
+- **Kết quả thật:** GdUnit4 154/154 đạt (12 mới), 4 test khói đạt, mã thoát 0. Kiểm: giữ < 400 ms → đòn thường; giữ 750 ms → Cấp 1 = 800 sát thương, +6 EN; giữ 550 ms → đòn thường; giữ 1550 ms → Cấp 2 = 1400, kháng khựng, Cháy; đang nạp chạy 270 px/s (chậm 40%); hồi 1 s dùng chung cho hai cấp; 2 đòn trên không mỗi lần nhảy, chạm đất đếm lại; đòn trên không 2 treo (vy = 0); lao từ cao 500 px chạm đất đúng y = 896, nổ 700, Cháy; thấp < 200 px hoặc chưa có đòn trên không thì không lao.
+- **Diễn giải Claude chọn (owner xác nhận):**
+  - Nhả trong 400–700 ms (đã nạp nhưng chưa tới Cấp 1) → **đòn thường**.
+  - Đang giữ nút mà đòn giữ còn hồi chiêu → không nạp; nhả ra không có đòn (chưa xử lý thành đòn thường).
+  - Đáp đất: bấm đánh **khi đang rơi**, đã có ≥ 1 đòn trên không, cao ≥ 200 px. Đang bay lên → đòn trên không thứ 2.
+  - Cấp 1 "khựng", đòn trên không 2 "đẩy xuống 30°", đáp đất "miễn đẩy lùi": cần phản ứng của quái → làm ở M3-6 (đã có cờ `plunging`, `super_armor`).
+
+## 2026-11-12 — M3-5 phần 3: kỹ năng, vũ khí, tuyệt kỹ, nội tại Aether — M3-5 xong
+
+- **Milestone / task:** 3 / M3-5 (phần 3/3)
+- **Trạng thái:** TESTED (headless). **Owner chơi thử được** đủ bộ Aether: U kỹ năng, I vũ khí, O tuyệt kỹ (cần UG đầy).
+- **File tạo/sửa:**
+  - `data/skills/char_fire_01/skill.tres` (Liệt Diễm Luân: 25 EN, CD 6 s, 4 nhịp 80/80/80/110% bán kính 200, Cháy 4 s, kháng khựng), `weapon.tres` (Thiên Hỏa Nhất Kích: 35 EN, CD 12 s, lướt 400 px 220% + Nung chảy −10% DEF 5 s, bất tử khi lướt, vết chém nổ chậm 1.0 s 130%), `ultimate.tres` (Viêm Hoàng Tuyệt Trảm: 100 UG, khóa 2 s **tính từ khi kết thúc**, mục tiêu gần nhất trong 500 px, 5 × 120% + nổ 500%, Cháy 6 s, bất tử).
+  - Trạng thái riêng Aether: `heat` (Nhiệt, 5 tầng, 6 s), `melt` (Nung chảy), `phoenix` (Hỏa Hoàng +20% sát thương 8 s), `hot_breath` (Hơi Nóng). Tổng 15 trạng thái.
+  - Kit nhân vật: `scripts/characters/kits/fire_kit.gd` + `fire_kit_config.gd` + `data/characters/char_fire_01_kit.tres`; `CharacterDef.kit_script/kit_config`. Kit làm: Nhiệt khi đòn trực tiếp trúng mục tiêu đang Cháy (ICD 0.3 s, +4% ATK/tầng), 5 tầng → Kĩ năng thường/vũ khí +25% và tiêu tầng, đạt 5 tầng −1.0 s CD kỹ năng (ICD 6 s), ≥ 3 tầng nạp UG ×1.2; đòn cơ bản trúng mục tiêu Cháy −0.2 s CD kỹ năng (tối đa 2.0 s/chu kỳ); hạ gục mục tiêu Cháy −2.0 s CD vũ khí (tối đa 4.0 s); Hơi Nóng; Hỏa Hoàng thêm sóng lửa cho đòn thường.
+  - Chung: `HitDef.delay_ms`, `at_target`; `SkillDef.ug_cost`, `target_range_px`, `cooldown_starts_on_end`; SkillRunner tìm kẻ địch gần nhất (nhóm `combatants`); `HitInfo` ghi trạng thái mục tiêu trước đòn và cờ hạ gục; buff `damage_dealt_up`; `ResourceComponent.ug_gain_multiplier`.
+  - Né hoàn hảo (chung mọi nhân vật) trong PlayerController: đòn tới trong 150 ms đầu khung bất tử → kẻ đánh chậm 30% 0.6 s, hoàn 1 lượt né, ICD 1.0 s, signal `perfect_dodged`.
+  - Nút U/I/O trong `combat_transition` (trên đất và trên không); HUD debug hiện trạng thái của Aether; gợi ý phím.
+  - `tests/unit/combat/test_aether_skills.gd` (15 test).
+- **Đã chạy:** `tools/run_tests.ps1`; export "Windows Desktop" và chạy bản build headless.
+- **Kết quả thật:** GdUnit4 169/169 đạt (15 mới), 4 test khói đạt, mã thoát 0. Bản build Windows xuất được (~97 MB), chạy không lỗi/cảnh báo.
+  Số đã kiểm: kỹ năng 400, 400, 416, 572 (Nhiệt cộng giữa chừng); thiếu EN bị từ chối; vũ khí lướt 400 px, 1100 rồi nổ 684 (đã −10% DEF); tuyệt kỹ 5 × 600 + 2500, cho Hỏa Hoàng, khóa 2 s sau khi kết thúc; không có mục tiêu thì đặt trước mặt; Nhiệt +4% ATK (1040); 5 Nhiệt → kỹ năng 500, 500, 520, 715 và tiêu tầng; ≥ 3 Nhiệt UG ×1.2; né hoàn hảo hoàn lượt, làm chậm kẻ đánh, không mất máu, đòn thường kế tiếp 455 và áp Cháy; Hỏa Hoàng: đòn 1 420 + sóng 240.
+- **Lỗi tìm thấy và sửa:** tuyệt kỹ bắt đầu khóa 2 s lúc tung chiêu, nhưng tuyệt kỹ dài 2.8 s nên khóa vô nghĩa → thêm `cooldown_starts_on_end`. Một số kỳ vọng ban đầu trong test sai vì chưa tính nội tại Nhiệt cộng giữa các nhịp — đã sửa theo đặc tả.
+- **Diễn giải Claude chọn (owner xác nhận):**
+  - Nhiệt chỉ tích từ **đòn đánh trực tiếp**, nhịp Cháy không tính (nếu không sẽ tự đầy).
+  - Né hoàn hảo = đòn tới trong 150 ms đầu khung bất tử (Aether: 40–190 ms của cú né).
+  - Sóng lửa của Hỏa Hoàng: tài liệu không ghi % → dùng sóng đòn 4 (40% ATK).
+  - Hỏa Hoàng áp khi tuyệt kỹ **kết thúc**, kể cả khi không trúng ai.
+  - Vết chém của vũ khí nổ dạng chữ nhật 400 × 280 dọc đường lướt (gần đúng "bán kính 140 dọc đường").
+  - Kỹ năng/vũ khí/tuyệt kỹ dùng được cả trên không; chỉ dùng được từ trạng thái tự do (không huỷ đòn thường).
+- **Chưa làm (để M3-6/M3-7/M4):** dừng thời gian 600 ms + ảnh cut-in của tuyệt kỹ; khựng/đẩy lùi/sức choáng lên quái; không cho đổi nhân vật khi đang tuyệt kỹ chuỗi đòn; hiệu ứng hình (hiện đang vẽ vùng gây đòn màu cam thay VFX).
+
+## 2026-11-12 — M3-6 Quái thường (slime)
+
+- **Milestone / task:** 3 / M3-6
+- **Trạng thái:** TESTED (headless). Owner chơi thử được: 3 slime trong màn thử nghiệm (sau dãy cột và sau dãy hố).
+- **File tạo/sửa:**
+  - `scripts/enemies/enemy_def.gd` (`EnemyDef`) + `data/enemies/enemy_slime_01.tres` (**placeholder do Claude đặt**: HP 6000, ATK 400, DEF 300, SC 300, tốc độ 160, phát hiện 700 px, tầm đánh 170 px, nghỉ 1.5 s; đòn cắn báo hiệu 500 ms, lao 60 px, 100% ATK, đẩy 120 px).
+  - `scripts/enemies/enemy_controller.gd` (`EnemyController`) + `scenes/enemies/enemy_slime.tscn`: tuần tra ± 200 px có nghỉ → đuổi khi thấy → đánh (thân chuyển cam khi báo hiệu) → hồi → đuổi; trúng đòn: khựng 0.25 s (ngắt được trong pha khởi động, không ngắt khi đòn đã có hiệu lực), đẩy lùi; SC đầy → Choáng (thân xanh, chữ "Choáng"), kháng 8 s; SC tự giảm sau 2 s không bị đánh; chết → mờ 0.6 s rồi xoá; thanh HP nhỏ hiện khi bị đánh + thanh SC.
+  - `CombatRules`: `player_stagger_sec` 0.3, `knockback_time_sec` 0.15, `sc_points_per_ratio` 100 (SC = % ATK của đòn).
+  - `EventBus`: `enemy_stunned`, `enemy_defeated` (cho Liên kết ở M4-3).
+  - Người chơi: state `hurt` (khựng + đẩy lùi), `down` (gục); không khựng khi kỹ năng có kháng khựng hoặc đang lao xuống; `restore_full()`.
+  - Màn thử nghiệm: ký tự `E` trong bản đồ; quái hồi sau 5 s; người chơi gục đứng dậy đầy máu sau 1.5 s (chỉ ở màn thử nghiệm).
+  - `AGENTS.md`: quy ước không gọi thẳng tên autoload trong script gameplay.
+  - `tests/unit/enemies/test_enemy_slime.gd` (14 test).
+- **Đã chạy:** `tools/run_tests.ps1`; export Windows + chạy bản build.
+- **Kết quả thật:** GdUnit4 183/183 đạt (14 mới), 4 test khói đạt, mã thoát 0; bản build chạy không lỗi. Kiểm: tuần tra trong ± 200 px; thấy người chơi thì đuổi và quay mặt; báo hiệu ≥ 24 khung (0.4 s) rồi trúng người chơi 200, người chơi khựng và bị đẩy lùi, hết khựng sau 0.3 s; kỹ năng kháng khựng vẫn mất máu nhưng không bị ngắt; né tránh được đòn; **né hoàn hảo trước đòn thật**: slime bị chậm, Aether có Hơi Nóng, không mất máu; đánh trúng khi slime đang báo hiệu → khựng, đòn bị huỷ; SC đầy → Choáng, phát `enemy_stunned`, kháng 8 s sau đó; đòn 70% → 70 SC; SC giảm sau 2 s; chết phát `enemy_defeated` rồi biến mất; hạ slime đang Cháy rút 2 s CD vũ khí Aether; người chơi gục không điều khiển được, đứng dậy đầy máu.
+- **Lỗi tìm thấy và sửa:** gọi `EventBus.x` trực tiếp làm test khói (`--script`) không biên dịch được → lấy autoload qua đường dẫn.
+- **Diễn giải Claude chọn (owner xác nhận):**
+  - "SC bằng % ATK của đòn" → đòn 70% ATK gây 70 điểm SC; thanh slime 300.
+  - Khựng chỉ ngắt được pha khởi động (báo hiệu); khi đòn đã có hiệu lực thì không ngắt.
+  - Quái không chặn đường người chơi (đi xuyên nhau); chỉ va chạm với địa hình.
+  - SC không tích khi đang Choáng và trong 8 s kháng.
+- **Hạn chế đã biết:** quái chưa nhảy/đi vòng qua bậc (đứng dưới chân cột); chưa có thưởng khi hạ (M5/M6); hướng đẩy xuống 30° của đòn trên không 2 chưa làm (đẩy ngang); hiệu ứng hình tạm (đa giác màu).
+
+## 2026-11-12 — Quy tắc làm việc: tự chủ chi tiết nhỏ
+
+- **Owner quyết định:** từ M3-7, agent tự quyết chi tiết kỹ thuật; không hỏi về màu sắc, tên biến, cấu trúc folder, kích thước nút, số frame animation, thông số cân bằng nhỏ. Ghi vào `AGENTS.md` mục 6 và bộ nhớ của Claude. Từ đây các lựa chọn như vậy ghi trong mục **"Quyết định Claude chọn"** của từng task, không còn mục "owner xác nhận" cho chi tiết nhỏ.
+
+## 2026-11-12 — M3-7 Phản hồi đòn (hit feedback)
+
+- **Milestone / task:** 3 / M3-7
+- **Trạng thái:** TESTED (headless). **Mốc owner chơi thử trong Godot** (cảm giác đòn).
+- **File tạo/sửa:**
+  - `scripts/combat/hit_feedback.gd` (`HitFeedback`) + `hit_feedback_config.gd` + `data/config/hit_feedback.tres`: nghe `EventBus`; hit-stop bằng `Engine.time_scale = 0` khôi phục theo **thời gian thật**; rung camera; số sát thương; đếm combo (HUD góc phải); dừng thời gian kẻ địch + cut-in khi tuyệt kỹ.
+  - `EventBus`: `hit_landed`, `dot_landed`, `ultimate_started`. `Combatant` phát `hit_landed`/`dot_landed`; PlayerController phát `ultimate_started`.
+  - `FollowCamera.add_shake/update_shake` (rung theo thời gian thật, dùng `offset` nên không ảnh hưởng vị trí bám).
+  - `FloatingNumber`: 4 kiểu (thường trắng, chí mạng vàng to, Cháy cam nhỏ, người chơi mất máu đỏ), nảy rồi mờ; không dùng ngẫu nhiên. Hình nộm không tự hiện số nữa (gom về HitFeedback).
+  - Kẻ địch, hình nộm: nhóm `time_stoppable`, hàm `freeze(giây)`.
+  - Aether chớp trắng 0.1 s khi bị đánh.
+  - `SkillDef.name_key`, `time_stop_ms`; tuyệt kỹ Aether: 600 ms, tên "Viêm Hoàng Tuyệt Trảm".
+  - Màn thử nghiệm tạo HitFeedback.
+  - `tests/unit/combat/test_hit_feedback.gd` (10 test).
+- **Đã chạy:** `tools/run_tests.ps1`; export Windows + chạy bản build.
+- **Kết quả thật:** GdUnit4 193/193 đạt (10 mới), 4 test khói đạt, mã thoát 0; bản build chạy không lỗi. Kiểm: thời lượng hit-stop nhẹ 45 / nặng 70 / chí mạng +10 / trần 80 ms; hit-stop dừng và tự khôi phục theo thời gian thật (đo 60–200 ms cho 70 ms); nhiều hit-stop chồng lấy mức dài nhất (~70 ms, không phải 160); tắt được; đánh trúng thật → hit-stop + rung + số + combo 1; combo ngắt sau 2 s; người chơi bị đánh → combo về 0, số đỏ; Cháy hiện số cam; tuyệt kỹ → slime đứng im ~600 ms và cut-in hiện rồi tắt. 183 test cũ vẫn đạt khi bật hit-stop (khung vật lý dừng theo nên test đếm khung vẫn đúng thời gian game).
+- **Quyết định Claude chọn:**
+  - Hit-stop nhẹ 45 ms, nặng 70 ms (đòn ≥ 120% ATK hoặc SC ×1.5), chí mạng +10, trần 80; người chơi bị đánh 60 ms.
+  - Hit-stop dừng toàn bộ thời gian game (đơn giản, đúng tinh thần "dừng mọi thứ"); nhiều đòn cùng lúc lấy mức dài nhất.
+  - Rung: nhẹ 4 px 0.08 s, nặng 10 px 0.15 s, bị đánh 9 px 0.14 s.
+  - Combo đếm **mỗi lần trúng một mục tiêu**; ngắt sau 2 s hoặc khi bị đánh; hiện từ 2 đòn.
+  - Cut-in tạm: nền tối + dải màu lửa + tên chiêu trượt vào từ phải; dừng thời gian áp cho kẻ địch và hình nộm (Aether vẫn chạy pha khởi động, đang bất tử).
+- **Hạn chế đã biết:** chưa có âm thanh trúng đòn (M7, chờ SFX); VFX vẫn là đa giác; phản ứng nguyên tố (hit-stop 60 ms, tên phản ứng 0.8 s) làm ở M4-5.
+
+## 2026-11-12 — M4-1 PartyManager + M4-2 CharacterRuntime cho dự bị
+
+- **Milestone / task:** 4 / M4-1, M4-2
+- **Trạng thái:** TESTED (headless). Chưa thử bằng tay (mốc chơi thử của M4 là M4-4 / M4-7).
+- **File tạo/sửa:**
+  - `scripts/party/party_manager.gd` (`PartyManager`): đội 3 người, 1 người trên sân; chuyển bằng `switch_1`/`switch_2` (Q/1, E/2); chờ chung 1.0 s; khóa khi tuyệt kỹ chuỗi đòn; không chuyển sang người đã gục; giữ lệnh chuyển 0.15 s nếu chưa chuyển được (mục 8.11); dự bị nhận 30% UG; người trên sân gục → tự đưa người còn sống đầu tiên vào; cả đội gục → `party_defeated`. Signal `switched`, `switch_rejected`, `member_down`.
+  - `scripts/party/character_runtime.gd` (`CharacterRuntime`): giữ PlayerController của từng thành viên; ở dự bị node bị **gỡ khỏi cây** (không có trên sân, không AI, không bị nhắm) nhưng `tick_reserve` vẫn chạy tài nguyên, hồi chiêu, trạng thái, kit (Nhiệt...).
+  - `PlayerController`: `leave_field`, `enter_field`, `tick_reserve`, `is_switch_locked`.
+  - `ResourceComponent`: signal `ug_gained`; `add_ug(amount, apply_multiplier)`; nhân vật đã gục không nhận UG.
+  - `SkillDef.locks_switch`; tuyệt kỹ Aether bật (cả `tools/gen_aether_data.py`, chạy lại ra đúng file).
+  - `CombatRules` + `combat_rules.tres`: `switch_cooldown_sec` 1.0, `switch_input_buffer_sec` 0.15, `down_auto_switch_sec` 1.0.
+  - `data/characters/char_lightning_01.tres` (Kael), `char_wind_01.tres` (Lyra): chỉ số tạm, chỉ di chuyển; khóa dịch `CHAR_LIGHTNING_01`, `CHAR_WIND_01` (vi + en).
+  - `EnemyController`: mục tiêu rời sân (node ngoài cây) → nhắm người mới trên sân.
+  - Màn thử nghiệm: đội Aether / Kael / Lyra qua PartyManager; camera, HitFeedback, debug bám người trên sân; thành viên gục ở dự bị đứng dậy sau 1.5 s; cả đội gục thì hồi cả đội.
+  - `tests/unit/party/test_party_manager.gd` (20 test); sửa `test_enemy_slime.gd::test_player_down_then_revives_in_test_stage` theo hành vi mới.
+- **Đã chạy:** `godot --headless --import`; `tools/run_tests.ps1`; `python tools/gen_aether_data.py` (so diff); export Windows Desktop.
+- **Kết quả thật:** GdUnit4 213/213 đạt (20 mới), 0 orphan, 4 test khói đạt, mã thoát 0; export mã 0. Kiểm: chỉ người trên sân ở trong cây và nhóm `player`; chuyển giữ vị trí và hướng, camera/HitFeedback đổi theo; chuyển lần hai trong 1.0 s bị từ chối, sau 1.0 s được; bấm sớm 0.1 s thì lệnh được giữ và chuyển, quá 0.15 s thì bỏ; trong tuyệt kỹ Aether bị khóa, xong thì mở; không chuyển sang người gục; dự bị EN +1/s, trên sân +2/s; dự bị nhận 30% UG (dùng hệ số của người trên sân, không nhân hệ số của dự bị); hồi chiêu và Nhiệt của Aether vẫn chạy khi ở dự bị; Aether gục → 1.0 s sau người còn sống kế tiếp vào sân; cả đội gục phát `party_defeated`; slime đổi mục tiêu sang người mới; node dự bị được giải phóng cùng màn.
+- **Quyết định Claude chọn:**
+  - Dự bị = node PlayerController gỡ khỏi cây (không ẩn/tắt trong cây), để tự động ra khỏi nhóm `player`/`combatants`, không va chạm, không xử lý input.
+  - Icon dự bị theo thứ tự trong đội, bỏ người trên sân (đội Aether, Kael, Lyra: lúc đầu icon 1 = Kael, icon 2 = Lyra).
+  - Người trên sân gục: tự đưa người dự bị còn sống đầu tiên vào sau 1.0 s, vào mặc định, không tính chờ chung. Đặc tả chưa ghi trường hợp này.
+  - Phần UG chia cho dự bị tính trên lượng người trên sân nhận **trước khi chặn trần** (người trên sân đầy UG thì dự bị vẫn nhận).
+  - Chỉ số tạm Kael HP 10500 / ATK 950 / DEF 450, Lyra HP 9500 / ATK 800 / DEF 400.
+- **Hạn chế đã biết:** chưa có Kĩ năng vào sân, SI-CD, Liên kết (M4-3, M4-4); animation vào/ra sân chưa có (đổi tức thì); Kael, Lyra chưa đánh được (M4-6); chưa có HUD icon dự bị (M4-7), tạm nhận biết người trên sân qua màu placeholder (Aether đỏ cam, Kael vàng, Lyra xanh ngọc); nút cảm ứng switch_1/2 đã có từ M1 nhưng chưa có icon.
+
+## 2026-11-12 — M4-3 LinkTracker: 6 điều kiện Liên kết, cửa sổ 6.0 s, SI-CD
+
+- **Milestone / task:** 4 / M4-3
+- **Trạng thái:** TESTED (headless). Chưa thấy được bằng mắt (vòng sáng là M4-7).
+- **File tạo/sửa:**
+  - `scripts/party/link_tracker.gd` (`LinkTracker`): điều kiện của từng nhân vật lấy từ `CharacterDef.link_condition`; người trên sân làm việc đó → cửa sổ `link_window_sec` (6.0 s) của người dự bị có điều kiện đó mở (làm mới nếu đang mở). Vòng sáng = cửa sổ còn + SI-CD đã hồi + chưa gục. Mức vào sân: Liên kết / Thường / mặc định; Thường và Liên kết bắt đầu SI-CD; Liên kết +15 UG, +10 EN cho người vào sân. SI-CD là khóa `switch_in` trong CooldownController của từng nhân vật (đếm cả khi dự bị, chịu CDR chung, trần 40%).
+  - `PartyManager`: tạo LinkTracker; cấp sự kiện từ EventBus (`enemy_stunned`, `enemy_defeated`, `status_applied`) và từ người trên sân (`perfect_dodged`, kỹ năng vũ khí/tuyệt kỹ bắt đầu); `mode_for()`, `last_switch_mode`; signal `switched(from, to, mode)`; phát `character_switched`, `link_window_opened/closed` lên EventBus.
+  - `EventBus`: `status_applied`, `link_window_opened`, `link_window_closed`, `character_switched`.
+  - `StatusController.applied_from(status_id, source)`; `Combatant` chuyển lên `EventBus.status_applied`.
+  - `CharacterDef`: `link_condition`, `switch_in_cd_sec`. Dữ liệu 6 nhân vật theo bảng 8.3 (Aether Choáng 10 s, Lyra né hoàn hảo 9 s, Kael hiệu ứng nguyên tố 8 s, Seraphine HP thấp 12 s, Noctis hạ gục 11 s, Terra vũ khí/tuyệt kỹ 12 s).
+  - Hồ sơ tạm `char_light_01`, `char_dark_01`, `char_earth_01` (chỉ số tạm, chưa có kỹ năng; ngoài slice Q5) để test đủ 6 điều kiện; khóa dịch `CHAR_LIGHT_01`, `CHAR_DARK_01`, `CHAR_EARTH_01` (vi + en).
+  - `CombatRules`: `link_window_sec` 6.0, `link_low_hp_ratio` 0.5, `link_hp_loss_ratio` 0.25, `link_hp_loss_window_sec` 3.0, `link_bonus_ug` 15, `link_bonus_en` 10.
+  - `tests/unit/party/test_link_tracker.gd` (23 test).
+- **Đã chạy:** `godot --headless --import`; `tools/run_tests.ps1`; export Windows Desktop.
+- **Kết quả thật:** GdUnit4 236/236 đạt (23 mới), 0 orphan, 4 test khói đạt, mã thoát 0; export mã 0. Kiểm: dữ liệu 6 nhân vật khớp bảng 8.3, đủ 6 điều kiện; SI-CD hồi sẵn lúc đầu, vào Thường bắt đầu 8 s, đếm khi dự bị, vào mặc định khi chưa hồi và không bắt đầu lại; CDR 25% → 6 s, CDR 90% bị chặn 40% → 4.8 s; cửa sổ mở đúng 6.0 s rồi đóng (5.9 s còn, 6.1 s hết), lặp lại thì làm mới không phát lại; sự kiện của người dự bị / không phải người chơi bị bỏ qua; điều kiện của chính người trên sân không mở gì; cửa sổ còn mà SI-CD chưa hồi → không sáng, vào mặc định; hai icon sáng cùng lúc, chọn một chỉ tiêu cửa sổ đó; Liên kết +10 EN +15 UG, SI-CD bắt đầu, EventBus báo "linked"; Thường không cộng; tự đổi khi gục là mặc định. Từng điều kiện: Kael (Cháy lên hình nộm do người trên sân; Nhiệt tự buff, Choáng, nguồn là người dự bị: không tính), Lyra (né hoàn hảo của người trên sân), Seraphine (HP ≤ 50%; mất 26% trong 2 s; mất 40% trải hơn 3 s thì không; HP thấp kéo dài giữ vòng sáng), Noctis (hạ gục), Terra (vũ khí, tuyệt kỹ; kỹ năng thường không), người dự bị đã gục không sáng. Trong trận thật: Aether đánh thường có Hơi Nóng áp Cháy → icon Kael sáng.
+- **Lỗi tìm thấy và sửa (trong test):** SI-CD của người đang trên sân đếm theo khung vật lý chứ không theo `party.tick` → sửa kỳ vọng; lượng HP mất được ghi ở tick kế tiếp → test thêm 1 tick nhỏ; Aether vừa dịch chỗ còn đang rơi nên ra đòn trên không → chờ chạm đất.
+- **Quyết định Claude chọn:**
+  - Cửa sổ chỉ mở cho người **đang dự bị** lúc sự kiện xảy ra; chuyển sang ai (bất kể mức) thì cửa sổ của người đó đóng.
+  - Seraphine "HP ≤ 50%" là trạng thái kéo dài: còn đúng thì cửa sổ được làm mới liên tục. Lượng mất tính tổng các lần giảm HP (hồi máu không trừ lại).
+  - Kael: chỉ tính trạng thái có `counts_as_elemental` (Cháy, Chậm, Dấu Sét, Nguyền, Phán quyết, Trói, Nung chảy, Mù cát) áp lên phe khác; Choáng không tính.
+  - Tự đổi khi người trên sân gục: vào mặc định, không tiêu SI-CD.
+  - +15 UG của vào sân Liên kết vẫn chia 30% cho dự bị như mọi UG khác.
+  - Hồ sơ tạm Seraphine HP 10000 / ATK 750, Noctis 10000 / 900, Terra 14000 / 750 / DEF 650.
+- **Hạn chế đã biết:** chưa có Kĩ năng vào sân và cơ chế giảm SI-CD riêng của từng nhân vật (M4-4); chưa có phản ứng nguyên tố (M4-5); chưa có HUD vòng sáng (M4-7), nên chưa thấy được trong game.
+
+## 2026-11-12 — M4-4 Kĩ năng vào sân Thường / Liên kết / mặc định (Aether, Lyra, Kael)
+
+- **Milestone / task:** 4 / M4-4
+- **Trạng thái:** TESTED (headless). **Mốc owner chơi thử trong Godot** (đổi nhân vật, vào sân Liên kết).
+- **File tạo/sửa:**
+  - Dữ liệu `data/skills/{char_fire_01, char_wind_01, char_lightning_01}/switch_in.tres` (Thường) và `switch_in_linked.tres` (Liên kết), sinh bằng `tools/gen_switch_in_data.py`. Hàm sinh dùng chung tách ra `tools/skill_data_lib.py`; `gen_aether_data.py` dùng lại và **không ghi file nhân vật nữa** (file nhân vật sửa tay vì có dữ liệu Liên kết / vào sân). Chạy lại `gen_aether_data.py` ra đúng dữ liệu cũ.
+  - `scripts/party/switch_in_def.gd` (`SwitchInDef`): buff bản thân khi vào sân (Thường / Liên kết) và cơ chế giảm SI-CD riêng (`reduce_on`, giây, tối đa mỗi chu kỳ, cửa sổ sau khi vào sân, ICD). Gắn vào `CharacterDef.switch_in`; Kael, Lyra có `skills_dir`.
+  - `PartyManager`: chuyển xong thì chạy `switch_in` (Thường) / `switch_in_linked` (Liên kết) qua state Attack, áp buff bản thân, mở cửa sổ giảm SI-CD; nghe `EventBus.status_max_stacks` (Bùng nổ Sét) và `hit_dealt` của thành viên (Aether).
+  - `SkillDef`: `approach_target`, `approach_max_px`, `approach_stop_px`, `teleport`, `target_prefer` ("stun" / "elemental"). `SkillRunner`: chọn mục tiêu có ưu tiên, quay về phía mục tiêu, lướt hoặc dịch chuyển tới nó.
+  - `HitDef.bonus_vs_status(_ratio)` → Hitbox → HitInfo → `Combatant.receive_hit` (mục tiêu đang mang trạng thái thì thêm % sát thương). `HitDef.travel_angle_deg` cho vùng tách bay chéo (tên hình quạt, lật theo hướng nhìn).
+  - Trạng thái mới `wind_step` (Gió Trợ Bước, +% tốc độ di chuyển) và `attack_speed_up` (+% tốc độ tấn công); `StatusDef.MAGNITUDE_MOVE_SPEED_UP/ATTACK_SPEED_UP`; `StatusController.move_speed_up()/attack_speed_up()`. PlayerController: tốc độ chạy × (1 + tăng − chậm); đòn cơ bản (normal, hold, air, landing) chạy nhanh theo tốc độ tấn công.
+  - `EventBus.status_max_stacks`; `Combatant` chuyển `max_stacks_reached` lên bus.
+  - `PlayerController.start_switch_in()`, `attack_speed_factor()`.
+  - Debug overlay (F3): dòng đội "[người trên sân] Q: … E: …" kèm SI-CD, ✦ LIÊN KẾT còn bao lâu, (gục), chờ chung. Gợi ý phím thêm "Q/E đổi nhân vật". Khóa dịch mới (vi + en): `STATUS_WIND_STEP`, `STATUS_ATTACK_SPEED_UP`, `DEBUG_PARTY_DOWN`, `DEBUG_PARTY_LINK`.
+  - `tests/unit/party/test_switch_in.gd` (21 test); `test_party_manager.gd::test_switch_keeps_position_and_facing` đổi sang vào mặc định (vào Thường thì Kael dịch chuyển tới mục tiêu); `test_combat_data.gd` thêm 2 trạng thái.
+- **Đã chạy:** `godot --headless --import`; `tools/run_tests.ps1`; `python tools/gen_aether_data.py` (so diff: không đổi); `python tools/gen_switch_in_data.py`; export Windows Desktop.
+- **Kết quả thật:** GdUnit4 257/257 đạt (21 mới), 0 orphan, 4 test khói đạt, mã thoát 0; export mã 0; không có SCRIPT ERROR khi debug overlay chạy trong test đội. Kiểm: dữ liệu 3 nhân vật khớp 8.5–8.7 (tổng % ATK Thường/Liên kết 130/190, 120/180, 110/160; timing; bất tử ≤ 500 ms; không tốn EN); vào Thường chạy `switch_in` và bất tử rồi hết; vào mặc định không chạy gì; Kael dịch chuyển tới hình nộm gần nhất (dừng cách 70 px), ưu tiên mục tiêu đang Cháy, Thường 1 Dấu Sét, Liên kết 2 Dấu Sét + 15% tốc độ tấn công 4 s; Bùng nổ Sét do Kael trong 5 s −1.0 s SI-CD, nguồn khác / quá 5 s không tính; Aether lướt 348 px (≤ 350) tới hình nộm, Cháy 3 s, ưu tiên mục tiêu đang Choáng, Liên kết +2 Nhiệt, hình nộm đang Choáng nhận đúng ×1.30 so với hình nộm kia, Cháy 5 s, SI-CD −1 s; giảm tối đa 3 s mỗi chu kỳ; đòn không phải vào sân hoặc mục tiêu không Choáng không tính; Lyra bắn 3 tên −15°, +15°, 0°, tên cuối Chậm 25%, Gió Trợ Bước 10% 3 s / Liên kết 25% 4 s, tốc độ chạy ×1.25 đúng; né hoàn hảo −1.5 s có ICD 3 s, tối đa 3 s, cửa sổ 4 s; tốc độ tấn công chỉ áp cho đòn cơ bản.
+- **Lỗi tìm thấy và sửa:**
+  - Heredoc Python qua stdin hỏng ký tự tiếng Việt khiến script sửa file lỗi giữa chừng; lệnh `gen_aether_data.py` chạy sau đó ghi đè `char_fire_01.tres` (mất `link_condition`). Đã khôi phục bằng `git checkout`, chuyển script sang file trong scratchpad, và bỏ phần ghi file nhân vật khỏi `gen_aether_data.py` để không lặp lại.
+  - `@export_enum` không nhận giá trị rỗng → `reduce_on` là chuỗi thường.
+- **Quyết định Claude chọn:**
+  - Vào sân dùng **hai SkillDef** (`switch_in`, `switch_in_linked`); thiếu bản Liên kết thì dùng bản Thường.
+  - Aether: lướt trong pha khởi động (0–220 ms), dừng cách mục tiêu 80 px; không có mục tiêu thì chém tại chỗ. Vùng chém tròn bán kính 180 tâm trước mặt 40 px.
+  - Kael: dịch chuyển tức thì lúc bắt đầu, dừng cách mục tiêu 70 px; Thường 1 Dấu Sét ở nhát đầu, Liên kết mỗi nhát 1.
+  - Lyra: ba tên bắn lần lượt (180, 230, 280 ms), thứ tự chếch lên −15°, chếch xuống +15°, thẳng 0° (tên cuối bay thẳng để đẩy lùi + Chậm trúng chắc). Tên bay 700 px trong 0.3 s. Chưa làm "lao xuống từ trên cao" và "vùng gió tiếp đất 160 px" (đặc tả không ghi sát thương / hiệu ứng riêng cho vùng).
+  - Tốc độ tấn công chỉ tăng tốc đòn cơ bản (normal, hold, air, landing).
+  - Tự đổi khi gục: vào mặc định (như M4-3).
+- **Hạn chế đã biết:** chưa có animation vào sân / ra sân (dùng hình placeholder), chưa có VFX (vùng đòn hiện đa giác màu); Bùng nổ Sét (sát thương khi đủ 3 Dấu Sét) thuộc bộ kỹ năng Kael (M4-6), hiện chỉ có sự kiện để giảm SI-CD; chưa có phản ứng nguyên tố (M4-5); Kael, Lyra vẫn chưa đánh thường / né được (M4-6); HUD icon dự bị là M4-7 (tạm xem dòng đội trên debug overlay).
+
+## 2026-11-12 — Asset: bộ phận rig Aether (chibi) từ sheet của owner
+
+- **Milestone / task:** ngoài lộ trình (asset owner giao, chuẩn bị cho B1 hình nhân vật)
+- **Trạng thái:** IMPLEMENTED (cắt xong, owner đã đặt tên 64/64 bộ phận; chưa ráp rig, chưa dùng trong game)
+- **Owner quyết định (2026-11-12):** ảnh do AI tạo được đưa vào bản phát hành chính thức. Đã ghi vào `AGENTS.md` (mục "Ảnh do AI tạo": nơi lưu, quy cách, ghi nguồn, không bắt chước bên thứ ba), `docs/ASSET_LICENSES.md` mục 2.1, và việc khai báo nội dung AI khi lên store trong `docs/OWNER_ASSET_CHECKLIST.md` mục A (commit `b4054e6`).
+- **File tạo/sửa:**
+  - `assets/characters/char_fire_01/rig_parts/`: 64 PNG nền trong suốt `char_fire_01_part_{NN}_{loại}_{tên}.png` + `parts_manifest.json` (id, file, loại, tên, lớp gần/xa, ghi chú, vị trí trên sheet). `source/` (có `.gdignore`): sheet gốc và nhãn owner điền.
+  - `assets/characters/char_fire_01/portrait/char_fire_01_portrait_full.png` (bộ phận 16, ảnh đứng toàn thân).
+  - `tools/sprite_parts/segment_parts.py`, `cut_parts.py`, `README.md`.
+  - `docs/ASSET_LICENSES.md` mục 2.
+- **Cách làm:** tách vùng trên nền trắng (ngưỡng 190, lưới 4 px) → 64 khung đánh số → trang artifact "Bảng tên bộ phận Aether" để owner chọn loại / lớp / tên / ghi chú (lưu trong db của trang) → đọc lại → cắt: mỗi bộ phận chỉ giữ pixel của chính nó (khung chồng nhau như 44/45/46, 61/62 không lẫn), lấp vùng trắng kín bên trong, loang nền trắng từ mép, làm mềm viền JPEG, bỏ mảnh vụn < 2%.
+- **Đã chạy:** các script trên; ghép thử toàn bộ PNG lên nền tối và bảng tiếp xúc 8×8 để soát bằng mắt (Claude); `godot --headless --import`; `tools/run_tests.ps1`.
+- **Kết quả thật:** 64/64 PNG; bản ghép khớp sheet gốc; tests 257/257 + 4 test khói đạt, mã thoát 0.
+- **Lỗi tìm thấy và sửa:** lần cắt đầu làm thủng áo sơ mi trắng (ô 4 px không thuộc vùng) → lấp lỗ; đáy áo hở ra nền nên vẫn còn vết → đổi sang chỉ loại pixel thuộc vùng của bộ phận *khác*; vài chấm lẻ cạnh 18, 22, 28 → bỏ mảnh vụn.
+- **Quyết định Claude chọn:** thư mục `rig_parts/` cạnh `frames/`; tên file không dấu; ảnh đứng 16 làm chân dung toàn thân.
+- **Hạn chế đã biết:** sheet là JPEG 1272×1236 nên bộ phận nhỏ (mặt ~130 px, kiếm ~380 px), viền có thể còn quầng nhạt trên nền tối; chưa có điểm khớp (pivot) cho rig; chưa ráp thành frame 384×384 cho `frames/`; chưa xác định ảnh có phải do AI tạo (nếu có, owner ghi vào ASSET_LICENSES 2.1). Splash art / màn tiêu đề chưa đổi.
+
+## 2026-11-12 — M4-5 Phản ứng nguyên tố (15 ReactionDef + ReactionResolver)
+
+- **Milestone / task:** 4 / M4-5
+- **Trạng thái:** TESTED (headless)
+- **File tạo/sửa:**
+  - `scripts/party/reaction_def.gd` (`ReactionDef`: cặp nguyên tố, chế độ tâm FIRST_HIT / SELF / HIGHEST_HP, danh sách `HitDef`, tán xạ, buff bản thân, hồi đội, xóa hiệu ứng xấu), `reaction_resolver.gd` (`ReactionResolver`: nạp `data/reactions`, ICD chung 5.0 s, vùng đòn là `DetachedHit` do người vào sân gây).
+  - `data/reactions/*.tres` (15 file, sinh bằng `tools/gen_reaction_data.py`) + 15 khóa dịch `REACTION_*` (vi + en).
+  - `PartyManager`: vào sân Liên kết → chuẩn bị phản ứng của cặp (người rời, người vào); nổ tại kẻ địch đầu tiên trúng Kĩ năng vào sân; Thanh Phong / Thánh Giáp nổ ngay tại người vào sân; trượt thì không nổ và không tốn ICD. Phát `EventBus.reaction_triggered`.
+  - `HitFeedback` + `scripts/ui/reaction_fx.gd`: hit-stop 60 ms, hai quả cầu màu va nhau 0.3 s, tên phản ứng 0.8 s.
+  - Cơ chế mới: `HitDef.pull_to_origin` (kéo về tâm, không quá tâm); `HitInfo.boss_control_multiplier` (khống chế / Chậm lên boss ×0.5; trạng thái có hệ số boss riêng thì dùng hệ số đó; `root` boss ×0.4 → 2.0 s còn 0.8 s); khiên thật (`ResourceComponent.shield`, hấp thụ trước máu, vỡ thì mất trạng thái, hết hạn thì mất khiên); `burn` nhận `tick_bonus` (Thiêu Hồn: tick gấp đôi); `DetachedHit.spawn(..., extra_delay_sec)`.
+  - `CombatRules`: `reaction_icd_sec` 5.0, `reaction_boss_control_multiplier` 0.5. `HitFeedbackConfig`: `reaction_hitstop_ms` 60, `reaction_name_sec` 0.8, `reaction_orb_sec` 0.3.
+  - `tests/unit/party/test_reactions.gd` (21 test).
+- **Đã chạy:** `godot --headless --import`; `python tools/gen_reaction_data.py`; `tools/run_tests.ps1`.
+- **Kết quả thật:** GdUnit4 278/278 đạt, 4 test khói đạt, mã thoát 0. Kiểm: đủ 15 cặp, không thiếu, không trùng, đối xứng, có bản dịch; tổng % ATK khớp bảng 8.4; ICD 5.0 s chặn cả phản ứng khác; Liên kết + trúng → nổ đúng cặp tại kẻ địch đầu tiên, có sự kiện và tên hiện; vào Thường không nổ; Liên kết mà trượt không nổ, không tốn ICD; Thanh Phong nổ ngay, hồi 8% HP cả đội (kể cả dự bị), xóa 1 hiệu ứng xấu; sát thương theo ATK người vào sân (1000/950); Hỏa Lốc Cháy 5 s cả hai hình nộm; Thiêu Hồn tick 16%; Dung Nham 1 nổ + 6 nhịp, Chậm 30% chỉ khi còn vùng; Bão Sét 4 tia trễ 0/0.3/0.6/0.9 s trong ±400 px; Thần Phạt chỉ đánh mục tiêu HP cao nhất, Phán quyết 6 s; Thánh Giáp khiên 12% hấp thụ rồi vỡ, hết hạn sau 6 s; Lốc Oán kéo ~120 px về tâm, không vượt tâm; boss: Chậm 3 s → 1.5 s, Trói 2.0 s → 0.8 s, Nguyền không đổi.
+- **Lỗi tìm thấy và sửa (trong test):** slime bị chặn bởi bậc địa hình ở x ≈ 1591 và đuổi người chơi giữa các nhịp kéo → chuyển sang sàn phẳng, đo ngay sau nhịp đầu.
+- **Quyết định Claude chọn:** vùng kéo dài (lửa thánh, dung nham) bắt đầu 0.1 s sau cú nổ, 6 nhịp; Chậm trong vùng là Chậm 0.7 s được làm mới mỗi nhịp; Bão Sét tán xạ theo trục ngang, bán kính mỗi tia 110 px; hướng đẩy của Quá Tải theo hướng nhìn người vào sân; "xóa 1 hiệu ứng xấu" ưu tiên khống chế; vào sân mà phản ứng còn ICD thì bỏ qua (không xếp hàng).
+- **Hạn chế đã biết:** hiển thị là hình tạm (hai vòng tròn màu + chữ); Seraphine, Noctis, Terra chưa có Kĩ năng vào sân nên 12 cặp có họ chỉ test được qua resolver; phản ứng với trạng thái sẵn có trên kẻ địch để sau (mục 8.11).
+
+## 2026-11-12 — M4-6 Kael, Lyra: đòn thường, né (Q5)
+
+- **Milestone / task:** 4 / M4-6
+- **Trạng thái:** TESTED (headless)
+- **File tạo/sửa:**
+  - `data/skills/char_lightning_01/normal_1..5.tres`, `dodge.tres`; `data/skills/char_wind_01/normal_1..3.tres`, `dodge.tres` (sinh bằng `tools/gen_kael_lyra_data.py`).
+  - `scripts/characters/kits/lightning_kit.gd` + config + `data/characters/char_lightning_01_kit.tres`: Bùng nổ Sét (đủ 3 Dấu Sét do Kael gây: 150% bán kính 140, SC ×2, xóa dấu, ICD 4 s mỗi mục tiêu, +10% tốc độ tấn công 3 s, −1 s CD vũ khí), Sét Phản khi né hoàn hảo (80% bán kính 150 tại điểm xuất phát, 2 Dấu Sét).
+  - `scripts/characters/kits/wind_kit.gd` + config + `data/characters/char_wind_01_kit.tres`: né hoàn hảo → Gió Trợ Bước +25% 3 s, +5 EN.
+  - `HitDef.max_targets` (tên thường dừng ở mục tiêu đầu, tên xuyên 2) → `Hitbox`.
+  - `SkillRunner`: kỹ năng `teleport` không nhắm mục tiêu dịch chuyển một lần tại `move_from_ms` (né Kael), dùng `move_and_collide` nên dừng ở tường.
+  - `tests/unit/combat/test_kael_lyra.gd` (12 test).
+- **Đã chạy:** `python tools/gen_kael_lyra_data.py`; `godot --headless --import`; `tools/run_tests.ps1`.
+- **Kết quả thật:** GdUnit4 290/290 đạt, 4 test khói đạt, mã thoát 0. Kiểm: Kael 5 đòn 45/45/55/55/110 = 310%, Dấu Sét ở đòn 2, 4, 5, đòn 5 đẩy 80 px, timing 70/50/110 và 130/90/260; chuỗi 5 đòn chạy liền, đủ 3 dấu thì nổ và xóa dấu, Kael +10% tốc độ tấn công; ICD 4 s theo từng mục tiêu; dấu do nguồn khác không nổ; né dịch chuyển đúng 320 px ra sau lưng hình nộm, bất tử, tia điện trúng mục tiêu trên đường; Sét Phản áp 2 dấu. Lyra 3 phát 55/55/90 = 200%, tên 1800 px/s tầm 700 (ngoài tầm thì trượt), phát 1–2 dừng ở mục tiêu đầu, phát 3 xuyên 2 và Chậm 20% 2 s; né lùi 240 px, vẫn nhìn về trước, tên 40% trúng; né hoàn hảo +25% tốc độ 3 s, +5 EN.
+- **Lỗi tìm thấy và sửa:** cửa sổ lướt 30 ms của né Kael ngắn hơn hai khung hình nên chỉ đi được ~177 px → dịch chuyển tức thì một lần; tia điện của né đặt sai phía (trước mặt sau khi dịch chuyển) → nối từ điểm đến về điểm xuất phát.
+- **Quyết định Claude chọn:** làm luôn Bùng nổ Sét và hiệu ứng né hoàn hảo dù Q5 chỉ ghi "đòn thường, né" (không có thì Dấu Sét vô nghĩa); cửa sổ nối đòn Kael 180 ms, Lyra 200 ms; Kael đi xuyên kẻ địch khi tiến đòn (quái không chặn đường, như M3-6).
+- **Hạn chế đã biết:** tên Lyra bay thẳng ngang, chưa tự nhắm ±25°; chuỗi Kael reset sau 0.8 s (đặc tả 0.7 s; hằng số chung của SkillRunner); Lyra chưa lùi nửa bước mỗi phát; nội tại Gió Thuận, đòn giữ / trên không / kỹ năng / tuyệt kỹ của Kael và Lyra ngoài slice Q5.
+
+## 2026-11-12 — M4-7 HUD icon dự bị (HP, vòng SI-CD, vòng sáng Liên kết)
+
+- **Milestone / task:** 4 / M4-7. **Milestone 4 hoàn tất.**
+- **Trạng thái:** TESTED (headless) + Claude đã xem một ảnh chụp màn thử nghiệm. **Mốc owner chơi thử trong Godot** (đổi 3 nhân vật, vòng sáng, phản ứng).
+- **File tạo/sửa:**
+  - `scripts/ui/hud_theme.gd` (`HudTheme`: vị trí, kích thước, màu, thời gian HUD gom một chỗ; token màu vòng README 17.5).
+  - `scripts/ui/reserve_icon.gd` (`ReserveIcon`, 160 px ≥ 140): chân dung (ảnh `portrait/{id}_portrait_full.png` nếu có, không thì vòng màu + chữ cái), thanh HP nhỏ, quạt hồi SI-CD + số giây, vòng sáng Liên kết (hiện 150 ms, nhịp 0.8 s phóng 1.0→1.12 sáng 0.6→1.0, 3 hạt quay, cung mỏng co theo 6.0 s, mờ 300 ms khi hết, nổ 200 ms khi dùng), trạng thái gục; chạm / click để chuyển.
+  - `scripts/ui/battle_hud.gd` (`BattleHud`): thẻ nhân vật trên sân góc trên-trái (tên, HP + khiên, EN, UG, lượt né) + 2 icon dự bị góc trên-phải.
+  - Màn thử nghiệm tạo BattleHud, ẩn hai nút `switch_1/2` của lớp cảm ứng (icon thay thế); debug overlay dời xuống dưới thẻ nhân vật.
+  - `tools/screenshot_stage.gd`: chụp ảnh màn thử nghiệm ra `build/screenshots/` (cần cửa sổ).
+  - `tests/unit/ui/test_battle_hud.gd` (14 test).
+- **Đã chạy:** `godot --headless --import`; `tools/run_tests.ps1`; `godot --path . --resolution 1280x720 -s tools/screenshot_stage.gd`.
+- **Kết quả thật:** GdUnit4 304/304 đạt, 4 test khói đạt, mã thoát 0. Ảnh chụp: thẻ Kael (6825/10500), icon Aether có chân dung thật + vòng đỏ cam + cung đếm ngược, icon Lyra chữ "L" xanh ngọc + thanh HP 40%; dòng debug "Q: Aether ✦ LIÊN KẾT 5.6s". Test: hằng số khớp 17.5; 2 icon ≥ 140 px, không chồng nhau, sát góc trên-phải; icon theo thứ tự dự bị; HP và trạng thái gục; tỉ lệ quạt SI-CD; vòng hiện đủ sau 150 ms, nhịp và cung đúng, mờ hết sau 300 ms; cửa sổ còn mà SI-CD chưa hồi thì không sáng; hai icon sáng cùng lúc; dùng Liên kết nổ 200 ms, Thường thì không; chạm / click icon thì chuyển; chạm người đã gục bị từ chối.
+- **Quyết định Claude chọn:** icon 1 (Q) bên trái, icon 2 (E) sát mép phải; chân dung cắt 42% phần trên của ảnh đứng; thanh khiên là vạch xanh nhạt dưới thanh HP.
+- **Hạn chế đã biết:** chưa có âm thanh khi vòng sáng bật (M7, chờ SFX); nút kỹ năng có vòng hồi và nút Pause là M7; gợi ý phím của debug overlay dài, đè lên icon ở cửa sổ hẹp (chỉ bản debug, F3 để ẩn); nhãn hai hình nộm chồng chữ nhau (có từ M3).
+
+## 2026-11-12 — M5-1 SaveService (version, migration, backup, checksum)
+
+- **Milestone / task:** 5 / M5-1
+- **Trạng thái:** TESTED (headless)
+- **File tạo/sửa:** `scripts/save/save_schema.gd` (`SaveSchema` v2: nhân vật, đội, kho, tiền, gacha, tiến độ, cài đặt, thống kê; chuỗi migration; `sanitize`), `save_store.gd` (`SaveStore`: `user://saves/save.json` + `save.bak.json`, ghi qua file tạm, checksum SHA-256, đọc chính → backup → mặc định, giữ bản hỏng `save.corrupt.json` và bản của phiên bản mới hơn `save.newer.json`), `save_service.gd` (autoload thứ 5 `SaveService`: `data`, `load_game`, `save_game`, `new_game`, `delete_save`, `get_value/set_value`); `project.godot`; màn Title (Tiếp tục bật khi có save, Game mới tạo save); `tests/smoke/m1_flow_check.gd` (thêm luồng save); `tests/unit/save/test_save_store.gd` (14 test).
+- **Đã chạy:** `godot --headless --import`; `tools/run_tests.ps1`.
+- **Kết quả thật:** GdUnit4 318/318, 4 test khói đạt, mã thoát 0. Kiểm: chưa có save → mặc định, không tạo file; ghi rồi đọc giữ nguyên cấp, EXP, trang bị, vàng, nguyên liệu, pity, lịch sử, tiến độ, ngôn ngữ; file có version + checksum, không để lại file tạm; lần ghi sau giữ bản trước làm backup; file chính hỏng → lấy backup; sửa tay số vàng → sai checksum → mặc định, giữ bản hỏng; 9 kiểu file rác không crash; file chính hỏng không đè lên backup tốt; save v1 migrate lên v2 (vàng/ngọc vào `currencies`); save version mới hơn được để riêng nguyên vẹn; `sanitize` sửa kiểu sai, bỏ nhân vật không sở hữu khỏi đội, không cho tiền âm; lịch sử chiêu mộ giới hạn 200 mục.
+- **Quyết định Claude chọn:** phần `data` lưu dạng chuỗi JSON bên trong phong bì để checksum ổn định; khi chạy headless (test) SaveService dùng `user://saves_headless` để không đụng save thật; Game mới giữ lại cài đặt; nhân vật khởi đầu là Aether, Kael, Lyra; có sẵn một migration thật v1 → v2 để chuỗi migration được test.
+- **Hạn chế đã biết:** chưa tự lưu định kỳ (gọi `save_game()` ở các mốc: M5-2 trở đi); checksum chỉ chống hỏng file và sửa tay đơn giản, không phải chống gian lận; cài đặt ngôn ngữ trong save chưa được áp khi khởi động (M7).
+
+## 2026-11-12 — M5-2 Cấp, EXP, tài nguyên + M5-3 Kho đồ, trang bị
+
+- **Milestone / task:** 5 / M5-2, M5-3
+- **Trạng thái:** TESTED (headless). Chưa có màn hình UI (M7).
+- **File tạo/sửa:** `scripts/progression/`: `progression_rules.gd` (+ `data/config/progression.tres`), `item_def.gd` (+ 5 file `data/items/`), `equipment_def.gd` (+ 6 file `data/equipment/`, 3 ô weapon / armor / accessory), `def_library.gd`, `inventory.gd` (`Inventory`: tiền, nguyên liệu, trang bị, mặc / tháo / chuyển, cường hóa), `progression.gd` (`Progression`: EXP, lên cấp, dùng sách EXP, mở khóa nhân vật, `stats_for`), `player_profile.gd` (`PlayerProfile`: gom lại trên dữ liệu save, đặt đội, nhận thưởng); `tools/gen_item_data.py`; khóa dịch `ITEM_*`, `EQUIP_*`, `CURRENCY_*`, `SLOT_*`; `PlayerController.stats_override`, `PartyManager.stats_provider`, màn thử nghiệm nhận `stats_provider`; `tests/unit/progression/test_progression_inventory.gd` (18 test).
+- **Đã chạy:** `python tools/gen_item_data.py`; `godot --headless --import`; `tools/run_tests.ps1`.
+- **Kết quả thật:** GdUnit4 336/336, 4 test khói đạt, mã thoát 0. Kiểm: đường EXP 100 × L^1.5; lên nhiều cấp một lần và giữ phần dư; chạm cấp tối đa thì bỏ phần thừa; sách EXP trừ sách + vàng, thiếu thì không trừ gì; tiền không âm, tiêu thiếu bị từ chối; mặc / thay / chuyển trang bị giữa nhân vật; xóa món đang mặc thì tháo; cường hóa trừ vàng + nguyên liệu, tới cấp 10 thì dừng; cấp 1 không đồ = chỉ số gốc; cấp 11 + 3 món ra đúng công thức; món trong save không còn tồn tại thì bỏ qua; đội trong màn chơi dùng chỉ số theo hồ sơ (Aether cấp 11: ATK 1600, HP 19200); đặt đội hợp lệ; nhận thưởng trả bản tóm tắt; mọi thay đổi còn sau khi lưu rồi đọc.
+- **Quyết định Claude chọn (số khởi điểm, owner chỉnh trong data):** cấp tối đa 50; EXP lên cấp = 100 × L^1.5; mỗi cấp +6% HP, +6% ATK, +5% DEF; 0.2 vàng mỗi điểm EXP; trang bị 3 ô, cường hóa tối đa +10, mỗi cấp +10% phần cộng thẳng, phí = (200 vàng, 100 điểm) × độ hiếm × (cấp + 1); vũ khí là "lõi vũ khí" cộng chỉ số (loại vũ khí cố định theo OD-5); sách EXP 100 / 500 / 2000; quặng 50 điểm, tinh thể 250 điểm.
+- **Hạn chế đã biết:** chưa có UI nhân vật / trang bị (M7); chưa có nhiệm vụ (quests) và điều kiện mở khóa; cấp kỹ năng (hệ số 6% mỗi cấp đã có trong DamageCalculator) chưa có cách nâng.
+
+## 2026-11-12 — M5-4 Chiêu mộ: logic xong, dữ liệu banner vẫn BLOCKED
+
+- **Milestone / task:** 5 / M5-4
+- **Trạng thái:** logic TESTED (headless); **dữ liệu BLOCKED** — chưa có banner nào trong `data/banners/` vì tỉ lệ thật chờ owner (OWNER_ASSET_CHECKLIST mục A1). Không tự đặt số cho game.
+- **File tạo/sửa:** `scripts/gacha/gacha_tier_def.gd` (`GachaTierDef`: tỉ lệ gốc, pity cứng, pity mềm, pool `char:` / `equip:` / `item:`, rate-up, bảo hiểm sau khi trượt, đổi nhân vật trùng), `banner_def.gd` (`BannerDef`: các bậc từ hiếm xuống thường, giá đơn / gói, nhóm pity dùng chung, `validate`), `gacha_service.gd` (`GachaService`: kiểm tra tiền → quay → trao thưởng → lịch sử; `rates_table` sinh bảng hiển thị từ cùng config; `pity_count`, `is_guaranteed`); `tests/unit/gacha/test_gacha_service.gd` (15 test, banner chỉ dựng trong test).
+- **Đã chạy:** `godot --headless --import`; `tools/run_tests.ps1`.
+- **Kết quả thật:** GdUnit4 351/351, 4 test khói đạt, mã thoát 0. Kiểm (với banner test 5★ 2% / 4★ 10%): config sai bị từ chối (tổng > 100%, rate-up ngoài pool, pool rỗng, sai thứ tự, sai dạng); chưa có banner nào được ship; bảng tỉ lệ cộng đúng 100% và khớp config; giá đơn / gói; thiếu tiền hoặc số lượt lạ thì không đổi gì; cùng seed ra cùng kết quả; 30 000 lượt không pity ra 2% / 10% / 88% trong sai số; pity cứng không bao giờ vượt 50 (5★) và 10 (4★), ra đúng lượt 50 rồi về 0; pity mềm tăng đúng từng lượt; rate-up 50% + bảo hiểm → trượt thì lần sau chắc chắn trúng, dài hạn 2/3; cờ bảo hiểm lưu và xóa đúng; banner cùng nhóm dùng chung pity; trao nhân vật / trang bị / nguyên liệu, nhân vật trùng đổi nguyên liệu; lịch sử đủ trường, giới hạn 200, còn nguyên sau khi lưu và đọc.
+- **Quyết định Claude chọn (thuật toán, không phải số):** pity của một bậc = số lượt kể từ lần ra đúng bậc đó; nhiều bậc cùng chạm pity cứng thì bậc hiếm hơn được ưu tiên; bậc thấp nhất nhận phần tỉ lệ còn lại; chỉ cho quay 1 lượt hoặc đúng gói `multi_count`.
+- **Còn chờ owner:** trả lời 6 câu ở OWNER_ASSET_CHECKLIST mục A1 (số bậc và tỉ lệ, pity cứng / mềm, pity bậc hai, rate-up và bảo hiểm, pity có chuyển giữa banner không, giá). Có số thì chỉ cần thêm file `data/banners/*.tres`; nếu luật của owner khác thuật toán trên (vd ra 5★ thì reset cả pity 4★) sẽ chỉnh `GachaService`.
+- **Hạn chế đã biết:** chưa có màn Chiêu mộ (M7); chưa có nguồn kiếm ngọc ngoài phần thưởng màn (M6).
+
+## 2026-11-12 — Milestone 6: màn đầu, boss 2 pha, phần thưởng, màn kết quả
+
+- **Milestone / task:** 6 (cả milestone). **Mốc owner chơi thử trong Godot** (chơi hết màn đầu và boss).
+- **Trạng thái:** TESTED (headless) + Claude đã xem một ảnh chụp đấu trường boss. Chưa ai chơi hết màn bằng tay, nên **thời lượng 3–5 phút và độ khó chưa được kiểm chứng**.
+- **File tạo/sửa:**
+  - Boss: `scripts/enemies/boss_def.gd` (`BossDef`), `boss_phase_def.gd`, `boss_controller.gd` (`BossController` kế thừa `EnemyController`: bộ đòn theo pha, chuyển pha khi HP ≤ ngưỡng, đứng yên + bất tử `phase_transition_sec`), `data/enemies/boss_golem_01.tres` (sinh bằng `tools/gen_boss_data.py`), `scenes/enemies/boss_golem.tscn`. `EnemyController`: điểm mở rộng `_skill_table/_next_attack_key/_attack_range/_attack_cooldown/_move_speed`, vẽ vùng đòn trong pha báo hiệu (đậm dần).
+  - Màn: `scripts/world/stage_controller.gd` (`StageController`: đợt quái khóa sân bằng tường vô hình + giới hạn camera, checkpoint, đấu trường boss, hoàn thành / thất bại, trao thưởng qua `PlayerProfile.grant`, ghi tiến độ và lưu), `StageMap` (ký tự `C`, `data`, `ground_feet`, `col_x`), `data/stages/stage_01.json` (sinh bằng `tools/gen_stage_01.py`: 200×17 ô, 3 đợt 3/4/5 slime, 3 checkpoint, boss), `scripts/world/parallax_backdrop.gd` (3 lớp đồi tạm), `scenes/stages/stage.tscn`.
+  - UI: `scripts/ui/stage_hud.gd` (mục tiêu, đồng hồ, thông báo, thanh máu boss có vạch pha + thanh SC), `scripts/ui/result_screen.gd` (thắng / thua, thời gian, thưởng, thưởng lần đầu, lên cấp, nút Chơi lại / Về Hub).
+  - `GameConfig.SCENE_STAGE`, `selected_stage_id`; Hub tab Chiến đấu có nút "Màn 1"; 20 khóa dịch mới (`tools/add_locale_keys.py`).
+  - Test: `tests/unit/enemies/test_boss.gd` (8), `tests/unit/world/test_stage_controller.gd` (10). `tools/screenshot_boss.gd`.
+- **Đã chạy:** `godot --headless --import`; `tools/run_tests.ps1`; `godot --path . -s tools/screenshot_boss.gd`.
+- **Kết quả thật:** GdUnit4 369/369, 4 test khói đạt, mã thoát 0. Boss: dữ liệu hợp lệ, mọi đòn báo hiệu ≥ 400 ms (đo thật ≥ 24 khung trước khi trúng), không khựng, HP 51% chưa chuyển pha / 49% chuyển đúng một lần, bất tử và đứng yên 1.2 s, pha 2 chỉ dùng đòn pha 2, chết phát `enemy_defeated`. Màn: dữ liệu đúng yêu cầu (3 đợt, checkpoint, boss sau cùng); đội và chỉ số lấy từ save; đợt 1 kích hoạt ở cột 16, 3 slime, camera khóa cột 8–44, tường chặn người chơi, hạ hết thì mở; rơi hố về checkpoint gần nhất; boss có thanh máu; hạ boss → thưởng 1200 vàng + 600 EXP, lần đầu thêm 300 ngọc + 1 trang bị, tiến độ và kỷ lục ghi ra file; lần hai không có thưởng lần đầu, giữ kỷ lục cũ; cả đội gục → thất bại, không thưởng; màn kết quả hiện đúng dòng.
+- **Lỗi tìm thấy và sửa:** ảnh chụp cho thấy đồng hồ đè lên tên boss và thanh máu boss chạm thẻ nhân vật → dời và thu thanh.
+- **Quyết định Claude chọn (số khởi điểm, owner chỉnh trong data):** boss Golem HP 60 000 / ATK 600 / DEF 400 / SC 1000, pha 2 ở 50% (nhanh hơn 35%, thêm Địa chấn hai phía); boss ra đòn lần lượt theo danh sách; 3 đợt 3 / 4 / 5 slime; thưởng màn và thưởng lần đầu như trên; rơi hố không mất máu; thất bại không có thưởng an ủi.
+- **Hạn chế đã biết:** chỉ có một loại quái thường (slime) và một boss; chưa có màn chọn màn / chọn đội (M7); Esc giữa màn về Hub mà không hỏi lại; chưa có nhạc, âm thanh; hình vẫn là placeholder; nền parallax là đồi đa giác tạm.
+
+## 2026-11-12 — M7-1 Tạm dừng, Cài đặt, Credits, AudioRouter, safe area
+
+- **Milestone / task:** 7 / phần 1
+- **Trạng thái:** TESTED (headless). Chưa ai nhìn các màn này bằng mắt.
+- **File tạo/sửa:** `scripts/core/audio_router.gd` (autoload `AudioRouter`: bus Music / SFX, âm lượng, `play_sfx` / `play_music` theo ID, thiếu file thì bỏ qua và ghi vào `missing`); `scripts/ui/ui_kit.gd` (`UiKit`: dựng control, `safe_margins`, `apply_safe_area`, `autoload`); `settings_panel.gd` (`SettingsPanel`: ngôn ngữ, 3 âm lượng, toàn màn hình; áp ngay và lưu); `credits_panel.gd` + `data/credits.json`; `pause_menu.gd` (`PauseMenu`: dừng cây scene, Tiếp tục / Cài đặt / Thoát có xác nhận, tự mở khi mất focus); `SceneRouter` hỏi nhóm `back_interceptor` trước khi quay lại; `SaveService` áp cài đặt đã lưu lúc khởi động (`--lang=` vẫn được ưu tiên); `SaveSchema.settings.fullscreen`; Title có nút Cài đặt; `BattleHud` có nút Pause (132 px, mép trái, xa icon dự bị) và áp lề an toàn; `stage.tscn` có PauseMenu; 21 khóa dịch; `tests/unit/ui/test_settings_pause.gd` (12 test).
+- **Đã chạy:** `godot --headless --import`; `tools/run_tests.ps1`.
+- **Kết quả thật:** GdUnit4 381/381, 4 test khói đạt, mã thoát 0. Kiểm: đổi ngôn ngữ áp ngay, ghi file, đọc lại đúng; thanh trượt điều khiển đúng bus, 0 = tắt tiếng, chặn 0..1; áp cài đặt từ dữ liệu đã lưu; bus Music / SFX gửi về Master; ID âm thanh chưa có file trả về false, không lỗi; tạm dừng dừng cây và tiếp tục khôi phục; Back đi từng bước (xác nhận → menu → tiếp tục); thoát phải qua bước xác nhận; màn kết quả thì không tạm dừng được; nút Pause ≥ 128 px, không chồng icon dự bị; Credits có PROJECT ECLIPSE, pixelfx (MIT), giấy phép Godot; lề an toàn quy đổi đúng theo khung thiết kế.
+- **Quyết định Claude chọn:** nút Pause ở mép trái dưới thẻ nhân vật; Esc trong màn chơi mở Tạm dừng thay vì thoát thẳng; đổi ngôn ngữ ở Title thì dựng lại scene.
+- **Hạn chế đã biết:** chưa có file âm thanh nào (AudioRouter im lặng; owner giao theo checklist mục D); chưa có tùy chọn đổi vị trí icon dự bị và chế độ joystick cố định (OD-6, README 15.6); lề an toàn mới áp cho HUD trận, chưa áp cho mọi màn menu; màn thử nghiệm cũ không có Tạm dừng.
+
+## 2026-11-12 — M7-2 Các màn trong Hub: Home, Chiến đấu, Nhân vật, Chiêu mộ, Cài đặt
+
+- **Milestone / task:** 7 / phần 2
+- **Trạng thái:** TESTED (headless) + Claude đã xem ảnh chụp 3 tab (Nhân vật, Chiến đấu, Cài đặt). Chưa ai bấm thử bằng tay.
+- **File tạo/sửa:** `scripts/ui/hub_panel.gd` (`HubPanel`: lớp cha, giữ `PlayerProfile` trên dữ liệu save, `refresh` / `commit` có lưu), `hub_home_panel.gd` (tiền, đội, số màn đã qua), `hub_battle_panel.gd` (chọn đội 1–3 theo thứ tự bấm, danh sách màn kèm trạng thái và kỷ lục), `hub_characters_panel.gd` (cấp, EXP, chỉ số, dùng sách EXP, đổi / cường hóa / tháo trang bị, dòng lý do khi thất bại), `hub_recruit_panel.gd` (banner trong `data/banners`, bảng tỉ lệ lấy từ `GachaService.rates_table`, quay 1 / gói, kết quả, lịch sử; chưa có banner thì báo "chưa mở"), `hub.gd` (vùng nội dung theo tab; tab Cài đặt = `SettingsPanel` + `CreditsPanel`; tab đang mở được đánh dấu); 29 khóa dịch; `tests/unit/ui/test_hub_panels.gd` (11 test); `tests/smoke/m1_i18n_check.gd` (đọc chữ của bảng mới); `tools/screenshot_hub.gd`.
+- **Đã chạy:** `godot --headless --import`; `tools/run_tests.ps1`; `godot --path . -s tools/screenshot_hub.gd` (2 lần).
+- **Kết quả thật:** GdUnit4 392/392, 4 test khói đạt, mã thoát 0. Kiểm: mỗi tab hiện đúng bảng; Home tóm tắt đúng; đội: bỏ / thêm đổi thứ tự, không bỏ được người cuối, không quá 3, lưu ra file; danh sách màn ẩn màn thử nghiệm, hiện kỷ lục 3:20; dùng sách EXP lên cấp và trừ vàng, lưu; thao tác thất bại hiện lý do và không đổi gì; đổi món xoay vòng, cường hóa +1, tháo thì chỉ số về gốc; Chiêu mộ chưa có banner thì báo chưa mở; với banner test, bảng tỉ lệ đúng số trong config (25% / 75%), thiếu ngọc bị từ chối, quay gói 10 trừ đúng 900 ngọc và lưu lịch sử.
+- **Lỗi tìm thấy và sửa (nhờ ảnh chụp):** thanh tab không cho biết đang ở tab nào → nút tab giữ trạng thái nhấn. Công cụ chụp ảnh đặt dữ liệu mẫu quá sớm nên bị SaveService ghi đè → đặt ở khung đầu tiên.
+- **Quyết định Claude chọn:** chọn đội bằng cách bấm bật / tắt từng nhân vật; "Đổi món" xoay vòng qua các món cùng ô trong kho (chưa có danh sách chọn); "Cường hóa" tự dùng nguyên liệu cường hóa đầu tiên đủ số lượng.
+- **Hạn chế đã biết:** giao diện là control mặc định của Godot, chưa có theme / art; chưa có danh sách kho đồ riêng, chưa có màn chọn màn tách khỏi tab Chiến đấu (mới có 1 màn); Chiêu mộ chưa dùng được cho tới khi owner cho tỉ lệ; đổi ngôn ngữ trong Hub thì nhãn dựng bằng code ở tab khác chỉ đổi khi mở lại tab.
+
+## 2026-11-12 — M7-3 Nút kỹ năng cảm ứng có vòng hồi + âm thanh theo sự kiện
+
+- **Milestone / task:** 7 / phần 3. **Milestone 7 xong phần code**; phần chờ asset (font, nhạc, SFX, art UI) ghi ở "Hạn chế".
+- **Trạng thái:** TESTED (headless). Chưa thử trên màn hình cảm ứng thật (Android hoãn).
+- **File tạo/sửa:** `scripts/input/touch_button.gd` (quạt hồi chiêu + số giây, vòng nạp UG sáng khi đầy, mờ khi chưa dùng được, `set_state`); `scripts/input/touch_controls.gd` (`party`, `button_state()` đọc hồi chiêu / EN / UG / lượt né của người trên sân); `scripts/core/audio_router.gd` (bảng sự kiện từ `data/config/audio_events.json`, nghe EventBus: trúng đòn, bị đánh, hạ / Choáng địch, đổi nhân vật, vòng Liên kết sáng, phản ứng, tuyệt kỹ, nhạc theo scene; chống phát chồng 40 ms; `requested`); `StageController` (nhạc boss, tiếng qua màn / thất bại); `docs/OWNER_ASSET_CHECKLIST.md` mục D1 (tên file âm thanh đang chờ); `tests/unit/ui/test_touch_audio.gd` (10 test).
+- **Đã chạy:** `godot --headless --import`; `tools/run_tests.ps1`.
+- **Kết quả thật:** GdUnit4 402/402, 4 test khói đạt, mã thoát 0. Kiểm: nút kỹ năng sẵn sàng → hồi đủ vòng "6" → còn 1/4 vòng "2" → sẵn sàng; thiếu EN thì mờ (25 / 35 EN); nút tuyệt kỹ vòng 40% rồi đầy và sáng; nút né hiện số lượt, hết lượt thì mờ; đổi sang Kael thì nút kỹ năng / vũ khí / tuyệt kỹ mờ, né vẫn dùng được; `TouchControls` cập nhật nút thật; bảng âm thanh đủ 11 sự kiện + 4 nhạc; mỗi sự kiện yêu cầu đúng ID, đòn chí mạng và bị đánh có tiếng riêng, hai đòn cùng lúc không phát chồng; đổi scene yêu cầu đúng nhạc, scene lạ giữ nhạc cũ.
+- **Quyết định Claude chọn:** âm thanh gắn qua EventBus (logic game không gọi AudioRouter, trừ StageController cho nhạc boss và kết quả màn); tên file theo bảng D1.
+- **Hạn chế đã biết (Milestone 7):** chưa có file âm thanh, font riêng, art UI: mọi thứ dùng control và font mặc định của Godot; chưa có tiếng nút UI; chưa có tùy chọn đổi vị trí icon dự bị / joystick cố định; lề an toàn mới áp cho HUD trận; điều khiển cảm ứng chưa thử trên máy thật.
+
+## 2026-11-12 — Milestone 8: QA và chuẩn bị phát hành (phần làm được không cần owner)
+
+- **Milestone / task:** 8
+- **Trạng thái:** TESTED. Các mục cần owner (chơi thử bằng tay, Android, asset, tỉ lệ chiêu mộ, đổi tên nhân vật) để `NOT RUN` / `BLOCKED`.
+- **File tạo/sửa:** `tests/smoke/m8_playthrough_check.gd` (chơi xuyên suốt theo README 16 bằng input giả lập, 38 bước); `docs/ACCEPTANCE_TESTS.md` (trạng thái + bằng chứng cho từng tiêu chí); `docs/KNOWN_ISSUES.md` (9 việc chờ owner, 14 hạn chế trong code, 3 mục đã soát không phải lỗi); `AGENTS.md` (autoload mới, tài liệu mới, quy ước `UiKit.autoload`, cảnh báo heredoc tiếng Việt); `scripts/ui/result_screen.gd` (sửa lỗi dưới).
+- **Đã chạy:** `tools/run_tests.ps1`; `godot --headless --path . --editor --quit`; export Windows Desktop + chạy `ProjectEclipse.console.exe --headless`.
+- **Kết quả thật:** GdUnit4 402/402, 5 test khói đạt (thêm `m8_playthrough_check` 38/38), mã thoát 0; editor headless mã thoát 0, log sạch; export mã 0, bản build khởi động không lỗi script. Nghiệm thu: 31 tiêu chí PASS (một số ghi rõ "auto" hoặc "một phần"), AT-PLT-01/02/03 NOT RUN, chiêu mộ với banner thật BLOCKED.
+- **Lỗi tìm thấy và sửa:** nút "Về Hub" ở màn kết quả dùng giá trị trả về của `SceneRouter.go_back()` (hàm bất đồng bộ) trong điều kiện → SCRIPT ERROR "async function without await" (vẫn về được Hub nhưng nhánh dự phòng không chạy đúng). Đổi sang hỏi `can_go_back()` trước. Test khói mới bắt được lỗi này; test đơn vị thì không vì không bấm nút.
+- **Chưa làm được (ghi trong KNOWN_ISSUES):** Claude không chơi game bằng tay và không có máy Android; bản Release chưa build thử (preset loại placeholder, cần art thật).
+
+## 2026-11-13 — Chiêu mộ theo số của owner, trang bị 1 vũ khí + 3 vết thánh, cấp đội trưởng, mảnh / tiến cấp, cấp kỹ năng
+
+- **Milestone / task:** 5 (M5-2, M5-3, M5-4) — làm lại theo yêu cầu owner 2026-11-12
+- **Trạng thái:** TESTED (headless)
+- **Owner quyết định:** trả lời 6 câu gacha (OWNER_ASSET_CHECKLIST A2); trang bị đổi thành 1 vũ khí + 3 vết thánh Đầu / Thân / Chân (vết thánh có ảnh minh họa, không đổi ngoại hình nhân vật).
+- **File tạo/sửa:**
+  - Gacha: `GachaTierDef` (`tier_id`, `label_key`, `soft_pity_mode` "flat", `duplicate_fragments`, phần thưởng `gold:N`), `BannerDef` (`multi_guarantee_tiers` / `multi_guarantee_pick`, `tier()`, cho phép 2 bậc cùng số sao), `GachaService` (bảo đảm khi quay gói, pity theo khóa bậc, mảnh khi trùng); `tools/gen_banner_data.py` → `data/banners/banner_char_kael.tres`; bảng tỉ lệ trong tab Chiêu mộ hiện tên bậc và dòng bảo đảm 10 lượt.
+  - Trang bị: `EquipmentDef.SLOTS` = weapon / stigma_top / stigma_mid / stigma_bot, `weapon_type`, `art`; `CharacterDef.rank`, `weapon_type`; 8 món (thêm cung Lyra, song đao Kael; giáp / phụ kiện cũ thành vết thánh).
+  - Tiến trình: `Progression` có cấp đội trưởng (`account` trong save, `add_captain_exp`, `level_cap`), mảnh và tiến cấp (S → S1 → S2 → S3, +5% chỉ số mỗi bước, mảnh 10 / 20 / 25), cấp kỹ năng theo nhóm (`upgrade_skill`, 500 vàng × cấp, tối đa 10); cấp kỹ năng đi vào trận (`SkillRunner.level_provider` → `Hitbox.skill_level`); thưởng màn có `captain_exp` 400.
+  - Save v3: migration đổi món cũ sang vết thánh (giữ cấp cường hóa), thêm `skills`, `fragments`, `promotion`, `account` (cấp đội trưởng = cấp cao nhất cũ để người chơi cũ không bị khóa).
+  - Test mới: `tests/unit/gacha/test_owner_banner.gd` (9), `tests/unit/progression/test_captain_promotion_skills.gd` (8); sửa test cũ theo trang bị mới.
+- **Đã chạy:** `python tools/gen_item_data.py`, `gen_stage_01.py`, `gen_banner_data.py`; `godot --headless --import`; `tools/run_tests.ps1`.
+- **Kết quả thật:** GdUnit4 420/420, 5 test khói đạt, mã thoát 0. Kiểm: banner khớp số owner; pity mềm 1.5% → 11.5% từ lượt 80, 100% ở lượt 100; 1500 lượt không vượt 100; 200 lần quay 10 lượt lần nào cũng có ≥ 1 nhân vật A (bảo đảm thật sự được dùng); quay lẻ không có bảo đảm; 20 000 lượt ra A 16.3% / B 10.874% trong sai số; pity chung giữa banner nhân vật; giá 280 / 2520; Kael trùng → 25 mảnh; ra vàng 2000; đội trưởng cấp 1 giữ nhân vật ở cấp 1, lên đội trưởng thì nhân vật lên theo; sách EXP bị từ chối khi đã đầy; tiến cấp trừ mảnh, S2 → S3 cần 25, +5% ATK; cấp kỹ năng 4 vào trận thành `skill_level` 4; Aether không cầm cung; save v2 lên v3 đúng.
+- **Quyết định Claude chọn (chờ owner xác nhận ở câu hỏi cuối lượt):** pity mềm cộng một lần; hạng tạm S = Aether, Kael, Lyra / A = Seraphine, Noctis / B = Terra; banner đầu đề cử Kael; phần nguyên liệu chia đều 6 loại (3 sách EXP, 2 nguyên liệu cường hóa, 2000 vàng); mảnh khi trùng 25 / 10 / 5; "không vượt quá cấp người chơi" = cấp đội trưởng.
+- **Hạn chế đã biết:** banner tiếp tế vũ khí chưa có (tỉ lệ của owner cộng lại khác 100%); vết thánh chưa có hiệu ứng bộ.
+
+## 2026-11-13 — Màn Nhân vật theo 6 ảnh tham chiếu của owner
+
+- **Milestone / task:** 7 (M7-2, làm lại tab Nhân vật theo yêu cầu owner 2026-11-12)
+- **Trạng thái:** TESTED (headless + ảnh chụp). Chưa VERIFIED: owner chưa xem bằng mắt.
+- **File tạo/sửa:**
+  - `data/ui/character_screen_layout.json`: **file cấu hình bố cục** (vị trí `rect` [x, y, rộng, cao] trên khung 1920×1080, `anchor` left/right/center để giữ đúng chỗ khi màn rộng hơn, cỡ chữ `font`, khóa chữ, màu, tên vùng placeholder, 8 nút cây skill). Owner sửa file này để đổi giao diện, không cần sửa code.
+  - `scripts/ui/character/`: `ui_layout.gd` (đọc JSON, thiếu giá trị thì dùng mặc định), `placeholder_art.gd` (vẽ ảnh nếu có, chưa có thì vẽ hình người + tên vùng), `skill_text.gd` (tên + mô tả kỹ năng sinh từ SkillDef nên luôn khớp số trong data), `character_screen.gd` (màn chính).
+  - `scenes/main/character_screen.tscn`; `GameConfig.SCENE_CHARACTER`, `selected_character_id`; tab Nhân vật ở Hub mở màn mới (bỏ `HubCharactersPanel`, chuyển test sang màn mới).
+  - 130 khóa dịch vi/en (`tools/add_locale_keys.py`): tab, nút, chỉ số, nguyên tố, nhóm kỹ năng, tên kỹ năng theo `CHARACTER_SKILLS.md`, mô tả bị động, giải thích trạng thái.
+  - `tools/screenshot_character.gd` (chụp 6 trạng thái vào `build/screenshots/character_*.png`).
+  - Test: `tests/unit/ui/test_character_screen.gd` (21).
+- **Nội dung theo ảnh:** (1) tổng quan: tên, hạng, nguyên tố · vũ khí, cấp, hàng biểu tượng, nút Xem skill, thẻ vũ khí, 3 ô vết thánh, danh sách nhân vật dưới cùng; (2) Vũ khí: tên, loại, cấp, sao, ảnh, chỉ số, Cường hóa / Đổi; (3) Vết thánh: ảnh lưng với 3 ô Đầu / Thân / Chân, khung chỉ số, 3 thẻ có nút Đổi; (4) Tăng cấp: chỉ số, Chỉ số chi tiết, EXP + sách EXP, mảnh, tiến cấp; (5) cây 8 nút kỹ năng với "+N" / "Đầy cấp"; (6) chi tiết kỹ năng: cây kỹ năng con, mô tả, Nâng cấp — N vàng, Sơ lược, Giải thích từ ngữ, chuyển trước / sau. Esc / Back lùi từng bước (bảng chọn → chi tiết kỹ năng → tab → tổng quan → Hub).
+- **Đã chạy:** `godot --headless --import`; `tools/run_tests.ps1`; `godot --path . -s tools/screenshot_character.gd`.
+- **Kết quả thật:** GdUnit4 437/437, 5 test khói đạt, mã thoát 0. Đã xem 6 ảnh chụp, sửa chồng chữ ở thẻ nhân vật, cây skill (nhãn nút giữa đè nút Vũ khí), tiêu đề Mảnh và chữ tắt nhóm kỹ năng ("Tấ" trùng nhau → TCT / TCĐ / KNT...).
+- **Quyết định Claude chọn:** ảnh chưa có (vũ khí, vết thánh, ảnh lưng, chân dung Kael / Lyra, icon) vẽ hình người xám kèm tên vùng; nút chưa có chức năng (Hướng dẫn, Chiến thuật, Quan sát, Trang phục, Chụp ảnh, Lọc, Chuyển đổi mảnh, Minh họa) hiện "chưa có trong bản thử"; biểu tượng tròn dùng chữ tắt đầu mỗi từ; mô tả kỹ năng sinh từ data (sát thương, EN/UG, hồi chiêu, trạng thái, pha ms) thay vì câu viết tay; Lyra hiện phần bị động đang có trong code (né hoàn hảo).
+- **Hạn chế đã biết:** chưa có art thật cho các vùng trên; vết thánh chưa có hiệu ứng bộ; Kael / Lyra chưa có dữ liệu kỹ năng ngoài đòn thường, né, vào sân (màn hiện "chưa có dữ liệu"); bố cục chỉ xếp theo mô tả ảnh, cần owner so trực tiếp với ảnh gốc.
+
+## 2026-11-13 — Banner tiếp tế, hạng nhân vật mới, lượt x10 miễn phí (Kael), cấp người chơi
+
+- **Milestone / task:** 5 (M5-2, M5-3) — theo trả lời owner 2026-11-13
+- **Trạng thái:** TESTED (headless)
+- **Owner quyết định:** (1) vết thánh 3★ tăng lên 14.43% cho tổng 100%; (2) hạng tạm S = Aether, Terra, B = Kael, Lyra; hướng dẫn sau này: lượt x10 miễn phí đầu tiên bắt buộc 1 Kael, còn lại nguyên liệu tăng cấp; (3) pity mềm cộng một lần là đúng; (4) "cấp người chơi" = người quản lý không có hình, lên cấp qua nhiệm vụ / phó bản.
+- **File tạo/sửa:** `tools/gen_banner_data.py` (banner nhân vật đề cử Aether, banner tiếp tế, `data/tutorial/starter_pull.tres`); `data/banners/banner_char_aether.tres`, `banner_equip_aether.tres` (xóa `banner_char_kael.tres`); `tools/gen_item_data.py` + 4 vết thánh mới (bộ Viêm Hoàng 4★ Đầu / Thân / Chân, Ấn Dép Cỏ 3★ Chân); `data/characters/char_{earth,lightning,wind}_01.tres` (hạng); `BannerDef.starter_free_multi`; `GachaService.pull_starter` / `starter_available`; save thêm `gacha.starter_used`; chữ "Cấp đội trưởng" → "Cấp người chơi"; test mới `tests/unit/gacha/test_equip_and_starter_banner.gd` (6), sửa `test_owner_banner`, `test_gacha_service`, `test_hub_panels`, `test_progression_inventory`; AGENTS.md, OWNER_ASSET_CHECKLIST A2, KNOWN_ISSUES A2.
+- **Đã chạy:** `python -X utf8 tools/gen_item_data.py`; `python -X utf8 tools/gen_banner_data.py`; `python -X utf8 tools/add_locale_keys.py`; `godot --headless --import`; `tools/run_tests.ps1`.
+- **Kết quả thật:** GdUnit4 443/443, 5 test khói đạt, mã thoát 0. Kiểm: tiếp tế 2.87 / 14 / 10.7 / 14.43 / 58% cộng đúng 100%; mỗi bậc chỉ chứa đúng số sao và loại; 120 lần quay 10 lượt lần nào cũng có món 4★, lượt bảo đảm luôn là vết thánh, vũ khí 4★ không quá 60 lượt; pity tiếp tế tách khỏi pity nhân vật; lượt miễn phí không trừ Ngọc, đúng 1 Kael ở vị trí ngẫu nhiên, 9 sách EXP, dùng lần hai bị từ chối, lưu qua sanitize; tab Chiêu mộ hiện 2 banner.
+- **Quyết định Claude chọn:** banner nhân vật đề cử **Aether** (S duy nhất chơi được và có đồ 4★ để đề cử; Terra chưa có kỹ năng) — chờ owner xác nhận; bộ vết thánh 4★ đề cử chiếm 50% khi ra vết thánh 4★; vật phẩm bậc nguyên liệu của tiếp tế dùng chung danh sách với banner nhân vật; lượt miễn phí dùng nhóm pity riêng "starter" (không ảnh hưởng pity thật); chỉ số 4 vết thánh mới là số tạm.
+- **Hạn chế đã biết:** chưa có màn hướng dẫn nên lượt miễn phí chưa gắn UI; người chơi mới vẫn có sẵn Kael trong đội khởi đầu (giữ để test khói và màn 1 chạy) — khi làm hướng dẫn cần bỏ Kael khỏi `STARTER_CHARACTERS`; chưa có hệ thống nhiệm vụ để lên cấp người chơi.
+
+## 2026-11-13 — Banner đầu đề cử Iwagane, đổi tên nhân vật, giáp, bộ lọc nhân vật
+
+- **Milestone / task:** 5 (M5-2) + 7 (M7-2) — theo yêu cầu owner 2026-11-13
+- **Trạng thái:** TESTED (headless + ảnh chụp)
+- **Owner quyết định:** banner đầu tiên đề cử Terra; đổi tên tránh trùng: Aether → Enkiba (giáp S Hỏa Diễm Mãnh Liệt), Lyra → Kazeyumi (giáp B Đôi Cánh Của Gió), Kael → Raikiba (giáp B Nanh Của Lôi Thần), Seraphine → Hikarine (giáp A Ánh Sáng Thiên Giới), Noctis → Yomigari (giáp A Lưỡi Hái Hắc Ám), Terra → Iwagane (giáp S Thần Kiếm Nham Thạch); thêm bộ lọc nhân vật; một nhân vật có thể có nhiều giáp với hạng khác nhau.
+- **File tạo/sửa:**
+  - `CharacterDef.person_id`, `suit_key`, `person()`; 6 file `data/characters/*.tres`; khóa `SUIT_*`, tên `CHAR_*` mới trong `localization/*.po`.
+  - `PlayerProfile.person_of` + `set_party` từ chối hai giáp cùng nhân vật.
+  - Banner: `tools/gen_banner_data.py` → `banner_char_terra.tres`, `banner_equip_terra.tres` (xóa bản Aether); `tools/gen_item_data.py` + Đại kiếm Dung Nham 4★ và bộ Ấn Nham Thạch 4★ (Đầu / Thân / Chân).
+  - Màn Nhân vật: dòng phụ hiện tên giáp · nguyên tố · vũ khí; nút **Lọc** mở bảng lọc theo hạng giáp, nguyên tố, nhân vật (trong nhóm "hoặc", giữa nhóm "và"), dòng "Đang hiện N/M giáp", Bỏ lọc; Esc đóng bảng; khung `filter` trong `data/ui/character_screen_layout.json`.
+  - Test: `test_character_screen` (+2: tên giáp, bộ lọc), `test_progression_inventory` (+1: hai giáp cùng nhân vật), sửa test gacha / Hub theo tên và banner mới; `tools/screenshot_character.gd` thêm ảnh bảng lọc.
+  - Tài liệu: AGENTS.md, OWNER_ASSET_CHECKLIST A2 (bảng tên), KNOWN_ISSUES A7 (xong), B2.
+- **Đã chạy:** `python -X utf8 tools/gen_item_data.py`; `python -X utf8 tools/gen_banner_data.py`; `godot --headless --import`; `tools/run_tests.ps1`; `godot --path . -s tools/screenshot_character.gd`.
+- **Kết quả thật:** GdUnit4 446/446, 5 test khói đạt, mã thoát 0. Ảnh chụp: tổng quan hiện "Enkiba", "Hỏa Diễm Mãnh Liệt · Hỏa · Kiếm", thẻ Raikiba / Kazeyumi hạng B, Iwagane hạng S; bảng lọc hạng S hiện 2/4 giáp.
+- **Quyết định Claude chọn:** giữ khóa `CHAR_*` làm tên nhân vật (các giáp cùng nhân vật dùng chung tên), thêm `SUIT_*` cho tên giáp; Data ID và tên file (vd `gen_aether_data.py`, `test_kael_lyra.gd`) giữ nguyên; tên tiếng Anh của giáp do Claude dịch; banner tiếp tế: khi ra vũ khí 4★ có 50% là vũ khí đề cử (giờ có 2 vũ khí 4★); đội chọn thêm giáp trùng nhân vật thì bị từ chối im lặng như khi đội đủ 3.
+- **Hạn chế đã biết:** chưa có giáp thứ hai nào cho cùng một nhân vật (cấu trúc đã sẵn, test giả lập); Iwagane được đề cử nhưng chưa có kỹ năng (B2); tài liệu thiết kế `CHARACTER_SKILLS.md` vẫn dùng tên cũ (không sửa theo quy tắc).
+
+## 2026-11-13 — Quy trình Codex tạo frame từng animation, owner duyệt từng cái (Enkiba)
+
+- **Milestone / task:** art pipeline (README 17, B trong OWNER_ASSET_CHECKLIST) — theo yêu cầu owner 2026-11-13
+- **Trạng thái:** TESTED (công cụ chạy thử bằng ảnh giả); chưa có frame thật nào
+- **Yêu cầu owner:** dựa trên file prompt "Chibi Anime SideScroll" của owner, bảng tên bộ phận Aether (artifact) và `CHARACTER_SKILLS.md`, sửa prompt để Codex tạo ảnh và thay vào dự án; làm từng động tác, owner duyệt cái nào thì thêm cái đó.
+- **File tạo/sửa:**
+  - `tools/frames/jobs/char_fire_01.json`: 23 phiếu (động tác tiếng Việt từ CHARACTER_SKILLS, prompt ảnh tiếng Anh, ảnh bộ phận tham chiếu theo bảng: 16 đứng, 44 kiếm, 58–62 pose, 04 mặt hét, 05 mặt đau).
+  - `tools/frames/frame_jobs.py`: tính số frame / fps / frame trúng đòn từ thời gian SkillDef (vd attack_1: 320 ms → 6 frame 18 fps, trúng frame 1–2; ultimate 2800 ms → 22 frame 8 fps, chia 4 lần gọi ≤ 6 frame).
+  - `tools/frames/gen_prompts.py` → `docs/prompts/codex_frames/char_fire_01/README.md` + `01_idle.md` … `23_ultimate.md` (bảng trạng thái Chưa làm / Chờ duyệt / Đã duyệt).
+  - `tools/frames/slice_strip.py` (tách dải theo khoảng trống, xóa nền #FF00FF, cùng hệ số phóng — đứng 280 px, chân 336, tâm chân 192, animation trên không giữ độ cao tương đối), `check_frames.py` (kiểm + `_preview/sheet.png`, `anim.gif`, `anim_flip.gif`, frame trúng đòn viền đỏ), `approve_frames.py` (chỉ chạy khi owner duyệt: kiểm đạt, có meta.json, không ghi đè trừ `--replace` có lưu bản cũ, cập nhật manifest, ghi ASSET_LICENSES 2.1).
+  - `art_review/` (`.gdignore`, thêm vào `.gitignore`); `frames_manifest.json` working_name → Enkiba; `docs/prompts/CODEX_AETHER_FRAMES.md` thành trang trỏ sang quy trình mới; AGENTS.md mục Ảnh do AI tạo.
+- **Đã chạy:** `python -I tools/frames/gen_prompts.py char_fire_01`; chạy thử trên bản sao tạm (scratchpad) với dải ảnh giả nền magenta: `slice_strip.py` idle 6 frame + jump_up 3 frame (`--scale` lấy từ idle), `check_frames.py`, `approve_frames.py` (thiếu meta → từ chối, đủ meta → duyệt, chạy lại → từ chối ghi đè, `--replace` → bản cũ chuyển `_replaced/`); `tools/run_tests.ps1`.
+- **Kết quả thật:** 23 phiếu sinh ra; idle / jump_up ĐẠT kiểm tra, sheet đúng đường chân 336 và tâm 192, jump_up nâng dần theo độ cao gốc; approve ghi đúng manifest (6 frame, 8 fps, lặp) và dòng ASSET_LICENSES; animation chưa có thư mục báo CHƯA ĐẠT, mã thoát 1. Test dự án: GdUnit4 446/446, 5 test khói đạt, mã thoát 0.
+- **Quyết định Claude chọn:** fps chọn trong 8/10/12/15/18/20/24 sao cho số frame gần ước lượng của CHARACTER_SKILLS mà vẫn khớp thời lượng đòn; tối đa 6 pose mỗi lần gọi tạo ảnh; chiều cao đứng 280 px; tâm ngang lấy trọng tâm phần chân (35% dưới) để kiếm vươn ra không kéo lệch nhân vật; walk / guard / victory / death trong prompt của owner chưa có trạng thái trong game nên chưa có phiếu.
+- **Hạn chế đã biết:** chưa thử với ảnh thật của Codex (tách pose phụ thuộc khoảng trống giữa các pose); dải nhiều lần gọi không so được độ cao giữa các dải với animation trên không; Codex có đính kèm được ảnh từ ổ đĩa hay không tùy phiên bản — phiếu ghi rõ owner kéo ảnh vào.
+
+## 2026-11-13 — Enkiba: đưa frame idle (6 pose) vào game
+
+- **Milestone / task:** art (B trong OWNER_ASSET_CHECKLIST), animation `idle` của char_fire_01
+- **Trạng thái:** VERIFIED (kiểm tra tự động + owner yêu cầu thay vào; owner chưa xem trong Godot)
+- **Owner quyết định:** thay frame idle bằng dải 6 pose owner cung cấp (ảnh nền trong suốt, sẵn 6 pose đứng).
+- **File tạo/sửa:** `assets/characters/char_fire_01/frames/idle/char_fire_01_idle_000..005.png` (mới); `frames_manifest.json` (idle: 6 frame, 8 fps, lặp; `frames_delivered: true`); `docs/ASSET_LICENSES.md` mục 2.1 (một dòng, nguồn ghi "owner cung cấp"); `tests/unit/characters/test_animation_set_builder.gd` và `tests/unit/player/test_player_movement.gd` (cập nhật từ "chưa giao frame nào" sang "idle đã giao, các animation khác vẫn placeholder").
+- **Đã chạy:** `slice_strip.py char_fire_01 idle` (dải 2172×724, nền trong suốt, hệ số phóng 0.4538); `check_frames.py char_fire_01 idle` → ĐẠT; `approve_frames.py char_fire_01 idle`; `tools/run_tests.ps1`.
+- **Kết quả thật:** check ĐẠT (chân ở y = 336, tâm chân trong ngưỡng, không cắt mép); GdUnit4 446/446, 5 test khói đạt, mã thoát 0. Test đầu tiên hỏng vì giả định chưa có frame nào; đã sửa test theo trạng thái mới.
+- **Quyết định Claude chọn:** nguồn ảnh ghi là "owner cung cấp (công cụ không rõ)" vì dải không kèm prompt hay model; hệ số phóng lấy từ frame 0 cao 280 px.
+- **Hạn chế đã biết:** kiếm đang đeo sau vai, còn ảnh đứng gốc (portrait, bộ phận 16) cầm kiếm ở tay trái. Chờ owner xác nhận đây là thiết kế đúng hay cần làm lại. Nguồn công cụ tạo ảnh chưa rõ, cần owner xác nhận để ghi đúng vào giấy phép ảnh AI (ASSET_LICENSES 2.1) và khai báo khi phát hành.
+
+## 2026-11-13 — Cập nhật bộ prompt Codex cho Enkiba (prompt gốc, phân tích model, kiếm, giai đoạn từng frame)
+
+- **Milestone / task:** art pipeline — owner yêu cầu viết lại prompt tạo ảnh chuyển động theo skill Enkiba dựa trên file prompt gốc, thêm file vào dự án.
+- **Trạng thái:** TESTED (công cụ + sinh phiếu); chưa có animation mới nào được Codex tạo
+- **File tạo/sửa:**
+  - `docs/prompts/codex_frames/PROMPT_GOC.md`: prompt gốc của owner chuyển thể đủ các mục (bối cảnh, phân tích model, bảo toàn ngoại hình, chuyển động 3 giai đoạn, phong cách, xuất file / tích hợp, tự kiểm tra, nguyên tắc), dùng chung mọi nhân vật; ghi rõ phần nào đã có công cụ thay (state machine, hitbox, atlas JSON không tạo mới).
+  - `docs/prompts/codex_frames/char_fire_01/00_PHAN_TICH.md`: phân tích model Enkiba (tỉ lệ 2.5 đầu, nét viền, bảng màu — màu đo từ idle_000 và màu ước lượng ghi riêng, thứ tự lớp, hai trạng thái kiếm, pivot).
+  - `tools/frames/jobs/char_fire_01.json`: thiết kế tiếng Anh theo idle đã duyệt; tham chiếu bắt buộc thêm idle_000, idle_003; mỗi animation có `sword` (sheathed / drawn), `ref_frame`, `ref_ratio`.
+  - `tools/frames/frame_jobs.py`: giai đoạn từng frame (startup / active / recovery), `idle_height()`; chỉ tính hit do kiếm chém (loại hit bay `travel_px > 0` và nổ trễ `delay_ms > 0`: attack_4 còn 3 frame trúng đòn thay vì 5, hold_release 3 thay vì 6).
+  - `tools/frames/slice_strip.py` thêm `--like idle` (canh tỉ lệ theo chiều cao idle đã duyệt, ~281 px), `--ref-frame` âm, `--ref-ratio`; `check_frames.py` cảnh báo khi pose cao nhất lệch xa idle; `gen_prompts.py` ghi mục Kiếm, bảng giai đoạn từng frame, phase map trong prompt ảnh, lệnh `--like idle`; 23 phiếu sinh lại.
+  - AGENTS.md mục Ảnh do AI tạo.
+- **Lỗi tìm thấy và sửa:** phiếu cũ bảo Codex dùng `--scale` của idle cho animation khác — sai vì mỗi dải ảnh AI có độ phân giải khác nhau; thay bằng `--like idle` (đo lại chiều cao pose tham chiếu của dải mới). Chạy thử: dải 6 pose giả → attack_1 phóng 0.9336, check ĐẠT (đã xóa dữ liệu thử).
+- **Đã chạy:** `python -I tools/frames/gen_prompts.py char_fire_01`; thử `slice_strip.py ... --like idle` + `check_frames.py`; `tools/run_tests.ps1`.
+- **Kết quả thật:** GdUnit4 446/446, 5 test khói đạt, mã thoát 0.
+- **Quyết định Claude chọn:** kiếm đeo lưng ở idle, run, nhảy, rơi, tiếp đất, lướt, bị đánh, ngã, rời sân; kiếm cầm tay ở mọi đòn đánh, tụ lực, kỹ năng, tuyệt kỹ, vào sân; kiếm "xuất hiện" ngay ở frame đầu (không vẽ rút kiếm); `skill_2` kết thúc tra kiếm ra sau lưng; pose tham chiếu để canh tỉ lệ chọn theo từng animation (vd khuỵu = 0.8× chiều cao đứng).
+- **Hạn chế đã biết:** chưa biết Codex tạo dải có đúng khoảng trống giữa pose không; kiếm đeo lưng ở idle khác ảnh gốc cầm tay (đã ghi trong 00_PHAN_TICH.md, hỏi owner có muốn làm animation rút / tra kiếm riêng); gói ZIP gửi trước đó là bản cũ (không còn cần vì Codex làm trực tiếp trong dự án).
+
+## 2026-11-13 — Enkiba luôn rút kiếm: sửa toàn bộ phiếu prompt
+
+- **Milestone / task:** art pipeline — owner yêu cầu Enkiba luôn ở trạng thái rút kiếm
+- **Trạng thái:** TESTED (sinh phiếu + test dự án); chưa có animation mới do Codex tạo
+- **Owner quyết định:** kiếm cầm tay ở mọi frame của mọi animation (không đeo lưng, không bao kiếm, không vẽ rút / tra kiếm).
+- **File sửa:** `tools/frames/jobs/char_fire_01.json` (mọi animation `sword: drawn`; thiết kế tiếng Anh ghi "ALWAYS DRAWN, NOTHING on the back"; prompt các animation không đánh nhắc cách cầm kiếm: idle hạ thấp, run lưỡi xuôi ra sau, nhảy / rơi / tiếp đất / lướt / bị đánh / ngã giữ kiếm trong tay; `skill_2` kết thúc hạ kiếm xuống bên người thay vì tra kiếm; `switch_out` cầm kiếm; ảnh tham chiếu đặt ảnh gốc 3/4 và hình kiếm lên đầu, idle cũ chỉ để khóa nét / màu / tỉ lệ và bỏ qua kiếm sau lưng); `docs/prompts/codex_frames/PROMPT_GOC.md` và `char_fire_01/00_PHAN_TICH.md` (mục "Kiếm luôn rút", bỏ "hai trạng thái kiếm"); `tools/frames/gen_prompts.py` (mục `redo_reason`, `--replace` ở bước duyệt, câu tham chiếu idle); 23 phiếu và README sinh lại.
+- **Idle cần làm lại:** idle đã duyệt (6 frame owner cung cấp, commit 72ad85e) có kiếm đeo lưng nên trái quy tắc mới. Giữ nguyên trong game cho tới khi owner duyệt bản mới; phiếu `01_idle.md` và bảng trạng thái ghi "cần làm lại", bước duyệt dùng `approve_frames.py ... --replace` (bản cũ chuyển sang `art_review/char_fire_01/_replaced/`). Hệ số tỉ lệ `--like idle` vẫn đo được từ idle cũ (~281 px).
+- **Đã chạy:** `python -I tools/frames/gen_prompts.py char_fire_01`; `tools/run_tests.ps1`.
+- **Kết quả thật:** GdUnit4 446/446, 5 test khói đạt, mã thoát 0.
+- **Quyết định Claude chọn:** hạ kiếm xuống bên người ở cuối `skill_2` thay cho "tra kiếm nửa chừng" của CHARACTER_SKILLS (không sửa tài liệu thiết kế); cách cầm lấy từ ảnh gốc (tay gần camera, mũi kiếm hạ xuống trước).
+- **Hạn chế đã biết:** ảnh gốc là 3/4 nên cách cầm kiếm ở góc nhìn ngang do Codex suy ra; kiếm cầm tay che một phần chân / thân ở nhiều pose, cần soát thứ tự lớp khi duyệt; idle trong game tạm thời vẫn là bản kiếm đeo lưng.
+
+## 2026-11-13 — Art: Enkiba idle frames (AI)
+
+- **Milestone / task:** art pipeline — tạo và duyệt animation `idle` cho `char_fire_01`, chỉ một animation.
+- **Trạng thái:** TESTED (owner duyệt preview; kiểm tra frame và toàn bộ test đạt).
+- **Owner duyệt:** "ok rồi thêm vào dự án nhé" sau khi xem `sheet.png`, `anim.gif` và `anim_flip.gif`.
+- **File tạo/sửa:** 6 frame `assets/characters/char_fire_01/frames/idle/char_fire_01_idle_000..005.png` và sidecar `.import`; `assets/characters/char_fire_01/frames_manifest.json` (6 frame, 8 fps, loop); `docs/ASSET_LICENSES.md` mục 2.1; `art_review/char_fire_01/idle/meta.json` (ngày duyệt); bản idle cũ được giữ tại `art_review/char_fire_01/_replaced/idle_20261113_183648/`.
+- **Đã chạy:** `check_frames.py char_fire_01 idle` → ĐẠT; `approve_frames.py char_fire_01 idle --replace`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1` (chạy lại ngoài sandbox sau khi Godot crash ở lần chạy sandbox).
+- **Kết quả thật:** Đưa vào game 6 frame; GdUnit4 446/446, 5 smoke checks đều đạt, tổng mã thoát 0. Bản idle cũ được chuyển sang `_replaced/` thay vì xóa.
+- **Quyết định Codex chọn:** dùng một dải sáu pose duy nhất, giữ kiếm rút trên tay ở cả sáu frame; metadata và giấy phép ghi model là "not exposed by the imagegen tool" vì công cụ không cung cấp tên model.
+- **Hạn chế đã biết:** owner duyệt bản preview, chưa xác nhận trực tiếp trong Godot; tên model tạo ảnh không được công cụ imagegen expose.
+
+
+## 2026-11-13 — Art: Enkiba run frames (AI)
+- **Milestone / task:** art pipeline — đưa animation `run` đã được owner duyệt cho `char_fire_01` vào game.
+- **Trạng thái:** TESTED (owner duyệt preview; kiểm tra frame và toàn bộ test đạt).
+- **Owner duyệt:** "duyệt run" sau bước preview; giữ 8 frame, 12 fps, lặp.
+- **File tạo/sửa:** `assets/characters/char_fire_01/frames/run/char_fire_01_run_000..007.png` và sidecar `.import`; `assets/characters/char_fire_01/frames_manifest.json` (run: 8 frame, 12 fps, lặp); `docs/ASSET_LICENSES.md` mục 2.1; `tests/unit/characters/test_animation_set_builder.gd` cập nhật kỳ vọng idle + run đã giao.
+- **Đã chạy:** `python -I tools/frames/approve_frames.py char_fire_01 run`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1` (ngoài sandbox sau khi Godot crash trong sandbox).
+- **Kết quả thật:** `approve_frames.py` duyệt và chép 8 frame; GdUnit4 438 test, 0 lỗi / 0 thất bại; 5 smoke check đạt; tổng mã thoát 0.
+- **Quyết định Codex chọn:** cập nhật test tài nguyên để kiểm tra cả idle (6 frame) và run (8 frame) là animation đã giao, các animation còn lại tiếp tục placeholder.
+- **Hạn chế đã biết:** model imagegen không được expose; frame 003 và 007 là pose trên không có kiếm sát chân/ủng (đã nêu ở preview, owner vẫn duyệt).
+
+
+## 2026-11-13 — Art: Enkiba jump_up frames (AI)
+- **Milestone / task:** art pipeline — đưa animation `jump_up` đã được owner duyệt cho `char_fire_01` vào game.
+- **Trạng thái:** TESTED (owner duyệt preview; kiểm tra frame và toàn bộ test đạt).
+- **Owner duyệt:** "duyệt jump_up thêm vào dự án"; giữ 3 frame, 12 fps, không lặp.
+- **File tạo/sửa:** `assets/characters/char_fire_01/frames/jump_up/char_fire_01_jump_up_000..002.png` và sidecar `.import`; `assets/characters/char_fire_01/frames_manifest.json` (jump_up: 3 frame, 12 fps, không lặp); `docs/ASSET_LICENSES.md` mục 2.1; `tests/unit/characters/test_animation_set_builder.gd` cập nhật kỳ vọng ba animation đã giao.
+- **Đã chạy:** `python -I tools/frames/approve_frames.py char_fire_01 jump_up`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1` (ngoài sandbox sau khi Godot crash trong sandbox).
+- **Kết quả thật:** `approve_frames.py` duyệt và chép 3 frame; GdUnit4 446 test, 0 lỗi / 0 thất bại; 5 smoke check đạt; tổng mã thoát 0.
+- **Quyết định Codex chọn:** mở rộng kiểm tra asset đã giao từ idle + run thành idle (6 frame), run (8 frame) và jump_up (3 frame); animation còn lại tiếp tục placeholder.
+- **Hạn chế đã biết:** model imagegen không được expose; frame 001 giữ một chân chạm đất trong pha đẩy lên như phiếu mô tả (owner đã duyệt preview).
+
+
+## 2026-11-13 — Art: Enkiba fall frames (AI)
+- **Milestone / task:** art pipeline — duyệt và tích hợp animation `fall` cho `char_fire_01`.
+- **Trạng thái:** TESTED (owner duyệt; frame checker và toàn bộ test đạt).
+- **Owner duyệt:** "duyệt fall"; giữ 3 frame, 12 fps, không lặp.
+- **File tạo/sửa:** 3 frame `assets/characters/char_fire_01/frames/fall/char_fire_01_fall_000..002.png` và sidecar `.import`; `assets/characters/char_fire_01/frames_manifest.json` (fall: 3 frame, 12 fps, không lặp); `docs/ASSET_LICENSES.md` mục 2.1; `tests/unit/characters/test_animation_set_builder.gd` cập nhật animation đã giao từ 3 lên 4 và kiểm tra fall.
+- **Đã chạy:** `python -I tools/frames/check_frames.py char_fire_01 fall`; `python -I tools/frames/approve_frames.py char_fire_01 fall`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1` (chạy lại ngoài sandbox).
+- **Kết quả thật:** checker ĐẠT, 3 frame; GdUnit4 446/446, 0 lỗi / 0 thất bại; 5 smoke test đạt; lệnh test mã thoát 0.
+- **Quyết định Codex chọn:** giữ cấu hình trong phiếu, ghi model là "not exposed by the imagegen tool" theo metadata.
+- **Hạn chế đã biết:** owner đã duyệt preview; model imagegen không được expose.
+
+
+## 2026-11-13 — Art: Enkiba attack_1 frames (AI)
+- **Milestone / task:** art pipeline — duyệt và tích hợp animation `attack_1` cho `char_fire_01`.
+- **Trạng thái:** TESTED (owner duyệt; frame checker và toàn bộ test đạt).
+- **Owner duyệt:** "duyệt attack từ 1-4"; giữ 6 frame, 18 fps, không lặp.
+- **File tạo/sửa:** 6 frame `assets/characters/char_fire_01/frames/attack_1/char_fire_01_attack_1_000..005.png` và sidecar `.import`; manifest cập nhật `attack_1`; `docs/ASSET_LICENSES.md` mục 2.1; test animation builder cập nhật số animation đã giao và kiểm tra `attack_1`.
+- **Đã chạy:** `python -I tools/frames/check_frames.py char_fire_01 attack_1`; `python -I tools/frames/approve_frames.py char_fire_01 attack_1`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1` (ngoài sandbox).
+- **Kết quả thật:** checker ĐẠT, 6 frame; GdUnit4 446/446, 0 lỗi / 0 thất bại; 5 smoke test đạt; mã thoát 0.
+- **Quyết định Codex chọn:** giữ số frame / fps từ phiếu và metadata ghi model theo thông tin công cụ cung cấp.
+- **Hạn chế đã biết:** model imagegen không được expose.
+
+
+## 2026-11-13 — Art: Enkiba attack_2 frames (AI)
+- **Milestone / task:** art pipeline — duyệt và tích hợp animation `attack_2` cho `char_fire_01`.
+- **Trạng thái:** TESTED (owner duyệt; frame checker và toàn bộ test đạt).
+- **Owner duyệt:** "duyệt attack từ 1-4"; giữ 6 frame, 18 fps, không lặp.
+- **File tạo/sửa:** 6 frame `assets/characters/char_fire_01/frames/attack_2/char_fire_01_attack_2_000..005.png` và sidecar `.import`; manifest cập nhật `attack_2`; `docs/ASSET_LICENSES.md` mục 2.1; test animation builder cập nhật số animation đã giao và kiểm tra `attack_2`.
+- **Đã chạy:** `python -I tools/frames/check_frames.py char_fire_01 attack_2`; `python -I tools/frames/approve_frames.py char_fire_01 attack_2`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1` (ngoài sandbox).
+- **Kết quả thật:** checker ĐẠT, 6 frame; GdUnit4 446/446, 0 lỗi / 0 thất bại; 5 smoke test đạt; mã thoát 0.
+- **Quyết định Codex chọn:** giữ số frame / fps từ phiếu và metadata ghi model theo thông tin công cụ cung cấp.
+- **Hạn chế đã biết:** model imagegen không được expose.
+
+
+## 2026-11-13 — Art: Enkiba attack_3 frames (AI)
+- **Milestone / task:** art pipeline — duyệt và tích hợp animation `attack_3` cho `char_fire_01`.
+- **Trạng thái:** TESTED (owner duyệt; frame checker và toàn bộ test đạt).
+- **Owner duyệt:** "duyệt attack từ 1-4"; giữ 6 frame, 15 fps, không lặp.
+- **File tạo/sửa:** 6 frame `assets/characters/char_fire_01/frames/attack_3/char_fire_01_attack_3_000..005.png` và sidecar `.import`; manifest cập nhật `attack_3`; `docs/ASSET_LICENSES.md` mục 2.1; test animation builder cập nhật số animation đã giao và kiểm tra `attack_3`.
+- **Đã chạy:** `python -I tools/frames/check_frames.py char_fire_01 attack_3`; `python -I tools/frames/approve_frames.py char_fire_01 attack_3`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1` (ngoài sandbox).
+- **Kết quả thật:** checker ĐẠT, 6 frame; GdUnit4 446/446, 0 lỗi / 0 thất bại; 5 smoke test đạt; mã thoát 0.
+- **Quyết định Codex chọn:** giữ số frame / fps từ phiếu và metadata ghi model theo thông tin công cụ cung cấp.
+- **Hạn chế đã biết:** model imagegen không được expose; frame 002 được thu nhỏ nhẹ để vừa khung và giữ khoảng cách ở mũi kiếm như đã nêu trong preview.
+
+## 2026-11-13 — Art: Enkiba attack_4 frames (AI)
+- **Milestone / task:** art pipeline — duyệt và tích hợp animation `attack_4` cho `char_fire_01`.
+- **Trạng thái:** TESTED (owner duyệt; frame checker và toàn bộ test đạt).
+- **Owner duyệt:** "duyệt attack từ 1-4"; giữ 7 frame, 12 fps, không lặp.
+- **File tạo/sửa:** 7 frame `assets/characters/char_fire_01/frames/attack_4/char_fire_01_attack_4_000..006.png` và sidecar `.import`; manifest cập nhật `attack_4`; `docs/ASSET_LICENSES.md` mục 2.1; test animation builder cập nhật số animation đã giao và kiểm tra `attack_4`.
+- **Đã chạy:** `python -I tools/frames/check_frames.py char_fire_01 attack_4`; `python -I tools/frames/approve_frames.py char_fire_01 attack_4`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1` (ngoài sandbox).
+- **Kết quả thật:** checker ĐẠT, 7 frame; GdUnit4 446/446, 0 lỗi / 0 thất bại; 5 smoke test đạt; mã thoát 0.
+- **Quyết định Codex chọn:** giữ số frame / fps từ phiếu và metadata ghi model theo thông tin công cụ cung cấp.
+- **Hạn chế đã biết:** model imagegen không được expose; các frame 001–003 giữ pose bổ dọc gần nhau có chủ ý để giữ nhịp tác động.
+
+## 2026-11-13 — Làm lại màn Chiêu mộ theo bố cục màn Wish (ảnh tham chiếu của owner)
+
+- **Milestone / task:** 7 (M7-2, làm lại tab Chiêu mộ) + 5 (hiển thị banner) — owner yêu cầu: cấu trúc banner đang thô, đổi theo ảnh, tỉ lệ để trong Chi tiết, ảnh tạm + thư mục ảnh trong dự án
+- **Trạng thái:** TESTED (headless + ảnh chụp); chưa VERIFIED (owner chưa xem trong Godot)
+- **File tạo/sửa:**
+  - `scripts/ui/recruit_screen.gd` + `scenes/main/recruit_screen.tscn` (`RecruitScreen`): danh sách banner bên trái (thẻ đang chọn to hơn), banner lớn giữa màn (nhãn loại, tiêu đề, "Tăng xác suất!", ô cam bảo đảm 10 lượt, chú thích, nhân vật / vật phẩm đề cử + sao + nguyên tố + tên giáp + "UP!", thời gian còn lại, dòng bảo đảm), nút Cửa hàng / Chi tiết / Lịch sử, Chiêu mộ ×1 / ×10, vàng + ngọc ở góc trên, nút đóng. **Chi tiết** hiện bảng tỉ lệ (từ cùng config với logic quay), **Lịch sử** hiện 50 lượt gần nhất, **Kết quả** hiện thẻ từng lượt viền theo hạng. Esc / nút đóng lùi từng bước.
+  - `scripts/ui/layout_screen.gd` (`LayoutScreen`): lớp nền dùng chung cho màn đặt vị trí theo file bố cục (CharacterScreen giữ bản dựng riêng, có thể chuyển sau).
+  - `data/ui/recruit_screen_layout.json`: **file cấu hình bố cục** (vị trí, cỡ chữ, màu), cùng quy ước với màn Nhân vật.
+  - `BannerDef` thêm `kind_key`, `title_key`, `banner_art`, `thumb_art`, `end_unix` (0 = không giới hạn); `tools/gen_banner_data.py` ghi các trường này; chữ mới `BANNER_KIND_*`, `BANNER_TITLE_*`, `RECRUIT_UI_*` (25 khóa vi/en).
+  - **Thư mục ảnh** `assets/ui/recruit/` + `README.md` (tên file, kích thước, thứ tự tìm ảnh) + 4 ảnh tạm `placeholder_*` sinh bằng `tools/gen_recruit_placeholders.py`; ghi `docs/ASSET_LICENSES.md` mục 3.1.
+  - Hub: tab Chiêu mộ mở màn mới (`GameConfig.SCENE_RECRUIT`); bỏ `HubRecruitPanel`; test cũ chuyển sang `tests/unit/ui/test_recruit_screen.gd` (15 test); `tools/screenshot_recruit.gd`.
+  - Sửa kèm: bảng lọc màn Nhân vật chặn bấm xuyên xuống nút bên dưới (thêm kiểm tra vào test).
+  - Cập nhật OWNER_ASSET_CHECKLIST (hạng, tên, thêm việc ảnh banner).
+- **Đã chạy:** `python -X utf8 tools/gen_banner_data.py`, `tools/add_locale_keys.py`, `tools/gen_recruit_placeholders.py`; `godot --headless --import`; `tools/run_tests.ps1`; `godot --path . -s tools/screenshot_recruit.gd`.
+- **Kết quả thật:** GdUnit4 458/458, 5 test khói đạt, mã thoát 0. Đã xem 5 ảnh chụp và sửa: ô cam tràn chữ, nhãn trên ảnh tạm đè chữ của màn, nhãn ảnh nhỏ bị cắt, "UP!" xa tên, tên dài ("Đại kiếm Dung Nham") xuống dòng đè hàng sao (giờ thu nhỏ chữ cho vừa một dòng), nhãn loại tràn khỏi thẻ, chú thích banner vũ khí nói nhầm về "nhân vật S".
+- **Quyết định Claude chọn:** màn riêng (như màn Nhân vật) thay vì panel trong Hub; nút ×1 / ×10 luôn bấm được, thiếu ngọc thì hiện lý do thay vì làm mờ nút; nút Cửa hàng và "+" cạnh ngọc là placeholder ("chưa có trong bản thử"); tiêu đề banner nhân vật tạm "Nham Thạch Thức Tỉnh", banner vũ khí "Vũ Khí & Ấn Nham Thạch" (chữ tạm, owner đổi trong localization); thời gian còn lại ghi "Không giới hạn" vì chưa có lịch banner (đặt `end_unix` trong `.tres` để hiện đếm ngược); ảnh banner lớn 1301×839 theo khung trong ảnh tham chiếu, ảnh nhỏ 390×226 (gấp đôi ô 195×113).
+- **Hạn chế đã biết:** banner hết hạn (`end_unix` đã qua) mới chỉ ghi "Đã kết thúc", chưa khóa quay; nút Cửa hàng chưa có; lượt miễn phí đầu tiên (starter) vẫn chưa gắn vào UI; chưa thử trên điện thoại (màn rộng hơn 16:9 chỉ dịch phần giữa, đã test dựng ở 2560×1080 và 1280×720); ảnh tham chiếu là Genshin Impact: chỉ học bố cục, không dùng chữ, biểu tượng hay hình của bên thứ ba.
+
+
+## 2026-11-13 — Art: Enkiba ultimate frames (AI)
+- **Milestone / task:** art pipeline — owner duyệt và tích hợp animation `ultimate` cho `char_fire_01`.
+- **Trạng thái:** TESTED (owner duyệt; kiểm tra frame và toàn bộ test đạt).
+- **Owner duyệt:** "Tất cả đều ổn. Chép nó vào dự án luôn nhé"; tích hợp 22 frame, 8 fps, không lặp.
+- **File tạo/sửa:** 22 frame `assets/characters/char_fire_01/frames/ultimate/char_fire_01_ultimate_000..021.png` và sidecar `.import`; manifest cập nhật `ultimate`; `docs/ASSET_LICENSES.md` mục 2.1; test animation builder cập nhật số animation đã giao và kiểm tra `ultimate`; runner bỏ cấu hình remote debugger cổng `0` không hợp lệ.
+- **Đã chạy:** `python -I tools/frames/approve_frames.py char_fire_01 ultimate` (thực thi bằng Python 3.12 cài sẵn vì `python` không có trong PATH); `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`.
+- **Kết quả thật:** phê duyệt và chép 22 frame thành công; GdUnit4 458/458, 0 lỗi / 0 thất bại; 5 smoke test đạt; mã thoát 0.
+- **Quyết định Codex chọn:** dùng dải đã owner xem và duyệt; test builder xác nhận 9 animation Enkiba có frame thật.
+- **Hạn chế đã biết:** model imagegen không được expose; giữ tỉ lệ tham chiếu 0.80× idle để pose trên không nằm gọn trong canvas 384×384.
+
+## 2026-11-13 — Splash art 2D của Enkiba vào màn Nhân vật (thay chibi ở 5 chỗ)
+
+- **Milestone / task:** art + M7-2 (màn Nhân vật) — owner đưa 5 splash art 2D (không chibi) của Enkiba, yêu cầu xóa nền, phóng to hợp lý và thay vào ảnh chibi ở: nhân vật, tăng cấp, vũ khí, vết thánh, kỹ năng
+- **Trạng thái:** TESTED (headless + ảnh chụp 5 tab); chưa VERIFIED (owner chưa xem trong Godot)
+- **File tạo/sửa:**
+  - `tools/cut_splash.py`: xóa nền trắng + cắt sát, chỉ Pillow + numpy. Nền nối mép (>= 235); lỗ kín (vùng sáng không nối mép, >= 100 px, trắng thuần: khoảng hở giữa tay – kiếm – đầu, khe giữa tay và thân); khử viền sáng trong dải 2 px sát mép; co viền 1 px + làm mượt nhẹ; cắt sát + lề 8 px.
+  - `assets/characters/char_fire_01/splash/char_fire_01_splash_{overview,skill,level,stigma,weapon}.png` (PNG alpha, 581–968 px rộng, ~1500 px cao).
+  - `CharacterScreen.splash(id, view_key, fallback_portrait)` và mục `art` trong `data/ui/character_screen_layout.json` (đường dẫn mẫu `{id}` / `{name}`, tên file theo màn / tab: **đổi ảnh từng tab bằng cấu hình**); thiếu file thì dùng chibi, riêng ảnh lưng của tab Vết Thánh thiếu thì hiện placeholder (không thay bằng chibi nhìn trước).
+  - Layout: vùng ảnh tổng quan [610, 50, 800, 990] (cao hơn); vùng ảnh các tab [60, 0, 880, 1080] (dời phải 60 px để tóc không chạm nút Home); 3 ô Đầu / Thân / Chân chuyển sang cột bên phải ảnh lưng, đúng độ cao đầu / thân / chân; cỡ chữ ô theo cỡ ô.
+  - Test: `test_character_screen` thêm 3 (splash đúng ảnh ở 5 chỗ, đổi ảnh bằng cấu hình, dự phòng chibi / placeholder); `docs/ASSET_LICENSES.md` mục 2.1 (5 dòng), `docs/OWNER_ASSET_CHECKLIST.md`.
+- **Ánh xạ ảnh → màn (Claude chọn, đổi trong layout JSON):** ảnh 1 (đứng thẳng, kiếm cầm tay) → tổng quan; ảnh 2 (tư thế chiến đấu) → Skill; ảnh 3 (vác kiếm, đưa tay) → Tăng cấp; ảnh 4 (nhìn từ phía sau) → Vết Thánh; ảnh 5 (chống kiếm) → Vũ khí.
+- **Đã chạy:** `python -I tools/cut_splash.py` (5 ảnh); `godot --headless --import`; `tools/run_tests.ps1`; `godot --path . -s tools/screenshot_character.gd`.
+- **Kết quả thật:** GdUnit4 461/461, 5 test khói đạt, mã thoát 0. Xóa nền: 72–76% điểm ảnh là nền; đã soi viền ở độ phóng to 2× trên nền tối: không còn quầng trắng, lỗ chắn kiếm và khe tay – thân trong suốt.
+- **Lỗi tìm thấy và sửa:** trong Pillow 10.2, `ImageDraw.floodfill` trên ảnh tạo từ mảng numpy không làm gì (phải `.copy()` trước) nên bước "nền nối mép" lúc đầu không chạy, tool chỉ xóa được nền nhờ nhánh tìm lỗ kín; sửa và đổi sang quy tắc theo diện tích + độ trắng, kiểm tra trên cả 5 ảnh (thành phần sáng kín lớn nhất đều là nền thật).
+- **Quyết định Claude chọn:** ảnh chibi vẫn dùng cho thẻ nhân vật ở danh sách bên dưới và biểu tượng mảnh nhân vật (cắt phần đầu); ảnh splash giữ độ phân giải gốc (không thu nhỏ); ô vết thánh đặt ngoài thân nhân vật để không che ảnh; bảng chỉ số vết thánh vẫn phủ lên phần ủng (nền đen trong suốt 60%).
+- **Hạn chế đã biết:** mới Enkiba có splash, 5 nhân vật còn lại vẫn chibi / placeholder; công cụ tạo splash chưa rõ nên ghi giấy phép "không rõ" (cần owner xác nhận để khai báo AI khi phát hành); nút Home chạm nhẹ tóc ở vài pose; ảnh splash ~0.5–0.8 MB mỗi file (tổng 3.5 MB), chấp nhận cho bản đầu.
+
+
+## 2026-11-14 — Art: Enkiba animations dodge–switch_out (AI)
+- **Milestone / task:** art pipeline — owner duyệt gộp các animation từ `dodge` đến hết, tích hợp các bản review còn chờ vào `char_fire_01`.
+- **Trạng thái:** TESTED (owner duyệt; checker và toàn bộ test đạt).
+- **Owner duyệt:** "duyệt tất cả động tác từ dodge đến hết". `fall` (3 frame) và `ultimate` (22 frame) đã tích hợp trước đó; lần này tích hợp 14 animation, tổng 83 frame: `dodge` 5/15 fps, `land` 3/12, `hurt` 4/12, `knockback` 3/12, `down` 6/12, `hold_charge` 4/12, `hold_release` 9/12, `air_1` 5/18, `air_2` 5/12, `landing_attack` 6/15, `skill_1` 10/10, `skill_2` 13/18, `switch_in` 7/12, `switch_out` 3/12; giữ loop và hit frame theo phiếu.
+- **File tạo/sửa:** frame PNG và sidecar `.import` cho 14 animation trong `assets/characters/char_fire_01/frames/`; `frames_manifest.json`; `docs/ASSET_LICENSES.md` mục 2.1; `tests/unit/characters/test_animation_set_builder.gd` kiểm tra 23 animation đã giao cùng số frame.
+- **Đã chạy:** `python -I tools/frames/check_frames.py char_fire_01 {dodge,fall,land,hurt,knockback,down,hold_charge,hold_release,air_1,air_2,landing_attack,skill_1,skill_2,switch_in,switch_out}`; `python -I tools/frames/approve_frames.py char_fire_01 <animation>` cho 14 animation; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`.
+- **Kết quả thật:** checker báo ĐẠT cho mọi animation đã kiểm tra; GdUnit4 461/461, 0 lỗi / 0 thất bại; 5 smoke test đạt; mã thoát 0.
+- **Quyết định Codex chọn:** tích hợp theo nguyên số frame / fps / loop của phiếu; bỏ qua thao tác chép lại `fall` và `ultimate` đã có trong dự án.
+- **Hạn chế đã biết:** `air_1` checker cảnh báo tâm chân ở frame 001 (x=113) và 002 (x=89) lệch trái so với mốc x=192; giữ nguyên theo duyệt gộp của owner.
+
+## 2026-11-14 — Công cụ gửi quà thử nghiệm vào tài khoản
+
+- **Milestone / task:** công cụ thử game (không thuộc milestone) — owner yêu cầu tool gửi trực tiếp quà vào account để test
+- **Trạng thái:** TESTED (headless + chạy thật lệnh dòng lệnh + ảnh chụp); chưa VERIFIED (owner chưa dùng trong Godot)
+- **File tạo/sửa:**
+  - `scripts/debug/debug_gift.gd` (`DebugGift`): cú pháp quà, gói quà mẫu, kiểm tra trước (ID lạ / cấp vượt tối đa → không áp gì), áp vào `PlayerProfile` (ngọc, vàng, vật phẩm, trang bị nhiều bản, mở khóa nhân vật, mảnh có tự mở khóa, cấp người chơi chỉ tăng, EXP người chơi), tóm tắt hiển thị, `run_args` cho dòng lệnh.
+  - `scripts/ui/debug_gift_screen.gd` + `scenes/main/debug_gift_screen.tscn`: màn "Quà thử nghiệm" (nút gói quà mẫu, ô nhập quà tùy chọn giữ lại nội dung khi sửa, trạng thái tài khoản, khung kết quả); nút mở ở tab Cài đặt của Hub chỉ khi `DebugGiftScreen.available()` (`OS.is_debug_build()`).
+  - `tools/give_gift.gd` + `tools/give_gift.ps1` (BOM, tắt gán theo vị trí, in UTF-8): lệnh `--list`, `--dry-run`, `--save-dir=`, mã thoát 0 / 1 / 2.
+  - `data/debug/gift_presets.json` (8 gói: rich, gacha_10x10, level_up, enhance, gear, all_characters, promotion, everything); `export_presets.cfg` loại `data/debug/*` khỏi bản Release; `GameConfig.SCENE_DEBUG_GIFT`; 16 khóa dịch `DEBUG_GIFT_*`; `docs/DEBUG_GIFT.md`; AGENTS.md mục 6.
+  - Test: `tests/unit/debug/test_debug_gift.gd` (22): cú pháp + lỗi, `all`, gói lồng nhau có chặn vòng, gói mẫu hợp lệ, `everything` áp đủ, áp nguyên khối hoặc không áp gì, cấp không bị hạ, lệnh dòng lệnh (không ghi khi lỗi / dry-run, cộng dồn vào save có sẵn), màn trong game (nút gói, lưu file, lỗi, ô nhập), nút Hub theo bản debug / Release.
+  - `tools/screenshot_gift.gd`.
+- **Đã chạy:** `godot --headless --import`; `tools\give_gift.ps1 --list`, quà lỗi, quà thật vào `user://test_give`; `tools/run_tests.ps1`; `godot --path . -s tools/screenshot_gift.gd`.
+- **Kết quả thật:** lệnh dòng lệnh in đúng tiếng Việt, ID lạ → mã 1 và không ghi file; gửi thật → mã 0, file save tạo đúng; đã xem 3 ảnh chụp màn (bắt đầu, đã gửi, lỗi). GdUnit4 483/483, 5 test khói đạt, mã thoát 0.
+- **Lỗi tìm thấy và sửa:** PowerShell gán mục quà đầu tiên vào tham số `-Godot` (báo "không tìm thấy Godot: gems=100") → tắt gán theo vị trí; nút gói quà bị cắt chữ vì tóm tắt dài → hiện chuỗi quà của gói.
+- **Quyết định Claude chọn:** hai cách dùng (bảng trong game cho thử tức thì vì game đang mở sẽ ghi đè save do lệnh dòng lệnh sửa; lệnh dòng lệnh cho tự động hóa); quà bỏ qua mọi luật chơi (đây là công cụ debug) và không đụng tới pity, lịch sử chiêu mộ, tiến độ màn; không có nút xóa / đặt lại tài khoản (đã có "Game mới"); đặt nút ở tab Cài đặt thay vì thêm tab Hub; không dùng phím tắt (quy tắc InputRouter).
+- **Hạn chế đã biết:** lệnh dòng lệnh phải chạy khi game đã đóng; chưa có quà "đặt cấp nhân vật" (dùng sách EXP + `captain=`); bản Release không có công cụ; chưa thử trên Android (hoãn).
+
+## 2026-11-14 — Kazeyumi: tờ bộ phận và trang điền tên (wireframe)
+
+- **Milestone / task:** art (rig bộ phận) — owner gửi tờ bộ phận cắt lớp của Kazeyumi (`char_wind_01`), yêu cầu tạo wireframe để điền tên
+- **Trạng thái:** IMPLEMENTED (chờ owner điền tên)
+- **File tạo/sửa:** `assets/characters/char_wind_01/rig_parts/source/char_wind_01_parts_sheet.jpg` (ảnh gốc nền trong suốt, ghép nền trắng), `char_wind_01_parts_boxes.json` (60 khung), `.gdignore`; trang artifact "Bảng tên bộ phận Kazeyumi" (https://claude.ai/artifact/NPXQcciN28KAwKk6eLMpq1, lưu từng ô vào db `labels`, giống trang của Enkiba).
+- **Đã chạy:** `python -I tools/sprite_parts/segment_parts.py ... 190 0` → 59 vùng; đọc lại `labels` của trang (trống, đúng vì chưa điền).
+- **Kết quả thật:** 59 vùng tách sạch; vùng 24 (áo + áo choàng bản 2) dính mảnh cẳng tay bên dưới → tách tay thành ô 60. Có gợi ý loại + tên cho cả 60 ô (thêm loại "Hiệu ứng" cho mũi tên gió số 42).
+- **Lỗi tìm thấy và sửa:** ảnh gốc là WebP nền trong suốt; chuyển thẳng sang JPG làm nền thành đen nên cả tờ thành một khối → ghép lên nền trắng trước khi tách.
+- **Hạn chế đã biết:** `tools/sprite_parts/cut_parts.py` đang ghi cứng `char_fire_01` trong manifest (README đã ghi), cần sửa khi cắt Kazeyumi sau khi owner điền xong.
+
+## 2026-11-14 — Kazeyumi: phiếu prompt Codex tạo frame (21 animation)
+
+- **Milestone / task:** art (frame nhân vật) — owner yêu cầu prompt cho Codex tạo chuyển động Kazeyumi (`char_wind_01`) theo mô tả kỹ năng, giống quy trình Enkiba
+- **Trạng thái:** IMPLEMENTED (chờ Codex tạo `idle` và owner duyệt từng animation)
+- **File tạo/sửa:**
+  - `tools/frames/jobs/char_wind_01.json` (phiếu 21 animation), `docs/prompts/codex_frames/char_wind_01/` (00_PHAN_TICH.md + 21 phiếu + README, sinh tự động)
+  - `tools/frames/frame_jobs.py`: thêm `timing_ms` / `hits_ms` cho kỹ năng chưa có SkillDef; `sword` → `weapon_state` (giữ tương thích)
+  - `tools/frames/gen_prompts.py`: mọi chữ riêng của nhân vật (vũ khí, VFX, mục tự kiểm tra, ghi chú README) chuyển vào `text` trong phiếu JSON
+  - `tools/frames/jobs/char_fire_01.json`: chuyển chữ Enkiba vào `text`, bỏ `redo_reason` của idle (Codex đã làm lại, commit 438bc03); phiếu Enkiba sinh lại chỉ khác trạng thái README và phiếu idle
+  - Ảnh tham chiếu cắt từ tờ bộ phận: `assets/characters/char_wind_01/portrait/char_wind_01_portrait_full.png`, `rig_parts/source/refs/char_wind_01_ref_*.png` (13 ảnh: toàn thân, pose 54–59, cung, mũi tên, 4 mặt)
+  - `assets/characters/char_wind_01/frames_manifest.json`: `working_name` Lyra → Kazeyumi
+- **Đã chạy:** `python -I tools/frames/gen_prompts.py char_wind_01` (21 phiếu), `... char_fire_01` (23 phiếu); `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`
+- **Kết quả thật:** test TẤT CẢ ĐẠT, mã thoát 0. Số frame tính ra: attack_1/2 5 @ 18 fps, attack_3 8 @ 15, dodge 6 @ 20, hold_release 5 @ 12, air_1 6 @ 18, landing_attack 6 @ 15, skill_1 8 @ 18, skill_2 11 @ 8, switch_in 6 @ 10, ultimate 17 @ 8 (3 lần gọi).
+- **Quyết định Claude chọn:**
+  - Hai trạng thái cung: `ready` (cầm hạ thấp) và `shoot` (giương bắn); không vẽ mũi tên đã bay (game sinh projectile).
+  - Kỹ năng chưa có SkillDef lấy thời gian theo CHARACTER_SKILLS.md: hold_release 100/50/300, air_1 90/90/160, landing_attack 70/80/220 (vùng gió 1 500 ms là VFX), skill_1 150/60/220, skill_2 200/900/300 (6 phát cách 150 ms), ultimate 700/1000/400 (bão 5 s là VFX).
+  - Chiều cao đứng mục tiêu 280 px như Enkiba.
+- **Hạn chế đã biết:** khi thêm SkillDef cho các kỹ năng trên, đổi phiếu sang `skill` rồi sinh lại; màu mắt / viền vàng trong 00_PHAN_TICH là ước lượng bằng mắt.
+
+
+## 2026-11-14 — Art: Kazeyumi idle frames (AI)
+- **Milestone / task:** art pipeline — owner duyệt và tích hợp animation `idle` cho `char_wind_01`.
+- **Trạng thái:** BLOCKED (đã tích hợp 6 frame; toàn bộ test bị Godot crash trước khi chạy test logic).
+- **File tạo/sửa:** 6 frame PNG + sidecar `.import` trong `assets/characters/char_wind_01/frames/idle/`; `assets/characters/char_wind_01/frames_manifest.json`; `docs/ASSET_LICENSES.md` mục 2.1; `art_review/char_wind_01/idle/meta.json` ghi duyệt.
+- **Đã chạy:** `python -I tools/frames/approve_frames.py char_wind_01 idle` (thực thi bằng Python 3.12 cài sẵn vì `python` không có trong PATH); `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`; chạy lại runner với `-Godot C:\Godot\4.6.3\Godot_v4.6.3-stable_win64.exe`; chạy riêng `C:\Godot\4.6.3\Godot_v4.6.3-stable_win64_console.exe --headless --path . --script res://tests/smoke/m1_flow_check.gd` để xác định lỗi.
+- **Kết quả thật:** approve chép đủ 6 frame, 8 fps, lặp; manifest và giấy phép được cập nhật. Cả hai lần chạy toàn bộ test đều thoát mã 1: GdUnit4 và 5 smoke trả `-1073741819` (Windows access violation); smoke trực tiếp bằng console crash signal 11 với `no debug info in PE/COFF executable`. Smoke trực tiếp bằng executable GUI thoát mã 0 nhưng không có output; runner toàn bộ với executable GUI vẫn gặp cùng lỗi. Chưa có toàn bộ test nào được xác nhận đạt.
+- **Quyết định Codex chọn:** giữ tích hợp đã được owner duyệt, ghi trạng thái `BLOCKED`; chưa commit vì điều kiện test mã thoát 0 chưa đạt.
+- **Hạn chế đã biết:** cần khắc phục crash môi trường Godot / test runner rồi chạy lại toàn bộ test trước khi commit.
+
+## 2026-11-14 — Kazeyumi, Raikiba: đủ bộ kỹ năng (giữ, trên không, đáp đất, kỹ năng, vũ khí, tuyệt kỹ)
+
+- **Milestone / task:** combat — owner: Kazeyumi và Raikiba mới thử được đòn thường, né, vào sân; làm thêm phần còn lại
+- **Trạng thái:** TESTED (chưa thử bằng mắt trong Godot)
+- **File tạo/sửa:**
+  - `tools/gen_wind_lightning_skills.py` (mới) sinh `data/skills/char_wind_01/{hold_1,hold_2,air_1,air_2,landing,skill,weapon,ultimate}.tres`, `data/skills/char_lightning_01/{hold_1,air_1..3,landing,skill,weapon,ultimate}.tres`, `data/statuses/storm_blessing.tres`; `tools/skill_data_lib.py` thêm `self_statuses`
+  - `scripts/combat/skill_def.gd`: `fire_on_charge`, `release_ends`, `dive_angle_deg`, `self_statuses`, `blocks_normal_ms`
+  - `scripts/combat/skill_runner.gd`: áp `self_statuses` khi bắt đầu; **sửa lỗi**: mỗi vùng tách một track method (hai vùng cùng `at_ms` trên một track thì key sau ghi đè key trước, vùng đầu không bao giờ sinh)
+  - `scripts/player/player_controller.gd`: số đòn trên không = số kỹ năng `air_N` (bỏ trần cứng 2), khóa đòn thường, `auto_hold_skill_for`; `scripts/player/states/combat_states.gd`: đòn giữ tự chạy khi đủ nạp, nhả nút dừng sớm, lao chéo
+  - Kit: `wind_kit.gd` (tên trúng kẻ địch đang Chậm −0.3 s CD Phong Vực, tối đa −3 s), `lightning_kit.gd` (Bùng nổ Sét −1 s CD Chớp Giật Liên Hoàn tối đa −3 s, +5 UG)
+  - `tests/unit/combat/test_kazeyumi_raikiba_skills.gd` (12 test), `test_combat_data.gd` (thêm storm_blessing); khóa dịch `STATUS_STORM_BLESSING`
+- **Đã chạy:** `python -X utf8 tools/gen_wind_lightning_skills.py`; `<godot> --headless --path . --import`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`
+- **Kết quả thật:** GdUnit4 496/496, 0 lỗi / 0 thất bại; 5 smoke test đạt; mã thoát 0. Tổng % ATK khớp tài liệu: Kazeyumi giữ 180/300, trên không 135, đáp đất 120, Phong Vực 240, Liên Châu 360, Tuyệt kỹ 1000; Raikiba giữ 240, trên không 150, đáp đất 130, Chớp Giật 210, Song Lôi 200, Tuyệt kỹ 1090.
+- **Quyết định Claude chọn:**
+  - Kazeyumi Hạ Phong Trận: rơi 500 px/s (thả dù), vùng gió đặt ở chỗ tiếp đất. Phong Vực / Bão Tiễn: buff đồng đội áp cho người dùng lúc cast (chỉ một nhân vật trên sân), không xét đứng trong vùng. Bão kéo 37.5 px mỗi nhịp (= 150 px/s). Thiên Phong Loạt Tiễn lần 1 nối sang lần 2 bằng cửa sổ 200 ms như Enkiba.
+  - Raikiba Song Lôi Phi Nhận: thân nhân vật chỉ giữ 140 + 180 ms để vẫn di chuyển được, đao bay độc lập, khóa đòn thường 800 ms. Lôi Trụy Thuấn: vệt điện Chậm 20% gộp vào vụ nổ. Lôi Thần Quyết: nhát đầu +150% ATK nếu mục tiêu có Dấu Sét (bonus_vs_status 1.875 × 80%).
+- **Hạn chế đã biết:** chưa làm: nội tại Gió Thuận (buff cả đội), Liên Châu +25% trong Phong Vực, nạp UG +20% trong Phong Vực, Kazeyumi bay lên 300 px khi tuyệt kỹ, Quá Tải của Raikiba làm đòn thường áp Dấu Sét, đòn giữ Raikiba +1 EN mỗi nhịp (đang +3 theo loại đòn giữ). Animation của các chiêu mới còn placeholder (Codex chưa vẽ).
+
+## 2026-11-14 — Kazeyumi, Raikiba: Gió Thuận, Phong Vực theo vùng, Bão Tiễn bay lên, Quá Tải
+
+- **Milestone / task:** combat — owner: làm nốt các phần còn thiếu ở mục trước
+- **Trạng thái:** TESTED (chưa thử bằng mắt trong Godot)
+- **File tạo/sửa:**
+  - `scripts/characters/kits/wind_kit.gd`, `wind_kit_config.gd`: nội tại Gió Thuận (trúng 3 kẻ địch khác nhau trong 4 s → cả đội +10% tốc độ di chuyển, +8% nạp EN 5 s, ICD 10 s); Phong Vực: người trên sân đứng trong vùng (bán kính 300, tâm cách 400 px, 6 s) +15% tốc độ tấn công +10% tốc độ di chuyển, Kazeyumi trong vùng: UG từ đòn thường +20%
+  - `scripts/characters/kits/lightning_kit.gd`: Quá Tải — đòn thường áp Dấu Sét (đòn đã có dấu thì không áp thêm)
+  - `scripts/combat/skill_def.gd` + `skill_runner.gd` + `player_controller.gd`: `rise_px` / `rise_from_ms` / `rise_to_ms` (bay lên khi tắt trọng lực); `team_combatants` (PartyManager gán) để kit buff cả đội
+  - `scripts/combat/status_def.gd`, `status_controller.gd`, `resource_component.gd`, `combatant.gd`: loại chỉ số mới `en_regen_up`; `extra_en` âm được (Raikiba giữ TC +1 EN mỗi nhịp = 3 − 2)
+  - `tools/gen_wind_lightning_skills.py` sinh lại kỹ năng + 5 trạng thái mới: `fair_wind`, `fair_wind_haste`, `wind_domain` (dấu kẻ địch trong Phong Vực → Liên Châu +25%), `wind_domain_haste`, `overload`; khóa dịch STATUS_* tương ứng
+  - Test: `test_kazeyumi_raikiba_skills.gd` (17 test), `test_combat_data.gd`
+- **Đã chạy:** `python -X utf8 tools/gen_wind_lightning_skills.py`; `python -X utf8 tools/add_locale_keys.py`; `<godot> --headless --path . --import`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`
+- **Kết quả thật:** GdUnit4 501/501, 0 lỗi / 0 thất bại; 5 smoke test đạt; mã thoát 0. Tuyệt kỹ Kazeyumi đo được bay lên ~300 px sau 700 ms, bão (đặt ở mặt đất) vẫn trúng hình nộm.
+- **Quyết định Claude chọn:**
+  - Buff tốc độ di chuyển của Gió Thuận / Phong Vực dùng trạng thái riêng (không dùng `wind_step`) vì áp trạng thái trùng tên gộp mức cao nhất và thời gian dài nhất, sẽ kéo dài +25% của né hoàn hảo.
+  - Buff trong vùng làm mới mỗi tick, hết sau 0.3 s khi rời vùng; áp cho người đang trên sân (đồng đội vào sân sau cũng nhận).
+  - Bão Tiễn đặt lúc 0 ms tại mặt đất rồi bật sau 700 ms, để tâm bão ở dưới chỗ Kazeyumi bay lên. Kazeyumi chỉ treo trên không hết thời lượng kỹ năng (2.1 s) rồi rơi; bão vẫn chạy đủ 5 s.
+- **Hạn chế đã biết:** buff "đồng đội trong bão" của tuyệt kỹ Kazeyumi vẫn áp cho bản thân lúc cast (chỉ một người trên sân).
+
+
+## 2026-11-14 — Kazeyumi: duyệt frame `knockback` đến `ultimate`
+- **Milestone / task:** art (frame nhân vật) — owner duyệt các animation từ phiếu 11 đến 21 của `char_wind_01`; gồm `knockback`, `down`, `hold_charge`, `hold_release`, `air_1`, `landing_attack`, `skill_1`, `skill_2`, `switch_in`, `switch_out`, `ultimate`.
+- **Trạng thái:** BLOCKED
+- **File tạo/sửa:** frame trong `assets/characters/char_wind_01/frames/{knockback,down,hold_charge,hold_release,air_1,landing_attack,skill_1,skill_2,switch_in,switch_out,ultimate}/`; `assets/characters/char_wind_01/frames_manifest.json`; `docs/ASSET_LICENSES.md` mục 2.1; `docs/DEVELOPMENT_LOG.md`.
+- **Đã chạy:** `python -I tools/frames/approve_frames.py char_wind_01 <animation>` cho cả 11 animation; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`.
+- **Kết quả thật:** Cả 11 animation được approve thành công. Bộ test thoát mã 1; GdUnit4 và 5 smoke test đều crash với mã `-1073741819`, runner in `error(-1): no debug info in PE/COFF executable`. Không commit vì test chưa thoát mã 0 theo yêu cầu.
+- **Quyết định Codex chọn:** dùng phạm vi phiếu 11–21 (từ `knockback` tới `ultimate`) theo thứ tự số phiếu.
+- **Hạn chế đã biết:** cùng lỗi Godot/test runner đã ghi ở mục trước; cần khắc phục môi trường và chạy lại toàn bộ test trước khi commit.
+
+## 2026-11-14 — Hikarine, Yomigari, Iwagane: đủ bộ kỹ năng + kit nội tại + Kĩ năng vào sân
+
+- **Milestone / task:** combat — owner: làm tiếp các nhân vật còn lại (trước đây ba nhân vật này chỉ có hồ sơ, chưa có kỹ năng)
+- **Trạng thái:** TESTED (chưa thử bằng mắt trong Godot)
+- **File tạo/sửa:**
+  - `tools/gen_light_dark_earth_skills.py` (mới) sinh `data/skills/char_{light,dark,earth}_01/*` (đòn thường, né, giữ + đòn kết, trên không, đáp đất, Kĩ năng thường, vũ khí, tuyệt kỹ, vào sân Thường / Liên kết), 7 trạng thái mới (`sanctuary`, `night_king`, `stone_bone`, `guard`, `hard_armor`, `armor_break`, `stone_god`), config kit `data/characters/char_*_kit.tres`, ghi lại `data/characters/char_{light,dark,earth}_01.tres` (giữ chỉ số cũ, thêm skills_dir, kit, SwitchInDef)
+  - Hồi máu: `scripts/combat/heal_def.gd`, `heal_zone.gd` (cả đội / thấp nhất / bản thân / vùng, nhiều nhịp, trễ, đi theo người hồi, xóa hiệu ứng xấu, trạng thái cho người trong vùng, hồi sinh theo `revive_enabled`); `Combatant.heal_target` + signal `heal_done`; `StatusController.cleanse`, `set_magnitude`
+  - `SkillDef`: `heals`, `en_per_sec`, `move_while_active`, `release_skill`, `fall_ms`; `SkillRunner`: vùng hồi, tiêu EN theo giây, rơi sau khi bay lên; state Attack: nhả / hết EN / hết giờ → đòn kết (`PlayerController.release_skill_for`, kit quyết định được); di chuyển chậm trong đòn giữ kéo dài
+  - `Combatant.receive_hit`: đòn atk_ratio 0 chỉ áp trạng thái (khiêu khích 400 px); `bonus_vs_status = "boss"` (+25% lên boss)
+  - Kit: `light_kit.gd` (hồi thừa → khiên, rút CD, UG +30%, Hào Quang, rút CD vũ khí), `dark_kit.gd` (hút máu, Thu hoạch, Dạ Vương, hạ gục mục tiêu Nguyền, Phân Thân Bóng), `earth_kit.gd` (Cốt Đá, chặn / chặn hoàn hảo, nổ Cốt Đá, Thạch Thần, Phản Chấn)
+  - `PlayerController.kit_event` → `PartyManager` giảm SI-CD; `SwitchInDef.REDUCE_HEAL_LOW / CURSED_KILL / PERFECT_BLOCK`
+  - Test: `tests/unit/combat/test_light_dark_earth_skills.gd` (17 test); `test_combat_data.gd` (danh sách trạng thái); `test_reactions.gd` (mở Liên kết Lyra bằng LinkTracker thay cho né hoàn hảo của Hikarine, vì Hào Quang giờ hồi 3% HP cả đội)
+- **Đã chạy:** `python -X utf8 tools/gen_light_dark_earth_skills.py`; `python -X utf8 tools/add_locale_keys.py`; `<godot> --headless --path . --import`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`
+- **Kết quả thật:** GdUnit4 518/518, 0 lỗi / 0 thất bại; 5 smoke test đạt; mã thoát 0. Tổng % ATK khớp tài liệu (Hikarine thường 195, Thánh Ân hồi 170% ATK + 4% HP; Yomigari giữ 258, tuyệt kỹ 1150; Iwagane thường 390, đáp đất 310, tuyệt kỹ 1100).
+- **Quyết định Claude chọn:**
+  - Quả cầu sáng 1200 px/s; Iwagane đòn 3 = kiếm 130% + sóng đá 50%; sóng đá Thạch Phá là một vùng 500×120 đứng yên.
+  - Đòn kết của đòn giữ dùng khóa `hold_end` (không phải `hold`) để không bị chọn nhầm khi nhả sớm.
+  - Thủ Thế Đại Địa giảm 70% mọi hướng (chưa xét hướng); chặn hoàn hảo = đòn tới trong 200 ms đầu khi đã dựng xong.
+  - Hikarine "nạp UG +30% từ việc hồi máu cho đồng đội dưới 50% HP": hồi cho người dưới 50% thì nạp UG ×1.3 trong 5 s.
+  - Đêm Vĩnh Hằng: lực kéo 500 px gộp vào nhát 1 (đòn không sát thương không đẩy / kéo được).
+  - Lăn Giáp, Thạch Phá: Giáp cứng là trạng thái `hard_armor` (−50%); Khiên Đá 6 s; khiên Liên kết Iwagane 6 s; cửa sổ giảm SI-CD sau khi vào sân 6 s cho cả ba.
+- **Hạn chế đã biết:** AI quái chưa đọc trạng thái khiêu khích (Iwagane áp `taunt` nhưng chưa có tác dụng; ảo ảnh khiêu khích của Quang Bộ chưa làm). Đòn thường của Hikarine bay thẳng, chưa tự dẫn. Thiên Trụy Trảm chưa rơi nhanh hơn 30%. Bị Choáng chưa ngắt đòn giữ kéo dài. Hồi sinh tắt theo Q6 (`revive_enabled = false`). Animation còn placeholder.
+
+## 2026-11-14 — Raikiba: tờ bộ phận và trang điền tên (wireframe)
+
+- **Milestone / task:** art (rig bộ phận) — owner gửi tờ bộ phận cắt lớp của Raikiba (`char_lightning_01`), yêu cầu wireframe để điền tên
+- **Trạng thái:** IMPLEMENTED (chờ owner điền tên)
+- **File tạo/sửa:** `assets/characters/char_lightning_01/rig_parts/source/char_lightning_01_parts_sheet.jpg` (ảnh gốc WebP nền trong suốt, ghép nền trắng), `char_lightning_01_parts_boxes.json` (52 khung), `.gdignore`; trang artifact "Bảng tên bộ phận Raikiba" (https://claude.ai/artifact/JdGdTkh1jCwQBXTj2Cid2p, dựng từ trang Kazeyumi, lưu từng ô vào db `labels`, có gợi ý loại + tên cho cả 52 ô).
+- **Đã chạy:** xóa pixel alpha < 250 (ánh sét mờ) rồi `python -I tools/sprite_parts/segment_parts.py <ảnh> ... 190 0` → 49 vùng.
+- **Kết quả thật:** 42 vùng phía trên tách sạch. Hàng dưới (5 mặt nhỏ, 5 pose) chồng lên nhau và dính hiệu ứng sét → bỏ các khung gộp, đặt 10 khung bằng tay (5 mặt + 5 pose), thêm 2 khung bằng tay cho dây đai có khóa và băng cổ tay bị dính vào pose.
+- **Lỗi tìm thấy và sửa:** máy không có scipy nên không tách theo alpha trực tiếp được; dùng ảnh "đặc" (bỏ pixel bán trong suốt) làm đầu vào cho công cụ tách có sẵn.
+- **Hạn chế đã biết:** khung mặt nhỏ hàng dưới đè một phần lên pose 48; `tools/sprite_parts/cut_parts.py` vẫn ghi cứng `char_fire_01`, cần sửa trước khi cắt Kazeyumi / Raikiba.
+
+## 2026-11-14 — Art: phiếu prompt Codex cho Raikiba, bổ sung phiếu Kazeyumi
+
+- **Milestone / task:** art (frame nhân vật) — owner yêu cầu phiếu tạo chuyển động cho Raikiba và gửi các động tác Kazeyumi còn thiếu
+- **Trạng thái:** IMPLEMENTED (chờ owner chạy Codex từng phiếu)
+- **File tạo/sửa:**
+  - Raikiba: `tools/frames/jobs/char_lightning_01.json` (25 animation), `docs/prompts/codex_frames/char_lightning_01/` (00_PHAN_TICH, README, 25 phiếu), 13 ảnh tham chiếu `assets/characters/char_lightning_01/rig_parts/source/refs/` cắt từ tờ bộ phận theo tên owner đã điền (nền trong suốt, xóa mảnh mặt nhỏ / khóa đè lên pose), `frames_manifest.json` working_name = Raikiba.
+  - Kazeyumi: phiếu mới `hold_release_2` (Xuyên Phong Tiễn cấp 2) và `air_2` (phát thứ hai trên không); `hold_release`, `air_1`, `skill_1`, `skill_2`, `ultimate` đổi sang lấy thời gian từ SkillDef (số frame không đổi so với bản đã duyệt); `00_PHAN_TICH.md` cập nhật. Thêm 2 phiếu nên số thứ tự phiếu từ 15 trở đi dịch xuống.
+  - `tools/gen_wind_lightning_skills.py` → `data/skills/char_wind_01/air_2.tres` animation `air_2`, `hold_2.tres` animation `hold_release_2`.
+  - `scripts/player/player_controller.gd`: `animation_or_fallback()` — animation biến thể chưa có hình thì mượn bản gốc (`air_2` → `air_1`, `hold_release_2` → `hold_release`).
+  - `tools/frames/frame_jobs.py`: phiếu có `skill` vẫn cho `hits_ms` ghi đè frame trúng đòn.
+  - `tests/unit/player/test_animation_fallback.gd` (4 test).
+- **Đã chạy:** `python -X utf8 tools/gen_wind_lightning_skills.py`, `python -I tools/frames/gen_prompts.py char_wind_01`, `... char_lightning_01`, `--import`, `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`
+- **Kết quả thật:** GdUnit4 522 test, 0 lỗi; 5 test khói ĐẠT; mã thoát 0.
+- **Quyết định Claude chọn:** Raikiba `hold_release` là vòng chém lặp 6 frame 15 fps (game giữ tới 1,2 s, thả nút thì dừng) thay vì tính theo thời lượng kỹ năng; `skill_2` chỉ vẽ động tác ném, từ frame ném tay không; ultimate 22 frame ở 8 fps (2,7 s theo SkillDef); `landing_attack` của Kazeyumi giữ 70/80/220 ms như bản đã duyệt (SkillDef hiện 0/80/220).
+- **Hạn chế đã biết:** Raikiba chưa có animation bắt đao (`skill_2`) và nhát kết của Lôi Quang Loạn Vũ (chưa có trạng thái trong game). Ở thời điểm này 9 animation Kazeyumi (run, attack_1–3, dodge, jump_up, fall, land, hurt) còn nằm ở `art_review/` chờ owner trả lời "duyệt"; các frame / manifest / ASSET_LICENSES Codex đã sửa chưa commit, không nằm trong commit này.
+
+
+## 2026-11-14 — Kazeyumi: duyệt frame `run`
+- **Milestone / task:** art (frame nhân vật) — owner duyệt animation `run` của `char_wind_01`.
+- **Trạng thái:** BLOCKED
+- **File tạo/sửa:** `assets/characters/char_wind_01/frames/run/` (8 frame); `assets/characters/char_wind_01/frames_manifest.json`; `docs/ASSET_LICENSES.md` mục 2.1; `docs/DEVELOPMENT_LOG.md`.
+- **Đã chạy:** `python -I tools/frames/approve_frames.py char_wind_01 run`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`.
+- **Kết quả thật:** Approve thành công: 8 frame, 12 fps. Bộ test thoát mã 1; GdUnit4 và 5 smoke test đều crash với mã `-1073741819`, runner in `error(-1): no debug info in PE/COFF executable`. Không commit vì test chưa thoát mã 0 theo yêu cầu.
+- **Hạn chế đã biết:** lỗi Godot/test runner giống lần chạy trước; cần khắc phục môi trường và chạy lại toàn bộ test trước khi commit.
+
+
+## 2026-11-14 — Kazeyumi: duyệt bảy animation còn lại
+- **Milestone / task:** art (frame nhân vật) — owner duyệt `jump_up`, `fall`, `land`, `attack_1`, `attack_2`, `attack_3`, `dodge` của `char_wind_01`.
+- **Trạng thái:** BLOCKED
+- **File tạo/sửa:** frame trong `assets/characters/char_wind_01/frames/{jump_up,fall,land,attack_1,attack_2,attack_3,dodge}/`; `assets/characters/char_wind_01/frames_manifest.json`; `docs/ASSET_LICENSES.md` mục 2.1; `docs/DEVELOPMENT_LOG.md`.
+- **Đã chạy:** `python -I tools/frames/approve_frames.py char_wind_01 <animation>` cho cả bảy animation; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`.
+- **Kết quả thật:** Cả bảy animation được approve thành công. Bộ test thoát mã 1; GdUnit4 và 5 smoke test crash với mã `-1073741819`, runner in `error(-1): no debug info in PE/COFF executable`. Không commit vì test chưa thoát mã 0 theo yêu cầu.
+- **Quyết định Codex chọn:** vì danh sách trước đó còn tám mục ngoài `run` trong khi owner yêu cầu bảy, để `hurt` chờ duyệt riêng.
+- **Hạn chế đã biết:** lỗi Godot/test runner đã tái hiện ở các lần chạy trước; cần khắc phục môi trường và chạy lại toàn bộ test trước khi commit.
+
+
+## 2026-11-14 — Kazeyumi: duyệt frame `hurt`
+- **Milestone / task:** art (frame nhân vật) — owner duyệt animation `hurt` của `char_wind_01`.
+- **Trạng thái:** BLOCKED
+- **File tạo/sửa:** `assets/characters/char_wind_01/frames/hurt/` (4 frame); `assets/characters/char_wind_01/frames_manifest.json`; `docs/ASSET_LICENSES.md` mục 2.1; `docs/DEVELOPMENT_LOG.md`.
+- **Đã chạy:** `python -I tools/frames/approve_frames.py char_wind_01 hurt`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`.
+- **Kết quả thật:** Approve thành công: 4 frame, 12 fps. Bộ test thoát mã 1; GdUnit4 và 5 smoke test đều crash với mã `-1073741819`, runner in `error(-1): no debug info in PE/COFF executable`. Không commit vì test chưa thoát mã 0 theo yêu cầu.
+- **Hạn chế đã biết:** lỗi Godot/test runner vẫn tái hiện; cần khắc phục môi trường và chạy lại toàn bộ test trước khi commit.
+
+## 2026-11-14 — Raikiba: nhát kết Lôi Quang Loạn Vũ và bắt đao quay về (game + phiếu Codex)
+
+- **Milestone / task:** combat + art — owner yêu cầu đưa vào game động tác bắt đao (Song Lôi Phi Nhận) và nhát chém kết thúc (Lôi Quang Loạn Vũ), rồi cập nhật phiếu
+- **Trạng thái:** TESTED
+- **File tạo/sửa:**
+  - `scripts/combat/skill_def.gd`: `catch_animation`, `catch_at_ms`.
+  - `scripts/player/player_controller.gd`: hẹn giờ bắt vũ khí (`catch_left_sec`); tới giờ mà đang đứng yên (state idle, không chạy kỹ năng) thì phát animation bắt, xong quay lại idle; đang chạy / nhảy / đánh thì bỏ qua. Không khóa điều khiển. `_play()` trả về tên animation đã phát.
+  - `tools/gen_wind_lightning_skills.py` → `data/skills/char_lightning_01/hold_1.tres` (hồi phục 0, `release_skill = "hold_finish"`), `hold_finish.tres` mới (key `hold_end`, animation `hold_end`, 0/90/220, kháng khựng, không có vùng sát thương), `weapon.tres` (`catch_animation = "weapon_catch"`, `catch_at_ms = 880`).
+  - `assets/characters/char_lightning_01/frames_manifest.json` + thư mục `frames/hold_end/`, `frames/weapon_catch/` (.gitkeep).
+  - Phiếu: `tools/frames/jobs/char_lightning_01.json`, `docs/prompts/codex_frames/char_lightning_01/` thêm `17_hold_end`, `24_weapon_catch` (các phiếu sau dịch số), sửa `hold_release`, `skill_2`, `00_PHAN_TICH.md`.
+  - `tests/unit/combat/test_kazeyumi_raikiba_skills.gd`: đòn giữ nhả nút → `hold_finish`, hết 8 nhịp → `hold_finish`, bắt đao khi đứng yên / bỏ qua khi đang chạy.
+- **Đã chạy:** `python -X utf8 tools/gen_wind_lightning_skills.py`, `python -I tools/frames/gen_prompts.py char_lightning_01`, `--import`, GdUnit4 riêng bộ Kazeyumi/Raikiba (21/21), `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`
+- **Kết quả thật:** lần đầu 1 lỗi (`test_real_frame_counts_match_folders`: thiếu thư mục frame `hold_end`, `weapon_catch`) → tạo thư mục; lần hai GdUnit4 525 test, 0 lỗi; 5 test khói ĐẠT; mã thoát 0.
+- **Quyết định Claude chọn:** nhát kết dùng đúng 220 ms hồi phục của tài liệu và không cộng sát thương (tổng Lôi Quang Loạn Vũ vẫn 240%); chạy cả khi nhả nút sớm lẫn khi hết 8 nhịp. Đao về tay ở 940 ms (ném 140 + đi 400 + về 400); animation bắt bắt đầu ở 880 ms để frame 001 (đao vào tay) rơi vào ~940 ms. Bắt đao chỉ phát khi đứng yên vì đây là động tác đứng, không khóa điều khiển.
+- **Hạn chế đã biết:** đang chạy / nhảy lúc đao về thì không có hình bắt đao (đao lặng lẽ về tay); thời điểm bắt không co giãn theo tốc độ tấn công (Song Lôi Phi Nhận là kỹ năng vũ khí, không chịu tốc độ tấn công). Chưa thử bằng mắt trong Godot.
+
+## 2026-11-14 — Kazeyumi: mũi tên gió (bộ phận 42) làm hình mũi tên năng lượng bắn ra
+
+- **Milestone / task:** combat + VFX — owner yêu cầu dùng mũi tên gió (bộ phận số 42 trên trang "Bảng tên bộ phận Kazeyumi") làm mũi tên năng lượng Kazeyumi bắn ra
+- **Trạng thái:** TESTED
+- **File tạo/sửa:**
+  - `assets/characters/char_wind_01/vfx/char_wind_01_vfx_wind_arrow.png` (165×47): cắt khung 42 từ tờ bộ phận, tách nền trắng thành trong suốt (color-to-alpha), lấp lõi sáng ở đầu tên, bỏ mảnh lạ.
+  - `scripts/combat/hit_def.gd`: `projectile_sprite`, `projectile_scale`. `scripts/combat/detached_hit.gd`: vùng tách có hình thì gắn `Sprite2D` (xoay theo góc bay, lật theo hướng nhìn, ẩn tới khi bật nếu có trễ) và tắt khối màu tạm của Hitbox.
+  - `tools/skill_data_lib.py` (`WIND_ARROW`, `wind_arrow()`), `tools/gen_kael_lyra_data.py`, `tools/gen_switch_in_data.py`, `tools/gen_wind_lightning_skills.py` → 11 SkillDef của `char_wind_01` (đòn thường 3, né, đòn giữ cấp 1/2, trên không 2, Liên Châu 6 tên, vào sân Thường/Liên kết): mọi vùng tên bay có hình mũi tên gió. Dữ liệu nhân vật khác không đổi.
+  - `docs/ASSET_LICENSES.md` mục 2: thêm dòng file trên (chỉ commit dòng này; phần Codex đang sửa dở để nguyên).
+  - `tests/unit/combat/test_kazeyumi_raikiba_skills.gd`: mọi tên bay của Kazeyumi dùng hình mũi tên gió, đao Raikiba không; bắn đòn thường sinh mũi tên hiện hình và bay về trước.
+- **Đã chạy:** 3 script sinh dữ liệu trên, `--import`, GdUnit4 bộ Kazeyumi/Raikiba (23/23), `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`
+- **Kết quả thật:** GdUnit4 527 test, 0 lỗi; 5 test khói ĐẠT; mã thoát 0. `git diff --stat data/` chỉ có 11 file `char_wind_01`, toàn dòng thêm.
+- **Quyết định Claude chọn:** tỉ lệ vẽ 0.55 (≈91 px) cho tên thường / quạt / Liên Châu / né / vào sân, 0.7 cho đòn giữ cấp 1, 0.9 cho cấp 2 (theo khung va chạm 70 / 90 / 120 px); lọc linear khi thu nhỏ; hòa màu thường (không cộng sáng) để không bị mất trên nền sáng.
+- **Hạn chế đã biết:** chưa xem bằng mắt trong Godot; quầng sáng của mũi tên bị tối đi một chút do tách từ nền trắng của ảnh JPEG. Phong Vực (tên rơi như sao băng) và Hạ Phong Trận không có vùng tên bay nên chưa có hình mũi tên.
+
+
+## 2026-11-14 — Kazeyumi: duyệt frame `hold_release_2`
+- **Milestone / task:** art (frame nhân vật) — owner duyệt animation `hold_release_2` của `char_wind_01`.
+- **Trạng thái:** BLOCKED
+- **File tạo/sửa:** `assets/characters/char_wind_01/frames/hold_release_2/` (5 frame); `assets/characters/char_wind_01/frames_manifest.json`; `docs/ASSET_LICENSES.md` mục 2.1; `docs/DEVELOPMENT_LOG.md`.
+- **Đã chạy:** `python -I tools/frames/approve_frames.py char_wind_01 hold_release_2`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`.
+- **Kết quả thật:** Approve thành công: 5 frame, 12 fps. Bộ test thoát mã 1; GdUnit4 và 5 smoke test đều crash với mã `-1073741819`, runner in `error(-1): no debug info in PE/COFF executable`. Không commit vì test chưa thoát mã 0 theo yêu cầu.
+- **Hạn chế đã biết:** lỗi Godot/test runner vẫn tái hiện; cần khắc phục môi trường và chạy lại toàn bộ test trước khi commit.
+
+
+## 2026-11-14 — Kazeyumi: duyệt frame `air_2`
+- **Milestone / task:** art (frame nhân vật) — owner duyệt animation `air_2` của `char_wind_01`.
+- **Trạng thái:** TESTED
+- **File tạo/sửa:** `assets/characters/char_wind_01/frames/air_2/` (6 frame); `assets/characters/char_wind_01/frames_manifest.json`; `docs/ASSET_LICENSES.md` mục 2.1; `docs/DEVELOPMENT_LOG.md`.
+- **Đã chạy:** `python -I tools/frames/approve_frames.py char_wind_01 air_2`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`.
+- **Kết quả thật:** Approve thành công: 6 frame, 18 fps. Toàn bộ test thoát mã 0: GdUnit4 và cả 5 smoke test ĐẠT.
+- **Hạn chế đã biết:** frame 003 có một chân duỗi thấp hơn các pose trên không còn lại; owner đã duyệt bộ frame.
+
+## 2026-11-14 — HUD trận đấu: cụm nút kỹ năng có hồi chiêu (góc dưới-phải), thanh nhân vật giữa-dưới, icon theo giáp
+
+- **Milestone / task:** UI chiến đấu (README 15.5) — owner đề xuất bố cục theo ảnh tham khảo: nút kỹ năng góc dưới-phải có hồi chiêu, thanh HP/EN ở dưới; icon vẽ tạm bằng code, xuất PNG để owner chỉnh; tùy chọn icon theo từng giáp
+- **Trạng thái:** TESTED (đã chụp màn thử nghiệm bằng Godot có cửa sổ để soát, owner chưa xem)
+- **File tạo/sửa:**
+  - `tools/ui/gen_hud_icons.py` → `assets/ui/hud/skill_icons/default/{attack,jump,dodge,skill,weapon,ultimate}.png` và `assets/ui/hud/skill_icons/char_*_01/{attack,skill,weapon,ultimate}.png` (icon đánh theo loại vũ khí; kỹ năng / tuyệt kỹ theo nguyên tố). Mặc định không ghi đè file đã có.
+  - `scripts/ui/hud_icons.gd` (`HudIcons`): tìm icon theo Data ID, thiếu thì dùng `default/`.
+  - `scripts/input/touch_controls.gd`: cụm nút luôn hiện (PC: chỉ hiển thị, có phím tắt dưới nút, bỏ qua chuột); joystick chỉ hiện trên máy cảm ứng; icon đổi theo người trên sân; lượt né thành huy hiệu số (`badge_text`). Bố cục chuyển vào `HudTheme.SKILL_BUTTONS`.
+  - `scripts/input/touch_button.gd`: vẽ đĩa tối trong mờ + icon, quạt hồi chiêu + số giây, vòng UG, tuyệt kỹ sẵn sàng nhấp nháy vàng, huy hiệu số tròn (kiểu ảnh "3" owner gửi), phím tắt.
+  - `scripts/ui/battle_hud.gd`, `scripts/ui/hud_theme.gd`: thẻ nhân vật góc trên-trái → thanh giữa-dưới (chân dung tạm, tên, HP chia 3 đoạn + khiên, EN + số); nút Tạm dừng lên góc trên-trái. `scripts/ui/debug_overlay.gd` sửa chú thích.
+  - `docs/ASSET_LICENSES.md` mục 2: thêm dòng icon (chỉ commit dòng này; phần Codex đang sửa dở để nguyên).
+  - Test: `tests/unit/ui/test_skill_dock.gd` (4 test), `tests/unit/ui/test_touch_audio.gd` (lượt né đọc `badge_text`).
+- **Đã chạy:** `python -I tools/ui/gen_hud_icons.py --force` (lần đầu), `--import`, chụp HUD bằng script SceneTree trong scratchpad (Godot có cửa sổ 1920×1080, bản PC và bản cảm ứng), `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`
+- **Kết quả thật:** GdUnit4 531 test, 0 lỗi; 5 test khói ĐẠT; mã thoát 0. Ảnh chụp: cụm 6 nút góc dưới-phải không chồng nhau, số giây hồi trên nút U / I, vòng UG quanh O, huy hiệu lượt né trên L, thanh HP/EN giữa-dưới.
+- **Quyết định Claude chọn:** bỏ các nút trong ảnh tham khảo không có trong game (nút đặc biệt có thanh 90/150, nút gọi hỗ trợ); đổi nhân vật vẫn ở hai icon dự bị góc trên-phải (README 15.5) thay vì cột chân dung bên phải; UG chỉ hiện bằng vòng quanh nút tuyệt kỹ, lượt né bằng huy hiệu trên nút né; nút nhảy cũng có icon; đường kính nút đánh 200, tuyệt kỹ 176, kỹ năng / vũ khí 150, né 140, nhảy 132 (≥ 128 px); trên PC các nút không nhận chuột.
+- **Lệch tài liệu:** README 15.5 ghi thẻ nhân vật trên sân ở góc trên-trái; owner đề xuất đặt xuống dưới (2026-11-14) nên đã chuyển theo owner.
+- **Hạn chế đã biết:** chân dung trên thanh HP vẫn là vòng màu + chữ đầu tên (chưa có ảnh chân dung nhỏ); icon là hình trắng đơn giản, owner sẽ vẽ lại; chưa thử trên máy cảm ứng thật.
+
+## 2026-11-14 — Joystick: ảnh vòng HUD của owner, tách nền caro, đế + phím trung tâm
+
+- **Milestone / task:** UI cảm ứng — owner gửi ảnh nút di chuyển (vòng HUD xanh trên nền caro vẽ sẵn), yêu cầu tách nền chính xác, giữ chi tiết xanh mờ ở rìa, không viền cứng / vệt nền cũ, rồi thay vào joystick với vòng xanh nhạt giữa hai vòng trắng trong cùng làm phím trung tâm
+- **Trạng thái:** TESTED (owner chưa xem trên máy cảm ứng)
+- **File tạo/sửa:**
+  - `assets/ui/hud/joystick/joystick_full.png` (816×816, tâm vòng = tâm ảnh), `joystick_base.png`, `joystick_knob.png` (314×314).
+  - `tools/ui/remove_checker_bg.py` + `tools/ui/remove_checker_bg/` (7 bước tách nền), `tools/ui/split_joystick.py` (cắt đế / phím ở r = 152 px, mép mềm 4 px, lấp lỗ đế bằng màu kính).
+  - `scripts/input/virtual_joystick.gd` (vẽ ảnh đế + phím, độ mờ khi không chạm 0.75; thiếu ảnh thì vẽ hình tròn cũ; `knob_center()`), `scripts/ui/hud_theme.gd` (`JOYSTICK_*`).
+  - `docs/ASSET_LICENSES.md` mục 2: dòng ảnh joystick (chỉ commit dòng này).
+  - `tests/unit/ui/test_joystick_art.gd` (2 test).
+- **Đã chạy:** các bước tách nền trong scratchpad (numpy + Pillow), `python -I -X utf8 tools/ui/split_joystick.py <ảnh sạch>`, `--import`, chụp màn thử nghiệm có cảm ứng (kéo phím sang phải), `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`
+- **Kết quả thật:** GdUnit4 533 test, 0 lỗi; 5 test khói ĐẠT; mã thoát 0. Ảnh chụp màn thử nghiệm (cảm ứng): đế vòng HUD góc dưới-trái, phím trung tâm lệch sang phải theo hướng kéo; góc ảnh trong suốt hoàn toàn.
+- **Kỹ thuật / phát hiện:** nền caro của ảnh là ô 11.30 px, có chỗ lệch nhịp (ảnh AI) → phân loại sáng/tối từng ô. Đĩa kính ở giữa là kính MÀU (mỗi kênh R/G/B cho nền lọt qua một mức khác nhau, R ~37%, G ~17%, B ~13%) nên không tách được bằng một độ đục chuẩn; dùng biên độ ô caro đo theo ô + sửa ô lệch + lọc giữ cạnh. Quầng ngoài dùng hồi quy bậc hai từng pixel. Các mảng xanh đậm trong đĩa là bóng đổ ĐỤC có sẵn trong ảnh gốc (không có ô caro ở đó), giữ nguyên. Hình mờ xám hai bên và dấu lấp lánh ở góc dưới-phải nằm ngoài vòng nên đã bỏ.
+- **Quyết định Claude chọn:** phím trung tâm = toàn bộ phần bên trong các cung trắng (gồm vòng trắng nhỏ ở tâm và các vòng xanh nhạt), cắt ở khe kính tối r = 152 px; phím lệch tối đa 0.42 bán kính đế; đế lấp giữa bằng màu kính trung vị.
+- **Hạn chế đã biết:** kính trong đĩa có vài mảng loang nhẹ khi đặt trên nền rất sáng (trên nền tối của màn chơi không thấy); mép quầng ở vài chỗ còn bậc rất mờ ở cỡ ảnh gốc (thu nhỏ còn ~44% trong game). Owner chưa nói ảnh tạo bằng công cụ gì (nếu là AI cần ghi mục 2.1).
+
+## 2026-11-14 — Joystick thu nhỏ 360 → 240 px
+
+- **Milestone / task:** UI cảm ứng — owner: phím joystick to quá, che nhân vật
+- **Trạng thái:** TESTED
+- **File tạo/sửa:** `scripts/ui/hud_theme.gd` (`JOYSTICK_SIZE` = 240), `scripts/input/touch_controls.gd` (dùng hằng này thay cho 360 viết cứng)
+- **Đã chạy:** chụp màn thử nghiệm có cảm ứng (Godot có cửa sổ 1920×1080), `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`
+- **Kết quả thật:** GdUnit4 533 test, 0 lỗi; 5 test khói ĐẠT; mã thoát 0. Ảnh chụp: joystick chiếm góc dưới-trái, phím ~92 px, không còn che thân nhân vật ở vị trí xuất phát.
+- **Quyết định Claude chọn:** 240 px (2/3 cỡ cũ), lề 64 px giữ nguyên; tỉ lệ phím / đế và quãng lệch giữ nguyên.
+- **Hạn chế đã biết:** chưa thử ngón tay trên máy thật; nếu vùng chạm nhỏ quá có thể tăng lại trong HudTheme.
+
+## 2026-11-14 — Sảnh chính (Hub) mới: thẻ người chơi, cụm nút lục giác, Túi đồ, Tiếp tế, Xuất kích, Người cộng tác, Thông tin người chơi
+
+- **Milestone / task:** UI Hub (README 15) — owner gửi 5 ảnh tham chiếu, đề xuất sắp xếp sảnh chính: giữ phần bên trái (owner chỉnh sau), bên phải có các nút Trang bị (túi đồ), Người cộng tác (tính năng riêng: tinh linh), Nhân vật (thay nút / tab Nhân vật), Tiếp tế (shop, gacha, nạp nếu online), Xuất kích (thử đội hình, cốt truyện, ải nguyên liệu); nút nhân vật góc trái mở thông tin người chơi (đổi tên, xem trang bị / vết thánh đã có và chưa có)
+- **Trạng thái:** TESTED (đã chụp màn bằng Godot có cửa sổ; owner chưa xem)
+- **File tạo/sửa:**
+  - Tab Trang chủ: `scripts/ui/hub_home_panel.gd` (viết lại), `scripts/ui/hex_button.gd` (nút lục giác, bấm theo hình lục giác), `data/ui/hub_home_layout.json`.
+  - Màn mới (`scenes/main/*.tscn` + `scripts/ui/*.gd`): `hub_screen.gd` (nền chung: Trở về, Menu, ô vàng / ngọc), `bag_screen`, `supply_screen`, `sortie_screen`, `companion_screen`, `player_screen`; bố cục `data/ui/hub_screens_layout.json`.
+  - `scripts/ui/hub.gd`, `scenes/main/hub.tscn`: bỏ tab Nhân vật (thay bằng nút lục giác), đọc `GameConfig.hub_start_tab` (thẻ Đội hình ở Xuất kích mở thẳng tab Chiến đấu). `scripts/core/game_config.gd`: `SCENE_BAG/SUPPLY/SORTIE/COMPANION/PLAYER`, `hub_start_tab`.
+  - Save v4: `scripts/save/save_schema.gd` (`account.name`, `clean_name`, `NAME_MAX` 16, migration 3→4), `scripts/progression/player_profile.gd` (`player_name`, `set_player_name` + lý do).
+  - Icon tạm: `tools/ui/gen_hub_icons.py` → `assets/ui/hub/icons/` (11 PNG). `docs/ASSET_LICENSES.md` mục 2 (chỉ commit dòng này).
+  - Chữ: 72 khóa mới trong `localization/vi.po` và `en.po` (thêm bằng script riêng vì `tools/add_locale_keys.py` đang có thay đổi chưa commit của Codex).
+  - Tài liệu: `docs/design/HUB_FEATURES.md` (bản đồ màn, kế hoạch Người cộng tác, mục riêng Nạp tiền khi phát hành online).
+  - Test: `tests/unit/ui/test_hub_home.gd` (10 test).
+- **Đã chạy:** `python -I tools/ui/gen_hub_icons.py --force`, `--import`, chụp Hub + 5 màn (dữ liệu thật và dữ liệu giả lập có đồ), `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`
+- **Kết quả thật:** GdUnit4 543 test, 0 lỗi; 5 test khói ĐẠT; mã thoát 0.
+- **Quyết định Claude chọn:** phần trái giữ nguyên nội dung cũ, chỉ dời xuống dưới thẻ người chơi; ảnh giữa là nhân vật đầu đội; Xuất kích là lục giác lớn nhất; vũ khí / vết thánh trong Bộ sưu tập tính theo loại (định nghĩa trong data/equipment); Túi đồ xếp đồ đang dùng trước rồi theo độ hiếm; tên người chơi tối đa 16 ký tự; tab Chiêu mộ trên thanh tab giữ lại (trùng Tiếp tế → Tiếp tế) chờ owner quyết; thanh tab Trang chủ / Chiến đấu / Chiêu mộ / Cài đặt giữ nguyên.
+- **Hạn chế đã biết:** Shop, Ải nguyên liệu, tab Đề cử / Khiêu chiến / Event, Rèn trang bị: chỉ hiện "Sắp có / Sắp ra mắt". Người cộng tác chưa có gameplay (chờ owner quyết các điểm trong HUB_FEATURES.md). Nạp tiền chỉ là thông báo (bản offline). Icon và nền là tạm; chưa có ảnh vũ khí / vết thánh (thẻ dùng icon tạm). Chưa thử chạm trên máy cảm ứng thật.
+
+
+## 2026-11-14 — Raikiba: duyệt frame `idle`
+- **Milestone / task:** Tạo và duyệt animation `idle` cho `char_lightning_01` (6 frame, 8 fps, lặp).
+- **Trạng thái:** TESTED
+- **File tạo/sửa:** `assets/characters/char_lightning_01/frames/idle/` (6 PNG + import metadata); `assets/characters/char_lightning_01/frames_manifest.json`; `docs/ASSET_LICENSES.md` mục 2.1; `docs/DEVELOPMENT_LOG.md`.
+- **Đã chạy:** `python -I tools/frames/check_frames.py char_lightning_01 idle` (ĐẠT); `python -I tools/frames/approve_frames.py char_lightning_01 idle`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`.
+- **Kết quả thật:** Owner duyệt `idle`; approve thành công với 6 frame, 8 fps. GdUnit4: 543 test, 0 lỗi; 5 smoke test ĐẠT; toàn bộ lệnh test thoát mã 0.
+- **Hạn chế đã biết:** Phiên bản model chính xác của imagegen không được công cụ công bố; ghi rõ điều này trong metadata và giấy phép.
+
+## 2026-11-14 — Sảnh chính bản 2: ô ghép, splash bên trái, bỏ thanh tab, bánh răng Cài đặt, đổi nền
+
+- **Milestone / task:** UI Hub — owner thấy sảnh còn lộn xộn, gửi ảnh dự án cũ (kiểu ô ghép), ảnh splash Enkiba và ảnh nền tạm. Yêu cầu: giữ chức năng cũ, đổi vị trí / kích thước / cách xếp; bỏ thanh tab ô vuông phía trên; bỏ dòng PROJECT ECLIPSE / vàng / ngọc / đội hình / số màn bên trái, đặt splash nhân vật ở đó; thêm bánh răng Cài đặt góc phải; ô thứ 2 màn Tiếp tế đổi tên Chiêu mộ; thêm tính năng đổi nền (mua, phát trong sự kiện), nền khởi đầu tạm là ảnh thứ 3
+- **Trạng thái:** TESTED (đã chụp sảnh và từng bảng nổi; owner chưa xem)
+- **File tạo/sửa:**
+  - Sảnh: `scenes/main/hub.tscn` (bỏ TopBar / ContentLabel, nút Màn 1 / Màn thử nghiệm dời xuống đáy bảng nổi), `scripts/ui/hub.gd` (viết lại: sảnh + bảng nổi Chiến đấu / Cài đặt / Đổi nền, Back đóng bảng nổi trước), `scripts/ui/hub_home_panel.gd` (viết lại: nền, splash, thẻ người chơi, ô tiền, nút khung tranh + bánh răng, 5 ô ghép), `scripts/ui/tile_button.gd` (ô bình hành, ảnh phủ + dải chữ màu, bấm theo hình), `data/ui/hub_home_layout.json` (viết lại). Bỏ `scripts/ui/hex_button.gd`.
+  - Nền: `scripts/progression/background_def.gd`, `data/backgrounds/bg_sky_garden.tres`, `assets/placeholders/placeholder_hub_bg_sky_garden.png`, `scripts/ui/hub_background_panel.gd`; save v5 (`cosmetics.backgrounds`, `cosmetics.hub_background`, migration 4→5) trong `scripts/save/save_schema.gd`; `PlayerProfile` thêm `all_backgrounds`, `owns_background`, `hub_background`, `set_hub_background`, `unlock_background`, `buy_background`.
+  - Icon: `tools/ui/gen_hub_icons.py` thêm `settings` (bánh răng), `background` (khung tranh).
+  - Chữ: `SUPPLY_GACHA_TITLE` / `SUPPLY_GACHA_GO` → Chiêu mộ / Đi chiêu mộ (en Recruit / Go recruit); 14 khóa mới (nền, bánh răng).
+  - Tài liệu: `docs/design/HUB_FEATURES.md` (bản đồ màn bản 2, mục Nền sảnh), `docs/ASSET_LICENSES.md` (dòng ảnh nền tạm + số icon; chỉ commit phần này).
+  - Test: `tests/unit/ui/test_hub_home.gd` (sảnh ô ghép, bảng nổi, bình hành, nền), `tests/unit/ui/test_hub_panels.gd` (bỏ test dòng tóm tắt), `tests/smoke/m1_flow_check.gd` (mở bảng Chiến đấu bằng `show_tab`, Esc đóng bảng nổi), `tests/smoke/m1_i18n_check.gd` (đọc chữ ô ghép).
+- **Đã chạy:** `python -I tools/ui/gen_hub_icons.py`, `--import`, chụp sảnh + 3 bảng nổi + Tiếp tế, `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`
+- **Kết quả thật:** lần đầu 1 lỗi (test v4 cố định VERSION = 4) → nới thành ≥ 4; ảnh chụp đầu cho thấy bảng nổi bị lớp sảnh (top_level) đè → bỏ top_level, sảnh phủ kín theo anchor. Lần cuối GdUnit4 543 test, 0 lỗi; 5 test khói ĐẠT; mã thoát 0.
+- **Quyết định Claude chọn:** hàng trên Nhân vật + Xuất kích (lớn), hàng dưới Trang bị, Tiếp tế, Người cộng tác; ảnh ô Nhân vật / Trang bị lấy tạm splash skill / weapon của Enkiba, ô khác dùng icon; màu dải chữ theo ảnh tham chiếu; Cài đặt / Chiến đấu / Đổi nền là bảng nổi trong sảnh (không tạo màn mới); nút bánh răng / khung tranh 84 px (owner muốn icon nhỏ; nhỏ hơn mốc 128 px của README).
+- **Lưu ý giấy phép:** ảnh nền thứ 3 owner gửi trùng nền sảnh của một game thương mại → để ở `assets/placeholders/` tên `placeholder_*` (bản Release tự loại), ghi KHÔNG SHIP trong ASSET_LICENSES; owner cần thay trước khi phát hành. Ảnh dự án cũ chỉ dùng làm tham khảo bố cục, không chép vào dự án.
+- **Hạn chế đã biết:** chưa có Shop nên mua nền chỉ trong bảng Đổi nền; chưa có nền thứ hai để thử mua (đã thử bằng nền giả lập trong test); chưa có ảnh riêng cho ô Xuất kích / Tiếp tế / Người cộng tác; chưa thử chạm trên máy thật.
+
+
+## 2026-11-14 — Raikiba: duyệt frame `run`
+- **Milestone / task:** Tạo và duyệt animation `run` cho `char_lightning_01` (8 frame, 12 fps, lặp).
+- **Trạng thái:** TESTED
+- **File tạo/sửa:** `assets/characters/char_lightning_01/frames/run/` (8 PNG + import metadata); `assets/characters/char_lightning_01/frames_manifest.json`; `docs/ASSET_LICENSES.md` mục 2.1; `docs/DEVELOPMENT_LOG.md`.
+- **Đã chạy:** `python -I tools/frames/check_frames.py char_lightning_01 run` (ĐẠT); `python -I tools/frames/approve_frames.py char_lightning_01 run`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`.
+- **Kết quả thật:** Owner duyệt `run`; approve thành công với 8 frame, 12 fps. GdUnit4: 554 test, 0 lỗi; 5 smoke test ĐẠT; toàn bộ lệnh test thoát mã 0.
+- **Quyết định Codex chọn:** Dải đầu có nền trắng alpha thấp nên xóa lớp nền mờ trước khi cắt; dải thứ hai giữ alpha gốc.
+- **Hạn chế đã biết:** Phiên bản model chính xác của imagegen không được công cụ công bố; ghi rõ điều này trong metadata và giấy phép.
+
+## 2026-11-14 — Mục tiêu chiến đấu, màn thông tin màn chơi, đội hình splash và chọn giáp
+- **Milestone / task:** UI Hub / màn chơi — owner gửi 3 ảnh tham chiếu: mỗi lần vào màn có phần mục tiêu chiến đấu, đạt mỗi mục tiêu thưởng thêm vàng; chọn giáp giữ logic cũ nhưng đổi giao diện: đang chọn = lưới giáp sở hữu + 3 vị trí nhân vật đứng idle; chọn xong = splash 3 nhân vật, chạm để chọn lại.
+- **Trạng thái:** TESTED (đã chụp 3 màn; owner chưa xem trong Godot)
+- **File tạo/sửa:**
+  - Mục tiêu: `scripts/world/battle_objectives.gd` (mới), `scripts/world/stage_controller.gd` (đếm đòn / sát thương chịu / số lần gục, chấm khi thắng, cộng vàng, lưu mục tiêu đã đạt), `scripts/ui/result_screen.gd` (dòng mục tiêu + vàng thưởng, khung kết quả lớn hơn), `data/stages/stage_01.json` (`desc_key`, `recommended_level`, 3 mục tiêu).
+  - Màn mới: `scripts/ui/stage_info_screen.gd` + `scenes/main/stage_info_screen.tscn`, `scripts/ui/party_prep_screen.gd` + `scenes/main/party_prep_screen.tscn`, `scripts/ui/party_select_screen.gd` + `scenes/main/party_select_screen.tscn`, `scripts/ui/character_art.gd` (chân dung / splash / frame idle, cắt phần trên splash).
+  - Nối luồng: `scripts/core/game_config.gd` (`SCENE_STAGE_INFO`, `SCENE_PARTY_PREP`, `SCENE_PARTY_SELECT`, `prep_launch_stage`), `scripts/ui/sortie_screen.gd` (Cốt truyện → Thông tin màn; Đội hình → màn Đội hình), `scripts/progression/player_profile.gd` (`toggle_party` + mã lý do, dùng chung với `HubBattlePanel`).
+  - Bố cục / chữ: `data/ui/hub_screens_layout.json` (mục `stage_info`, `party_prep`, `party_select`, màu nguyên tố), `localization/vi.po`, `en.po` (30 khóa).
+  - Test: `tests/unit/world/test_battle_objectives.gd`, `tests/unit/ui/test_party_screens.gd` (mới), `tests/unit/world/test_stage_controller.gd` (vàng có thưởng mục tiêu), `tests/unit/ui/test_hub_home.gd` (đích mới của thẻ Xuất kích), `tests/smoke/m8_playthrough_check.gd` (vàng = 1200 + thưởng mục tiêu).
+  - Tài liệu: `docs/design/HUB_FEATURES.md` (mục "Vào màn").
+- **Đã chạy:** `--import`, chụp 3 màn bằng script SceneTree, `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`
+- **Kết quả thật:** lần đầu test khói m8 lỗi 2 bước (vàng cố định 1200, chưa tính thưởng mục tiêu) → sửa thành 1200 + thưởng (lần chạy đạt cả 3 mục tiêu, +1000). Lần cuối GdUnit4 554 test, 0 lỗi; 5 test khói ĐẠT; mã thoát 0.
+- **Quyết định Claude chọn:** mục tiêu Màn 1: qua màn trong 5:00 (+300), chịu ≤ 25 đòn (+300), không ai gục (+400); thưởng vàng **mỗi lần** đạt (theo lời owner), ghi thêm "Đã đạt" khi từng đạt; đòn 0 sát thương không tính; Thông tin màn chỉ cho Cốt truyện, Thử đội hình vẫn vào thẳng; màn Đội hình mở từ thẻ Đội hình có nút Xác nhận thay cho Khai chiến; bảng Chiến đấu cũ ở sảnh giữ lại (dùng chung `toggle_party`) cho test khói và đường dự phòng; không làm thể lực, buff đội, skill đội trưởng (game chưa có).
+- **Hạn chế đã biết:** chưa có ảnh xem trước màn (hiện icon); chỉ Enkiba có splash, Kazeyumi dùng chân dung chibi, Raikiba dùng frame idle; nhân vật chưa có frame idle hiện chân dung; chưa thử chạm trên máy thật.
+
+## 2026-11-14 — Đề xuất cốt truyện tổng thể và kịch bản Chương 1
+- **Milestone / task:** Nội dung (ngoài lộ trình M) — owner yêu cầu đề xuất cốt truyện, story bible, tuyến 7 chương và kịch bản đầy đủ Chương 1 (clip chibi mở / kết chương, thoại trong trận) khớp gameplay hiện có.
+- **Trạng thái:** IMPLEMENTED (tài liệu đề xuất; chưa phải canon, chờ owner duyệt các mục ở E3)
+- **File tạo/sửa:** `docs/design/STORY_PROPOSAL.md` (mới), `docs/DEVELOPMENT_LOG.md`.
+- **Đã chạy:** chỉ đọc tài liệu và data (`README.md`, `CHARACTER_SKILLS.md`, `KNOWN_ISSUES.md`, `HUB_FEATURES.md`, `data/stages/stage_01.json`, `data/enemies/boss_golem_01.tres`, `data/characters/*.tres`, `localization/vi.po`, `scripts/save/save_schema.gd`). Không đổi code, không chạy test (không có thay đổi code).
+- **Kết quả thật:** kịch bản Chương 1 bám đúng Màn 1 hiện có (3 đợt slime, 3 checkpoint, hố, Golem Đá Cổ 2 pha, mục tiêu 5:00 / 25 đòn / không gục) và đội khởi đầu Enkiba, Raikiba, Kazeyumi. Không đổi kỹ năng, phản ứng, số liệu hay luật boss.
+- **Quyết định Claude chọn:** 7 chương + phần kết (đề xuất); luật "kênh Neo" giải thích một người trên sân, Liên kết và phản ứng; checkpoint gọi là "điểm neo"; clip phát lần đầu bấm Chương 1, trước Thông tin màn; thoại trong trận không dừng trận, chỉ hiện câu của người có trong đội; xưng hô trung tính vì giới tính / tuổi nhân vật chưa chốt.
+- **Phát hiện lệch tài liệu (chưa sửa):** KNOWN_ISSUES B2 / B3 lỗi thời so với nhật ký (cả sáu nhân vật đã đủ kỹ năng); KNOWN_ISSUES A2 còn ghi đề cử Aether (đã đổi sang Iwagane); AGENTS 6 còn tên Kael; lượt x10 miễn phí chắc chắn Raikiba trùng với đội khởi đầu.
+- **Hạn chế đã biết:** chưa có trình phát clip, băng thoại trong trận, cờ cốt truyện trong save, chữ mục tiêu theo màn (liệt kê ở STORY_PROPOSAL D10); chưa có art chibi đủ biểu cảm, nền và đạo cụ của clip.
+
+
+## 2026-11-14 — Raikiba: duyệt frame `attack_1`
+- **Milestone / task:** Tạo và duyệt animation `attack_1` cho `char_lightning_01` (4 frame, 18 fps, không lặp).
+- **Trạng thái:** TESTED
+- **File tạo/sửa:** `assets/characters/char_lightning_01/frames/attack_1/` (4 PNG + import metadata); `assets/characters/char_lightning_01/frames_manifest.json`; `docs/ASSET_LICENSES.md` mục 2.1; `docs/DEVELOPMENT_LOG.md`.
+- **Đã chạy:** `python -I tools/frames/approve_frames.py char_lightning_01 attack_1`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`.
+- **Kết quả thật:** Owner duyệt `attack_1`; approve thành công với 4 frame, 18 fps. GdUnit4: 554 test, 0 lỗi; 5 test khói ĐẠT; mã thoát 0.
+- **Quyết định Codex chọn:** giữ nguyên hai frame impact liền nhau (001–002) để thể hiện nhịp giữ pose trúng đòn theo phiếu.
+- **Hạn chế đã biết:** Phiên bản model chính xác của imagegen không được công cụ công bố; ghi rõ điều này trong metadata và giấy phép.
+
+## 2026-11-14 — Site quản lý asset PROJECT ECLIPSE (ngoài roadmap game)
+
+- **Milestone / task:** Công cụ Sites độc lập để quản lý, audit và theo dõi asset theo project, scene, style, phiên bản và trạng thái.
+- **Trạng thái:** TESTED (build và publish thành công; chủ sở hữu cần đăng nhập để xem nội dung riêng tư).
+- **File tạo/sửa:** `sites/asset-atlas/` (source Site độc lập); `.openai/hosting.json` của Site khai báo D1 `DB` và R2 `BUCKET`.
+- **Đã chạy:** Sites project setup; cài dependency lockfile; `npm run db:generate`; `npx tsc --noEmit`; `RAYON_NUM_THREADS=2 node <Sites>/scripts/build-site.mjs`; đồng bộ source và publish qua Sites.
+- **Kết quả thật:** TypeScript thoát mã 0; build thoát mã 0; deployment phiên bản 2 thành công tại `https://eclipse-asset-atelier.jollykelp8.chatgpt.site`.
+- **Quyết định Codex chọn:** Tách Site thành repository riêng dưới `sites/asset-atlas/` để không đưa các thay đổi đang có của game vào Site; giữ Site chỉ chủ sở hữu.
+- **Hạn chế đã biết:** Chưa có file gốc cho các nhóm mascot, loading, background, UI steampunk và chibi nên thư viện hiển thị preview minh họa có nhãn; upload file và thao tác D1/R2 chưa được thử trên Site đã đăng nhập. Chưa chạy test game vì không sửa source game.
+
+## 2026-11-14 — Người mới: chỉ có Enkiba, thưởng ải 1-1, vé x10 đầu tiên, hướng dẫn khóa màn
+- **Milestone / task:** Tiến trình người mới + hướng dẫn (owner 2026-11-14): đội khởi đầu chỉ Enkiba; Kazeyumi nhận free khi qua ải 1-1 của chương cốt truyện 1; ải 1-1 cho vé quay x10 miễn phí đầu tiên (owner chọn: lượt x10 có sẵn, chắc chắn Raikiba); hướng dẫn từ đầu game tới chỗ dùng vé, sáng nút cần bấm, khóa mọi chỗ khác.
+- **Trạng thái:** TESTED (đã chụp 7 bước bằng `tools/screenshot_tutorial.gd`; owner chưa chơi thử trong Godot)
+- **File tạo/sửa:**
+  - Save v6: `scripts/save/save_schema.gd` (`STARTER_CHARACTERS = ["char_fire_01"]`, mục `tutorial.done`, migration 5→6 coi save cũ là đã xong hướng dẫn).
+  - Thưởng 1-1: `data/stages/stage_01.json` (`code` "1-1", `chapter` 1; `first_clear_rewards` thêm `characters: [char_wind_01]` và `ticket_starter_x10` ×1), `data/items/ticket_starter_x10.tres` (mới), `PlayerProfile.grant` nhận `characters` (mở khóa + vào đội nếu còn chỗ), `PlayerProfile.join_party_if_room`.
+  - Vé x10: `BannerDef.ticket_item`, `data/tutorial/starter_pull.tres` + `tools/gen_banner_data.py` (`STARTER_TICKET`); `GachaService.starter_available` cần vé, `pull_starter` trừ vé, Raikiba vào đội nếu còn chỗ, lý do mới `REASON_NO_TICKET`.
+  - Màn: `recruit_screen.gd` (banner miễn phí ở đầu danh sách khi có vé, nút `Wish_starter`, nhãn "Chắc chắn!", ghi chú và bảng Chi tiết riêng, biến mất sau khi dùng), `result_screen.gd` (dòng "Nhân vật mới", tên nút `RetryButton` / `HubButton`), `stage_info_screen.gd` (`title_of` "1-1 · tên", ô rơi Nhân vật, ô rơi tự thu nhỏ cho vừa khung), `sortie_screen.gd`, `party_prep_screen.gd` (tên "1-1 · ...").
+  - Hướng dẫn: `scripts/ui/tutorial_flow.gd` (luật bước, suy từ save), `scripts/ui/tutorial_guide.gd` (autoload `TutorialGuide` trong `project.godot`), `tools/screenshot_tutorial.gd`.
+  - Chữ: 19 khóa mới trong `localization/vi.po`, `en.po` (`TUTORIAL_*`, `ITEM_TICKET_STARTER_X10`, `RESULT_NEW_CHARACTER`, `RECRUIT_UI_SURE/STARTER_*`, `RECRUIT_STARTER_RULE`, `RECRUIT_UI_NOTE_STARTER`, `REASON_NO_TICKET`).
+  - Test: `tests/unit/ui/test_tutorial.gd` (mới, 14), `tests/unit/support/test_team.gd` (dữ liệu đội 3 người cũ cho test viết trước), sửa `test_equip_and_starter_banner`, `test_captain_promotion_skills`, `test_progression_inventory`, `test_hub_home`, `test_hub_panels`, `test_party_screens`, `test_stage_controller`; smoke `m1_flow_check` (đặt `tutorial.done`), `m8_playthrough_check` (đi trọn luồng mới: chỉ Enkiba → qua 1-1 → Kazeyumi + vé → hướng dẫn bấm Về Hub → Tiếp tế → Đi chiêu mộ → x10 miễn phí → Xác nhận → xong).
+  - Tài liệu: `AGENTS.md` (autoload, quyết định người mới), `docs/ARCHITECTURE.md`, `docs/design/HUB_FEATURES.md` (mục Hướng dẫn người mới), `docs/KNOWN_ISSUES.md` A2.
+- **Đã chạy:** `--import`; `<godot> --path . -s tools/screenshot_tutorial.gd`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1` (nhiều lần); m8 riêng 3 lần.
+- **Kết quả thật:** lần cuối GdUnit4 568 test, 0 lỗi; 5 test khói ĐẠT; mã thoát 0. Các lần trước: 1 lỗi kiểu (StringName → Variant) ở `stage_info_screen.gd`; 8 test cũ giả định đội 3 người có sẵn → dùng `TestTeam.three()`; `test_raikiba_weapon_blocks_normal_800ms` lỗi 1 lần khi chạy cả bộ, chạy riêng đạt 23/23 và các lần sau đạt (chập chờn theo khung hình, không liên quan thay đổi này); m8 bước "hướng dẫn xong" lỗi 1 lần vì chỉ chờ 3 khung vật lý → đổi thành chờ tối đa 60 khung xử lý, chạy 3 lần đạt. Ảnh chụp: nút Chiêu mộ miễn phí bị tràn chữ, "Chắc chắn!" bị cắt, ghi chú banner sai nội dung, hàng ô rơi tràn khỏi màn → đã sửa, chụp lại đạt.
+- **Quyết định Claude chọn:** bước hướng dẫn suy từ save (không lưu số bước) nên thoát giữa chừng vẫn đúng chỗ; trong trận không khóa, thua chỉ cho Chơi lại; lạc sang màn khác thì chỉ nút Menu; Enter / A bấm đúng nút được chỉ, phím khác và Back bị chặn; không tìm thấy nút của bước thì không khóa (tránh kẹt khi đổi bố cục); nhân vật nhận qua thưởng hoặc lượt x10 miễn phí tự vào đội nếu còn chỗ; save cũ coi như xong hướng dẫn và giữ đội cũ; vé là vật phẩm (hiện trong Túi đồ); banner miễn phí bỏ nút ×1.
+- **Hạn chế đã biết:** ô sáng là hình chữ nhật bao nút (ô lục giác bình hành chỉ nhận bấm theo hình); chưa có nút bỏ qua hướng dẫn; hướng dẫn không giải thích cách đổi người trong trận (chỉ có chữ STAGE_HINT sẵn có); chưa thử chạm trên máy cảm ứng thật. Commit `3989c2a` (do agent khác tạo khi đang làm) đã gồm phần lớn thay đổi ở trạng thái trước các sửa lỗi cuối; commit này bổ sung phần còn lại.
+
+## 2026-11-14 — Hướng dẫn người mới: hội thoại với trợ lý AI NEO
+- **Milestone / task:** Hướng dẫn người mới (owner 2026-11-14): thay dòng gợi ý thô bằng hội thoại thân thiện kiểu phim viễn tưởng giữa trợ lý AI và Quản lý (người chơi), từng bước một ở lần đầu.
+- **Trạng thái:** TESTED (đã chụp 9 cảnh trò chuyện / chỉ dẫn bằng `tools/screenshot_tutorial.gd`; owner chưa chơi thử trong Godot)
+- **File tạo/sửa:** `scripts/ui/tutorial_guide.gd` (viết lại: chế độ trò chuyện che cả màn + khung hội thoại, chế độ chỉ dẫn chừa ô sáng; lõi AI vẽ bằng code `AiCore`; chữ hiện dần; nút đáp của Quản lý; "Bỏ qua thoại"; mũi tên đặt phía còn chỗ), `scripts/ui/tutorial_flow.gd` (`id` bước, `dialogue()`, `lines_for`, `has_seen`, `mark_seen`), `scripts/save/save_schema.gd` (`tutorial.seen`, không đổi VERSION; sanitize tự thêm), `data/tutorial/tutorial_dialogue.json` (mới: 10 bước, 17 câu NEO + 17 câu đáp), `localization/vi.po` + `en.po` (41 khóa mới, viết lại 11 câu chỉ dẫn theo giọng NEO), `tests/unit/ui/test_tutorial.gd` (+2 test, sửa 2), `tools/screenshot_tutorial.gd` (chụp cả cảnh trò chuyện và chỉ dẫn), `docs/design/HUB_FEATURES.md`.
+- **Đã chạy:** `--import`; `--check-only` hai script; GdUnit riêng `test_tutorial.gd`; `<godot> --path . -s tools/screenshot_tutorial.gd` (3 lần); `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`.
+- **Kết quả thật:** lần đầu `test_tutorial` lỗi 1 (khung đặt theo chế độ chỉ dẫn ở frame đầu vì cờ đang hiện chưa bật) → sửa; ảnh chụp cho thấy ảnh chỉ dẫn chụp khi chữ còn đang gõ (sửa công cụ) và mũi tên lọt khỏi màn khi nút ở sát đáy (sửa: nút ở nửa dưới thì mũi tên ở trên). Lần cuối GdUnit4 570 test, 0 lỗi; 5 test khói ĐẠT; mã thoát 0.
+- **Quyết định Claude chọn:** trợ lý tên **NEO** (theo đề xuất cốt truyện, chưa canon; đổi bằng khóa `TUTORIAL_AI_NAME`), danh xưng "Trợ lý AI của Trạm"; mỗi câu NEO có đúng một câu đáp của Quản lý (một nhánh, không lựa chọn); đoạn trò chuyện mỗi bước chỉ phát một lần, lần sau chỉ còn câu chỉ dẫn; chạm bất kỳ đâu cũng sang câu; tốc độ chữ 48 ký tự/giây; màu giao diện AI xanh lơ #5CE1FF, ô sáng giữ vàng; thêm mẹo né đòn golem (bước Khai chiến) và mẹo đổi người khi chân dung dự bị phát sáng (bước cuối).
+- **Hạn chế đã biết:** chưa có art chân dung NEO (lõi vẽ bằng code) và chưa có âm thanh gõ chữ / giọng; kịch bản sửa trong `.po`, thêm câu mới phải thêm cả khóa trong JSON và hai file `.po`; chưa thử chạm trên máy cảm ứng thật.
+
+## 2026-11-14 — Cốt truyện: owner xác nhận các lựa chọn
+- **Milestone / task:** Nội dung — owner trả lời các mục E3 của `docs/design/STORY_PROPOSAL.md` qua bảng lựa chọn trong hội thoại.
+- **Trạng thái:** IMPLEMENTED (tài liệu; chưa có code mới)
+- **File tạo/sửa:** `docs/design/STORY_PROPOSAL.md` (bảng "Quyết định owner" ở đầu; B4 quan hệ Enkiba – Raikiba; quy ước clip NEO; thoại clip mở Chương 1 nhịp 5–6; mục mới D4b gợi ý chiêu trong trận; ghi chú E3).
+- **Đã chạy:** không (chỉ tài liệu).
+- **Kết quả thật:** owner chốt: tiền đề Mặt Trời Khuyết / Vùng Thực giữ nguyên; NEO là AI trong thiết bị Neo (gộp với trợ lý hướng dẫn); kẻ thù là người cầm Neo 00; 7 chương nhưng kết mở để mở khóa nhân vật / giáp mới; chốt tính cách; Enkiba nam 16–19, Kazeyumi nữ 16–19, Raikiba nam 16–19, Hikarine nữ 16–19, Yomigari nam 20+, Iwagane nam 20+; xưng hô "tớ – cậu" cùng lứa, "anh – em" với người lớn hơn; Enkiba và Raikiba cùng một lò luyện; PROJECT ECLIPSE là tên chính thức; clip mở chương phát trước Thông tin màn; giữ cảnh nhá "???"; đổi chữ checkpoint thành "Đã cắm điểm neo"; NEO nói trong trận và thêm gợi ý cách dùng chiêu.
+- **Quyết định Claude chọn:** tên tạm "Lò Nanh" cho lò luyện chung; kết mở Chương 7 bằng các "vết khuyết" nhỏ còn lại ở vùng xa; 7 câu gợi ý chiêu SK01–SK07 (mỗi câu một lần mỗi save).
+- **Hạn chế đã biết:** chưa làm code cho: trình phát clip chibi, băng thoại NEO trong trận, gợi ý chiêu, chữ "Đã cắm điểm neo" (STORY_PROPOSAL D10, D4b).
+
+## 2026-11-14 — Thoại trong trận: NEO / nhân vật nói theo sự kiện, gợi ý chiêu, "Đã cắm điểm neo"
+- **Milestone / task:** Nội dung — owner chốt (STORY_PROPOSAL "Quyết định owner" 11, 12): NEO nói trong trận, thêm gợi ý cách dùng chiêu, đổi chữ checkpoint thành điểm neo.
+- **Trạng thái:** TESTED (đã chụp 2 cảnh trong Màn 1 bằng `tools/screenshot_bark.gd`; owner chưa chơi thử)
+- **File tạo/sửa:** `scripts/ui/neo_bark.gd` (mới, `NeoBark`: băng 1 dòng góc trên-trái, chân dung NEO hoặc nhân vật, hàng chờ, không dừng trận), `scripts/ui/ai_core.gd` (mới, `AiCore` tách từ `tutorial_guide.gd` để dùng chung), `scripts/ui/stage_hud.gd` (tạo và gắn NeoBark), `data/tutorial/battle_barks.json` (mới: 11 câu cốt truyện Chương 1 + 8 gợi ý chiêu), `localization/vi.po` + `en.po` (32 khóa mới; `STAGE_CHECKPOINT` = "Đã cắm điểm neo" / "Anchor point set"), `tests/unit/ui/test_neo_bark.gd` (mới, 7), `tools/screenshot_bark.gd` (mới).
+- **Đã chạy:** `--import`; `--check-only`; GdUnit riêng `test_neo_bark.gd` + `test_tutorial.gd` (23/23); `<godot> --path . -s tools/screenshot_bark.gd`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`.
+- **Kết quả thật:** GdUnit4 577 test, 0 lỗi; 5 test khói ĐẠT; mã thoát 0. Ảnh: câu NEO lúc vào màn và câu của Kazeyumi (chân dung từ ô dự bị) ở đợt 1 hiện đúng; lần đầu băng thoại đè lớp chữ debug (chỉ bản debug) → dời xuống y = 380.
+- **Quyết định Claude chọn:** mỗi câu một lần mỗi save (`tutorial.seen` "bark:<id>"); câu của nhân vật không có trong đội do NEO nói câu thay (`neo_text`); gợi ý chiêu theo điều kiện thật: EN / hồi chiêu sẵn sàng (cùng logic nút cảm ứng), lần đầu bị trúng đòn → né hoàn hảo, sau đợt 1 → giữ phím đánh, SC kẻ địch ≥ 70% → sắp Choáng, chân dung dự bị sáng → đổi người, lần đầu phản ứng → khen; phím ghi theo InputMap ("phím U"), thiết bị cảm ứng ghi "nút Kĩ năng"; hiện 3 s + 0,04 s/ký tự; sóng Địa chấn cao 90 px nên câu "nhảy lên để tránh" đúng với hitbox.
+- **Hạn chế đã biết:** chưa có âm thanh khi băng thoại hiện; gợi ý đã đánh dấu ngay khi vào hàng chờ, nếu thoát màn trước khi hiện thì không hiện lại; vị trí băng thoại chưa thử trên máy cảm ứng thật.
+
+## 2026-11-14 — Duyệt frame Raikiba còn lại (24 animation)
+- **Milestone / task:** Owner duyệt toàn bộ 24 animation còn lại cho char_lightning_01; chạy quy trình duyệt ảnh AI.
+- **Trạng thái:** BLOCKED (đã duyệt và chép frame vào assets, nhưng chưa commit do bộ test chưa đạt mã thoát 0).
+- **File tạo/sửa:** 24 thư mục animation trong assets/characters/char_lightning_01/frames/; assets/characters/char_lightning_01/frames_manifest.json; docs/ASSET_LICENSES.md. Metadata trong art_review/char_lightning_01/ được đánh dấu đã duyệt.
+- **Đã chạy:** python -I tools/frames/check_frames.py char_lightning_01 <animation> cho 24 animation; python -I tools/frames/approve_frames.py char_lightning_01 <animation> cho 24 animation; powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1.
+- **Kết quả thật:** Tất cả 24 kiểm tra frame báo ĐẠT; skill_1 có cảnh báo chân frame 001 lệch tâm x 52 px. Approve hoàn tất mã thoát 0 cho cả 24. Bộ test: GdUnit4 575 test, 0 lỗi, 1 thất bại; 5 smoke test đều ĐẠT; lệnh trả mã thoát 1. Thất bại test_sortie_cards (tests/unit/ui/test_hub_home.gd:229): mong res://scenes/main/stage_info_screen.tscn, nhận res://scenes/main/stage_infory_screenlip.tscn, liên quan thay đổi UI/story đang có sẵn trong workspace. Vì vậy chưa commit.
+- **Quyết định Codex chọn:** Giữ nguyên các sửa đổi UI/story ngoài phạm vi và không đưa chúng vào commit frame.
+- **Hạn chế đã biết:** Cần xử lý hoặc tách biệt lỗi test_sortie_cards, chạy lại tools\run_tests.ps1 đạt mã thoát 0 rồi mới commit các file frame đã duyệt.
+
+## 2026-11-14 — Clip dẫn truyện dạng truyện tranh (Chương 1 mở / kết), placeholder có diễn biến, prompt ChatGPT
+- **Milestone / task:** Nội dung — owner chọn clip dạng truyện tranh: ảnh tĩnh, mỗi trang 1–4 ô (vuông, thang, tam giác) hiện dần, hết trang thì xóa; nút Tự động / Bỏ qua / Lịch sử / Ẩn; clip kết phát sau màn kết quả; prompt ChatGPT + placeholder đánh số đúng kích thước để chỉnh bằng Photoshop; mỗi ô có placeholder mô tả diễn biến.
+- **Trạng thái:** TESTED (đã chụp 6 cảnh bằng `tools/screenshot_story.gd`; owner chưa xem trong Godot)
+- **File tạo/sửa:** `scripts/ui/story_clip.gd` + `scenes/main/story_clip.tscn` (mới, `StoryClip` + `PanelView` cắt ảnh theo đa giác, viền kiểu manga), `tools/story/gen_story_clips.py` (mới: kịch bản 2 clip, 7 bố cục trang, sinh data / chữ / placeholder / prompt), `data/story/ch01_open.json`, `ch01_end.json`, `assets/placeholders/story/placeholder_ch01_{open,end}_NN.png` (29 ảnh), `docs/prompts/story/CH01_PANELS.md`, `tools/screenshot_story.gd`, `scripts/core/game_config.gd` (`SCENE_STORY_CLIP`, `story_clip_id`, `story_clip_next`), `scripts/core/scene_router.gd` (`swap`: đổi scene giữ lịch sử), `scripts/ui/sortie_screen.gd` (lần đầu → clip mở rồi Thông tin màn), `scripts/ui/result_screen.gd` (thắng lần đầu → clip kết rồi sảnh), `scripts/ui/stage_info_screen.gd` (nút Xem lại mở đầu, `stage_data_of`), `scripts/ui/neo_bark.gd` (chân dung dự phòng), `data/stages/stage_01.json` (`open_clip`, `end_clip`), `localization/*.po` (59 khóa), `docs/design/STORY_PROPOSAL.md` (quyết định 13–16), `docs/ASSET_LICENSES.md` (mục 3.2), test `tests/unit/ui/test_story_clip.gd` (mới, 10), `tests/smoke/m8_playthrough_check.gd` (qua clip kết), `tests/unit/ui/test_hub_home.gd` (Cốt truyện lần đầu → clip).
+- **Đã chạy:** `python -X utf8 -I tools/story/gen_story_clips.py`; `--import`; GdUnit riêng `test_story_clip.gd` (10/10), `test_hub_home.gd` (11/11); smoke m8; `<godot> --path . -s tools/screenshot_story.gd` (mở, kết); `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`.
+- **Kết quả thật:** lượt chạy toàn bộ: 585 test, 1 lỗi (`test_sortie_cards` còn chờ vào thẳng Thông tin màn) → sửa test, chạy lại riêng file đó 11/11; 5 test khói ĐẠT. Ảnh chụp lần đầu: ô không hiện sau khi sang trang (tween làm mờ trang cũ đè độ trong suốt) → dừng tween khi mở trang mới; số trên placeholder đánh liên tục giữa hai clip → đánh theo tên file; chữ chạm mép ô tam giác → thu vùng chữ cả ở mép ảnh.
+- **Quyết định Claude chọn:** vùng truyện y 40–800 ở khung 1920×1080, hộp thoại bên dưới; 7 bố cục trang (A–G); ô hiện trượt + mờ 0,35 s, xóa trang 0,3 s; chữ 45 ký tự/giây; Tự động chờ 1,4 s + 0,03 s/ký tự; Esc / Back hỏi Bỏ qua; clip xem rồi ghi `tutorial.seen` "clip:<id>"; placeholder đúng khung bao của ô (1×), prompt khuyên làm 2×; tỉ lệ nhân vật trong truyện tranh là anime chuẩn (như splash), không chibi; chân dung trong hộp thoại: ảnh chân dung, chưa có thì frame idle; tên tiếng Anh tạm cho địa danh (Hollow Zone, Fang Forge, Coalhearth Village).
+- **Hạn chế đã biết:** chưa có ảnh thật (29 ô) — bản Release loại `placeholder_*` nên game sẽ tự vẽ ô xám kèm diễn biến; bộ sinh placeholder mất ~2 phút (bộ lọc thu vùng chữ); chưa có âm thanh / nhạc cho clip.
+
+## 2026-11-14 — Chọn chương (nhóm chương + thẻ) và map chương kéo ngang, 137 ải, quà khiêu chiến theo phần
+- **Milestone / task:** Nội dung / UI — owner gửi 3 ảnh tham chiếu: màn chọn chương (cột trái nhóm chương, thẻ chương có % tiến độ) và map chương (tranh dài kéo ngang, nút ải lục giác, huy chương, dấu truyện, quà khiêu chiến). Owner chốt: mỗi chương 10–30 ải, part 10–15 ải, chương sau ≥ chương trước (Ch.1 10 · 12 · 15 · 20 · 24 · 26 · 30); ải chưa có màn chơi khóa "Sắp ra mắt"; Chương 1 cũng dùng map; quà theo huy chương, đủ 100% nhận một lần.
+- **Trạng thái:** TESTED (đã chụp 4 cảnh bằng `tools/screenshot_chapters.gd` và 3 bước hướng dẫn mới; owner chưa thử kéo map bằng tay)
+- **File tạo/sửa:** `tools/story/gen_chapters.py` (mới: nhóm / chương / phần / ải, vị trí nút, sinh data + chữ + placeholder + prompt), `data/story/chapters.json`, `assets/placeholders/story/placeholder_{map,card}_chNN.png` (14 ảnh), `docs/prompts/story/CHAPTER_ART.md`, `scripts/progression/chapter_book.gd` (mới, `ChapterBook`: trạng thái ải, huy chương, % chương / nhóm / phần, nhận quà phần), `scripts/ui/chapter_select_screen.gd` + `scenes/main/chapter_select_screen.tscn`, `scripts/ui/chapter_map_screen.gd` + `scenes/main/chapter_map_screen.tscn` (mới), `scripts/core/game_config.gd` (`SCENE_CHAPTERS`, `SCENE_CHAPTER_MAP`, `selected_chapter`, `selected_part`), `scripts/ui/sortie_screen.gd` (Cốt truyện chính → Chọn chương), `scripts/save/save_schema.gd` (`progress.parts_claimed`), `scripts/ui/tutorial_flow.gd` + `data/tutorial/tutorial_dialogue.json` (bước thẻ Chương 1, ải 1-1 trên map, thoại NEO), `localization/*.po` (51 khóa), `tools/screenshot_chapters.gd`, `tools/screenshot_tutorial.gd`, `docs/design/STORY_PROPOSAL.md` (quyết định 17–20), `docs/design/HUB_FEATURES.md`, `docs/ASSET_LICENSES.md` (mục 3.3); test `tests/unit/progression/test_chapter_book.gd` (4), `tests/unit/ui/test_chapter_screens.gd` (5), sửa `test_story_clip`, `test_tutorial`, `test_hub_home`.
+- **Đã chạy:** `python -X utf8 -I tools/story/gen_chapters.py`; `--import`; `--check-only`; GdUnit 5 file liên quan (46/46); `<godot> --path . -s tools/screenshot_chapters.gd`, `tools/screenshot_tutorial.gd`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`.
+- **Kết quả thật:** GdUnit4 596 test, 0 lỗi; 5 test khói ĐẠT; mã thoát 0. Ảnh chụp lần đầu: tên nhóm dài xuống dòng đè dòng "Chương 5~6" → co chữ một dòng; tên phần đè nhãn ải → hạ hàng nút; nhãn placeholder đè dòng vị trí → dời lên; mặt trời bị cắn quá nhiều (giống trăng) → vết cắn nhỏ lại.
+- **Quyết định Claude chọn:** tên 4 nhóm chương và 11 tên phần theo tuyến truyện đã chốt (đổi trong `gen_chapters.py`); nhóm chỉ có một chương nhiều phần (Ch.7) thì mỗi phần một thẻ; mọi chương mở xem được map; ải mở khi ải trước (toàn tuyến) đã qua; nút đi zíc zắc 5 hàng, cách 280 px, giữa hai phần 360 px đặt rương; dấu truyện ở ải 1-1 và ải cuối mỗi chương; ải cuối mỗi phần là BOSS; kéo có ngưỡng 14 px (kéo thì không tính bấm), quán tính, lăn chuột; mở map cuộn tới ải đang tới (hoặc phần được chọn); clip mở chương chuyển từ Xuất kích sang lúc bấm ải trên map.
+- **Hạn chế đã biết:** mới 1 / 137 ải có màn chơi; chưa có "Map thế giới" và thể lực như ảnh tham chiếu (game chưa có); ảnh map / thẻ / hình nút ải là tạm; chưa thử kéo trên màn cảm ứng thật.
+
+## 2026-11-14 — Công cụ: Asset Atlas (site quản lý, duyệt asset)
+- **Milestone / task:** Công cụ ngoài game — owner yêu cầu site quản lý, audit, theo dõi asset theo dự án / scene / style / trạng thái.
+- **Trạng thái:** IMPLEMENTED (site đã publish và nạp dữ liệu; owner đã bấm Duyệt trên site, chưa thử tải phiên bản lên)
+- **File tạo/sửa:** `tools/asset_atlas/` (mới): `site/asset_atlas.html` (mã nguồn trang), `scan_assets.py` (quét repo → preview + JSON), `make_batches.py` (chia lô ghi, gộp với dữ liệu site), `README.md`, `.gdignore`.
+- **Đã chạy:** `python -X utf8 tools/asset_atlas/scan_assets.py`; `python -X utf8 tools/asset_atlas/make_batches.py --db build/asset_atlas/db --versions build/asset_atlas/versions.json` (chạy thử gộp, chưa ghi lên site); `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1` hai lần.
+- **Kết quả thật:** site <https://claude.ai/artifact/7R1eRJDKYHj1PbH5mz5RSS> có 181 asset, 109 ảnh preview. Quét lại từ repo: 181 asset (83 đã duyệt, 75 chưa làm, 20 đang làm, 3 chờ duyệt), 113 preview, 15,1 MB. Gộp thử: giữ 20 lượt Duyệt Raikiba owner bấm trên site, chuyển 4 animation Raikiba mới có frame sang Đã duyệt, 62 lệnh ghi. Test lần 1: 585 test, 1 thất bại `test_sortie_cards` (do thay đổi UI chưa commit của agent khác, không liên quan); lần 2: 596 test, 0 lỗi, 5 test khói ĐẠT, mã thoát 0.
+- **Quyết định Claude chọn:** dựng thành artifact claude.ai (owner chọn) thay vì khung `sites/asset-atlas`; mỗi animation một asset (preview dải frame 192 px); trạng thái Chưa làm / Đang làm / Chờ duyệt / Cần chỉnh / Đã duyệt; icon vẽ code đánh dấu placeholder; nền sảnh tạm (ảnh bên thứ ba) không đưa ảnh lên site; khi đồng bộ, repo thắng về ảnh/spec, site thắng về brief, yêu cầu, checklist, lịch sử.
+- **Hạn chế đã biết:** site chưa đồng bộ với 24 animation Raikiba duyệt sau lần nạp (cần chạy README bước 1–5); "Quay lại phiên bản" chỉ ghi quyết định, không sửa file repo; ảnh tải lên từ site không tự về repo.
+
+## 2026-11-14 — Thiết kế trang bị 5★ (vũ khí, vết thánh, banner 5★): quyết định của owner
+- **Milestone / task:** Thiết kế — owner đưa bản đề xuất vũ khí 5★ và vết thánh 5★, yêu cầu đọc, nhận xét và hỏi các mục chờ xác nhận.
+- **Trạng thái:** IMPLEMENTED (chỉ tài liệu, chưa có code)
+- **File tạo/sửa:** `docs/design/EQUIPMENT_5STAR.md` (mới), `README.md` (OD-5), `docs/OWNER_ASSET_CHECKLIST.md` (A2: banner 5★; mục A: phân giải trang bị), `docs/ASSET_LICENSES.md` (mục 5: nguồn cảm hứng 6 bộ vết thánh), `docs/DEVELOPMENT_LOG.md`.
+- **Owner quyết định (chi tiết ở EQUIPMENT_5STAR mục 5):**
+  - 5.1: vũ khí khóa theo loại vũ khí của nhân vật, vết thánh đeo chéo. 5.2: **không sửa CHARACTER_SKILLS**; quy tắc "Kĩ năng vũ khí thuộc về nhân vật, vũ khí 5★ nâng cấp nó" nằm ở EQUIPMENT_5STAR và được ưu tiên. 5.3: hiệu ứng chung của vũ khí cũng khóa hệ (`requires_element`). 5.4: nhận các trần ở mục 3.4 với 3 chỉnh (khiên hồi thừa 12% / Khiên Đá 25%, sàn CD 50% CD sau khi vũ khí giảm, trần ×2.0 chỉ tính "tất cả ST" + "ST nguyên tố").
+  - Q1 hiệu ứng độc quyền so theo giáp (Data ID), không theo `person_id`. Q2 bonus skill_2 của Enkiba vẫn cần 5 Nhiệt, chỉ tiêu 3. Q3 nhiều nguồn "A → B" cộng dồn phần tăng. Q4 hiệu ứng trùng: giữ ở vũ khí, thay ở bộ (Raikiba: lan Dấu Sét; Yomigari: lan Nguyền). Q5 rút CD chỉ ở hiệu ứng độc quyền, không dưới sàn CD. Q6 Cộng hưởng nguyên tố +15% là ngoại lệ cỡ số. Q7 banner 5★ riêng (mục 5.6). Q8 hiệu ứng % cố định, không tăng theo cường hóa. Q9 bộ 4★ có hiệu ứng bộ bản nhỏ (chỉ phần chung). Q10 bộ Nobel → Antoine Lavoisier, Tesla → Benjamin Franklin.
+- **Đã chạy:** không chạy test (chỉ sửa tài liệu, không đổi code / data).
+- **Kết quả thật:** không áp dụng.
+- **Quyết định Claude chọn:** chữ hiển thị trong tài liệu đổi sang tên mới (Enkiba…) và ô Đầu / Thân / Chân; ID dữ liệu trong tài liệu (`wpn_*`, `set_*`, `art_*`) là tạm, khi cài đặt sẽ theo quy ước đang có (`eq_weapon_*`, `eq_stigma_{top,mid,bot}_*`, thư mục `data/equipment/` phẳng); commit chỉ phần tài liệu này, không gồm thay đổi chưa commit của agent khác trong cùng file.
+- **Hạn chế đã biết:** chưa có code: hiệu ứng chung / độc quyền (`owner_id`), `requires_element`, hiệu ứng bộ 2 / 3 món (cả 4★, số bộ 4★ chưa đặt), chặn trần tập trung (`StatResolver`), banner 5★, test GdUnit4 cho 16 dòng ở mục 3.4. Q11 (phân giải trang bị) chưa thiết kế. Tỉ lệ banner 5★ đã có, chưa sinh data bằng `tools/gen_banner_data.py`.
+
+## 2026-11-15 — Trang bị 5★: hệ hiệu ứng, trần, dữ liệu 24 món + 8 bộ, banner 5★
+- **Milestone / task:** Trang bị — cài đặt theo `docs/design/EQUIPMENT_5STAR.md` (owner yêu cầu "Bắt đầu" sau khi chốt mục 5).
+- **Trạng thái:** TESTED (owner chưa thử trong Godot)
+- **File tạo/sửa:** mới `scripts/progression/equip_effect.gd` (`EquipEffect`), `stigma_set_def.gd`, `equipment_rules.gd`, `equipment_resolver.gd` (`EquipmentResolver`, `Loadout`), `data/config/equipment_rules.tres`, `tools/gen_equipment_5star.py`, `data/equipment/` 6 vũ khí + 18 vết thánh 5★, `data/equipment/sets/` 8 bộ, `data/banners/banner_star5_earth.tres`, test `tests/unit/progression/test_equipment_effects.gd` (20), `tests/unit/gacha/test_star5_banner.gd` (7). Sửa `equipment_def.gd` (owner_id, set_id, effects), `inventory.gd` (equipped_defs, loadout_of, owns_def), `progression.gd` (HP % / DEF % / chí mạng), `player_profile.gd` (loadout_of), `party_manager.gd` + `stage_controller.gd` + `test_stage.gd` (loadout_provider, buff toàn đội), `player_controller.gd` (bản sao SkillDef / cấu hình kit, sàn CD, tốc độ), `combatant.gd` (sát thương trang bị, giảm ST nhận, hồi máu, hút máu, trạng thái khi Kĩ năng vũ khí trúng), `status_controller.gd` (thời gian / độ mạnh cộng từ người gây), `cooldown_controller.gd` (set_floor), `dark_kit.gd` (trần hút máu), `gacha_tier_def.gd` + `gacha_service.gd` + `banner_def.gd` (tỉ lệ theo món, bỏ món đã có tới khi đủ bộ), `tools/gen_banner_data.py`, `tools/gen_item_data.py` (set_id bộ 4★), vết thánh 4★ blaze / bedrock (set_id), `localization/*.po` (36 khóa), `docs/design/EQUIPMENT_5STAR.md` (mục 6), test sửa số lượng: `test_progression_inventory.gd` (40 món), `test_gacha_service.gd` + `test_recruit_screen.gd` (3 banner).
+- **Đã chạy:** `python -X utf8 -I tools/gen_equipment_5star.py`; `python -X utf8 -I tools/gen_banner_data.py`; `<godot> --headless --path . --import`; GdUnit riêng `test_equipment_effects.gd` (20/20), `tests/unit/gacha` (24, sau sửa đạt), `test_recruit_screen.gd` (15/15); `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`.
+- **Kết quả thật:** lượt toàn bộ: 611 test, 1 thất bại (`test_shipped_banners_listed_in_order` còn chờ 2 banner) → sửa thành 3 banner, chạy lại file đó 15/15; 5 test khói ĐẠT. Banner nhân vật / tiếp tế sinh lại không đổi byte nào.
+- **Quyết định Claude chọn:** ID theo quy ước `eq_weapon_*` / `eq_stigma_{top,mid,bot}_*` / `set_*` (bảng ở EQUIPMENT_5STAR 6.1); chỉ số cộng thẳng đồ 5★ ≈ 1.3 × 4★ (vũ khí ATK 200–235); bộ 4★: blaze (+5% ST Hỏa / +4% lên mục tiêu Cháy), bedrock (+5% ST Địa / giảm 3% ST nhận); trần ×2.0 áp cho tổng % sát thương từ trang bị (công thức cộng trong nhóm bonus); sàn CD chỉ áp cho Kĩ năng vũ khí; trạng thái tốc độ vẫn lấy mức cao nhất như cũ, trần +60% áp khi có trang bị; banner 5★ pity_group `banner_star5_earth_r1` (kỳ chạy lại đổi hậu tố để pity về 0); bậc 5★ được tính là "4★ trở lên" cho bảo đảm 10 lượt.
+- **Hạn chế đã biết:** 46 / 154 dòng hiệu ứng là PENDING (buff theo sự kiện, đổi cơ chế kit, vùng) — làm ở bước kế tiếp; màn Trang bị chưa hiện mô tả hiệu ứng; chưa có ảnh đồ 5★; banner 5★ chưa có ảnh (dùng placeholder theo quy ước).
+
+## 2026-11-15 — Trang bị 5★: cài hết hiệu ứng theo sự kiện, tham số kỹ năng lồng, Khiên Đá
+- **Milestone / task:** Trang bị — owner "Tiếp tục cài các hiệu ứng còn chờ" (46 dòng PENDING sau bước 1); owner 2026-11-15: "Khiên Đá là Giáp Địa".
+- **Trạng thái:** TESTED (owner chưa thử trong Godot)
+- **File tạo/sửa:** mới `scripts/combat/equip_triggers.gd` (`EquipTriggers`), `tests/unit/progression/test_equipment_triggers.gd` (11), `data/statuses/eqb_*.tres` (22 buff trang bị). Sửa `equip_effect.gd` (Kind.TRIGGER, sự kiện / hành động, `lifesteal_curse`, `self_status_dur_pct`), `equipment_resolver.gd` (đường dẫn lồng `a.b`, `x[0]`, `x@id`; VS_TARGET toàn đội; damage_bonus gồm buff trang bị), `equipment_rules.gd` + `.tres` (heal_low_ratio, hp_threshold_buffer, spread_radius_px, trần Khiên Đá 25%), `status_def.gd` (`equipment`, `vs_status`, `def_up`), `status_controller.gd` (equipment_damage_up, remove_stacks, incoming_duration_scale), `combatant.gd` (buff trang bị chịu trần ×2.0, def_up, hút máu lên mục tiêu Nguyền), `player_controller.gd` (gắn EquipTriggers, tick cả khi dự bị), `fire_kit*` (heat_full_consume), `wind_kit*` (zone_ally_damage), `tools/gen_equipment_5star.py` + data trang bị, `localization/*.po` (tên 22 buff; kèm 4 khóa màn Chiêu mộ của bước sau), `docs/design/EQUIPMENT_5STAR.md` (mục 6), test sửa: `test_equipment_effects.gd` (0 dòng PENDING), `test_combat_data.gd` (buff eqb_* tách khỏi danh sách trạng thái gốc).
+- **Đã chạy:** `python -X utf8 -I tools/gen_equipment_5star.py`; `<godot> --headless --path . --import`; GdUnit riêng `test_equipment_triggers.gd` (11/11), `tests/unit/progression` + `tests/unit/combat`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1` (nhiều lượt).
+- **Kết quả thật:** Lượt toàn bộ 2026-11-15 (trước Khiên Đá): 617 test, 1 thất bại do đổi data giữa lúc chạy; lượt kế: GdUnit4 634/634, 5 test khói ĐẠT, mã thoát 0. Lượt cuối (gồm cả màn Chiêu mộ): GdUnit4 636/636; test khói m1_flow_check 1 lỗi "Battle -> Màn thử nghiệm" (chập chờn: chạy riêng lại 3 lần đều 0 lỗi), 4 test khói còn lại ĐẠT.
+- **Quyết định Claude chọn:** trạng thái buff riêng cho mỗi hiệu ứng (REFRESH, không cộng dồn); buff liên tục làm mới 0.3 s; ngưỡng HP 50% bật khi < 50%, tắt khi > 55%; "hồi cho đồng đội dưới 50%" tính cả tự hồi; vũ khí Raikiba: dòng chung +1 Dấu Sét và độc quyền +1 cộng theo Q3; vũ khí Hikarine "đồng đội trong vùng" áp cho cả đội khi dùng Kĩ năng vũ khí; bão Kazeyumi +2 s = vùng bão + buff Gió Bão; tốc độ từ buff vẫn lấy mức cao nhất; lan trạng thái tìm kẻ địch gần nhất trong 600 px; Khiên Đá = khiên 20% HP của Kĩ năng thường Iwagane → 25%, trần 25%. Chi tiết EQUIPMENT_5STAR 6.4.
+- **Hạn chế đã biết:** chưa có mô tả hiệu ứng trên màn Trang bị / Nhân vật; buff trang bị chưa hiện icon trên HUD; chưa cân bằng bằng chơi thử.
+
+## 2026-11-15 — Chiêu mộ: thẻ kết quả dọc theo độ hiếm, splash nhân vật, hiện lần lượt 10–15 s
+- **Milestone / task:** UI Chiêu mộ — owner gửi ảnh gợi ý: thẻ dọc, placeholder rỗng + vật phẩm dạng placeholder; nhân vật S / vũ khí 5★ viền vàng, vũ khí 4★ / nhân vật A viền tím, còn lại xanh dương; nhân vật có splash thì dùng splash, không thì placeholder / chibi; sau đó: "các ảnh đi dần từ trái qua, tổng 10–15 s cho x10".
+- **Trạng thái:** TESTED (đã chụp 7 cảnh bằng `tools/screenshot_recruit.gd`; owner chưa xem trong Godot)
+- **File tạo/sửa:** `scripts/ui/recruit_screen.gd` (`_build_results` mới, `result_order`, `result_art`, `result_stars`, hiệu ứng `reveal_time` / `skip_reveal`), `data/ui/recruit_screen_layout.json` (thẻ 168×620, khoảng 14, nhịp hiện thẻ), `tools/gen_recruit_card_placeholders.py` (mới), `assets/placeholders/placeholder_recruit_card.png` + `placeholder_recruit_icon_{weapon,stigma,material,gold}.png`, `docs/ASSET_LICENSES.md` (mục 3.1), `tools/screenshot_recruit.gd` (cảnh 6 kết quả trộn, 7 đang hiện), `localization/*.po` (RECRUIT_NEW, RECRUIT_FRAGMENTS, RECRUIT_UI_SKIP — đi cùng commit trước), test `tests/unit/ui/test_recruit_screen.gd` (+2).
+- **Đã chạy:** `python -X utf8 -I tools/gen_recruit_card_placeholders.py`; GdUnit `test_recruit_screen.gd` (17/17); `<godot> --path . -s tools/screenshot_recruit.gd` (7 ảnh); `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`.
+- **Kết quả thật:** GdUnit test_recruit_screen.gd 17/17; lượt toàn bộ (gồm màn này): GdUnit4 636/636; test khói m1_flow_check 1 lỗi chập chờn "Battle -> Màn thử nghiệm" (chạy riêng lại 3 lần đều 0 lỗi), 4 test khói còn lại ĐẠT; 7 ảnh chụp build/screenshots/recruit_*.png.
+- **Quyết định Claude chọn:** một hàng thẻ, xếp theo số sao rồi nhân vật → trang bị → vật phẩm → vàng; vật phẩm 1–2★ cũng viền xanh dương; viền + quầng sáng + dải màu phía trên theo độ hiếm; splash cắt phần trên cho thấy mặt, không có splash thì chibi, không có gì thì hình người xám + tên; nhân vật mới có nhãn "Mới", trùng hiện "+N mảnh"; hiện thẻ cách 1.2 s, mờ + trượt 90 px trong 0.6 s (×10 ≈ 11.4 s, chỉnh trong layout); Bỏ qua (nút hoặc chạm màn hình) hiện hết; Xác nhận đóng ngay cả khi đang hiện (để bước hướng dẫn người mới vẫn bấm một lần); nền kết quả tối 94% che màn dưới. Thẻ và icon tạm vẽ bằng code, thiết kế riêng (không chép khung của game trong ảnh tham chiếu).
+- **Hạn chế đã biết:** chưa có âm thanh / hiệu ứng ánh sáng khi ra 5★; chỉ Enkiba có splash; bản Release không có placeholder nên thẻ vẽ màu nền + hình người.
+
+## 2026-11-15 — Chiêu mộ: hiện thẻ nhanh ×1.5; ánh sáng, âm thanh, rung, hạt lấp lánh khi ra 5★
+- **Milestone / task:** UI Chiêu mộ — owner: "thêm hiệu ứng ánh sáng khi ra 5★ và tăng tốc độ hiện banner lên gấp 1,5 lần", rồi "thêm âm thanh", "thêm hiệu ứng rung màn hình", "thêm hiệu ứng hạt lấp lánh" khi ra 5★.
+- **Trạng thái:** TESTED (ảnh chụp `build/screenshots/recruit_7_results_revealing.png`; owner chưa xem / nghe trong Godot)
+- **File tạo/sửa:** `scripts/ui/recruit_screen.gd` (`_apply_fx`, `_make_fx_back`, `_make_fx_sparkles`, `_make_fx_flash`, `shake_offset`, phát âm `gacha_5star`), `data/ui/recruit_screen_layout.json` (nhịp 0.8 / 0.4 s, rung 14 px / 0.45 s), `scripts/core/audio_router.gd` (SFX chưa có file thì dùng `assets/placeholders/placeholder_{id}.wav`), `data/config/audio_events.json` (`gacha_5star` → `sfx_gacha_5star`), `tools/gen_placeholder_sfx.py` (mới) → `assets/placeholders/placeholder_sfx_gacha_5star.wav`, `docs/OWNER_ASSET_CHECKLIST.md` (D1: sfx_gacha_5star), `docs/ASSET_LICENSES.md` (mục 3.1), `tools/screenshot_recruit.gd` (cảnh 7: thẻ 5★ vừa hiện), test `tests/unit/ui/test_recruit_screen.gd` (+1, sửa nhịp).
+- **Đã chạy:** `python -X utf8 -I tools/gen_placeholder_sfx.py`; `<godot> --headless --path . --import`; GdUnit `test_recruit_screen.gd` (18/18); `<godot> --path . -s tools/screenshot_recruit.gd`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`.
+- **Kết quả thật:** GdUnit test_recruit_screen.gd 18/18; lượt toàn bộ: GdUnit4 637/637, 5 test khói ĐẠT, mã thoát 0; ảnh build/screenshots/recruit_7_results_revealing.png đã xem (chớp sáng, quầng, cột sáng, hạt quanh thẻ).
+- **Quyết định Claude chọn:** nhanh ×1.5 = khoảng 1.2 → 0.8 s, hiện 0.6 → 0.4 s (×10 ≈ 7.6 s, dưới mức 10–15 s ban đầu — theo yêu cầu mới); ánh sáng 5★: chớp trắng 0.45 s, quầng vàng phóng 1.45× rồi thu, cột sáng dọc bùng rồi giữ nhẹ, sau đó nhấp nháy chậm; rung chỉ hàng thẻ (nền đứng yên), 14 px giảm tuyến tính trong 0.45 s; hạt: 60 hạt bung một lần + 16 hạt trôi lên, `CPUParticles2D` (chạy được máy yếu / điện thoại), đi theo thẻ; âm thanh tạm: chuông C6–E6–G6–C7 + lấp lánh + vang, tổng hợp bằng code (không dùng file ngoài), bản Release im lặng tới khi owner giao `sfx_gacha_5star`; mỗi thẻ 5★ phát một lần, Bỏ qua nhiều thẻ cùng lúc chỉ một tiếng (AudioRouter chặn trùng 40 ms), dựng lại màn không phát / bung lại.
+- **Hạn chế đã biết:** chưa có tùy chọn tắt rung / giảm hiệu ứng trong Cài đặt; âm thanh là placeholder; thẻ 4★ chưa có hiệu ứng riêng.
+
+## 2026-11-15 — Chiêu mộ: S / 5★ còn 0,15%, tiếp tế bỏ pity, giá 200 / 1800; bố cục banner mới theo 2 ảnh gợi ý
+- **Milestone / task:** Gacha + UI Chiêu mộ — owner gửi 2 ảnh gợi ý (banner trang bị, banner nhân vật): (1) S và trang bị 5★ giảm còn 0,15%; (2) banner tiếp tế 4★ bỏ pity, giá 200 / 1800; (3) banner trang bị theo ảnh 1, banner 5★ có dãy icon đã có / chưa có (chưa có phủ tối); (4) banner nhân vật theo ảnh 2; ảnh tạm lưu lên Asset Atlas. Owner trả lời câu hỏi: 0,15% là **mỗi món**; tiếp tế bỏ **cả** pity cứng 60 và bảo đảm 10 lượt; ảnh 2 áp cho **banner nhân vật**.
+- **Trạng thái:** TESTED (ảnh chụp `build/screenshots/recruit_1/2/8_*.png`; owner chưa xem trong Godot)
+- **File tạo/sửa:** `tools/gen_banner_data.py` (CHAR S 0.0015, 5★ mỗi món 0.0015, tiếp tế không pity / bảo đảm, giá theo banner) → `data/banners/*.tres`; `scripts/ui/recruit_screen.gd` (bố cục mới: `_build`, `_build_list` thẻ chữ, `_build_banner` + `_callout` + `_build_icon_row`, `_build_bottom` nút tròn + nút vàng, `pity_text` "Còn N lượt…", `fragment_text`, `icon_items`, `banner_layout`, `tab_text`), `data/ui/recruit_screen_layout.json`, `localization/*.po` (8 khóa), `tools/gen_recruit_placeholders.py` (ảnh banner 1590×1080) → `assets/ui/recruit/placeholder_banner_star5_earth_{banner,thumb}.png`, `tools/asset_atlas/scan_assets.py` (banner 5★, thẻ kết quả, 4 icon tạm; spec banner 1590×1080), `tools/screenshot_recruit.gd` (cảnh 8 banner 5★), `docs/OWNER_ASSET_CHECKLIST.md` (A2), `docs/design/EQUIPMENT_5STAR.md` (5.6), `docs/ASSET_LICENSES.md` (3.1); test `tests/unit/gacha/test_equip_and_starter_banner.gd`, `test_owner_banner.gd`, `test_star5_banner.gd`, `tests/unit/ui/test_recruit_screen.gd` (viết lại 2 test màn chính, +1 test icon đã có / chưa có).
+- **Đã chạy:** `python -X utf8 -I tools/gen_banner_data.py`; `python -X utf8 -I tools/gen_recruit_placeholders.py`; `<godot> --headless --path . --import`; GdUnit `tests/unit/gacha` + `test_recruit_screen.gd`; `<godot> --path . -s tools/screenshot_recruit.gd`; `python -X utf8 tools/asset_atlas/scan_assets.py`; Artifact publish (Asset Atlas, 119 ảnh xem trước); ArtifactData list + `make_batches.py --db` + 2 lô batch; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`.
+- **Kết quả thật:** GdUnit tests/unit/gacha + test_recruit_screen.gd đạt; lượt toàn bộ: GdUnit4 638/638, 4 test khói ĐẠT, m1_flow_check 1 lỗi "Battle -> Màn thử nghiệm" (màn nạp 3.4 s > giới hạn 3 s do frame Raikiba chưa commit của agent khác; với manifest đã commit 2.6 s) → nới giới hạn bước này lên 8 s, chạy lại m1_flow_check 2 lần đều 0 lỗi. Asset Atlas: 6 mục mới (banner 5★, thẻ kết quả, 4 icon), 62 mục cập nhật (68 lệnh ghi, 2 lô commit nguyên khối), 188 / 25 000 tài liệu; banner nhân vật / tiếp tế thêm yêu cầu r2 "ảnh 1590×1080".
+- **Quyết định Claude chọn:** bố cục và hình làm theo kiểu riêng của dự án (chỉ lấy cách sắp xếp từ ảnh gợi ý, không chép hình / khung); danh sách bên trái là thẻ chữ (nhãn loại banner); ảnh banner phủ x 330 → 1920, hai mép làm tối nhẹ; chú thích món đề cử có chấm + đường kẻ + nhãn UP + sao; cột phải: "Còn N lượt chắc chắn có …" (ẩn khi banner không có pity), dãy icon (banner trang bị), thời gian, nút Túi quà (chưa có chức năng); banner nhân vật thêm dòng mảnh còn thiếu để lên S1 (chưa sở hữu thì nhắc ra trùng nhận mảnh); nút tròn: nhân vật có Chơi thử / Cửa hàng (chưa có chức năng) + Chi tiết + Lịch sử, trang bị có Chi tiết + Lịch sử; ô bảo đảm 10 lượt nằm trên nút ×10; banner 5★ giữ giá 280 / 2520 và pity 4★ 60 + bảo đảm (owner chỉ đổi banner tiếp tế 4★); ảnh banner cũ 1301×839 giữ nguyên (không ghi đè), yêu cầu kích thước mới ghi trên Asset Atlas.
+- **Hạn chế đã biết:** ảnh banner / icon đều là placeholder; nhãn chữ in sẵn trong ảnh placeholder đè lên vùng tiền tệ (mất khi có ảnh thật); Chơi thử / Cửa hàng / Túi quà chưa có chức năng.
+
+## 2026-11-15 — Màn 1-2 "Làng Lò Than" (màn không boss), Slime tro lớn, nền ảnh theo data màn
+- **Milestone / task:** Nội dung cốt truyện — owner "Làm cho mình màn 1-2 kèm prompt tạo ảnh nếu có".
+- **Trạng thái:** TESTED (ảnh chụp `build/screenshots/stage_01_02_wave2.png`; owner chưa chơi thử trong Godot)
+- **File tạo/sửa:** mới `tools/stages/stage_gen.py` (hàm chung sinh màn), `tools/stages/gen_stage_01_02.py`, `data/stages/stage_01_02.json`, `data/enemies/enemy_slime_02.tres`, `tests/unit/world/test_stage_01_02.gd` (7), `tools/screenshot_stage_01_02.gd`, `docs/prompts/stages/STAGE_01_02_BACKGROUND.md`. Sửa `scripts/world/stage_controller.gd` (`goal_col`: màn không boss qua khi hạ hết đợt rồi tới cột đích; `backdrop`; quái `enemy_slime_02`), `scripts/world/parallax_backdrop.gd` (`use_images`: ảnh nền nhiều lớp theo data, thiếu ảnh thì giữ nền tạm), `scripts/ui/sortie_screen.gd` (`STORY_STAGES` thêm 1-2), `tools/story/gen_chapters.py` → `data/story/chapters.json` (ải 1-2 = `stage_01_02`), `data/tutorial/battle_barks.json` (7 câu `ch01_2_*`), `localization/vi.po`, `en.po` (14 khóa), test `test_chapter_book.gd`, `test_chapter_screens.gd`, `test_hub_panels.gd` (1-2 không còn "Sắp ra mắt").
+- **Đã chạy:** `python -X utf8 -I tools/stages/gen_stage_01_02.py`; `python -X utf8 -I tools/story/gen_chapters.py`; `<godot> --headless --path . --import`; GdUnit riêng `tests/unit/world` + 4 file UI / progression; `<godot> --path . -s tools/screenshot_stage_01_02.gd`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`.
+- **Kết quả thật:** lần chạy riêng đầu: 1 lỗi (so float 0.2 chính xác tuyệt đối) → đổi sang `is_equal_approx`, chạy lại 30/30. Lượt toàn bộ: GdUnit4 644/644, 5 test khói ĐẠT, mã thoát 0. Ảnh chụp: đợt 2 có Slime tro lớn (nâu xám) cạnh slime xanh, băng thoại Kazeyumi hiện đúng. Sau khi chuyển `gen_stage_01_02.py` sang dùng `stage_gen.py`, chạy lại: 5 file dữ liệu giống hệt từng byte (md5).
+- **Quyết định Claude chọn:** truyện 1-2 đặt **sau** khi Lò Mẹ cháy lại (vì 1-1 hiện chứa boss golem và clip kết chương): Cặn tro sót trôi xuống làng Lò Than, giữ cổng làng; màn không boss (3 đợt, đợt cuối 2 Slime tro lớn) theo README 15.7 (2–3 đợt); qua màn bằng `goal_col` (chỉ bật khi data có khóa này, `test_stage` không đổi); Slime tro lớn HP 15000 / ATK 520 / DEF 360 / SC 600, cắn báo hiệu 0.7 s, 140% ATK, chậm 110; thưởng 1300 vàng / 450 EXP người chơi / 650 EXP, lần đầu 100 ngọc; mục tiêu 240 s / ≤ 20 đòn / không gục; ảnh nền 3 lớp 3840×2160 lặp ngang, co về cao 1080, đáy ở mặt đất + 120 px.
+- **Hạn chế đã biết:** Slime tro lớn chỉ khác màu (hình placeholder cùng cỡ slime thường); chưa có ảnh nền thật (prompt ở `docs/prompts/stages/STAGE_01_02_BACKGROUND.md`); thứ tự truyện Chương 1 cần owner xem lại: boss golem + clip kết chương đang ở 1-1 trong khi map chương đặt boss ở 1-10.
+
+## 2026-11-15 — Màn 1-3 "Hầm Than Ngầm" (hầm có trần, ổ Cặn)
+- **Milestone / task:** Nội dung cốt truyện — owner "Làm tiếp màn 1-3".
+- **Trạng thái:** TESTED (ảnh chụp `build/screenshots/stage_01_03_wave2.png`; owner chưa chơi thử trong Godot)
+- **File tạo/sửa:** mới `tools/stages/gen_stage_01_03.py`, `data/stages/stage_01_03.json`, `tests/unit/world/test_stage_01_03.gd` (3), `docs/prompts/stages/STAGE_01_03_BACKGROUND.md`. Sửa `tools/stages/stage_gen.py` (trần hầm `ceiling`), `tools/story/gen_chapters.py` → `data/story/chapters.json` (ải 1-3 = `stage_01_03`), `scripts/ui/sortie_screen.gd`, `data/tutorial/battle_barks.json` (7 câu `ch01_3_*`), `localization/vi.po`, `en.po` (16 khóa), `tools/screenshot_stage_01_02.gd` (nhận id màn), test `test_chapter_book.gd`, `test_chapter_screens.gd` (ải "Sắp ra mắt" mẫu đổi sang 1-4), `test_hub_panels.gd`.
+- **Đã chạy:** `python -X utf8 -I tools/stages/gen_stage_01_03.py`; `python -X utf8 -I tools/story/gen_chapters.py`; `<godot> --headless --path . --import`; GdUnit riêng `tests/unit/world` + 4 file UI / progression; `<godot> --path . -s tools/screenshot_stage_01_02.gd -- stage_01_03`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`.
+- **Kết quả thật:** GdUnit riêng 59/59 đạt. Ảnh chụp lần 1 dính menu Tạm dừng (cửa sổ mất focus vì agent khác đang dùng máy) → chụp lại: trần hầm 3 hàng, 2 Slime tro lớn + 2 slime, thoại Enkiba ở điểm neo 1. Lượt toàn bộ: GdUnit4 647/647, 5 test khói ĐẠT, mã thoát 0.
+- **Quyết định Claude chọn:** truyện 1-3: tro rỉ lên từ hầm than cũ dưới làng, nơi mạch lửa ngầm chạy qua; trong hầm có dấu ba vòng đá giống lưng golem (nhắc lại manh mối Chương 1, không mở bí mật mới) → thủ vệ đã đào hầm; màn rộng 220 cột, trần 2–3 hàng, 4 hố (một hố 6 ô có platform), 3 đợt (3 / 4 / 5 quái, đợt cuối "ổ Cặn" 3 Slime tro lớn), qua màn ở cửa hầm (`goal_col` 214); đề nghị cấp 8; mục tiêu 270 s / ≤ 20 đòn / không gục; thưởng 1400 vàng / 500 EXP người chơi / 700 EXP, lần đầu 100 ngọc; nền hệ số trượt 0.1 / 0.25 / 0.55.
+- **Hạn chế đã biết:** chưa có ảnh nền thật (prompt ở `docs/prompts/stages/STAGE_01_03_BACKGROUND.md`); "ổ Cặn" chỉ là đợt quái, chưa có vật thể ổ để phá; chưa cân bằng bằng chơi thử.
+
+## 2026-11-15 — Màn 1-4 "Vách Lò Mẹ" + cốt truyện Chương 1 bản 2 (golem chỉ chặn đường, tay sai mã 00)
+- **Milestone / task:** Nội dung cốt truyện — owner "Làm tiếp màn 1-4", rồi owner đổi cốt truyện: "cuối ải 1-1 chỉ là thủ vệ golem tới để ngăn chặn, còn kẻ chủ mưu thực thụ là 1 tay sai của nhân vật quản lý dưới trướng của thủ lĩnh mã 00". Owner chọn (hỏi lại 3 câu): kẻ chủ mưu là **tay sai của một Quản lý** (ba tầng tay sai → Quản lý → 00); **Lò Mẹ cháy lại và clip kết chương dời sang cuối 1-10**; **boss 1-10 là tay sai trong bộ giáp của hắn**.
+- **Trạng thái:** TESTED (ảnh chụp `build/screenshots/stage_01_04_wave2.png`, `story_ch01_golem_{page1,page3,card}.png`; owner chưa xem trong Godot)
+- **File tạo/sửa:** màn 1-4: mới `tools/stages/gen_stage_01_04.py`, `data/stages/stage_01_04.json`, `tests/unit/world/test_stage_01_04.gd` (3), `docs/prompts/stages/STAGE_01_04_BACKGROUND.md`; `tools/story/gen_chapters.py` → `data/story/chapters.json` (1-4 = `stage_01_04`), `scripts/ui/sortie_screen.gd`, test `test_chapter_book.gd`, `test_chapter_screens.gd` (ải "Sắp ra mắt" mẫu đổi sang 1-5), `test_hub_panels.gd`. Cốt truyện bản 2: `tools/story/gen_story_clips.py` (clip mới `ch01_golem` 10 ô + thẻ; `ch01_end` viết lại cho cuối 1-10; clip mở chỉ đổi 3 câu thoại, tóm tắt, thẻ mục tiêu — ảnh không đổi; `CHAR_DESC["henchman"]`), sinh lại `data/story/ch01_{open,golem,end}.json`, `docs/prompts/story/CH01_PANELS.md`, placeholder `placeholder_ch01_golem_01..10.png` (mới) và 7 placeholder `ch01_end` đổi diễn biến; `data/stages/stage_01.json` (`end_clip` = `ch01_golem`); thoại / mô tả 1-2, 1-3, 1-4 viết lại (Lò Mẹ vẫn lạnh, truy dấu tay sai) trong `gen_stage_01_0{2,3,4}.py` → `battle_barks.json`, `vi.po`, `en.po`; `docs/prompts/stages/STAGE_01_0{2,3,4}_BACKGROUND.md` (Lò Mẹ lạnh, chưa có gió, ống / mạch lửa bị lấp); `docs/design/STORY_PROPOSAL.md` (quyết định owner hàng 21–24 + ghi chú D1/D5/D6 còn bản cũ); `docs/prompts/story/CODEX_CH01_PANELS.md` (39 ô, tay sai, trạng thái Lò Mẹ / gió, câu nhắn cho Codex đang chạy dở); test `test_story_clip.gd` (3 clip, kết 1-1 là `ch01_golem`), `tests/smoke/m8_playthrough_check.gd`.
+- **Đã chạy:** `python -X utf8 -I tools/stages/gen_stage_01_0{2,3,4}.py`; `python -X utf8 -I tools/story/gen_chapters.py`; `python -X utf8 -I tools/story/gen_story_clips.py` (3 phút 49 giây, 39 ô, 65 khóa chữ); `<godot> --headless --path . --import`; GdUnit riêng 5 file (19/19); `<godot> --path . -s tools/screenshot_stage_01_02.gd -- stage_01_04`; `<godot> --path . -s tools/screenshot_story.gd -- ch01_golem`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1` (2 lượt).
+- **Kết quả thật:** lượt toàn bộ thứ nhất (chạy trùng lúc đang sinh lại clip): 641 test, 1 thất bại `test_clip_data_valid_with_numbered_placeholders` vì placeholder `ch01_golem` chưa `--import`; 5 test khói ĐẠT. Lượt thứ hai sau `--import`: GdUnit4 650/650, 5 test khói ĐẠT, mã thoát 0. Ảnh chụp: 1-4 đợt 2 + thoại Raikiba; clip `ch01_golem` trang 3 (3 ô, thoại Enkiba "Vậy kẻ thật sự dập lửa vẫn còn trong thung lũng.") và thẻ "Ải 1-1 — Hoàn thành".
+- **Quyết định Claude chọn:** 1-4: đường vách ngoài trời 240 cột, 6 hố (4 có platform), 3 đợt (3 / 4 / 5 quái), `goal_col` 235, cấp 10, mục tiêu 300 s / ≤ 20 đòn / không gục, thưởng 1500 vàng / 550 / 750 EXP. Cốt truyện: tay sai chưa có tên, thoại hiện "???" (`unknown`); hình đề xuất giáp xám tro, mặt nạ đen trơn, áo choàng than, lưỡi móc đen; mảnh ấn trong golem ghi "nguồn lệnh 00" (giữ manh mối Chương 1); 1-2 dấu kênh lạ đi về làng, 1-3 mạch lửa bị lấp bằng đá mới, 1-4 ống thông khí bị lấp cố ý, dấu chân mới chạy lên cao; gió chỉ trở lại ở `ch01_end`; cảnh nhá cuối chương là Quản lý của tay sai ("Báo với 00"); thoại boss golem trong trận (BK10–BK14) giữ nguyên vì vẫn đúng.
+- **Hạn chế đã biết:** `ch01_end` chưa gắn vào màn nào (chờ 1-10); boss tay sai chưa có thiết kế / hình; mục D1, D5, D6 trong `STORY_PROPOSAL.md` còn mô tả bản cũ (có ghi chú trỏ sang kịch bản đúng); khóa chữ cũ của `ch01_end` không còn dùng vẫn nằm trong `.po`; Codex đang vẽ ô truyện theo bản 29 ô cũ — cần nhắn Codex đọc lại kịch bản (câu nhắn có trong `CODEX_CH01_PANELS.md`); 3 ô `ch01_open` Codex đã duyệt trước đó không còn trong `assets/story/` (không do Claude xóa).
+
+## 2026-11-15 — Màn 1-5 → 1-10, boss Kẻ Đeo Mặt Nạ, file tổng hợp prompt ảnh (ART_MASTER)
+- **Milestone / task:** Nội dung cốt truyện — owner "Viết tiếp cho mình từ ải 1-5 đến ải 1-10 kèm cốt truyện, prompt ảnh. Sau đó tạo lại thành 1 file tổng hợp để tạo ảnh game".
+- **Trạng thái:** TESTED (ảnh chụp `build/screenshots/stage_01_10_boss.png`; owner chưa chơi thử trong Godot)
+- **File tạo/sửa:** mới `tools/stages/gen_stages_01_05_10.py` (6 màn + boss + thoại + prompt nền), `data/stages/stage_01_05.json` … `stage_01_10.json`, `data/enemies/boss_henchman_01.tres`, `scenes/enemies/boss_henchman.tscn` (hình tạm dạng người: giáp xám, mặt nạ đen, đường nối cam, lưỡi móc), `docs/prompts/stages/STAGE_01_05…10_BACKGROUND.md` (sinh), `tools/stages/gen_stage_01_backdrop.py` → khóa `backdrop` trong `data/stages/stage_01.json` (chèn một dòng) + `STAGE_01_BACKGROUND.md`, `docs/prompts/characters/HENCHMAN_DESIGN.md`, `tools/prompts/build_art_master.py` → `docs/prompts/ART_MASTER.md`, `tests/unit/world/test_stages_01_05_10.gd` (5). Sửa `tools/stages/stage_gen.py` (`check_layout`, `build_stage`, `write_backdrop_doc`), `scripts/world/stage_controller.gd` (`boss_henchman_01`), `scripts/ui/sortie_screen.gd` (10 ải), `tools/story/gen_chapters.py` → `data/story/chapters.json` (1-5 → 1-10 có màn), `data/tutorial/battle_barks.json` (42 câu `ch01_5_*` … `ch01_10_*`), `localization/vi.po`, `en.po`, `tools/screenshot_stage_01_02.gd` (đối số `boss`), `docs/design/STORY_PROPOSAL.md` (ghi chú trỏ), test `test_chapter_book.gd`, `test_chapter_screens.gd` (ải "Sắp ra mắt" mẫu đổi sang 2-1), `test_hub_panels.gd`.
+- **Đã chạy:** `python -X utf8 -I tools/stages/gen_stages_01_05_10.py`; `python -X utf8 -I tools/stages/gen_stage_01_backdrop.py`; `python -X utf8 -I tools/story/gen_chapters.py`; `python -X utf8 -I tools/prompts/build_art_master.py`; `<godot> --headless --path . --import`; GdUnit riêng 5 file (28/28); `<godot> --path . -s tools/screenshot_stage_01_02.gd -- stage_01_10 boss`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`.
+- **Kết quả thật:** bộ sinh tự kiểm tra bố cục 6 màn (hố ngoài sân khóa, quái trong sân, đích / boss sau đợt cuối) không lỗi; GdUnit riêng 28/28 đạt; ảnh chụp: thanh máu + tên "Kẻ Đeo Mặt Nạ", thoại Enkiba lúc vào trận boss. `ART_MASTER.md`: 85 ảnh (39 ô truyện, 14 map/thẻ chương, 30 nền 1-1 → 1-10, 2 ảnh tay sai), 0 đã có, 2039 dòng. Lượt toàn bộ: GdUnit4 655/655, 5 test khói ĐẠT, mã thoát 0. Sau đó viết `docs/CH01_TODO.md` (việc cần làm + mô tả boss cuối, chỉ tài liệu).
+- **Quyết định Claude chọn:** truyện 1-5 Rừng Cây Chết (cọc ấn tín hiệu 00 gọi Cặn), 1-6 Cầu Đá Treo (hắn phá cầu thủ vệ), 1-7 Trạm Thủ Vệ Bỏ Hoang (hốc lõi thủ vệ bị tháo — lõi golem lấy từ đây), 1-8 Trại Mặt Nạ (cột kênh trắng-đen hút nhiệt; bản ghi "tắt lò đêm nhật thực" = đêm nay), 1-9 Đường Về Cửa Lò (đêm, nhật thực gần đầy), 1-10 Cửa Lò Mẹ (boss, clip `ch01_end`); không mở bí mật mới ngoài "có mạng kênh 00 cố ý dập lửa". Cấp đề nghị 12 / 14 / 16 / 18 / 20 / 22; thưởng tăng dần 1600 → 2400 vàng, 1-10 lần đầu 300 ngọc. Boss: HP 80000 / ATK 650 / DEF 420 / SC 1200, nhanh 170; pha 1 chém quét (600 ms) + lao móc 460 px (550 ms); pha 2 (≤ 50% HP) sóng tro hai phía 640 px (800 ms) + quét / lao nhanh (450 ms) — mọi báo hiệu ≥ 400 ms. Tên boss tạm "Kẻ Đeo Mặt Nạ" (chưa có tên thật). File tổng sinh tự động từ data (đánh dấu ảnh đã có), thứ tự làm 7 lô, tiêu đề tài liệu con hạ hai cấp.
+- **Hạn chế đã biết:** boss là hình tạm, chưa có animation; vẫn chỉ 2 loại quái thường; tên / thiết kế tay sai là đề xuất chờ owner; chưa cân bằng bằng chơi thử; nền 1-2 → 1-4 viết tay, 1-1 và 1-5 → 1-10 sinh tự động (cùng khuôn).
+
+## 2026-11-15 — Truyện Chương 1 bản 2: tranh Trang 1 `ch01_open`
+- **Milestone / task:** Tạo tranh thật cho ba ô đầu clip mở theo cốt truyện mới; owner duyệt Trang 1 trước khi chép vào game.
+- **Trạng thái:** VERIFIED (owner duyệt preview; import và toàn bộ test đạt).
+- **File tạo/sửa:** `assets/story/ch01/ch01_open_01.png`, `ch01_open_02.png`, `ch01_open_03.png` cùng metadata `.import`; `tools/story/fit_panel.py` (đọc kích thước 2× từ `CH01_PANELS.md`, tạo mask và ghép preview trang); `docs/ASSET_LICENSES.md` (ghi riêng từng ảnh mục 2.1). Preview/raw và `CONTINUITY.md` lưu trong `art_review/story/ch01/` (không vào git); concept cũ lưu tại `archive_29_panel_concept/`.
+- **Đã chạy:** `C:\Godot\4.6.3\Godot_v4.6.3-stable_win64_console.exe --headless --path . --import`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`.
+- **Kết quả thật:** Import mã thoát 0, đã nhận cả 3 ảnh; có cảnh báo UID trùng giữa `sites/asset-atlas/public/favicon.svg` và `sites/asset-atlas/dist/client/favicon.svg`. GdUnit4 655/655 đạt; 5 smoke test đạt; toàn bộ lệnh test mã thoát 0.
+- **Quyết định Codex chọn:** open_01 làm neo phong cách; open_02 giữ rõ hai dao Raikiba và vạch Vùng Rỗng; open_03 đóng khung trung cảnh để mặt trời giữ ngoài ảnh, tránh thay đổi vị trí tương đối; cửa Lò Mẹ luôn tối lạnh trong clip open.
+- **Hạn chế đã biết:** Chưa owner kiểm tra trực tiếp ảnh trong Godot; tiếp tục theo đúng thứ tự open → golem → end, mỗi trang dừng chờ duyệt.
+
+
+## 2026-11-15 — Iwagane: tờ bộ phận và trang điền tên (wireframe)
+
+- **Milestone / task:** art (rig bộ phận) — owner gửi tờ bộ phận cắt lớp của Iwagane (`char_earth_01`), yêu cầu wireframe + trang kiểm tra giống Enkiba
+- **Trạng thái:** IMPLEMENTED (chờ owner điền tên)
+- **File tạo/sửa:** `assets/characters/char_earth_01/rig_parts/source/char_earth_01_parts_sheet.jpg` (ảnh gốc PNG nền trắng), `char_earth_01_parts_boxes.json` (57 khung), `.gdignore`; trang artifact "Bảng tên bộ phận Iwagane" (https://claude.ai/artifact/4JaSmN82po5JechWRdE9rV, dựng từ trang Raikiba, lưu từng ô vào db `labels`, có gợi ý loại + tên cho cả 57 ô).
+- **Đã chạy:** tách vùng bằng OpenCV (mặt nạ không trắng, đóng 3 px, bỏ vùng < 400 px) → 59 vùng; Artifact publish; ArtifactData list `labels` (rỗng, đúng với trang mới).
+- **Kết quả thật:** 57 khung sau khi sửa tay: tách giáp vai / giáp ngực (14/15), tách 2 thanh kiếm (38/39), gộp các lọn tóc rời (13) và các chữ rune phát sáng (40).
+- **Quyết định Claude chọn:** dùng OpenCV vì máy không có scipy; gợi ý tên đặt theo nhìn ảnh, owner sửa trên trang.
+- **Hạn chế đã biết:** khung pose 54/55 đè nhau; khung váy 25 đè góc ủng 36. Chưa cắt bộ phận (chờ tên owner); `tools/sprite_parts/cut_parts.py` vẫn ghi cứng `char_fire_01`.
+
+
+## 2026-11-15 — Art: phiếu prompt Codex cho Iwagane
+
+- **Milestone / task:** art (frame nhân vật) — owner yêu cầu phiếu tạo chuyển động cho Iwagane theo prompt gốc "Chibi Anime SideScroll" và kỹ năng nhân vật
+- **Trạng thái:** IMPLEMENTED (chờ owner chạy Codex từng phiếu)
+- **File tạo/sửa:** `tools/frames/jobs/char_earth_01.json` (21 animation), `docs/prompts/codex_frames/char_earth_01/` (00_PHAN_TICH, README, 21 phiếu), `tools/sprite_parts/cut_refs.py` (cắt ảnh tham chiếu nền trong suốt từ tờ bộ phận), 13 ảnh `assets/characters/char_earth_01/rig_parts/source/refs/`, `char_earth_01_parts_labels.json` (tên owner điền: giữ nguyên 57 gợi ý), `frames_manifest.json` working_name = Iwagane.
+- **Đã chạy:** ArtifactData list `labels` (57 ô); `python -I tools/sprite_parts/cut_refs.py char_earth_01 ...` (13 ảnh); `python -X utf8 -I tools/frames/gen_prompts.py char_earth_01` → 21 phiếu.
+- **Kết quả thật:** số frame tính từ SkillDef: attack 6/6/8, dodge 5, hold_release 6, air_1 5, landing 6, skill_1 7, skill_2 10, switch_in 8, ultimate 19 (8 fps).
+- **Quyết định Claude chọn:** đại kiếm luôn trong tay gần, đòn nặng hai tay; đứng thì mũi kiếm chúc đất, chạy/nhảy vác vai; `hold_charge` cắm kiếm làm khiên (trạng thái `planted`); chữ rune là hoa văn không phát sáng; pose 52 khóa tỉ lệ chibi (ảnh toàn thân cao gần 4 đầu); bím tóc và sẹo ở bên phải là điểm soát khi lật.
+- **Hạn chế đã biết:** ultimate có 3 đợt sóng (delay 300/600 ms) nhưng phiếu chỉ đánh dấu frame của đợt đầu; ảnh tham chiếu 56, 57 có vệt chém / tia vàng (phiếu dặn không vẽ). Chưa có frame nào.
+
+
+## 2026-11-15 — Iwagane: nữ, lớn tuổi nhất nhóm, dáng cao
+
+- **Milestone / task:** cốt truyện + art — owner quyết định Iwagane là **nữ, lớn tuổi nhất nhóm, dáng cao** (thay cho "nam 20+" trong STORY_PROPOSAL; khớp tờ bộ phận owner gửi)
+- **Trạng thái:** IMPLEMENTED
+- **File tạo/sửa:** `docs/design/STORY_PROPOSAL.md` (mục 6: giới tính / tuổi, xưng hô "chị – em" với Iwagane, kể cả Yomigari); `tools/frames/jobs/char_earth_01.json` (mô tả: phụ nữ trưởng thành cuối hai mươi, cao nhất nhóm, ~3 đầu, mặt điềm tĩnh; `standing_height_px` 280 → 300); `docs/prompts/codex_frames/char_earth_01/00_PHAN_TICH.md`; 21 phiếu sinh lại.
+- **Đã chạy:** `python -X utf8 -I tools/frames/gen_prompts.py char_earth_01`; tìm mọi chỗ nhắc Iwagane trong docs / localization / data: không có lời thoại hay đại từ nào gọi Iwagane là nam.
+- **Quyết định Claude chọn:** "lớn tuổi nhất" = lớn hơn Yomigari (20+), ghi là cuối hai mươi trong prompt ảnh; "dáng cao" = ~3 đầu, 300 px khi đứng (các nhân vật khác 280 px).
+- **Hạn chế đã biết:** pose mẫu 52–57 trong tờ bộ phận vẫn tỉ lệ ~2.5 đầu, phiếu dặn Codex cho chân dài hơn mẫu; giơ kiếm qua đầu với chiều cao 300 px có thể chạm mép trên canvas 384 (check_frames.py sẽ báo).
+
+
+## 2026-11-15 — Raikiba: hình đao bay cho Song Lôi Phi Nhận
+
+- **Milestone / task:** VFX — owner yêu cầu thêm hai đao 33, 34 (tờ bộ phận Raikiba) vào hiệu ứng đòn ném
+- **Trạng thái:** TESTED
+- **File tạo/sửa:** `assets/characters/char_lightning_01/vfx/char_lightning_01_vfx_dagger_1.png`, `_dagger_2.png` (từ ảnh tham chiếu 33, 34, nền trong suốt, giữ ánh sét); `scripts/combat/hit_def.gd` (`projectile_spin_deg`); `scripts/combat/detached_hit.gd` (xoay hình đạn khi bay); `tools/skill_data_lib.py` (`thrown_dagger()`); `tools/gen_wind_lightning_skills.py` → `data/skills/char_lightning_01/weapon.tres`; `tests/unit/combat/test_kazeyumi_raikiba_skills.gd` (2 test mới, sửa test cũ "Raikiba không có hình đạn"); `docs/ASSET_LICENSES.md`.
+- **Đã chạy:** `python -X utf8 -I tools/gen_wind_lightning_skills.py` (chỉ weapon.tres đổi, +12 dòng); `<godot> --headless --path . --import`; `tools\run_tests.ps1`.
+- **Quyết định Claude chọn:** đao 33 bay chếch lên, đao 34 chếch xuống, cả lượt đi và lượt về; tỉ lệ 0.5 (~115 px, vừa vùng trúng 110×110); xoay 1080°/s (3 vòng/giây) cho giống đao ném vòng, cũng tránh cảnh đao bay giật lùi lúc quay về.
+- **Hạn chế đã biết:** đao bay đường thẳng (đi 400 ms, về 400 ms), chưa cong thành vòng cung; lúc chuyển từ lượt đi sang lượt về hình đao biến mất rồi hiện lại cùng chỗ (hai vùng riêng).
+
+## 2026-11-15 — Splash art 2D của Kazeyumi thay ảnh chibi ở màn Nhân vật
+- **Milestone / task:** art + M7-2 (màn Nhân vật) — owner đưa 5 splash art 2D (không chibi) của Kazeyumi, yêu cầu xóa nền, phóng to hợp lý, thay lần lượt vào: nhân vật, tăng cấp, vũ khí, vết thánh, kỹ năng (giống Enkiba 2026-11-13).
+- **Trạng thái:** TESTED
+- **File tạo/sửa:**
+  - `assets/characters/char_wind_01/splash/char_wind_01_splash_{overview,level,weapon,stigma,skill}.png` (PNG alpha, 700–963 px rộng, ~1490 px cao, bỏ ICC profile của webp).
+  - `tests/unit/ui/test_character_screen.gd`: thêm `test_kazeyumi_uses_splash_art_on_every_view`.
+  - `tools/screenshot_character.gd`: tham số tùy chọn `-- --id=<Data ID>` để chụp nhân vật khác Enkiba (ảnh ra `character_<id>_<n>_<tên>.png`).
+  - `docs/ASSET_LICENSES.md` mục 2.1 (5 dòng).
+- **Đã chạy:** `python -I tools/cut_splash.py` (5 ảnh, tham số mặc định); `<godot> --headless --path . --import`; `<godot> --path . -s tools/screenshot_character.gd -- --id=char_wind_01` (soát bằng mắt 5 màn); `tools\run_tests.ps1`.
+- **Kết quả thật:** 5 ảnh xóa nền 71–74 %, soát trên nền tối / đỏ không còn quầng trắng, áo trắng ngà và ủng còn nguyên. Lần import đầu ảnh stigma bị `valid=false` (không có .ctex); xóa ICC profile + import lại thì được. `run_tests.ps1`: GdUnit4 + 5 test khói đều ĐẠT, mã thoát 0.
+- **Quyết định Claude chọn:** thứ tự ảnh theo đúng thứ tự owner gửi (1 giương cung → tổng quan, 2 bật nhảy → tăng cấp, 3 cầm cung vén tóc → vũ khí, 4 lưng → vết thánh, 5 đưa tay → kỹ năng); không sửa code màn hình (cơ chế splash theo Data ID đã có), không thu nhỏ ảnh. Ảnh tổng quan còn tự dùng ở sảnh (nếu Kazeyumi đứng đầu đội), đội hình ra trận và thẻ chiêu mộ.
+- **Hạn chế đã biết:** dây cung rất mảnh nên sau khi xóa nền hơi đứt nét / mờ ở vài đoạn; ở màn tổng quan đầu cung chạm sát dòng tên giáp; công cụ tạo ảnh gốc chưa rõ (cần owner xác nhận để khai báo AI).
+
+## 2026-11-15 — Splash art 2D của Raikiba thay ảnh chibi / placeholder ở màn Nhân vật
+- **Milestone / task:** art + M7-2 (màn Nhân vật) — owner đưa 5 splash art 2D (không chibi) của Raikiba, yêu cầu xóa nền, phóng to hợp lý, thay lần lượt vào: nhân vật, tăng cấp, vũ khí, vết thánh, kỹ năng (như Enkiba, Kazeyumi).
+- **Trạng thái:** TESTED
+- **File tạo/sửa:**
+  - `assets/characters/char_lightning_01/splash/char_lightning_01_splash_{overview,level,weapon,stigma,skill}.png` (PNG alpha, bỏ ICC profile; 920–1023 px rộng, 1188–1535 px cao).
+  - `tools/cut_splash.py`: tùy chọn `--keep x0,y0,x1,y1` (lặp được, tọa độ ảnh gốc) — trong hộp này không xóa lỗ kín. Lý do: răng trắng khi Raikiba cười nhe răng bị coi là lỗ nền.
+  - `tests/unit/ui/test_character_screen.gd`: test splash 5 màn chạy cho cả Kazeyumi và Raikiba; hai test dùng Raikiba làm "nhân vật chưa có ảnh" đổi sang Iwagane (`char_earth_01`).
+  - `docs/ASSET_LICENSES.md` mục 2.1 (5 dòng).
+- **Đã chạy:** `python -I tools/cut_splash.py` (5 ảnh; ảnh 3 và 5 thêm `--keep` vùng miệng, dò bằng cách tô đỏ các lỗ kín bị xóa); `<godot> --headless --path . --import`; `<godot> --path . -s tools/screenshot_character.gd -- --id=char_lightning_01` (soát bằng mắt 5 màn); `tools\run_tests.ps1`.
+- **Kết quả thật:** nền bị xóa 66–73 %; soát trên nền xanh: răng còn, áo đen / ủng xám nguyên vẹn; các khe nền giữa sợi tóc bạc ở viền tóc được xóa đúng. `run_tests.ps1`: GdUnit4 + 5 test khói đều ĐẠT, mã thoát 0.
+- **Quyết định Claude chọn:** thứ tự ảnh theo thứ tự owner gửi (1 bắt chéo đao → tổng quan, 2 vung đao → tăng cấp, 3 bật nhảy → vũ khí, 4 lưng → vết thánh, 5 ngồi xổm → kỹ năng); không thu nhỏ ảnh; không sửa code màn hình. Ảnh tổng quan tự thay frame idle của Raikiba ở sảnh, đội hình ra trận và thẻ chiêu mộ.
+- **Hạn chế đã biết:** quầng sáng vàng mờ quanh đao / vệt sét nhạt dần vào nền trắng nên phần ngoài cùng của quầng bị cắt (còn lõi sáng); ảnh kỹ năng rộng (ngồi dang tay) nên vòng đao bên phải chạm nhẹ nhãn kỹ năng Bị động; thẻ Raikiba trong danh sách vẫn là placeholder vì chưa có chân dung chibi; công cụ tạo ảnh gốc chưa rõ.
+
+## 2026-11-15 — Splash art 2D của Iwagane thay placeholder ở màn Nhân vật
+- **Milestone / task:** art + M7-2 (màn Nhân vật) — owner đưa 5 splash art 2D (không chibi) của Iwagane, yêu cầu xóa nền, phóng to hợp lý, thay lần lượt vào: nhân vật, tăng cấp, vũ khí, vết thánh, kỹ năng (như Enkiba, Kazeyumi, Raikiba).
+- **Trạng thái:** TESTED
+- **File tạo/sửa:**
+  - `assets/characters/char_earth_01/splash/char_earth_01_splash_{overview,level,weapon,stigma,skill}.png` (PNG alpha, bỏ ICC profile; 649–1024 px rộng, 1320–1521 px cao).
+  - `tests/unit/ui/test_character_screen.gd`: test splash 5 màn chạy thêm cho Iwagane; hai test "nhân vật chưa có ảnh" đổi sang Yomigari (`char_dark_01`).
+  - `docs/ASSET_LICENSES.md` mục 2.1 (5 dòng).
+- **Đã chạy:** `python -I tools/cut_splash.py` (5 ảnh, tham số mặc định; kiểm lỗ kín bị xóa quanh mặt — chỉ có khe nền giữa tóc và giáp vai, răng ảnh hét còn nguyên); ảnh lưng: thêm bước một lần làm trong suốt điểm xám trung tính (chênh kênh ≤ 18, sáng ≥ 110) trong 40 px đáy để bỏ bóng đổ; `<godot> --headless --path . --import`; `<godot> --path . -s tools/screenshot_character.gd -- --id=char_earth_01` (soát bằng mắt 5 màn); `tools\run_tests.ps1`.
+- **Kết quả thật:** nền bị xóa 56–66 %; giáp đồng, đá kiếm, quầng vàng giữ nguyên trên nền tối. `run_tests.ps1`: GdUnit4 + 5 test khói đều ĐẠT, mã thoát 0.
+- **Quyết định Claude chọn:** thứ tự ảnh theo thứ tự owner gửi (1 cầm kiếm chéo → tổng quan, 2 chống kiếm → tăng cấp, 3 chém ngang → vũ khí, 4 lưng → vết thánh, 5 vác kiếm → kỹ năng); không thu nhỏ ảnh, không sửa code màn hình. Bước xóa bóng đổ chỉ làm một lần bằng script tạm (không thêm vào `cut_splash.py`).
+- **Hạn chế đã biết:** ở màn tổng quan mũi kiếm gần dòng tên giáp; thẻ Iwagane trong danh sách vẫn là placeholder (chưa có chân dung chibi); công cụ tạo ảnh gốc chưa rõ. Lúc làm có file frame idle của Iwagane (`frames/idle/`, `frames_manifest.json`) chưa commit do agent khác tạo; không đụng vào, không gộp vào commit này.
+
+
+
+## 2026-11-15 — Art: Iwagane idle frames (AI)
+- **Milestone / task:** art (frame nhân vật) — owner duyệt animation `idle` của Iwagane (`char_earth_01`).
+- **Trạng thái:** BLOCKED (đã duyệt và chép frame; commit chờ toàn bộ test đạt mã thoát 0).
+- **File tạo/sửa:** `assets/characters/char_earth_01/frames/idle/` (6 frame); `assets/characters/char_earth_01/frames_manifest.json`; `docs/ASSET_LICENSES.md` mục 2.1; `art_review/char_earth_01/idle/meta.json` (ngày duyệt); preview và dải nguồn trong `art_review/char_earth_01/idle/`.
+- **Đã chạy:** `C:\Users\<user>\AppData\Local\Programs\Python\Python312\python.exe -I tools/frames/approve_frames.py char_earth_01 idle` (mã thoát 0); `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1` (mã thoát 1).
+- **Kết quả thật:** approve chép 6 frame, 8 fps và lặp; GdUnit4 báo 1 lỗi tại `tests/unit/ui/test_character_screen.gd:123` (kỳ vọng ảnh Yomigari là placeholder), các smoke test 5/5 đạt, toàn lệnh mã thoát 1. Lỗi ở test/file màn Nhân vật đã có thay đổi trong working tree trước task này; chưa xác định nguyên nhân sâu hơn.
+- **Quyết định Codex chọn:** metadata ghi `GPT Image (built-in image_gen; version not exposed)` vì công cụ không công bố phiên bản model.
+- **Hạn chế đã biết:** frame được owner duyệt dù dải có góc gần chính diện/3⁄4 như đã nêu ở preview; commit chưa tạo do toàn bộ test chưa đạt mã thoát 0.
+
+## 2026-11-15 — Art: tờ bộ phận Hikarine (char_light_01), bảng tên và 47 bộ phận rig
+- **Milestone / task:** art (bộ phận rig) — owner gửi tờ bộ phận cắt lớp của Hikarine, yêu cầu dựng trang để điền tên rồi cắt bộ phận.
+- **Trạng thái:** TESTED
+- **File tạo/sửa:**
+  - `assets/characters/char_light_01/rig_parts/source/`: `char_light_01_parts_sheet.jpg` (ảnh gốc WebP RGBA ghép nền trắng), `char_light_01_parts_boxes.json` (47 khung đặt tay), `char_light_01_parts_labels.json` (tên owner điền), `.gdignore`.
+  - `assets/characters/char_light_01/rig_parts/`: 47 PNG nền trong suốt `char_light_01_part_{NN}_{loại}_{tên}.png` + `parts_manifest.json`.
+  - `tools/sprite_parts/cut_boxes.py` (mới): cắt theo khung đặt tay, cho phép khung chồng nhau; `tools/sprite_parts/README.md`.
+  - `docs/ASSET_LICENSES.md` (1 dòng); trang artifact "Bảng tên bộ phận Hikarine" (https://claude.ai/artifact/6XCnUkXXW8FR3so6hvVYEJ, dựng từ trang Iwagane, db `labels`).
+- **Đã chạy:** `python -I tools/sprite_parts/segment_parts.py ... 225 1` (chỉ ra 32 vùng dính nhau, không dùng); `python -I -X utf8 tools/sprite_parts/cut_boxes.py char_light_01 --clear-holes 28 --fill-holes 29 --blue-only 18`; `<godot> --headless --path . --import` (mã thoát 0, 47 file .import); `tools/run_tests.ps1`.
+- **Kết quả thật:** owner điền 47/47, giữ nguyên toàn bộ gợi ý. Soát bằng mắt bảng ghép 47 ảnh trên nền xanh: mặt, tóc, tay, ủng, gậy, giáp, pose sạch nền; vòng mặt trời (28) bỏ lòng trắng; quả cầu sáng (29) giữ lõi trắng; đai lưng (18) chỉ còn vải xanh. `run_tests.ps1`: GdUnit4 658 test, 0 lỗi; 5/5 test khói ĐẠT; mã thoát 0.
+- **Quyết định Claude chọn:** khung đặt tay thay vì tự tách (tờ dính liền áo/váy/tay áo); thêm `cut_boxes.py` thay vì sửa `cut_parts.py` (cái cũ cần khung trùng vùng tự tách); bộ phận ra `rig_parts/` như Aether (không chỉ ảnh tham chiếu `refs/`).
+- **Hạn chế đã biết:** tay áo (15, 17), áo thân (16) và váy (19) dính liền trên tờ nên mép mỗi mảnh còn chút phần của mảnh bên cạnh trong khung; váy (19) còn hai dải đai xanh rủ xuống (đúng như vẽ). Hiệu ứng 29/30 và quầng sáng ở pose 45–47 là alpha xấp xỉ từ nền trắng. Chưa có phiếu frame Codex cho Hikarine.
+
+## 2026-11-15 — Art: phiếu prompt Codex cho frame Hikarine (20 animation) và ảnh tham chiếu
+- **Milestone / task:** art (frame nhân vật) — owner gửi lại prompt gốc `Prompt_Chibi_Anime_SideScroll.txt`, yêu cầu viết prompt gửi Codex tạo chuyển động theo mô tả kỹ năng. Owner nhắc Kazeyumi; Kazeyumi đã có đủ 23 phiếu, cả 23 animation đã duyệt (chạy lại `gen_prompts.py char_wind_01` chỉ đổi cột trạng thái README, không đổi phiếu), nên owner chọn làm cho Hikarine.
+- **Trạng thái:** TESTED
+- **File tạo/sửa:**
+  - `tools/frames/jobs/char_light_01.json` (20 animation, chữ riêng Hikarine: gậy phép, trạng thái `drawn` / `praying`).
+  - `docs/prompts/codex_frames/char_light_01/`: `00_PHAN_TICH.md` (viết tay: tỉ lệ, bảng màu, lớp bộ phận, gậy, pivot, ghi chú kỹ năng), `README.md` + 20 phiếu `NN_{anim}.md` (sinh tự động).
+  - 15 ảnh tham chiếu `assets/characters/char_light_01/rig_parts/source/refs/` (toàn thân, gậy, 7 mặt, 6 pose) cắt bằng `cut_refs.py` theo tên owner điền.
+  - `assets/characters/char_light_01/frames_manifest.json`: `working_name` Seraphine → Hikarine.
+- **Đã chạy:** `python -I -X utf8 tools/sprite_parts/cut_refs.py char_light_01 1:toan_than ... 47:pose_tung_phep`; `python -I -X utf8 tools/frames/gen_prompts.py char_light_01` (20 phiếu); `tools/run_tests.ps1`.
+- **Kết quả thật:** số frame / fps / frame trúng đòn lấy từ `data/skills/char_light_01/` (vd attack_1 5 frame 15 fps, skill_2 10 frame 18 fps, ultimate 14 frame 10 fps). Soát phiếu 17 (skill_2): đủ 5 ảnh tham chiếu, prompt ảnh tiếng Anh, bảng giai đoạn. `run_tests.ps1`: GdUnit4 658 test, 0 lỗi; 5/5 test khói ĐẠT; mã thoát 0. (lần chạy bắt đầu trước khi đổi `working_name`; trường này không code nào đọc).
+- **Quyết định Claude chọn:** không có phiếu `hold_release` (Hikarine chỉ có `hold_charge` là vòng cầu nguyện, SkillDef `hold_1`), không có phiếu `air_2` (dùng chung `air_1`); `hold_charge` không gắn SkillDef (vòng lặp 6 frame 10 fps); `skill_2` ghi `hits_ms` 200–300 ms để đánh dấu frame phóng quả cầu vì SkillDef không có hiệu lực tức thì; quả cầu trên gậy vẽ đặc, không quầng sáng; mảnh giáp xanh-vàng 36–41 không vẽ (không thấy trên ảnh toàn thân).
+- **Hạn chế đã biết:** chưa tạo frame nào (owner chạy Codex theo phiếu, bắt đầu `idle`). Nếu Hikarine phải mang mảnh giáp 36–41 thì sửa `design_en` trong job JSON rồi sinh lại phiếu.
+
+## 2026-11-15 — Chiêu mộ: banner nhân vật bỏ chú thích tên; chữ cột phải không còn bị cắt
+- **Milestone / task:** UI Chiêu mộ — owner: banner nhân vật bỏ chữ "Iwagane" và "Thần Kiếm Nham Thạch"; chữ cột phải (thời gian, mảnh tiến cấp, bảo đảm) bị mất phần cuối, đề xuất căn lề phải.
+- **Trạng thái:** TESTED (ảnh chụp `build/screenshots/recruit_*.png` ở 1680×720; owner chưa xem lại trong Godot)
+- **File tạo/sửa:** `scripts/ui/recruit_screen.gd` (`_pr` không cộng neo hai lần, ảnh banner phủ tới mép phải, banner nhân vật không có chú thích, dòng thời gian thu chữ một dòng, ô bảo đảm căn phải), `data/ui/recruit_screen_layout.json` (`panel.icons.anchor = right`), `tests/unit/ui/test_recruit_screen.gd` (sửa test banner nhân vật, +1 test cột phải nằm trong màn ở 4 tỉ lệ).
+- **Đã chạy:** GdUnit `test_recruit_screen.gd` (20/20); `<godot> --path . --resolution 1680x720 -s tools/screenshot_recruit.gd`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`.
+- **Kết quả thật:** run_tests.ps1 mã thoát 0: GdUnit 659/659 đạt (0 lỗi, 0 thất bại, `reports/report_202`), 5/5 test khói đạt; test_recruit_screen.gd 20/20.
+- **Nguyên nhân chữ bị cắt:** mục cột phải có neo `right`, nhưng `_pr` cộng thêm neo `center` của panel → khi cửa sổ rộng hơn 16:9 chữ bị đẩy quá mép phải (vd 2560×1080: dòng thời gian kết thúc ở x 2850).
+- **Quyết định Claude chọn:** giữ tiêu đề banner và nhãn loại banner (owner chỉ nêu tên nhân vật và giáp); banner trang bị vẫn có chú thích món đề cử; dãy icon trang bị neo phải theo cột phải.
+- **Hạn chế đã biết:** chữ in sẵn trong ảnh placeholder vẫn đè vùng tiền tệ (mất khi có ảnh thật).
+
+
+## 2026-11-15 — Art: Iwagane frames run through ultimate (AI)
+- **Milestone / task:** art (frame nhân vật) — owner duyệt toàn bộ animation từ `run` đến `ultimate` của Iwagane (`char_earth_01`).
+- **Trạng thái:** TESTED
+- **File tạo/sửa:** `assets/characters/char_earth_01/frames/` (123 frame cho 19 animation: run, attack_1, attack_2, attack_3, dodge, jump_up, fall, land, hurt, knockback, down, hold_charge, hold_release, air_1, landing_attack, skill_1, skill_2, switch_in, switch_out, ultimate); `frames_manifest.json`; `docs/ASSET_LICENSES.md` (model, prompt rút gọn, ảnh tham chiếu, ngày cho từng animation).
+- **Đã chạy:** các lệnh `python -I tools/frames/approve_frames.py char_earth_01 <animation>` cho 19 animation; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`.
+- **Kết quả thật:** duyệt thành công 19 animation; lần chạy xác nhận `run_tests.ps1` mã thoát 0, GdUnit4 659/659 (0 lỗi, 0 thất bại), 5/5 smoke test ĐẠT. Lần test trước có một lỗi đơn lẻ tại `test_raikiba_weapon_blocks_normal_800ms`; lần xác nhận đã qua.
+- **Quyết định Codex chọn:** gộp các animation được owner duyệt trong cùng yêu cầu thành một commit; giữ các thay đổi có sẵn ngoài phạm vi art ngoài commit.
+- **Hạn chế đã biết:** chưa kiểm tra lại animation trong Godot sau khi tích hợp.
+
+## 2026-11-15 — Chiêu mộ: banner nhân vật gọn lại; "Banner trang bị thường" luôn ở hàng cuối
+- **Milestone / task:** UI Chiêu mộ — owner: bỏ hẳn dòng thời gian, nút Túi quà và dòng mảnh tiến cấp; bỏ luôn tiêu đề "Nham Thạch Thức Tỉnh" và nhãn "Banner nhân vật" ở banner nhân vật. Đổi "Banner vũ khí & vết thánh" thành **"Banner trang bị thường"** và luôn đặt ở hàng cuối danh sách; banner này không có bảo hiểm và là vĩnh viễn nên bỏ dãy icon, dòng thời gian và nút Túi quà; thay chú thích "Đại kiếm Dung Nham" bằng 3 hàng vũ khí trưng bày (ảnh vũ khí placeholder + thanh tên có huy hiệu độ hiếm và dòng "Thông tin") theo ảnh gợi ý.
+- **Trạng thái:** TESTED (ảnh chụp `build/screenshots/recruit_1_character_banner.png`; owner chưa xem lại trong Godot)
+- **File tạo/sửa:** `scripts/ui/recruit_screen.gd` (`_build_banner`: banner nhân vật không dựng `KindTag`, `BannerTitle`, `TimeValue`, `GiftButton`, `FragmentLine`; banner không pity + vĩnh viễn (`end_unix` = 0) không dựng dãy icon / `TimeValue` / `GiftButton`; banner thường dựng 3 hàng trưng bày `_build_showcase` + `showcase_items`; `load_banners` sắp theo `list_order`), `data/ui/recruit_screen_layout.json` (`panel.showcase`: 3 ô ảnh + 3 thanh tên), `scripts/gacha/banner_def.gd` (+`list_order`), `tools/gen_banner_data.py` (`LIST_ORDER`: `banner_equip_terra` = 100) → `data/banners/*.tres`, `localization/vi.po` / `en.po` + `tools/add_locale_keys.py` (`BANNER_KIND_EQUIP`: "Banner trang bị thường" / "Standard equipment banner"; mới `RECRUIT_UI_INFO`, `RECRUIT_UI_WEAPON_SLOT`), `tools/screenshot_recruit.gd` (chỉ số banner mới), `tests/unit/ui/test_recruit_screen.gd`.
+- **Đã chạy:** `python -X utf8 -I tools/gen_banner_data.py`; GdUnit `test_recruit_screen.gd` + `tests/unit/gacha` (57/57); `<godot> --path . -s tools/screenshot_recruit.gd`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`.
+- **Kết quả thật:** run_tests.ps1 mã thoát 0: GdUnit 660/660 đạt (0 lỗi, 0 thất bại, `reports/report_211`), 5/5 test khói đạt.
+- **Quyết định Claude chọn:** chỉ áp cho banner nhân vật (hai banner trang bị giữ tiêu đề, thời gian, túi quà); giữ hàm `fragment_text`, khóa `RECRUIT_UI_FRAG_*` và mục `panel.fragment_line` trong layout để bật lại nhanh nếu owner cần (test gọi hàm trực tiếp); thứ tự danh sách là trường dữ liệu `list_order` (nhỏ lên trước, bằng nhau theo tên file) nên banner mới tự nằm trên banner trang bị thường; thứ tự hiện tại: nhân vật → trang bị 5★ → trang bị thường. Hàng trưng bày lấy vũ khí đề cử trước, rồi các vũ khí khác của bậc vũ khí cao nhất (hiện có 2 vũ khí 4★: Đại kiếm Dung Nham, Lõi vũ khí hỏa tinh), ô còn thiếu hiện "Vũ khí (sắp có)"; huy hiệu ghi số sao ("4★") màu theo độ hiếm thay chữ S của ảnh gợi ý; ảnh vũ khí dùng `EquipmentDef.art` khi có, chưa có thì icon placeholder vũ khí.
+- **Hạn chế đã biết:** dòng "Thông tin" chưa bấm được; banner chỉ có 2 vũ khí 4★ nên ô thứ 3 trống; chữ in sẵn trong ảnh placeholder vẫn đè vùng tiền tệ (mất khi có ảnh thật).
+
+## 2026-11-15 — Trang bị: bộ 4★ cho từng loại vũ khí (cung, song đao, trượng, lưỡi hái), thêm vào banner trang bị thường
+- **Milestone / task:** Trang bị — owner: "tạo thêm set trang bị 4 sao cho từng loại vũ khí". Kiếm (Lõi vũ khí hỏa tinh + Ấn Viêm Hoàng) và Đại kiếm (Đại kiếm Dung Nham + Ấn Nham Thạch) đã có; thêm 4 bộ, mỗi bộ 1 vũ khí 4★ + 3 vết thánh 4★ Đầu / Thân / Chân + hiệu ứng bộ 2 / 3 món. Sau đó owner: "Thêm các bộ 4★ mới vào banner trang bị thường".
+- **Trạng thái:** TESTED
+- **File tạo/sửa:** `tools/gen_item_data.py` (16 món mới, `SET_ID` cho 6 bộ, không ghi `set_id` rỗng), `tools/gen_equipment_5star.py` (`SETS_4` +4 bộ), `tools/gen_banner_data.py` (`STANDARD_ONLY_4STAR`: bộ mới chỉ vào banner trang bị thường) → `data/banners/banner_equip_terra.tres` → `data/equipment/eq_weapon_{bow_whirlwind,blades_thunderclap,staff_dawnlight,scythe_nightshade}.tres`, `data/equipment/eq_stigma_{top,mid,bot}_{whirlwind,thunderclap,dawnlight,nightshade}.tres`, `data/equipment/sets/set_{whirlwind,thunderclap,dawnlight,nightshade}.tres`, `localization/vi.po` / `en.po` (khóa `EQUIP_*`, `SET_*`), `docs/design/EQUIPMENT_5STAR.md` (mục 6), test `tests/unit/progression/test_equipment_effects.gd` (+1 test mỗi loại vũ khí có đủ bộ 4★ cùng hệ nhân vật), `test_progression_inventory.gd` (56 món), `tests/unit/ui/test_recruit_screen.gd` (hàng trưng bày đủ 3 vũ khí).
+- **Đã chạy:** `python -X utf8 -I tools/gen_item_data.py`; `python -X utf8 -I tools/gen_equipment_5star.py`; `python -X utf8 -I tools/gen_banner_data.py`; `<godot> --headless --path . --import`; GdUnit `tests/unit/progression` + `ui` + `gacha`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`.
+- **Kết quả thật:** run_tests.ps1 mã thoát 0: GdUnit 660/660 đạt (0 lỗi, 0 thất bại, `reports/report_211`), 5/5 test khói đạt.
+- **Bộ mới (số tạm Claude đặt, owner chỉnh trong `.tres` hoặc generator):**
+
+| Loại vũ khí (nhân vật) | Vũ khí 4★ | Bộ vết thánh 4★ | 2 món | 3 món |
+|---|---|---|---|---|
+| Cung (Kazeyumi, Phong) | Cung Lốc Xoáy — ATK 155, Tỉ lệ chí mạng +5% | Ấn Lốc Xoáy | +5% ST Phong | Tốc độ nạp EN +5% |
+| Song đao (Raikiba, Lôi) | Song đao Lôi Đình — ATK 160, ST chí mạng +10% | Ấn Lôi Đình | +5% ST Lôi | +4% ST lên kẻ địch mang hiệu ứng nguyên tố |
+| Trượng (Hikarine, Quang) | Trượng Bình Minh — ATK 140, HP +800 | Ấn Bình Minh | +5% ST Quang | Hiệu quả hồi máu +4% |
+| Lưỡi hái (Yomigari, Ám) | Lưỡi hái Dạ Ảnh — ATK 170, Tỉ lệ chí mạng +4% | Ấn Dạ Ảnh | +5% ST Ám | +4% ST lên kẻ địch bị giảm DEF |
+
+- **Quyết định Claude chọn:** theo Q9 (bộ 4★ chỉ phần chung, số ≈ một nửa 5★): dòng 2 món = +5% ST hệ (như Viêm Hoàng / Nham Thạch), dòng 3 món = một nửa dòng chung tương ứng của bộ 5★ cùng hệ (da Vinci EN, Franklin hiệu ứng nguyên tố, Nightingale hồi máu, Poe giảm DEF); chỉ số vết thánh theo khuôn Viêm Hoàng (sát thương) cho cung / song đao / lưỡi hái, khuôn Nham Thạch (HP / DEF) cho trượng; vũ khí 4★ ATK 140–170 như hai vũ khí 4★ đã có; vũ khí 4★ không khóa nhân vật, chỉ khóa loại vũ khí.
+- **Banner trang bị thường sau khi thêm (tỉ lệ bậc giữ nguyên theo owner):** vũ khí 4★ 2.87% chia 6 món — Đại kiếm Dung Nham (đề cử, 50% bậc) 1.435%, 5 vũ khí còn lại mỗi món 0.287% (Lõi vũ khí hỏa tinh trước đó 1.435%); vết thánh 4★ 14% chia 20 món — 3 món Nham Thạch đề cử mỗi món ≈ 2.333%, 17 món còn lại mỗi món ≈ 0.412%. Banner trang bị 5★ không đổi bậc 4★. Hàng trưng bày giờ đủ 3 vũ khí: Đại kiếm Dung Nham, Song đao Lôi Đình, Cung Lốc Xoáy.
+- **Hạn chế đã biết:** chưa có ảnh riêng (dùng icon placeholder); tên là tên tạm.
+
+## 2026-11-15 — Asset Atlas: kích thước và vùng chữ / nút của 3 banner Chiêu mộ
+- **Milestone / task:** Asset — owner: "Cập nhật kích thước banner mới lên Asset Atlas".
+- **Trạng thái:** IMPLEMENTED
+- **File tạo/sửa:** `tools/asset_atlas/scan_assets.py` (`BANNER_TEXT`: yêu cầu + mô tả của 3 banner theo bố cục mới nhất); cơ sở dữ liệu Asset Atlas (3 tài liệu `recruit-char-terra-banner`, `recruit-equip-terra-banner`, `recruit-star5-earth-banner`).
+- **Đã chạy:** ArtifactData query 3 tài liệu → `build/asset_atlas/banner_upd/`; ArtifactData batch 3 lệnh update (ghim version); `python -X utf8 tools/asset_atlas/scan_assets.py`.
+- **Kết quả thật:** batch ghi nguyên khối 3 / 3 (version mới 4 / 3 / 3). Mỗi banner thêm 1 yêu cầu mới: 1590×1080 px, ảnh phủ x 330 → 1920 của màn 1920×1080, co giữ tỉ lệ, đặt giữa; liệt kê vùng bị chữ / nút che theo tọa độ trên ảnh (banner nhân vật: thanh trên, pity, nút tròn, ô bảo đảm, nút Chiêu mộ; trang bị thường: thanh trên, tiêu đề, hàng 3 vũ khí trưng bày, nút tròn, nút Chiêu mộ; trang bị 5★: đủ cột phải, tiêu đề, 2 chú thích). Mô tả (brief) viết lại theo từng banner; các yêu cầu cũ (1301×839, bố cục trước) đánh dấu xong; lịch sử thêm 1 dòng. Không publish lại trang (chỉ ghi cơ sở dữ liệu).
+- **Quyết định Claude chọn:** banner nhân vật ghi chú bản v2 owner đã tải lên đang 1521×1034 (cùng tỉ lệ, màn phóng ~4.5%), khuyên xuất đúng 1590×1080; banner trang bị thường ghi rõ ảnh chỉ làm nền vì màn tự đặt 3 ảnh vũ khí lên.
+- **Hạn chế đã biết:** ảnh v2 trên site chưa vào repo (owner chưa duyệt).
+
+## 2026-11-15 — Wireframe banner Chiêu mộ để vẽ trong Photoshop
+- **Milestone / task:** UI / asset — owner: "gửi cho mình ảnh wireframe có chia tỉ lệ các nút để có thể edit lại trên pts".
+- **Trạng thái:** IMPLEMENTED
+- **File tạo/sửa:** `tools/ui/gen_recruit_wireframes.py` (mới), `docs/design/wireframes/recruit/{banner_char_terra,banner_star5_earth,banner_equip_terra}_{overlay_1590x1080,screen_1920x1080}.png` (6 ảnh).
+- **Đã chạy:** `python -X utf8 tools/ui/gen_recruit_wireframes.py`.
+- **Kết quả thật:** 6 PNG. Bản overlay 1590×1080 nền trong suốt, đúng kích thước ảnh banner, tọa độ tính trên ảnh: đặt làm layer trên cùng trong Photoshop. Bản 1920×1080 là cả màn (danh sách trái, thanh trên), tọa độ theo màn. Mỗi ô ghi tên, cỡ (rộng×cao) và vị trí; lưới 50 px; hai dải làm tối nhẹ (30% trái, 32% phải) và trục giữa ảnh vẽ đường đỏ.
+- **Quyết định Claude chọn:** số đo đọc thẳng từ `data/ui/recruit_screen_layout.json` (chạy lại script sau khi sửa bố cục); màu theo loại: tím = thanh trên, xám = danh sách, xanh dương = chữ, vàng = nút / icon, cam = nút Chiêu mộ, xanh lá = ảnh vũ khí màn tự vẽ; chữ chú thích dùng font Windows (chỉ trên wireframe, không vào game); ảnh nằm trong `docs/` nên không vào bản export.
+- **Hạn chế đã biết:** PNG một lớp (không phải PSD nhiều layer); kích thước theo màn 16:9 1920×1080.
+
+## 2026-11-15 — Tài liệu: danh sách nhanh vũ khí và vết thánh 5★
+- **Milestone / task:** Tài liệu — owner: "gửi cho mình list danh sách vũ khí và vết thánh 5 sao kèm mô tả sơ qua vào file markdown hiện có của game".
+- **Trạng thái:** IMPLEMENTED
+- **File tạo/sửa:** `docs/design/EQUIPMENT_5STAR.md` (mục mới "Danh sách nhanh" trước mục 0).
+- **Đã chạy:** kiểm tra mọi Data ID trong mục mới đều có file trong `data/equipment/` (không thiếu).
+- **Kết quả thật:** 3 bảng: 6 vũ khí 5★ (tên, loại, chủ sở hữu, Data ID, chỉ số cộng lấy từ `.tres`, mô tả sơ qua); 18 vết thánh 5★ (bộ, ô, tên, Data ID, hiệu ứng chung, độc quyền rút gọn) kèm chỉ số cộng theo ô; hiệu ứng bộ 2 / 3 món phần chung của 6 bộ.
+- **Quyết định Claude chọn:** đặt ở đầu tài liệu thiết kế trang bị 5★ (file markdown đã có) thay vì tạo file mới; mô tả rút từ mục 1 / 2 của chính tài liệu, chi tiết vẫn ở mục 1 / 2.
+- **Hạn chế đã biết:** bảng là bản tóm tắt viết tay; khi đổi số trong `data/equipment/` cần sửa lại cột chỉ số cộng.
+
+## 2026-11-15 — Tài liệu: danh sách nhanh trang bị 4★
+- **Milestone / task:** Tài liệu — owner: "làm tương tự cho trang bị 4 sao" (sau danh sách nhanh 5★).
+- **Trạng thái:** IMPLEMENTED
+- **File tạo/sửa:** `docs/design/EQUIPMENT_5STAR.md` (mục mới "Danh sách nhanh trang bị 4★" ngay sau danh sách 5★).
+- **Đã chạy:** đọc chỉ số của 26 món 4★ từ `data/equipment/*.tres` và hiệu ứng 6 bộ từ `data/equipment/sets/`; kiểm tra 18 Data ID vết thánh theo bộ đều có file; đối chiếu pool 4★ của `data/banners/banner_star5_earth.tres`.
+- **Kết quả thật:** 3 bảng: 6 vũ khí 4★ (loại, nhân vật hợp, Data ID, chỉ số, mô tả), 6 bộ vết thánh 4★ (hệ, khuôn chỉ số công / thủ, Data ID, hiệu ứng 2 / 3 món), 2 vết thánh 4★ lẻ (Ấn Hộ Vệ, Ấn Đồng Hồ Cát); ghi nguồn ra đồ (banner thường có tất cả; bậc 4★ của banner 5★ chỉ có đồ Kiếm / Đại kiếm, bộ Viêm Hoàng / Nham Thạch và 2 món lẻ).
+- **Quyết định Claude chọn:** gom chỉ số vết thánh theo 2 khuôn thay vì liệt kê 18 dòng; đặt chung file với danh sách 5★ để tra một chỗ.
+- **Hạn chế đã biết:** bảng tóm tắt viết tay; đổi số trong `data/equipment/` cần sửa lại bảng.
+
+## 2026-11-15 — Tài liệu: danh sách nhanh trang bị 3★
+- **Milestone / task:** Tài liệu — owner: "làm tương tự cho trang bị 3 sao".
+- **Trạng thái:** IMPLEMENTED
+- **File tạo/sửa:** `docs/design/EQUIPMENT_5STAR.md` (mục mới "Danh sách nhanh trang bị 3★" sau danh sách 4★).
+- **Đã chạy:** đọc 6 món 3★ từ `data/equipment/*.tres`; đối chiếu pool và `base_rate` bậc 3★ của `banner_equip_terra.tres` và `banner_star5_earth.tres`.
+- **Kết quả thật:** 2 bảng: 3 vũ khí 3★ (Kiếm, Cung, Song đao; chỉ ATK) và 3 vết thánh 3★ lẻ (Ấn Tinh Anh, Ấn Da Thú, Ấn Dép Cỏ). Hai banner trang bị cùng pool 3★, cùng tỉ lệ bậc (vũ khí 10.7%, vết thánh 14.43%) → mỗi món ≈ 3.567% / ≈ 4.81%.
+- **Quyết định Claude chọn:** ghi rõ chưa có vũ khí 3★ cho Đại kiếm, Trượng, Lưỡi hái (không tự thêm).
+- **Hạn chế đã biết:** bảng tóm tắt viết tay.
+
+## 2026-11-15 — Trang bị: vũ khí 3★ cho Đại kiếm, Trượng, Lưỡi hái
+- **Milestone / task:** Trang bị — owner: "Thêm đi" (thêm vũ khí 3★ cho 3 loại vũ khí còn thiếu).
+- **Trạng thái:** TESTED
+- **File tạo/sửa:** `tools/gen_item_data.py` (+3 vũ khí) → `data/equipment/eq_weapon_{greatsword_stone,staff_oak,scythe_iron}.tres`, `localization/vi.po` / `en.po`; `tools/gen_banner_data.py` chạy lại → `data/banners/banner_equip_terra.tres`, `banner_star5_earth.tres` (pool vũ khí 3★); `docs/design/EQUIPMENT_5STAR.md` (danh sách 3★); `docs/design/wireframes/.gdignore` (Godot không import ảnh wireframe); test `tests/unit/progression/test_equipment_effects.gd` (+1 test mỗi loại vũ khí có vũ khí 3★), `test_progression_inventory.gd` (59 món).
+- **Đã chạy:** `python -X utf8 -I tools/gen_item_data.py`; `python -X utf8 -I tools/gen_equipment_5star.py`; `python -X utf8 -I tools/gen_banner_data.py`; `<godot> --headless --path . --import`; GdUnit `tests/unit/progression` + `gacha` + `test_recruit_screen.gd` (121/121); `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`.
+- **Kết quả thật:** run_tests.ps1 mã thoát 0: GdUnit 661/661 đạt (0 lỗi, 0 thất bại, `reports/report_213`), 5/5 test khói đạt.
+- **Món mới (số tạm):** Đại kiếm đá thô ATK 82; Trượng gỗ sồi ATK 70 + HP 300; Lưỡi hái sắt đen ATK 80.
+- **Quyết định Claude chọn:** ATK trong khoảng 75–82 như 3 vũ khí 3★ cũ (trượng thấp hơn, bù HP như trượng 4★ / 5★); thêm vào bậc 3★ của **cả hai** banner trang bị (generator lấy mọi đồ 3★; owner chỉ tách riêng bộ 4★ mới). Tỉ lệ bậc giữ nguyên, nên mỗi vũ khí 3★ còn ≈ 1.783% (trước 3.567%).
+- **Hạn chế đã biết:** chưa có ảnh riêng (icon placeholder).
+
+## 2026-11-15 — Chiêu mộ: ảnh banner thật cho banner nhân vật Iwagane
+- **Milestone / task:** Asset — owner gửi ảnh và yêu cầu "Thay ảnh này vào banner nhân vật Iwagane".
+- **Trạng thái:** TESTED (ảnh chụp `build/screenshots/recruit_1_character_banner.png`; owner chưa xem trong Godot)
+- **File tạo/sửa:** `assets/ui/recruit/banner_char_terra_banner.png` (+ `.import`), `assets/ui/recruit/README.md` (kích thước 1590×1080, trỏ wireframe), `docs/ASSET_LICENSES.md` (mục 2.1, 1 dòng).
+- **Đã chạy:** đổi webp 1590×1080 → PNG (Pillow, không sửa nội dung); `<godot> --headless --path . --import`; GdUnit `tests/unit/ui/test_recruit_screen.gd` (20/20); `<godot> --path . -s tools/screenshot_recruit.gd`.
+- **Kết quả thật:** ảnh đúng 1590×1080, màn tự nhận theo tên `{id}_banner.png` (không sửa code, không sửa dữ liệu banner); placeholder cũ giữ nguyên, không bị dùng nữa.
+- **Quyết định Claude chọn:** ghi ASSET_LICENSES như các splash art owner đưa (công cụ tạo ảnh không rõ); không ghi đè placeholder.
+- **Hạn chế đã biết:** mục banner nhân vật trên Asset Atlas chưa đánh dấu đã có ảnh thật.
+
+## 2026-11-15 — Chiêu mộ: bỏ hai dải tối hai bên ảnh banner
+- **Milestone / task:** UI Chiêu mộ — owner: "sao lại có hai ô vuông đen ở hai bên vậy, xoá đi" (sau khi có ảnh banner thật).
+- **Trạng thái:** TESTED (ảnh chụp `build/screenshots/recruit_1_character_banner.png`)
+- **File tạo/sửa:** `scripts/ui/recruit_screen.gd` (`_build_banner` không dựng 2 panel `Shade`), `tools/ui/gen_recruit_wireframes.py` (bỏ 2 dải trên wireframe) → 6 ảnh `docs/design/wireframes/recruit/*.png`.
+- **Đã chạy:** `python -X utf8 tools/ui/gen_recruit_wireframes.py`; GdUnit `test_recruit_screen.gd` (20/20); `<godot> --path . -s tools/screenshot_recruit.gd`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`.
+- **Kết quả thật:** `run_tests.ps1` mã thoát 0: GdUnit 661/661 đạt (0 lỗi, 0 thất bại, `reports/report_216`), 5/5 test khói đạt.
+- **Nguyên nhân:** 2 panel đen 35% (30% trái, 32% phải vùng banner) thêm từ đầu để đọc chữ trên ảnh placeholder; trên ảnh thật mép cứng lộ thành 2 khối vuông.
+- **Hạn chế đã biết:** chữ trên ảnh sáng dựa vào nền riêng của từng ô (pity, nút); ảnh banner rất sáng có thể cần owner chừa vùng tối.
+
+## 2026-11-15 — Trang bị: ảnh vũ khí 5★ Hoàng Hôn Thiêu Rụi (Enkiba)
+- **Milestone / task:** Asset — owner gửi ảnh vũ khí Enkiba theo chuẩn 1950 × 1030 và yêu cầu đưa vào game thử.
+- **Trạng thái:** TESTED (ảnh chụp `build/screenshots/character_1_overview.png`, `character_2_weapon.png`; owner chưa xem trong Godot)
+- **File tạo/sửa:** `assets/equipment/weapons/eq_weapon_dusk_inferno.png` (+ `.import`), `tools/cut_flat_bg.py` (mới: xóa nền phẳng, giữ khung, bịt khe viền), `tools/gen_equipment_5star.py` (`art_field`: tự ghi `art` khi có `assets/equipment/{weapons,stigmata}/<id>.png`) → `data/equipment/eq_weapon_dusk_inferno.tres`, `tools/screenshot_character.gd` (Enkiba cầm vũ khí 5★), `docs/ASSET_LICENSES.md` (mục 2.1, 1 dòng).
+- **Đã chạy:** `python -X utf8 -I tools/cut_flat_bg.py <webp> assets/equipment/weapons/eq_weapon_dusk_inferno.png`; `python -X utf8 -I tools/gen_equipment_5star.py`; `<godot> --headless --path . --import`; `<godot> --path . -s tools/screenshot_character.gd`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`.
+- **Kết quả thật:** ảnh 1950×1030 RGBA, nền (59, 59, 59) trong suốt hẳn 86.7%, trong mờ 1.1% (lửa mũi kiếm); lưỡi kiếm alpha 255. Hiện ở tab Vũ khí (ô 975×515) và thẻ vũ khí tab tổng quan (415×205). `run_tests.ps1` mã thoát 0: GdUnit 661/661 đạt (0 lỗi, 0 thất bại, `reports/report_216`), 5/5 test khói đạt.
+- **Quyết định Claude chọn:** lần xóa nền đầu (chỉ loang theo màu) làm nửa trên lưỡi kiếm trong mờ vì màu lưỡi gần màu nền → thêm bước nới vật thể 4 px trước khi loang; thư mục ảnh trang bị `assets/equipment/weapons/`, `assets/equipment/stigmata/`, tên file = Data ID.
+- **Hạn chế đã biết:** dòng chỉ số ở tab Vũ khí đè nhẹ lên góc dưới trái ô ảnh (bố cục cũ); generator 4★ / 3★ (`gen_item_data.py`) chưa tự ghi `art`.
+
+
+## 2026-11-15 — Art: Hikarine idle frames (AI)
+- **Milestone / task:** Asset — tạo và owner duyệt animation `idle` cho Hikarine (`char_light_01`), 6 frame, 8 fps, lặp.
+- **Trạng thái:** TESTED
+- **File tạo/sửa:** `assets/characters/char_light_01/frames/idle/char_light_01_idle_000.png`–`char_light_01_idle_005.png` (+ `.import`); `assets/characters/char_light_01/frames_manifest.json`; `docs/ASSET_LICENSES.md` mục 2.1; `docs/DEVELOPMENT_LOG.md`.
+- **Đã chạy:** `python -I tools/frames/slice_strip.py char_light_01 idle art_review/char_light_01/idle/_strips/hikarine_idle_strip_01.png`; `python -I tools/frames/check_frames.py char_light_01 idle`; sau owner duyệt: `python -I tools/frames/approve_frames.py char_light_01 idle`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`.
+- **Kết quả thật:** `check_frames.py` ĐẠT (6 frame, 8 fps, lặp); `run_tests.ps1` mã thoát 0: GdUnit 661/661 đạt (0 lỗi, 0 thất bại), 5/5 test khói đạt.
+- **Quyết định Codex chọn:** tạo một dải ngang 6 pose trong một lần gọi imagegen theo phiếu; giữ dải đã duyệt và metadata trong `art_review/` để lưu vết review. Imagegen không cung cấp model ID.
+- **Hạn chế đã biết:** ảnh tạo có góc nhìn 3/4 thay vì ngang hoàn toàn; nhịp chuyển động giữa các pose nhẹ. Owner đã duyệt dải này.
+
+
+## 2026-11-15 — Art: Hikarine frames `run`–`ultimate` (AI)
+- **Milestone / task:** Asset — owner duyệt batch 18 animation Hikarine (`char_light_01`) từ `run` đến `ultimate`.
+- **Trạng thái:** TESTED
+- **File tạo/sửa:** 107 frame PNG trong `assets/characters/char_light_01/frames/{run,attack_1,attack_2,attack_3,dodge,jump_up,fall,hurt,knockback,down,hold_charge,air_1,landing_attack,skill_1,skill_2,switch_in,switch_out,ultimate}/`; `assets/characters/char_light_01/frames_manifest.json`; `docs/ASSET_LICENSES.md` mục 2.1; `docs/DEVELOPMENT_LOG.md`.
+- **Đã chạy:** `python -I tools/frames/approve_frames.py char_light_01 <animation>` cho 18 animation; `powershell -ExecutionPolicy Bypass -File tools/run_tests.ps1`.
+- **Kết quả thật:** Cả 18 lệnh duyệt thành công; tổng 107 frame. `run_tests.ps1` mã thoát 0: GdUnit4 661/661 đạt; 5/5 smoke check đạt.
+- **Quyết định Codex chọn:** Gộp nhật ký và commit thành một batch theo yêu cầu duyệt chung của owner; giữ nguyên số frame, fps và loop flag lấy từ từng phiếu.
+- **Hạn chế đã biết:** Không có lỗi kiểm tra frame còn lại.
+
+## 2026-11-15 — M5: màn chi tiết vũ khí, nâng bậc vũ khí, prompt nền màn Nhân vật
+- **Milestone / task:** M5 (màn Nhân vật, trang bị) — owner 2026-11-15: (1) prompt Gemini cho ảnh nền các màn chọn nhân vật / vũ khí / vết thánh / kĩ năng; (2) ẩn chỉ số ở tab Vũ khí, thêm màn chi tiết vũ khí (thông tin, chỉ số, kĩ năng chủ động + bị động, tăng cấp, nâng bậc).
+- **Trạng thái:** TESTED
+- **File tạo/sửa:** `docs/prompts/gemini/character_screen_backgrounds.md` (mới: quy cách, bảng tên file, 8 prompt); `scripts/ui/character/character_screen.gd` (View.WEAPON_DETAIL, `open_weapon_detail`, `equip_stats`, `weapon_skill_text`, bảng chọn `enhance` / `ascend`, ảnh nền theo màn `background_key` / `background_texture`, lớp làm tối sau bảng chọn; bỏ `enhance(slot)` không còn dùng); `data/ui/character_screen_layout.json` (mục `backgrounds`, `weapon_detail`; tab Vũ khí bỏ `stats`, `enhance_button` → `detail_button`); `scripts/progression/progression_rules.gd` + `data/config/progression.tres` (nhóm "Nâng bậc vũ khí"); `scripts/progression/inventory.gd` (`equipment_tier`, `max_tier`, `level_cap`, `ascend_cost`, `check_ascend`, `ascend`; cường hóa và chỉ số theo `level_cap`); `scripts/progression/equipment_def.gd` (`flat_multiplier(level, cap)`); `scripts/progression/player_profile.gd` (gán `inventory.rules`); `scripts/save/save_schema.gd` (ghi chú `tier`); `data/items/mat_weapon_ascend.tres` (mới) + `tools/gen_item_data.py`; `tools/add_locale_keys.py` + `localization/vi.po`, `en.po` (20 khóa `WEAPON_UI_*`, `ITEM_MAT_WEAPON_ASCEND`); `tools/screenshot_character.gd` (ảnh 8–10); test `tests/unit/ui/test_character_screen.gd`, `tests/unit/progression/test_progression_inventory.gd`.
+- **Đã chạy:** `python -X utf8 -I tools/gen_item_data.py`; `python -X utf8 -I tools/add_locale_keys.py`; `<godot> --headless --path . --import`; GdUnit riêng 2 bộ test (51/51 đạt); `<godot> --path . -s tools/screenshot_character.gd`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`.
+- **Kết quả thật:** Chạy ở bản sạch (git worktree tạm, chỉ có thay đổi này, vì phiên khác đang sửa dở hướng dẫn xếp đội trong cùng thư mục): `run_tests.ps1` mã thoát 0, GdUnit 666/666 đạt (0 lỗi, 0 thất bại), 5/5 test khói đạt. Ở thư mục chung, `m8_playthrough_check` lỗi 15 bước, đều thuộc phần xếp đội đang sửa dở của phiên kia. Ảnh chụp `build/screenshots/character_8_weapon_detail.png`, `_9_weapon_enhance.png`, `_10_weapon_ascend.png` hiện đúng: tên, loại, ảnh kiếm 5★, người đeo, bậc, sao, mô tả, LV / giới hạn, chỉ số, kĩ năng chủ động + 7 dòng bị động.
+- **Quyết định Claude chọn:**
+  - Nâng bậc là cơ chế mới (game chưa có): chỉ vũ khí; đạt giới hạn cấp thì nâng bậc để mở thêm 5 cấp. Bậc tối đa theo độ hiếm 3★ 1, 4★ 2, 5★ 3; giá mỗi bước 2 / 4 / 6 Tinh thể nâng bậc + 5000 / 10000 / 20000 vàng. Số nằm trong `data/config/progression.tres`, owner chỉnh được. Save cũ không cần chuyển đổi (thiếu `tier` = 0).
+  - Kĩ năng chủ động hiện Kĩ năng vũ khí của giáp đang mặc (theo CHARACTER_SKILLS, kĩ năng vũ khí thuộc giáp), bản rút gọn: sát thương, tiêu hao, hồi chiêu. Bị động hiện dòng `note` của hiệu ứng vũ khí; dòng độc quyền ghi "[Độc quyền <giáp>]".
+  - Mô tả vũ khí đọc khóa `<name_key>_DESC`; chưa có khóa nào nên hiện "Chưa có mô tả."
+  - Ảnh nền: `assets/ui/character/backgrounds/<tên>.png`, phủ kín màn, giữ tỉ lệ; thiếu thì dùng `bg_character_default`, vẫn thiếu thì nền màu như cũ.
+  - Bảng chọn (sách EXP, đổi trang bị, cường hóa, nâng bậc) có lớp làm tối và nền đục để không lẫn chữ phía sau.
+- **Hạn chế đã biết:** Tinh thể nâng bậc chưa có nguồn nhận trong game (chỉ quà thử nghiệm `item:mat_weapon_ascend=N`); owner quyết nguồn (rơi ải, cửa hàng, gacha) và tỉ lệ. Dòng bị động lấy từ `note` tiếng Việt nên bản tiếng Anh vẫn hiện tiếng Việt. Chưa có ảnh nền nào. Lỗi định dạng chuỗi ở bảng Giải thích từ ngữ (`_build_glossary`) có từ trước, không thuộc thay đổi này.
+
+
+## 2026-11-15 — Hướng dẫn người mới: NEO chỉ xếp đội hình sau ải 1-1
+- **Milestone / task:** Hướng dẫn người mới (owner 2026-11-15): đội hình mặc định chỉ có Enkiba; qua ải 1-1 nhận Kazeyumi nhưng không tự vào đội; sau lượt x10 miễn phí, NEO hướng dẫn mở Đội hình, thêm giáp vào đội và xác nhận.
+- **Trạng thái:** TESTED (owner chưa chơi thử trong Godot)
+- **File tạo/sửa:** `scripts/progression/player_profile.gd` (`auto_join_party`: giáp mới chỉ tự vào đội khi hướng dẫn đã xong; `grant` dùng hàm này), `scripts/gacha/gacha_service.gd` (lượt x10 miễn phí dùng `auto_join_party`), `scripts/ui/tutorial_flow.gd` (pha `PHASE_PARTY`, `party_candidate`, `pick`; `PHASE_FINISH` = Xác nhận đội ngũ), `scripts/ui/tutorial_guide.gd` (bước có `hints`: câu chỉ dẫn theo nút đang hiện), `data/tutorial/tutorial_dialogue.json` (7 bước mới), `localization/vi.po` + `en.po` (25 khóa `TUTORIAL_*`), `tests/unit/ui/test_tutorial.gd`, `tests/unit/gacha/test_equip_and_starter_banner.gd`, `tests/smoke/m8_playthrough_check.gd`.
+- **Luồng mới (sau khi dùng vé x10):** Xác nhận kết quả → Trở về (Chiêu mộ) → Menu (Tiếp tế) → Xuất kích → thẻ Đội hình → ô trống (`Slot_1`) → giáp sáng (`Suit_<id>`, giáp sở hữu đầu tiên chưa trong đội = Kazeyumi) → Xác nhận đội ngũ → xong (`tutorial.done = true`). Bước suy ra từ save (đội < 2 người và còn giáp để thêm = `PHASE_PARTY`), thoát giữa chừng vẫn tiếp tục đúng chỗ.
+- **Save cũ:** không bump phiên bản save. Save v5 đã migrate với `tutorial.done = true` → không bị bắt làm lại, giáp mới vẫn tự vào đội như trước. Save v6 đang dở ở bước đóng kết quả quay mà đội đã ≥ 2 người (bản trước tự thêm Raikiba / Kazeyumi) → kết thúc như cũ (`recruit_done`, `finish_if_missing`). Save không có mục `tutorial` coi như đã xong.
+- **Đã chạy:** `<godot> --headless --path . --script res://tests/smoke/m8_playthrough_check.gd` (gỡ lỗi); `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`.
+- **Kết quả thật:** `run_tests.ps1` mã thoát 0: GdUnit4 669/669 đạt (0 lỗi, 0 thất bại), 5/5 test khói đạt (m8 đi hết các bước xếp đội).
+- **Quyết định Claude chọn:** lúc hướng dẫn, mọi giáp mới (thưởng ải và lượt x10) đều không tự vào đội; sau hướng dẫn giữ hành vi cũ (tự vào nếu còn chỗ). NEO chỉ thêm một giáp (đội kết thúc 2 người), câu thoại cuối nhắc có thể quay lại thêm Raikiba. Thêm bước mới bằng id riêng (`recruit_close`, `recruit_back`, `hub_party`, `sortie_party`, `party_slot`, `party_add`, `party_confirm`), giữ nguyên khóa cũ `TUTORIAL_RECRUIT_DONE*` cho save đang dở. Test khói m8 trả đội về chỉ Enkiba trước bước chiêu mộ (phần trên giả lập Yomigari để thử đổi người) và chờ khung `_process` sau mỗi lần bấm (headless chạy nhiều physics frame mỗi khung).
+- **Hạn chế đã biết:** chưa chụp ảnh các bước mới; câu thoại do Claude viết, owner có thể sửa trong `.po`. Câu thoại cuối nhắc tên Raikiba (lượt x10 đầu tiên luôn cho Raikiba).
+
+## 2026-11-15 — Quy trình: GitHub và tự push sau mỗi commit
+- **Milestone / task:** Quy trình làm việc (owner 2026-11-15): nối dự án với GitHub cho cả đội; tự push sau mỗi commit.
+- **Trạng thái:** TESTED
+- **File tạo/sửa:** `tools/git-hooks/post-commit` (mới), `AGENTS.md` mục 7, `docs/DEVELOPMENT_LOG.md`.
+- **Đã chạy:** cài GitHub CLI 2.104.0 (`winget install GitHub.cli`); `gh repo create <owner>/PROJECT_ECLIPSE --private --source . --remote origin --push`; `git config core.hooksPath tools/git-hooks`; commit này để thử hook.
+- **Kết quả thật:** repo private, `main` theo dõi `origin/main`. Kết quả tự push của commit này: xem `.git/auto-push.log`.
+- **Quyết định Claude chọn:** hook nằm trong repo (`tools/git-hooks/`) để cả đội dùng chung, nhưng mỗi máy phải bật một lần bằng `git config core.hooksPath tools/git-hooks` (git không tự bật hook từ repo). Push chạy nền để commit không chờ mạng; bỏ qua khi detached HEAD (lúc rebase). Không force push.
+- **Hạn chế đã biết:** push lỗi (mất mạng, GitHub có commit mới hơn) chỉ ghi vào `.git/auto-push.log`, không báo ra màn hình; agent kiểm tra `git status -sb` sau commit theo AGENTS.md.
+
+
+## 2026-11-15 — M5: Tinh thể nâng bậc rơi từ ải 1-5 → 1-10
+- **Milestone / task:** M5 (trang bị) — owner 2026-11-15 chọn nguồn Tinh thể nâng bậc vũ khí: "Rơi từ ải".
+- **Trạng thái:** TESTED
+- **File tạo/sửa:** `tools/stages/gen_stages_01_05_10.py` (`rew` / `first` thêm `mat_weapon_ascend`) → `data/stages/stage_01_05.json` … `stage_01_10.json` (chỉ khối thưởng đổi); `tests/unit/progression/test_progression_inventory.gd` (`test_ascension_material_drops_from_stages`).
+- **Đã chạy:** `python -X utf8 -I tools/stages/gen_stages_01_05_10.py`; GdUnit `test_progression_inventory.gd` (21/21); `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`.
+- **Kết quả thật:** `run_tests.ps1` mã thoát 0: GdUnit 670/670 đạt (0 lỗi, 0 thất bại), 5/5 test khói đạt.
+- **Quyết định Claude chọn:** thưởng cố định (ải không có rơi ngẫu nhiên): mỗi lượt qua ải 1-5 → 1-9 được 1, ải 1-10 được 2; lần đầu 1-5 → 1-9 mỗi ải 1, ải 1-10 được 3 (tổng lần đầu 8: đủ nâng hết 2 bậc vũ khí 4★ cần 6, vũ khí 5★ cần 12 phải cày lại). Ải 1-1 → 1-4 (có hướng dẫn người mới) giữ nguyên.
+- **Hạn chế đã biết:** số do Claude đặt, owner chỉnh trong generator rồi chạy lại.
+
+
+## 2026-11-15 — M5: ảnh 5 vũ khí 5★ còn lại, gọn mô tả bị động theo tên giáp
+- **Milestone / task:** M5 (trang bị) — owner 2026-11-15: đưa ảnh vũ khí của 5 nhân vật còn lại vào game; phần bị động của vũ khí độc quyền ghi "Khi <tên giáp> trang bị:" rồi liệt kê hiệu ứng, không lặp tên nhân vật.
+- **Trạng thái:** TESTED
+- **File tạo/sửa:** `assets/equipment/weapons/eq_weapon_{solar_verdict,unyielding_peak,last_gale,twin_thunder,crescent_pact}.png` (+ `.import`); `tools/cut_flat_bg.py` (tùy chọn `--holes N`, `--hole-t`: xóa cả lỗ nền bị vật bao kín); `tools/gen_equipment_5star.py` (8 dòng `note` thay tên nhân vật bằng "người đeo") → 6 file `data/equipment/eq_weapon_*.tres` 5★ (thêm `art`, sửa `note`); `scripts/ui/character/character_screen.gd` (`weapon_skill_text`: hiệu ứng chung trước, hiệu ứng độc quyền dưới "Khi <giáp> trang bị:"; `suit_label`; dòng "Đang trang bị" ghi tên giáp); `tools/add_locale_keys.py`, `localization/vi.po`, `en.po` (+`WEAPON_UI_WHEN_EQUIPPED`, bỏ `WEAPON_UI_EXCLUSIVE`); `tests/unit/ui/test_character_screen.gd`; `docs/ASSET_LICENSES.md` mục 2.1 (5 dòng).
+- **Đã chạy:** `python -X utf8 -I tools/cut_flat_bg.py <webp> <png> --holes 400` (×5); `python -X utf8 -I tools/gen_equipment_5star.py`; `python -X utf8 -I tools/add_locale_keys.py`; `<godot> --headless --path . --import`; GdUnit màn Nhân vật + progression (97/97); `<godot> --path . -s tools/screenshot_character.gd`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`.
+- **Kết quả thật:** 5 ảnh 1950×1030 RGBA, trong suốt hẳn 70.6–92.8%; kiểm bằng ảnh ghép trên nền hồng / xanh: không còn xám ở khe cung, vòng trượng, vòng lưỡi hái, khoen chuôi đao. `run_tests.ps1` mã thoát 0: GdUnit 670/670 đạt, 5/5 test khói đạt.
+- **Quyết định Claude chọn:** ghép ảnh theo loại vũ khí (trượng → Nhật Miện Phán Quyết, đại kiếm → Cốt Sơn Bất Khuất, cung → Hơi Thở Cuối Mùa Gió, song đao → Hai Tiếng Sấm, lưỡi hái → Liềm Khế Ước Trăng Khuyết).
+- **Hạn chế đã biết:** chưa có ảnh chụp màn cho 5 vũ khí mới (công cụ chụp chỉ trang bị cho Enkiba).
+
+
+## 2026-11-15 — M5: bậc cường hóa theo độ hiếm, phụ tố vết thánh, bảng thông tin vết thánh 3 tab, Túi đồ mở bảng thông tin
+- **Milestone / task:** M5 (trang bị) — owner 2026-11-15: vũ khí 3★ cường hóa 15-20-25, 4★ 25-30-35, 5★ 25-40-45-50; vết thánh 30-40-50; cấp cường hóa không vượt cấp người chơi; vết thánh có phụ tố ngẫu nhiên tẩy bằng đá tẩy phụ tố và skill set; bảng thông tin vết thánh 3 tab (Skill vết thánh / Skill phụ tố / Skill set) theo ảnh tham chiếu; bấm vết thánh ở tab Vết thánh và bấm vũ khí / vết thánh ở Túi đồ cũng mở bảng thông tin như Nhân vật → Vũ khí.
+- **Trạng thái:** TESTED
+- **File tạo/sửa:**
+  - Luật: `scripts/progression/progression_rules.gd` (nhóm "Bậc cường hóa trang bị": `weapon_level_caps`, `stigma_level_caps`, `ascend_material*`, `ascend_gold`; nhóm "Phụ tố vết thánh": `affix_count`, `affix_value_scale`, `affix_reroll_material`, `affix_reroll_cost`; bỏ `weapon_ascend_*`), `data/config/progression.tres`.
+  - `scripts/progression/affix_def.gd` (mới), `data/equipment/affixes/*.tres` (12 loại), `data/items/mat_affix_reroll.tres`.
+  - `scripts/progression/inventory.gd` (`level_caps`, `final_level_cap`, `captain_level`, giới hạn cấp người chơi trong `check_enhance`, `REASON_NEED_LEVEL`; phụ tố: `roll_affixes`, `ensure_affixes`, `affixes_of`, `pending_affixes`, `reroll_affixes`, `confirm_reroll`, `affix_bonus`; phụ tố cộng vào `equipped_bonus` và `loadout_of`), `scripts/progression/player_profile.gd` (`affix_defs`, gieo phụ tố save cũ), `scripts/save/save_schema.gd` (ghi chú).
+  - Generator: `tools/gen_item_data.py` (luật mới, phụ tố, đá tẩy, `growth()` theo độ hiếm, giá cường hóa 20 / 10 × cost), `tools/gen_equipment_5star.py` (5★: 4%/cấp, 100 vàng, 50 điểm), `tools/stages/gen_stages_01_05_10.py` (đá tẩy) → 59 file `data/equipment/eq_*.tres`, `data/stages/stage_01_05..10.json`.
+  - UI: `scripts/ui/character/character_screen.gd` (bảng thông tin dùng chung `detail_uid` / `detail_return` / `detail_tab`, `open_equipment_detail`, 3 tab vết thánh, `stigma_skill_text`, `affix_text`, `set_text`, `level_hint`, bảng `reroll` Giữ cũ / Giữ mới, thẻ tab Vết thánh bấm được), `scripts/ui/bag_screen.gd` (`open_equipment`), `scripts/core/game_config.gd` (`inspect_equipment_uid`), `tools/add_locale_keys.py` + `localization/vi.po`, `en.po`, `tools/screenshot_character.gd` (ảnh 11–14).
+  - Test: `tests/unit/progression/test_progression_inventory.gd` (bậc theo độ hiếm, nâng bậc vũ khí + vết thánh, giới hạn cấp người chơi, phụ tố bốc / cộng / tẩy, save cũ, rơi từ ải), `test_equipment_effects.gd`, `tests/unit/ui/test_character_screen.gd` (3 tab + tẩy, mở từ Túi đồ), `tests/unit/ui/test_hub_home.gd`.
+- **Đã chạy:** `python -X utf8 -I tools/gen_item_data.py`; `python -X utf8 -I tools/gen_equipment_5star.py`; `python -X utf8 -I tools/stages/gen_stages_01_05_10.py`; `python -X utf8 -I tools/add_locale_keys.py`; `<godot> --headless --path . --import`; GdUnit từng nhóm; `<godot> --path . -s tools/screenshot_character.gd`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`.
+- **Kết quả thật:** `run_tests.ps1` mã thoát 0: GdUnit 676/676 đạt (0 lỗi, 0 thất bại), 5/5 test khói đạt. Ảnh `build/screenshots/character_11..14_*.png`: 3 tab vết thánh, Skill set sáng bộ 2 món đang mặc, mờ bộ 3 món chưa đủ; bảng tẩy hiện phụ tố cũ / mới và 2 nút.
+- **Quyết định Claude chọn:**
+  - Đọc "5★ … 4 bậc (25-40-45-50)" là 4 mức giới hạn (3 lần nâng bậc); vết thánh 30-40-50 áp cho mọi độ hiếm. Giá nâng bậc dùng chung Tinh thể nâng bậc: 2 / 4 / 6 + 5000 / 10000 / 20000 vàng.
+  - Chỉ số mỗi cấp: vũ khí 3★ 6%, 4★ 5%, 5★ 4%, vết thánh 4% (ở cấp tối đa gấp ~2.5–3 lần cấp 0, thay cho 10%/cấp khi cấp tối đa còn 10). Giá cường hóa mỗi cấp chia nhỏ lại (3★/4★: 20 vàng, 10 điểm × hệ số; 5★: 100 vàng, 50 điểm), tổng giá lên cấp tối đa cao hơn trước.
+  - Phụ tố: 12 loại (ATK, HP, DEF, tỉ lệ bạo kích, ST bạo kích, giảm hồi chiêu, tất cả ST, ST nguyên tố, % ATK, % HP, hiệu quả hồi máu, tốc độ nạp EN), mỗi món không trùng loại; 1★–3★ 1 dòng, 4★/5★ 2 dòng; giá trị × 0.6 (3★), 0.8 (4★), 1.0 (5★). Tẩy là tẩy cả bộ, rồi chọn giữ mới / giữ cũ (đá tiêu lúc tẩy); 5★ tốn 2 đá, còn lại 1. Ngẫu nhiên qua `Inventory.rng` (test đặt seed).
+  - Đá tẩy phụ tố rơi lần đầu ở ải 1-5 → 1-9 (1), 1-10 (2); lượt thường chỉ ải 1-10 (1).
+  - Save cũ: vết thánh chưa có phụ tố được gieo một lần khi tạo PlayerProfile; món đang ở cấp > giới hạn mới vẫn giữ cấp (không trừ).
+  - Bảng thông tin mở từ Túi đồ: Trở về là rời màn (về Túi đồ), không có nút Đổi.
+- **Hạn chế đã biết:** Skill set chỉ hiện dòng `note` của hiệu ứng bộ (tiếng Việt, cả ở bản tiếng Anh). Ô lời đồn dưới tên vũ khí chưa có. Ảnh vết thánh chưa có (placeholder). Số phụ tố / giá là khởi điểm, owner chỉnh trong `tools/gen_item_data.py`.
+
+
+## 2026-11-15 — M5: mô tả ngắn và giai thoại 6 vũ khí 5★
+- **Milestone / task:** M5 (trang bị) — owner 2026-11-15 gửi mô tả ngắn (~25–30 chữ, đặt trong ô mô tả, README 15.6: không bị cắt) và chuyện của vũ khí (giai thoại dài, cho tab chi tiết / codex) của 6 vũ khí 5★.
+- **Trạng thái:** TESTED
+- **File tạo/sửa:** `localization/vi.po`, `en.po` (12 khóa `EQUIP_EQ_WEAPON_<ID>_DESC` / `_LORE` cho dusk_inferno, last_gale, twin_thunder, solar_verdict, crescent_pact, unyielding_peak; `WEAPON_UI_LORE`); `tools/add_locale_keys.py`; `scripts/ui/character/character_screen.gd` (ô mô tả đọc `_DESC`; nút "Giai thoại" khi có `_LORE`; bảng giai thoại `_build_lore` cuộn được, Trở về đóng bảng; chữ phụ tố trong bảng tẩy canh trên); `data/ui/character_screen_layout.json` (`weapon_detail.lore_button`, `lore_panel`); `tests/unit/ui/test_character_screen.gd` (`test_weapon_short_description_and_lore`); `tools/screenshot_character.gd` (ảnh 15).
+- **Đã chạy:** script Python thêm 12 khóa vào 2 file .po; `python -X utf8 -I tools/add_locale_keys.py`; `<godot> --headless --path . --import`; `<godot> --path . -s tools/screenshot_character.gd`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`.
+- **Kết quả thật:** `run_tests.ps1` mã thoát 0: GdUnit 677/677 đạt (0 lỗi, 0 thất bại), 5/5 test khói đạt. Ảnh `build/screenshots/character_8_weapon_detail.png`: mô tả ngắn Hoàng Hôn Thiêu Rụi hiện đủ 2 dòng trong ô 925×186, nút Giai thoại ở góc; `character_15_weapon_lore.png`: bảng giai thoại 2 đoạn.
+- **Quyết định Claude chọn:** khóa dịch theo quy ước dự án `UPPER_SNAKE` (`EQUIP_EQ_WEAPON_DUSK_INFERNO_DESC` / `_LORE`) thay cho dạng `eq_weapon_dusk_inferno.short` owner gợi ý; vẫn theo Data ID nên đổi tên vũ khí không phải sửa code. Bản tiếng Anh do Claude dịch. Giai thoại mở bằng nút trong ô mô tả (bảng phủ), chưa có màn codex riêng. Tên riêng trong chuyện (Hạ Chiểu, thung lũng Hoàng Hôn, Lục Đồng, sông Lục, núi Bất Khuất) giữ nguyên theo owner.
+- **Hạn chế đã biết:** dòng "lời đồn" (câu trích dân sông Lục, tư tế cuối, chủ nhân đầu tiên) chưa tách riêng dưới tên vũ khí, hiện nằm trong giai thoại. Vũ khí 3★ / 4★ chưa có mô tả.
+
+
+## 2026-11-15 — M5: ảnh 3 vết thánh bộ Antoine Lavoisier, công cụ ghép ảnh vết thánh
+- **Milestone / task:** M5 (trang bị) — owner 2026-11-15 gửi 3 ảnh vết thánh (1:1) và biểu tượng bộ Antoine Lavoisier: đặt ảnh chính giữa, biểu tượng ở chính giữa phía sau làm nền, có ánh sáng đỏ; sau đó yêu cầu phóng nhân vật vừa khít khung (biểu tượng được xén).
+- **Trạng thái:** TESTED
+- **File tạo/sửa:** `assets/equipment/stigmata/eq_stigma_{top,mid,bot}_lavoisier.png` (1248×2280) + `.import`; `assets/equipment/sets/set_lavoisier.png` (biểu tượng đã xóa nền, 1254×1254) + `.import`; `tools/compose_stigma_art.py` (mới: biểu tượng + hào quang màu phía sau, ảnh phía trước, `--fit`); `tools/gen_equipment_5star.py` chạy lại → 3 file `data/equipment/eq_stigma_*_lavoisier.tres` (thêm `art`); `scripts/ui/character/placeholder_art.gd` (`center_square`: phần vuông phía trên của ảnh dọc); `scripts/ui/character/character_screen.gd` (ô vết thánh tổng quan, bảng thông tin dùng `center_square`); `scripts/ui/bag_screen.gd` (thẻ Túi đồ cắt phần vuông phía trên bằng AtlasTexture); `tests/unit/ui/test_character_screen.gd` (`test_lavoisier_stigma_art_and_center_crop`); `tools/screenshot_character.gd` (mặc bộ Lavoisier); `docs/ASSET_LICENSES.md` mục 2.1 (4 dòng).
+- **Đã chạy:** `python -X utf8 -I tools/cut_flat_bg.py <webp> <png> --holes 400` (×4); `python -X utf8 -I tools/compose_stigma_art.py <emblem> <out> <src> --fit --emblem-scale 1.5 --glow-radius 60` (×3); `python -X utf8 -I tools/gen_equipment_5star.py`; `<godot> --headless --path . --import`; `<godot> --path . -s tools/screenshot_character.gd`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`.
+- **Kết quả thật:** `run_tests.ps1` mã thoát 0: GdUnit 678/678 đạt (0 lỗi, 0 thất bại), 5/5 test khói đạt. Ảnh chụp tab Vết thánh: 2 thẻ Oxy / Định Luật Bảo Toàn Khối Lượng hiện nhân vật vừa khung, biểu tượng đỏ phát sáng phía sau.
+- **Quyết định Claude chọn:** ghép ảnh theo nội dung: lồng lửa + ống nghiệm → Đầu (Oxy), cân hai bình → Thân (Định Luật Bảo Toàn Khối Lượng), đọc sách + bộ chưng cất → Chân (Chuyên Luận Hóa Học). Hào quang #FF2A1A, biểu tượng pha 25% màu hào quang. Khung ngang / vuông (bảng thông tin, ô tổng quan, Túi đồ) lấy phần vuông phía trên ảnh (kiểu chân dung). Giữ biểu tượng bộ trong `assets/equipment/sets/` để ghép lại / dùng sau.
+- **Hạn chế đã biết:** tên dài trên thẻ tab Vết thánh đè hàng sao; dòng "Hiệu ứng bộ: chưa có" ở tab Vết thánh là chữ cũ (bộ đã có dữ liệu). 15 bộ vết thánh 5★ còn lại chưa có ảnh.
+
+
+## 2026-11-15 — M5: vết thánh dạng full art (thẻ tab Vết thánh, bảng thông tin)
+- **Milestone / task:** M5 (trang bị) — owner 2026-11-15: thẻ vết thánh và bảng thông tin vết thánh dạng full art như ảnh tham chiếu, chữ (tên, sao, Lv, mô tả) đè lên ảnh không có nền; bảng thông tin vũ khí giữ nguyên.
+- **Trạng thái:** TESTED
+- **File tạo/sửa:** `scripts/ui/character/character_screen.gd` (thẻ tab Vết thánh: ảnh phủ kín thẻ trừ nút Đổi, `cover_crop`, Lv / tên canh đáy / sao đè lên ảnh qua `_overlay_label`; bảng thông tin vết thánh: ảnh cả người ở nửa trái, bỏ các ô nền bên trái, chữ đè lên ảnh, `_edge_fade` làm mờ hai mép và đáy vào màu nền); `scripts/ui/character/placeholder_art.gd` (`cover_crop`); `data/ui/character_screen_layout.json` (`weapon_detail.stigma_art`).
+- **Đã chạy:** `<godot> --headless --path . --check-only -s scripts/ui/character/character_screen.gd`; `<godot> --path . -s tools/screenshot_character.gd`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`; chạy lại `<godot> --headless --path . --script res://tests/smoke/m1_flow_check.gd` ×2.
+- **Kết quả thật:** `run_tests.ps1` mã thoát 1: GdUnit 678/678 đạt, 4/5 test khói đạt; `m1_flow_check` lỗi 1 bước "Game mới -> Hub" (lần chạy đó song song với công cụ chụp màn hình). Chạy lại riêng `m1_flow_check` 2 lần: 0 lỗi, mã thoát 0. Ảnh chụp `character_3_stigma.png`, `character_11..13`: thẻ và bảng thông tin full art, tên dài không đè sao.
+- **Quyết định Claude chọn:** bảng thông tin vết thánh hiện cả người (vừa theo chiều cao) lệch phải thay vì phủ kín khung (phủ kín chỉ còn tới đùi, đè chữ); viền chữ đen đậm thay cho nền ô chữ.
+- **Hạn chế đã biết:** bước "Game mới -> Hub" của `m1_flow_check` có lúc lỗi khi máy bận (không tái hiện khi chạy riêng); không chạy công cụ chụp màn hình cùng lúc với test.
+
+
+## 2026-11-15 — M5: bảng đổi trang bị dạng lưới, nền mở rộng bảng thông tin vết thánh, gói quà thử nghiệm
+- **Milestone / task:** M5 (trang bị) — owner 2026-11-15: (1) danh sách vết thánh nhiều nên khó tìm → bảng đổi trang bị sắp xếp như ảnh tham chiếu, cho cả vũ khí và vết thánh; (2) mở rộng nền bảng thông tin vết thánh để thấy nhân vật cả người kèm biểu tượng; (3) bộ Antoine Lavoisier chưa thấy trong game → gói quà thử nghiệm.
+- **Trạng thái:** TESTED
+- **File tạo/sửa:** `scripts/ui/character/character_screen.gd` (`_build_equip_picker`: chỉ số trước → sau qua `preview_stats` trên bản sao dữ liệu, kĩ năng món đang chọn, 4 ô đang mặc `SlotCard_*`, lưới `PickCard_*` cuộn được, nút `PickDetail` / `PickEquip`; `candidates` xếp đang mặc → sao → cấp; `equip` giữ bảng mở; `stigma_layers` + 2 lớp `StigmaEmblem` / nhân vật); `data/ui/character_screen_layout.json` (`equip_picker`, `weapon_detail.stigma_emblem`, `stigma_figure`, `stigma_layers`); `tools/compose_stigma_art.py` (bỏ ảnh vào = chỉ biểu tượng + hào quang; `--no-emblem`); `assets/equipment/sets/set_lavoisier_glow.png`, `assets/equipment/stigmata/eq_stigma_{top,mid,bot}_lavoisier_figure.png` (+ `.import`); `data/debug/gift_presets.json` (gói `lavoisier`, `upgrade`; `everything` thêm `upgrade`); `tools/add_locale_keys.py` + `localization/vi.po`, `en.po` (`EQUIP_PICK_CURRENT`, `EQUIP_PICK_DETAIL`); `docs/ASSET_LICENSES.md` (4 dòng); test `tests/unit/ui/test_character_screen.gd` (bảng chọn mới, `test_equip_picker_preview_sort_and_detail`), `tests/unit/debug/test_debug_gift.gd`; `tools/screenshot_character.gd` (ảnh 16, 17).
+- **Đã chạy:** `python -X utf8 -I tools/compose_stigma_art.py ...` (lớp biểu tượng, 3 lớp nhân vật; kiểm ảnh thẻ dựng lại giống hệt bản đã commit); `python -X utf8 -I tools/add_locale_keys.py`; `<godot> --headless --path . --import`; `<godot> --path . -s tools/screenshot_character.gd`; GdUnit `test_character_screen.gd` + `tests/unit/debug`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`.
+- **Kết quả thật:** `run_tests.ps1` mã thoát 0: GdUnit 679/679 đạt (0 lỗi, 0 thất bại), 5/5 test khói đạt. Ảnh `character_16_pick_stigma.png`: chỉ số trước » sau, Skill vết thánh + Skill set, 4 ô đang mặc, lưới 5★ → 3★, nút Xem chi tiết / Tháo; `character_11_stigma_skill.png`: biểu tượng Lavoisier đầy đủ + hào quang phía sau nhân vật cả người.
+- **Quyết định Claude chọn:** bảng chọn trang bị giữ mở sau khi mặc (nút đổi thành Tháo), Trở về để đóng; nút gỡ dùng chữ "Tháo" sẵn có; chỉ số so sánh HP / ATK / DEF / tỉ lệ bạo kích; số tăng xanh, giảm đỏ. Bảng thông tin dùng 2 lớp riêng khi có (`{id}_figure.png`, `{set}_glow.png`), không có thì dùng ảnh ghép sẵn. Gói quà nâng bậc: 30 Tinh thể nâng bậc, 30 Đá tẩy phụ tố, 200 000 vàng.
+- **Hạn chế đã biết:** chưa có lọc / đổi kiểu sắp xếp trong bảng chọn (ảnh tham chiếu có nút lọc, sắp xếp). Bảng chọn sách EXP vẫn dạng danh sách cũ.
+
+
+## 2026-11-16 — M5: ảnh 3 vết thánh bộ Leonardo da Vinci
+- **Milestone / task:** M5 (trang bị) — owner gửi 3 ảnh vết thánh (1:1) và biểu tượng bộ Leonardo da Vinci (Kazeyumi).
+- **Trạng thái:** TESTED
+- **File tạo/sửa:** `assets/equipment/stigmata/eq_stigma_{top,mid,bot}_davinci.png` và `..._davinci_figure.png` (1248×2280); `assets/equipment/sets/set_davinci.png` (1254×1254), `set_davinci_glow.png` (1400×1400) (+ `.import`); `tools/compose_stigma_art.py` (`--overflow`, đã commit cùng `6b6f38c`); `tools/gen_equipment_5star.py` chạy lại → 3 file `data/equipment/eq_stigma_*_davinci.tres` (thêm `art`); `data/debug/gift_presets.json` (gói `davinci`); `docs/ASSET_LICENSES.md` mục 2.1 (8 dòng); `tests/unit/ui/test_character_screen.gd` (test ảnh gồm cả da Vinci, kiểm 2 lớp full art); `tools/screenshot_character.gd`.
+- **Đã chạy:** `python -X utf8 -I tools/cut_flat_bg.py <webp> <png> --holes 400` (×4); `python -X utf8 -I tools/compose_stigma_art.py ... --glow #2BFFB0` (thẻ: `--fit --emblem-scale 1.5 --glow-radius 60`, Thân thêm `--overflow 1.4`; lớp nhân vật `--fit --no-emblem`; lớp biểu tượng `--size 1400x1400 --emblem-scale 0.8`); `python -X utf8 -I tools/gen_equipment_5star.py`; `<godot> --headless --path . --import`; `<godot> --path . -s tools/screenshot_character.gd`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`.
+- **Kết quả thật:** `run_tests.ps1` mã thoát 0: GdUnit 679/679 đạt (0 lỗi, 0 thất bại), 5/5 test khói đạt. Ảnh chụp tab Vết thánh và bảng thông tin Chong Chóng Trên Không hiện đúng (biểu tượng đầy đủ, hào quang xanh ngọc).
+- **Quyết định Claude chọn:** ghép theo nội dung: chong chóng bay → Đầu (Chong Chóng Trên Không), bộ cánh cơ khí → Thân (Cỗ Máy Cánh Chim), sổ bản vẽ → Chân (Bản Thảo Codex). Hào quang #2BFFB0 theo màu biểu tượng (owner chưa chỉ định màu). Ảnh Thân cánh dang rộng: `--overflow 1.4` để nhân vật to hơn, mép cánh xén nhẹ.
+- **Hạn chế đã biết:** 4 bộ vết thánh 5★ còn lại chưa có ảnh.
+
+
+## 2026-11-16 — M5: hiệu ứng bộ đang kích hoạt ở tab Vết thánh, Skill set tách phần độc quyền; sửa test phụ thuộc phụ tố ngẫu nhiên
+- **Milestone / task:** M5 (trang bị) — owner 2026-11-16: (1) ô chữ dưới chân nhân vật ở tab Vết thánh chỉ hiện buff của bộ đang kích hoạt (2 món, 3 món); (2) tab Skill set thiếu mục "Khi Hỏa Diễm Mãnh Liệt trang bị" dù `EQUIPMENT_5STAR.md` có.
+- **Trạng thái:** TESTED
+- **File tạo/sửa:** `scripts/ui/character/character_screen.gd` (`active_set_text`: đếm món cùng bộ của giáp, hiện mức đủ 2 / 3 món, dòng độc quyền chỉ khi đúng giáp chủ; ô `StigmaText` đổi sang RichTextLabel; `set_text`: mỗi mức hiệu ứng chung rồi "Khi <giáp> trang bị:" + hiệu ứng độc quyền, mờ khi chưa kích hoạt hoặc người mặc không phải giáp chủ; bỏ dòng mờ cuối); `tools/add_locale_keys.py` + `localization/vi.po`, `en.po` (`STIGMA_UI_NO_ACTIVE_SET`); `tests/unit/ui/test_character_screen.gd` (`test_active_set_text_and_skill_set_exclusive`, sửa test 3 ô vết thánh); `tests/unit/progression/test_equipment_triggers.gd` (`_wear` bỏ phụ tố ngẫu nhiên).
+- **Đã chạy:** `python -X utf8 -I tools/add_locale_keys.py`; GdUnit `test_character_screen.gd` (37/37), `test_equipment_triggers.gd` (11/11), `test_kazeyumi_raikiba_skills.gd` (25/25); `<godot> --path . -s tools/screenshot_character.gd`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1` (×3).
+- **Kết quả thật:** `run_tests.ps1` (lần 3, sau khi sửa test) mã thoát 0: GdUnit 680/680 đạt (0 lỗi, 0 thất bại), 5/5 test khói đạt. Hai lần chạy toàn bộ trước: lần 1 lỗi `test_raikiba_weapon_blocks_normal_800ms` (máy bận xử lý ảnh; chạy lại riêng đạt); lần 2 lỗi `test_kill_heal_and_curse_buff_condition` — lỗi thật: vết thánh có phụ tố ngẫu nhiên (vd hiệu quả hồi máu) làm lượng hồi khác 3%; GdUnit dừng bộ test đó sớm nên tổng số ca thấp hơn (677). Đã sửa `_wear` bỏ phụ tố.
+- **Quyết định Claude chọn:** ô tab Vết thánh không còn chỉ số từng món; chưa đủ 2 món cùng bộ thì ghi "Chưa kích hoạt hiệu ứng bộ (cần 2 món cùng bộ)". Phần độc quyền của mức đã đủ món nhưng người mặc không phải giáp chủ vẫn hiện (mờ) ở tab Skill set để người chơi biết.
+- **Hạn chế đã biết:** khóa `CHAR_UI_NO_SET_BONUS` không còn dùng (giữ trong .po).
+
+
+## 2026-11-16 — M5: ảnh vết thánh bộ Benjamin Franklin và Florence Nightingale
+- **Milestone / task:** M5 (trang bị) — owner gửi 3 ảnh vết thánh + biểu tượng cho bộ Benjamin Franklin (Raikiba, "màu vàng của tia sét") và Florence Nightingale (Hikarine, "vàng kim để khác bộ trước"); sau đó báo ảnh Con Diều Trong Bão lệch, cần dời nhân vật ra giữa.
+- **Trạng thái:** TESTED
+- **File tạo/sửa:** `assets/equipment/stigmata/eq_stigma_{top,mid,bot}_{franklin,nightingale}.png` và `..._figure.png` (1248×2280); `assets/equipment/sets/set_{franklin,nightingale}.png` (1254×1254), `..._glow.png` (1400×1400) (+ `.import`); `tools/compose_stigma_art.py` (`--shift-x`; ghép bằng xén phần ra ngoài khung rồi `alpha_composite`, kết quả không dời giống hệt bản cũ); `tools/gen_equipment_5star.py` chạy lại → 6 file `data/equipment/eq_stigma_*_{franklin,nightingale}.tres` (thêm `art`); `data/debug/gift_presets.json` (gói `franklin`, `nightingale`); `docs/ASSET_LICENSES.md` mục 2.1 (16 dòng); `tests/unit/ui/test_character_screen.gd` (test ảnh gồm 2 bộ mới); `tools/screenshot_character.gd`.
+- **Đã chạy:** `python -X utf8 -I tools/cut_flat_bg.py <webp> <png> --holes 400` (×8); `python -X utf8 -I tools/compose_stigma_art.py ...` (Franklin `--glow #FFD21F`, Đầu `--fit --overflow 1.2 --margin 8 --shift-x 260`; Nightingale `--glow #F2B544`); `python -X utf8 -I tools/gen_equipment_5star.py`; `<godot> --headless --path . --import`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`.
+- **Kết quả thật:** `run_tests.ps1` (lần 3, sau khi sửa test) mã thoát 0: GdUnit 680/680 đạt (0 lỗi, 0 thất bại), 5/5 test khói đạt.
+- **Quyết định Claude chọn:** Franklin: diều → Đầu (Con Diều Trong Bão), cột thu lôi → Thân (Cột Thu Lôi), chồng sách + đồng xu → Chân (Niên Lịch Richard Nghèo); hào quang #FFD21F. Ảnh Đầu phóng 1.2 lần (giữ trọn diều và chân), sau đó dời phải 260 px theo owner: nhân vật ra giữa thẻ, con diều ra ngoài phần thẻ hiển thị (bảng thông tin vẫn thấy đủ vì lớp nhân vật không dời). Nightingale: đèn lồng → Đầu (Ngọn Đèn Scutari), biểu đồ tròn → Thân (Biểu Đồ Hoa Hồng), viết sổ → Chân (Ghi Chép Về Điều Dưỡng); hào quang vàng kim #F2B544 (ngả cam, khác vàng chanh của Franklin); ảnh Thân giữ cỡ vừa khung để không xén biểu đồ.
+- **Hạn chế đã biết:** 2 bộ 5★ còn lại (Edgar Allan Poe, Charles Darwin) chưa có ảnh.
+
+## 2026-11-16 — M9-1 Máy chủ thử nghiệm Nakama, đường hầm trycloudflare, màn Trực tuyến
+- **Milestone / task:** M9-1 (mới) — owner 2026-11-16: nạp tiền bằng chuyển khoản QR thủ công, QTV phát quà từ tool máy chủ; chọn Nakama, ưu tiên máy của owner làm máy chủ, thử đường hầm trycloudflare.com. Owner chọn cài bản portable (không Docker / WSL).
+- **Trạng thái:** TESTED
+- **File tạo/sửa:** `server/` (mới, có `.gdignore`): `setup_local.ps1`, `start_local.ps1`, `stop_local.ps1`, `tunnel.ps1`, `grant.ps1`, `modules/index.js`, `nakama/config.yml`, `docker-compose.yml`, `.env.example`, `README.md`; `scripts/online/nakama_api.gd`, `online_config.gd`, `online_service.gd` (autoload `OnlineService`); `scripts/ui/online_screen.gd` + `scenes/main/online_screen.tscn`; `scripts/ui/title.gd` (nút Trực tuyến); `scripts/core/game_config.gd` (`SCENE_ONLINE`); `data/config/online_config.json`; `project.godot`; `tools/add_locale_keys.py` + `localization/vi.po`, `en.po` (19 khóa); `tests/unit/online/test_nakama_api.gd`, `test_online_service.gd`; `tools/online_e2e.gd`, `tools/screenshot_online.gd`; `.gitignore`; `AGENTS.md`; `docs/ASSET_LICENSES.md` (mục 3.4); `docs/IMPLEMENTATION_ROADMAP.md` (Milestone 9).
+- **Đã chạy:** `server\setup_local.ps1` (tải Nakama 3.42.0, PostgreSQL 17.12-1, cloudflared 2026.11.0; initdb); `server\start_local.ps1`; `server\tunnel.ps1`; curl đăng nhập thiết bị + RPC `eclipse_profile`; `server\grant.ps1` (phát, phát trùng ref, sai mã, số quá lớn); `<godot> --headless --path . --script res://tools/online_e2e.gd -- --server=<127.0.0.1 và địa chỉ trycloudflare>`; `<godot> --path . -s tools/screenshot_online.gd`; GdUnit `tests/unit/online`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`.
+- **Kết quả thật:** `run_tests.ps1` mã thoát 0: GdUnit 692/692 đạt (0 lỗi), 5/5 test khói đạt. Game → Nakama trực tiếp: đăng nhập + hồ sơ 74 ms; qua trycloudflare: 1035 ms, mã thoát 0. `grant.ps1` phát 300 ngọc + 5000 vàng cho mã 5500 9391, game đọc lại qua đường hầm đúng số. Phát lần hai cùng ref bị từ chối; mã không tồn tại và 99 999 999 ngọc bị từ chối. Trang quản trị 7351 không truy cập được qua đường hầm (đúng ý). Ảnh `build/screenshots/online_0_title.png`, `online_1_connected.png`.
+- **Quyết định Claude chọn:** client REST tự viết bằng HTTPRequest (không thêm plugin nakama-godot: giai đoạn 1 chỉ cần đăng nhập + RPC, chạy được cả bản web). Đăng nhập bằng mã thiết bị ngẫu nhiên 32 hex lưu `user://online_device.cfg`. Mã người chơi 8 chữ số do máy chủ cấp (giữ chỗ bằng storage version "*" để không trùng). Chống phát trùng bằng ref giao dịch ngân hàng duy nhất (storage `admin_grant`), ví cập nhật có ghi sổ (ledger). Tool phát quà gọi RPC bằng `http_key` (chỉ trên máy chủ). Module JS thuần (không cần build). PostgreSQL cổng 5433, mọi cổng chỉ nghe 127.0.0.1 (máy ngoài vào qua đường hầm; `-Lan` để thử trong LAN). Thêm autoload `OnlineService` (hạ tầng, không luật gameplay). Ví chỉ hiển thị `gems`, `gold`; giới hạn mỗi lần phát 10 000 000.
+- **Hạn chế đã biết:** ví máy chủ chưa gộp với save trên máy (M9-2). Địa chỉ trycloudflare đổi mỗi lần chạy, người thử phải dán lại. Máy chủ phụ thuộc máy owner bật; chưa backup tự động. Cài lại game = tài khoản mới (chưa liên kết email). Khóa máy chủ (`server_key`) đang là giá trị thử `eclipse-test-key`, đổi trước khi phát hành. Owner chưa chốt bảng gói nạp (số ngọc theo số tiền).
+
+## 2026-11-16 — M9-1b Màn Đăng nhập: tạo tài khoản ngay trên màn đăng nhập
+- **Milestone / task:** M9-1b — owner 2026-11-16: màn đăng nhập khi mở game, tạo tài khoản ngay trên màn đăng nhập, coi máy chủ là dịch vụ online ngoài dự án Godot.
+- **Trạng thái:** TESTED
+- **File tạo/sửa:** `scripts/ui/login_screen.gd` + `scenes/main/login_screen.tscn` (mới); `scripts/online/online_service.gd` (đăng ký, đăng nhập tên / email, ghi nhớ phiên bằng refresh token `user://online_session.cfg`, `resume`, `logout`, làm mới phiên khi token hết hạn; đăng nhập thiết bị đổi tên `login_device`); `scripts/online/nakama_api.gd` (`register_account`, `login_account`, `refresh_session`, kiểm tra tên / email / mật khẩu); `scripts/online/online_config.gd` + `data/config/online_config.json` (`login_on_start`); `scripts/ui/boot.gd` (Boot → Đăng nhập, bỏ qua khi headless / `--offline`); `scripts/ui/online_screen.gd` (màn Tài khoản: tên, mã, ví, Làm mới, Đăng xuất; bỏ ô địa chỉ máy chủ); `scripts/ui/title.gd` (nút hiện "Tài khoản: <tên>"); `scripts/core/game_config.gd` (`SCENE_LOGIN`); `server/modules/index.js` (kiểm tên đăng nhập khi tạo tài khoản, cấp mã người chơi sau đăng nhập email); `tools/add_locale_keys.py` + `localization/vi.po`, `en.po` (+31 khóa, bỏ 3 khóa không dùng); `tests/unit/online/*`; `tools/online_e2e.gd`, `tools/screenshot_online.gd`; `server/README.md`; `AGENTS.md`; `docs/IMPLEMENTATION_ROADMAP.md`.
+- **Đã chạy:** curl tới Nakama thật (đăng ký, trùng tên 409, email có sẵn sai mật khẩu 401, mật khẩu ngắn 400, đăng nhập tên / email, tài khoản không có 404, làm mới phiên; tên có dấu cách bị module chặn); GdUnit `tests/unit/online`; `<godot> --headless --path . --script res://tools/online_e2e.gd -- --server=<địa chỉ trycloudflare>`; `<godot> --path . -s tools/screenshot_online.gd`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`.
+- **Kết quả thật:** GdUnit `tests/unit/online` 20/20 đạt. `online_e2e.gd` qua trycloudflare mã thoát 0: 10/10 bước đạt (tạo tài khoản e2e_773299 1137 ms, có mã 6017 8434, đăng xuất xóa phiên, đăng nhập tên, vào lại bằng phiên đã nhớ cùng mã, đăng nhập email, sai mật khẩu và trùng tên bị từ chối). Ảnh `build/screenshots/online_0_login.png` … `online_3_account.png`. `run_tests.ps1` mã thoát 0: GdUnit 700/700 đạt (0 lỗi), 5/5 test khói đạt.
+- **Quyết định Claude chọn:** dùng endpoint authenticate/email của Nakama (tạo tài khoản cần email, đăng nhập bằng tên hoặc email); tên đăng nhập 3–20 ký tự `[A-Za-z0-9_]` (kiểm ở cả game và máy chủ), mật khẩu ≥ 8 (yêu cầu của Nakama). Thẻ Tạo tài khoản xếp 2 cột cho vừa màn 1080p. Có "Chơi ngoại tuyến" vì game vẫn offline-first (ví máy chủ chưa gộp save). Lỗi đăng nhập không phân biệt "không có tài khoản" / "sai mật khẩu". Phiên ghi nhớ gắn với địa chỉ máy chủ: đổi máy chủ thì phải đăng nhập lại. Màn Đăng nhập không hiện khi chạy headless để test khói giữ nguyên luồng Boot → Title.
+- **Hạn chế đã biết:** chưa có quên mật khẩu / xác minh email. Ô "Ghi nhớ đăng nhập" dùng biểu tượng CheckBox mặc định (nhỏ). Tài khoản thiết bị tạo ở M9-1 không gộp được vào tài khoản mới.
+
+## 2026-11-16 — M9-3 Cloud save: mỗi tài khoản một thế giới trên máy chủ
+- **Milestone / task:** M9-3 — owner 2026-11-16: định hướng game online, mỗi người một thế giới riêng, nối nhau qua chat, không co-op; bắt đầu bằng cloud save.
+- **Trạng thái:** TESTED
+- **File tạo/sửa:** `server/modules/index.js` (RPC `save_get`, `save_put`: kiểm phong bì save, giới hạn 200 000 ký tự, ghi có kiểm version → `save_conflict`, giữ bản trước ở `save_backup`/`prev`); `scripts/online/cloud_save.gd` (mới: `CloudSave.decide`, meta `cloud.cfg`); `scripts/online/online_service.gd` (`open_cloud_world`, `push_now`, gom gửi 2 s, thử lại 30 s, trạng thái `Cloud`, `_call_rpc` tự làm mới token, đăng xuất trả SaveService về save ngoại tuyến); `scripts/save/save_store.gd` (`envelope_of`, `import_envelope`); `scripts/save/save_service.gd` (`use_store`, `offline_store`, `offline_dir`); `scripts/ui/login_screen.gd` (mở thế giới sau đăng nhập, hộp hỏi mang save ngoại tuyến lên); `scripts/ui/online_screen.gd` (dòng "Lưu đám mây", nút Đồng bộ ngay); `tools/add_locale_keys.py` + `localization/vi.po`, `en.po` (+16 khóa); `tests/unit/support/fake_nakama.gd`, `online_test_kit.gd` (mới); `tests/unit/online/test_cloud_save.gd` (mới), `test_online_service.gd`; `tools/online_e2e.gd`, `tools/screenshot_online.gd`; `server/README.md`; `AGENTS.md`; `docs/IMPLEMENTATION_ROADMAP.md`.
+- **Đã chạy:** curl `save_get` / `save_put` (ghi lần đầu, ghi lại cùng base bị từ chối `save_conflict`); GdUnit `tests/unit/online`; `<godot> --headless --path . --script res://tools/online_e2e.gd -- --server=<địa chỉ trycloudflare>`; `<godot> --path . -s tools/screenshot_online.gd`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`.
+- **Kết quả thật:** GdUnit `tests/unit/online` 27/27 đạt. `online_e2e.gd` qua trycloudflare mã thoát 0, 16/16 bước: gửi save lên 472 ms (830 byte, save mới), xóa bản đệm (như máy khác) rồi đăng nhập lại tải về 270 ms, vàng 4321 đúng. Ảnh `online_3_import_ask.png` (hỏi mang save lên), `online_4_account.png` ("Lưu đám mây: đã đồng bộ lúc 03:30"). `run_tests.ps1` mã thoát 0: GdUnit 707/707 đạt (0 lỗi), 5/5 test khói đạt.
+- **Quyết định Claude chọn:** máy chủ giữ bản gốc, gửi cả phong bì save (checksum, schema_version) để máy nhận kiểm như đọc file; bản đệm theo tài khoản tách khỏi save ngoại tuyến (nhiều tài khoản trên một máy không lẫn nhau, "Chơi ngoại tuyến" vẫn là thế giới riêng của máy). Xung đột: không gộp, không ghi đè; thiết bị gửi bản cũ dừng gửi, đăng nhập lại lấy bản máy chủ. Tiến độ chưa gửi (mất mạng) được ưu tiên gửi lên nếu máy chủ chưa đổi từ lần đồng bộ trước. Gom gửi 2 s, thử lại 30 s. Bản đệm chưa đăng nhập không tự gửi.
+- **Hạn chế đã biết:** save vẫn do máy người chơi tạo nên sửa được (gian lận) — ngọc / gacha lên máy chủ ở M9-2. Chưa chặn đăng nhập cùng lúc hai thiết bị (chỉ chặn ghi đè). Nút "Game mới" ở Title khi đang ở thế giới tài khoản sẽ thay thế giới đó (như bản ngoại tuyến, chưa hỏi xác nhận).
+
+## 2026-11-16 — M10-1 Chế độ nhịp điệu: ải nguyên liệu (5 ải + boss cố định + Vô tận)
+- **Milestone / task:** M10-1 (mới) — owner 2026-11-16: thêm cách chơi mới bắt đầu ở ải nguyên liệu, lối chơi kiểu game nhịp điệu chạy ngang 2 làn; 5 ải con (ải cuối boss, màn cố định), qua 5 ải mở Vô tận với danh sách bài như ảnh tham chiếu; nhạc phát từ file trên máy chủ, hit tính theo bản nhạc; 2 phím trên / dưới, mỗi nốt đúng 1 trong 3 (trên / dưới / cả hai), chọn nhầm mất HP; nốt ấn 1 lần, ấn liên tục, giữ tới hết thanh. Owner chọn: bản nốt tool tự sinh từ nhạc; Claude sinh nhạc thử; tải về rồi lưu cache.
+- **Trạng thái:** TESTED
+- **File tạo/sửa:** `scripts/rhythm/` (mới): `rhythm_rules.gd` (+ `data/rhythm/rhythm_rules.tres`), `rhythm_chart.gd`, `rhythm_judge.gd`, `rhythm_progress.gd`, `rhythm_library.gd`; `scripts/ui/rhythm/` (mới): `rhythm_stage.gd`, `rhythm_material_screen.gd`, `rhythm_song_list_screen.gd` + 3 scene `scenes/main/rhythm_*.tscn`; `data/rhythm/material_stages.json`; `data/ui/rhythm_layout.json`; `scripts/core/game_config.gd` (3 scene, biến lượt chơi); `scripts/input/input_router.gd` (`rhythm_up`, `rhythm_down`); `scripts/save/save_schema.gd` (mục `rhythm`); `scripts/ui/sortie_screen.gd` (thẻ Ải nguyên liệu mở chế độ mới); `server/gateway.mjs` (mới), `server/start_local.ps1`, `stop_local.ps1`, `tunnel.ps1` (cổng vào 7360), `server/music/songs.json`, `server/music/fixed/song_eclipse_boss_boss.json`; `data/config/online_config.json` + `scripts/online/online_config.gd` (mặc định `http://127.0.0.1:7360`); `tools/rhythm/gen_test_music.py`, `tools/rhythm/build_catalog.py`, `tools/screenshot_rhythm.gd`; `tools/add_locale_keys.py` + `localization/vi.po`, `en.po` (+50 khóa); test `tests/unit/rhythm/test_rhythm_judge.gd`, `test_rhythm_data.gd`, `test_rhythm_screens.gd`, sửa `tests/unit/ui/test_hub_home.gd`, `tests/unit/online/test_online_service.gd`; `.gitignore`; `docs/design/RHYTHM_MODE.md` (mới), `docs/IMPLEMENTATION_ROADMAP.md` (Milestone 10), `docs/ASSET_LICENSES.md` (3.5), `server/README.md`, `AGENTS.md`.
+- **Đã chạy:** `python -X utf8 -I tools/rhythm/build_catalog.py --freeze-boss` (6 bài, 19 bản nốt); `node server/gateway.mjs` + curl (`/music/catalog.json` 200, bài .wav 200 4 772 294 byte, `songs.json` 404, `..%2Fgateway.mjs` 404, `/healthcheck` chuyển tới Nakama 200); GdUnit `tests/unit/rhythm` (25/25); `<godot> --path . -s tools/screenshot_rhythm.gd` (qua cổng vào thật: tải danh mục, tải bài N-1, tự chơi, kết quả, boss, Vô tận); `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`; kiểm cú pháp 3 script PowerShell máy chủ.
+- **Kết quả thật:** `run_tests.ps1` mã thoát 0: GdUnit 732/732 đạt (0 lỗi, 0 thất bại), 5/5 test khói đạt. Bản nốt sinh ra: N-1 (dễ) 100 nốt (86 ấn, 13 giữ, 1 ấn liên tục), boss 270 nốt (244 ấn, 24 giữ, 2 ấn liên tục), mức 2–11; làn dưới / trên / cả hai ví dụ 66 / 43 / 6 (dễ), 83 / 98 / 24 (thường). Chụp màn: tải bài thật qua `/music/`, tự chơi N-1 hết bài: S, 113/113 Hoàn hảo, nhận vàng 2250 + sách EXP (×1.5 hạng S) + thưởng lần đầu 50 ngọc. Ảnh `build/screenshots/rhythm_0_material.png` … `rhythm_5_endless.png`.
+- **Quyết định Claude chọn:** phím trên D / F / ↑ (tay cầm Y / LB), dưới J / K / ↓ (A / RB), cảm ứng nửa trái / nửa phải. Cửa sổ Hoàn hảo 50 ms, Tốt 120 ms, "ấn cùng lúc" 60 ms (nốt một làn chờ 60 ms để bắt lỗi ấn cả hai). Ấn khi chưa có nốt: không mất HP. HP 250; trượt −20, sai −25, gãy giữ −10; fever 100 điểm, 8 s, điểm ×1.5. Thưởng chỉ khi qua; nhân theo hạng S ×1.5, A ×1.25; thưởng ải nhiều hơn ải cốt truyện cùng tầm (vd N-1 8 sách nhỏ + 1 vừa so với 1-2 là 4 sách nhỏ), Vô tận thưởng theo độ khó, không giới hạn lượt (chờ owner nếu muốn giới hạn). Nhạc thử 22 050 Hz mono WAV (máy không có bộ mã hóa ogg); 6 bài, bài thứ 6 chỉ có ở Vô tận. Máy chủ phát nhạc bằng cổng vào Node (`gateway.mjs`) chung một địa chỉ với Nakama, để đường hầm trycloudflare chỉ cần 1 địa chỉ; game kiểm sha256 từng file. Nốt / quái / boss vẽ bằng code (chưa có hình), nhân vật là giáp đầu đội với frame sẵn có. Bản nốt boss sinh một lần rồi giữ cố định trong git (`server/music/fixed/`), các bản khác sinh lại mỗi lần dựng.
+- **Hạn chế đã biết:** chưa có âm thanh khi đánh trúng, chưa chỉnh được độ trễ âm thanh / tốc độ nốt; hình nốt, quái, boss, nền đều tạm (vẽ bằng code). Tool sinh nốt đọc .ogg / .mp3 cần ffmpeg (máy hiện chưa có). Nốt giữ đôi khi bắt từ pad hợp âm (không chỉ đoạn "hold"). Đồng hồ nhạc dùng vị trí phát + độ trễ đầu ra của Godot, chưa thử cảm giác trên máy thật / Android. `docker-compose.yml` (VPS) chưa có dịch vụ cổng vào. Màn chơi đặt cố định theo khung 1920×1080 (chưa canh lề an toàn).
+
+## 2026-11-16 — M10-2 Mô tả quái và danh sách ảnh chế độ nhịp điệu
+- **Milestone / task:** M10-2 (chuẩn bị) — owner hỏi mô tả quái kèm các ảnh cần có.
+- **Trạng thái:** IMPLEMENTED (tài liệu)
+- **File tạo/sửa:** `docs/design/RHYTHM_ART_BRIEF.md` (mới).
+- **Đã chạy:** không (chỉ tài liệu).
+- **Kết quả thật:** 6 loại quái (Dơi Nốt, Sên Nhịp, Song Âm, Rắn Ngân, Trống Đá, boss Nhật Thực), 19 mục ảnh (10 ưu tiên 1, 9 ưu tiên 2), âm thanh kèm theo, mẫu prompt.
+- **Quyết định Claude chọn:** quái vẽ quay trái (lao từ phải sang); màu phát sáng theo làn giữ như hình tạm (xanh lơ / hồng / vàng); tên file `assets/rhythm/{id}_{anim}_{NNN}.png`; boss ném nốt, không bị đánh trực tiếp.
+- **Hạn chế đã biết:** chưa có code dùng ảnh (thay hình tạm khi owner duyệt ảnh).
+
+
+## 2026-11-16 — M10-2 (bước 2): animation Dơi Nốt
+- **Milestone / task:** M10-2 — ưu tiên 1, `rh_bat`; owner đã duyệt ảnh gốc trước khi tạo animation.
+- **Trạng thái:** TESTED
+- **File tạo/sửa:** `assets/rhythm/rh_bat/fly/` (6 PNG); `assets/rhythm/rh_bat/die/` (5 PNG); `tools/rhythm/process_bat_sheets.ps1`; `docs/ASSET_LICENSES.md` mục 2.1; nhật ký này.
+- **Đã chạy:** Codex imagegen (Built-in imagegen; model ID không được công cụ cung cấp) tạo một sheet fly 3×2 và một sheet die 3×2; `powershell -ExecutionPolicy Bypass -File tools\rhythm\process_bat_sheets.ps1 ...`; kiểm kích thước / số file / alpha; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`.
+- **Kết quả thật:** 6 frame fly 12 fps lặp và 5 frame die 20 fps được cắt thành PNG 256×256. Mỗi thư mục đúng số file; mọi frame có 4 góc trong suốt, kiểm tra không còn pixel xanh lá đục; `run_tests.ps1` mã thoát 0: GdUnit 732/732 đạt, 5/5 test khói đạt.
+- **Quyết định Codex chọn:** Cắt lưới 3×2 đều; tách nền theo sắc xanh thực tế từng ô và xóa phần xanh lá còn sót ở rìa vì ảnh sinh lệch nhẹ màu nền so với #00B140.
+- **Hạn chế đã biết:** Chưa nối các frame vào `rhythm_stage.gd`; task này chỉ cung cấp ảnh theo brief.
+
+
+## 2026-11-16 — M10-2 (bước 1): ảnh gốc Sên Nhịp chờ duyệt
+- **Milestone / task:** M10-2 — ưu tiên 1, `rh_slime`; chỉ tạo ảnh gốc theo yêu cầu owner.
+- **Trạng thái:** IMPLEMENTED
+- **File tạo/sửa:** `assets/rhythm/_preview/rh_slime_original_preview.png`; `docs/ASSET_LICENSES.md` mục 2.1; nhật ký này.
+- **Đã chạy:** Codex imagegen (Built-in imagegen; model ID không được công cụ cung cấp); chép ảnh vào thư mục preview.
+- **Kết quả thật:** Đã tạo một ảnh vuông PNG Sên Nhịp nền xanh phẳng; chưa tách nền, chưa tạo animation.
+- **Quyết định Codex chọn:** Không dùng ảnh tham chiếu; giữ nguyên ảnh nền xanh ở `_preview` để owner duyệt trước khi làm animation.
+- **Hạn chế đã biết:** Chờ owner duyệt ảnh gốc. Chưa tạo run/die, chưa tách nền, chưa kiểm tra khung sprite.
+
+
+## 2026-11-16 — M10-2 (bước 2): animation Sên Nhịp
+- **Milestone / task:** M10-2 — ưu tiên 1, `rh_slime`; owner đã duyệt ảnh gốc trước khi tạo animation.
+- **Trạng thái:** TESTED
+- **File tạo/sửa:** `assets/rhythm/rh_slime/run/` (6 PNG); `assets/rhythm/rh_slime/die/` (5 PNG); `tools/rhythm/process_enemy_sheets.ps1` (đổi từ công cụ xử lý riêng Dơi Nốt thành công cụ dùng chung); `docs/ASSET_LICENSES.md` mục 2.1; nhật ký này.
+- **Đã chạy:** Codex imagegen (Built-in imagegen; model ID không được công cụ cung cấp) tạo sheet run 3×2 và die 3×2; `powershell -ExecutionPolicy Bypass -File tools\rhythm\process_enemy_sheets.ps1 -EnemyId rh_slime -FirstAnim run -FirstCount 6 -SecondAnim die -SecondCount 5 ...`; kiểm khung / số frame / alpha; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`.
+- **Kết quả thật:** 6 frame run 12 fps lặp và 5 frame die 20 fps, toàn bộ 256×256. Đúng số frame; 4 góc mỗi ảnh trong suốt và không còn pixel xanh lá đục. `run_tests.ps1` kết thúc với `TẤT CẢ ĐẠT`, mã thoát 0; GdUnit 732/732 đạt, 5/5 smoke test đạt.
+- **Quyết định Codex chọn:** Run nảy theo chu kỳ sáu tư thế, thêm vệt hồng ngắn phía sau; die vỡ thành nốt sáng. Dùng lưới 3×2 và lấy màu nền theo từng ô, vì sheet sinh lệch nhẹ khỏi mã xanh #00B140.
+- **Hạn chế đã biết:** Chưa nối animation vào `rhythm_stage.gd`; task này chỉ cung cấp asset theo brief.
+
+
+## 2026-11-16 — M10-2 (bước 1): ảnh gốc Song Âm chờ duyệt
+- **Milestone / task:** M10-2 — ưu tiên 1, `rh_twin`; chỉ tạo ảnh gốc theo yêu cầu owner.
+- **Trạng thái:** IMPLEMENTED
+- **File tạo/sửa:** `assets/rhythm/_preview/rh_twin_original_preview.png`; `docs/ASSET_LICENSES.md` mục 2.1; nhật ký này.
+- **Đã chạy:** Codex imagegen (Built-in imagegen; model ID không được công cụ cung cấp), dùng ảnh gốc đã duyệt của Dơi Nốt và Sên Nhịp làm tham chiếu; chép ảnh vào thư mục preview.
+- **Kết quả thật:** Đã tạo một ảnh vuông PNG gồm cặp Song Âm trên nền xanh phẳng; chưa tách nền, chưa tạo animation.
+- **Quyết định Codex chọn:** Đặt Dơi Nốt ở làn trên, Sên Nhịp ở làn dưới; dây khuông năm vạch dọc và chuông vàng dùng chung, màu phát sáng vàng #FFD84D cho cả cặp.
+- **Hạn chế đã biết:** Chờ owner duyệt ảnh gốc. Chưa tạo fly/run/die hay `rh_twin_chain.png`.
+
+
+## 2026-11-16 — M10-2: animation Song Âm
+- **Milestone / task:** M10-2 — ưu tiên 1, rh_twin; owner đã duyệt ảnh gốc và xác nhận Song Âm.
+- **Trạng thái:** TESTED
+- **File tạo/sửa:** assets/rhythm/rh_twin/fly/ (6 PNG); assets/rhythm/rh_twin/run/ (6 PNG); assets/rhythm/rh_twin/die/bat/ (5 PNG); assets/rhythm/rh_twin/die/slime/ (5 PNG); assets/rhythm/rh_twin_chain.png; tools/rhythm/process_enemy_sheets.ps1; docs/ASSET_LICENSES.md mục 2.1; nhật ký này.
+- **Đã chạy:** Codex imagegen tạo sprite sheet fly/run/die và tile dây; powershell -ExecutionPolicy Bypass -File tools\rhythm\process_enemy_sheets.ps1 (cắt 4 sheet 3×2, inset 4 px cho hai sheet die, chroma key #00B140, xuất PNG); powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1.
+- **Kết quả thật:** 6 frame fly 12 fps lặp, 6 frame run 12 fps lặp, 5 frame die cho từng sinh vật ở 20 fps; tất cả frame 256×256. Dây khuông xuất 64×256. Đã xem trực tiếp mẫu fly/run/die và dây; bộ xử lý báo 0 pixel xanh lá đục trong frame. run_tests.ps1 kết thúc với TẤT CẢ ĐẠT, mã thoát 0; GdUnit4 732/732 đạt và 5/5 smoke test đạt. Kiểm tra bổ sung: đủ 23 dòng giấy phép AI, 22 frame 256×256 đúng số lượng và góc trong suốt, tile 64×256.
+- **Quyết định Codex chọn:** Tách die thành hai thư mục con bat/ và slime/ để giữ đủ hai sinh vật cùng tan biến riêng; inset 4 px loại đường phân ô đen của sheet; tái dùng processor chung để cắt hai sheet và tile dây.
+- **Hạn chế đã biết:** Chưa nối các frame vào rhythm_stage.gd; task chỉ cung cấp asset theo brief.
+
+
+## 2026-11-16 — M10-2: Nối sprite quái vào RhythmStage
+- **Milestone / task:** M10-2 — tích hợp asset đã được owner duyệt cho Dơi Nốt, Sên Nhịp và Song Âm vào màn chơi nhịp điệu.
+- **Trạng thái:** TESTED
+- **File tạo/sửa:** scripts/ui/rhythm/rhythm_stage.gd; nhật ký này. Asset đã có sẵn tại assets/rhythm/rh_bat/, assets/rhythm/rh_slime/ và assets/rhythm/rh_twin/ cùng rh_twin_chain.png.
+- **Đã chạy:** powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1.
+- **Kết quả thật:** TẤT CẢ ĐẠT, mã thoát 0; GdUnit4 732/732, smoke test 5/5. Test rhythm_screens.gd đạt trong lượt GdUnit4.
+- **Quyết định Codex chọn:** Nốt tap làn trên dùng fly của Dơi Nốt; làn dưới dùng run của Sên Nhịp; nốt cả hai tạo cặp Song Âm và dây khuông; khi chấm trúng phát die ở 20 fps. Khởi tạo sprite ở vòng tick trước render để tránh thêm node trong callback vẽ. Giữ hình tạm cho hold/mash vì chưa có bộ asset tương ứng.
+- **Hạn chế đã biết:** Để vào lượt chơi, dùng Xuất kích → Ải nguyên liệu; bài cần có trong catalog/cache hoặc truy cập máy chủ nhạc theo cấu hình.
+
+
+## 2026-11-16 — M10-2 (bước 1): ảnh gốc Rắn Ngân chờ duyệt
+- **Milestone / task:** M10-2 — ưu tiên 1, rh_serpent; tạo ảnh gốc duyệt thiết kế hold-note trước khi làm animation.
+- **Trạng thái:** IMPLEMENTED
+- **File tạo/sửa:** assets/rhythm/_preview/rh_serpent_original_preview.png; docs/ASSET_LICENSES.md mục 2.1; nhật ký này.
+- **Đã chạy:** Codex imagegen (Built-in imagegen; model ID không được công cụ cung cấp), không dùng ảnh tham chiếu; chép bản cuối từ generated_images vào dự án.
+- **Kết quả thật:** Đã lưu một ảnh concept ngang nền xanh chroma (chưa chuẩn hóa/đo kiểm đồng màu từng pixel), thể hiện đầu nhìn trái, thân khuông nhạc kéo dài và đuôi dấu lặng. Chưa tách nền, chưa tạo animation.
+- **Quyết định Codex chọn:** Dùng màu trắng ngà/tím lavender trung tính theo brief để giữ khả năng tô màu theo làn; làm thân kéo dài nằm ngang để thể hiện cơ chế hold. Đã tinh chỉnh bản gốc để năm vạch khuông rõ và đuôi có dấu nghỉ riêng.
+- **Hạn chế đã biết:** Chờ owner duyệt ảnh gốc. Chưa tạo idle/bite, chưa xuất body tile lặp ngang hoặc tail PNG; nền preview chưa được kiểm pixel-perfect.
+
+
+## 2026-11-16 — M10-2 Chấm theo độ khớp hitbox: quái to gấp đôi vòng chấm, 5 mức Perfect / Great / Good / Normal / Miss
+- **Milestone / task:** M10-2 — owner 2026-11-16: phóng to quái to hơn gấp đôi hai vòng chấm cạnh nhân vật; hitbox vàng giữa thân quái nhấp nháy to nhỏ tới khi vào giữa vòng thì vừa khít; Perfect (khớp hoàn hảo), Great (khớp ≥ 3/4), Good (≥ 1/2), Normal (quái qua viền vào trong vòng), Miss (chỉ chạm viền ngoài).
+- **Trạng thái:** TESTED
+- **File tạo/sửa:** `scripts/rhythm/rhythm_rules.gd` (bỏ `perfect_window` / `great_window` / `approach_sec`; thêm `ring_radius`, `ring_rim`, `note_speed`, `perfect_overlap`, `great_overlap`, `good_overlap`, `score_good`, `score_normal`, `fever_gain_good`; hàm `overlap_fraction`, `grade`, `reach_sec`, `offset_for_overlap`) + `data/rhythm/rhythm_rules.tres`; `scripts/rhythm/rhythm_judge.gd` (mức GOOD, NORMAL; chấm bằng `rules.grade`; chạm viền ngoài = Miss); `scripts/ui/rhythm/rhythm_stage.gd` (cỡ quái theo vòng chấm, dời ảnh cho tâm thân trùng hitbox, lớp `Hitboxes` vẽ hitbox vàng + viền vòng chấm trên ảnh quái, tốc độ nốt từ data, nhân vật dời trái 200 px, chữ chấm / màu 5 mức); `data/ui/rhythm_layout.json` (`enemy.ring_ratio`, `enemy.body`, màu `hitbox`, `good`, `normal`, `character.offset_x`); `localization/vi.po`, `en.po`, `tools/add_locale_keys.py` (RHYTHM_GOOD, RHYTHM_NORMAL; chữ chấm dùng tiếng Anh như owner gọi; dòng đếm kết quả 6 mức); `tests/unit/rhythm/test_rhythm_judge.gd` (`test_overlap_geometry`, `test_grade_by_overlap`, `test_tap_grades_combo_and_late_miss`); `tools/screenshot_rhythm.gd` (chụp lúc hitbox còn nhấp nháy và 15 ms trước nhịp); `docs/design/RHYTHM_MODE.md` mục 3.
+- **Đã chạy:** GdUnit `tests/unit/rhythm` (27/27); in cửa sổ thời gian từ `RhythmRules`; `node server/gateway.mjs` + `<godot> --path . -s tools/screenshot_rhythm.gd`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`.
+- **Kết quả thật:** `run_tests.ps1` mã thoát 0: GdUnit 734/734 đạt (0 lỗi), 5/5 test khói đạt. Cửa sổ thực tế (bán kính 72 px, 800 px/s): Perfect ≤ 21.3 ms, Great ≤ 35.6 ms, Good ≤ 72.7 ms, Normal < 180 ms, Miss 180–192.5 ms. Ảnh `build/screenshots/rhythm_1_stage.png` (hitbox nhấp nháy, quái ~317 px), `rhythm_1b_stage.png` (hitbox gần khít vòng dưới), `rhythm_4_boss.png`.
+- **Quyết định Claude chọn:** "khít" = hitbox nằm trong vòng ≥ 85 % diện tích; hitbox cùng bán kính vòng (72 px, vòng to hơn 58 px cũ); quái = đường kính vòng × 2.2; tốc độ quái 800 px/s (cũ ~1040) để cửa sổ rộng hơn; nhịp nháy chỉ khi hitbox chưa chạm vòng (khi đã chạm thì đúng cỡ vòng, để hình khớp với điểm chấm); Normal vẫn giữ combo, không cộng Fever; điểm 200 / 150 / 100 / 50; độ chính xác Perfect 1, Great 0.75, Good 0.5, Normal 0.25. Tâm thân từng quái đo tay trên ảnh 256 px.
+- **Hạn chế đã biết:** Perfect ±21 ms khá khó (owner chỉnh `perfect_overlap`, `note_speed` hoặc `ring_radius` trong `rhythm_rules.tres` nếu muốn dễ hơn). Quái to nên đoạn nốt dày (bản Khó, boss) chồng lên nhau. Nốt giữ / ấn liên tục / boss vẫn hình tạm. Chưa thử cảm giác bằng tay.
+
+
+## 2026-11-16 — M10-2: animation Rắn Ngân
+- **Milestone / task:** M10-2 — ưu tiên 1, rh_serpent; tiếp tục sau khi owner duyệt concept Rắn Ngân.
+- **Trạng thái:** TESTED
+- **File tạo/sửa:** `assets/rhythm/rh_serpent/idle/` (4 PNG); `assets/rhythm/rh_serpent/bite/` (4 PNG); `assets/rhythm/rh_serpent_body.png`; `assets/rhythm/rh_serpent_tail.png`; `tools/rhythm/process_serpent_assets.ps1`; `docs/ASSET_LICENSES.md` mục 2.1; nhật ký này.
+- **Đã chạy:** Codex imagegen tạo sheet idle, bite, thân và đuôi theo concept đã duyệt; `powershell -ExecutionPolicy Bypass -File tools\rhythm\process_serpent_assets.ps1` với bốn sheet nguồn; kiểm tra PNG bằng System.Drawing.
+- **Kết quả thật:** Xuất 4 frame idle và 4 frame bite, mỗi frame 256×256; thân 128×96; đuôi 96×96. Kiểm tra thấy 0 pixel xanh chroma còn hiển thị trên 10 file; hai mép thân khớp ở 96/96 hàng; số frame và kích thước đúng brief. Đã xem trực tiếp frame idle, bite, thân và đuôi. Chưa chạy test game vì task chỉ tạo asset.
+- **Quyết định Codex chọn:** Màu trung tính trắng/lavender để game tô theo làn; chọn 12 fps cho idle/bite vì brief không định fps; vòng bite dùng trung tính/mở miệng/mở miệng/khép về frame đầu; xử lý blend 8 cột mép thân để tile liền mạch. Giữ một pose đầu thống nhất trong idle và chỉ nhấp nhô 2 px để tránh sai khác khuôn mặt giữa các ô imagegen.
+- **Hạn chế đã biết:** Chưa nối Rắn Ngân vào `rhythm_stage.gd`; phần kéo giãn/hút thân khi giữ nốt cần tích hợp riêng vào màn chơi.
+
+
+## 2026-11-16 — M10-2 (bước 1): ảnh gốc Trống Đá chờ duyệt
+- **Milestone / task:** M10-2 — ưu tiên 1, rh_drum; tạo concept đứng yên để owner duyệt trước animation.
+- **Trạng thái:** IMPLEMENTED
+- **File tạo/sửa:** `assets/rhythm/_preview/rh_drum_original_preview.png`; `tools/rhythm/prepare_drum_preview.ps1`; `docs/ASSET_LICENSES.md` mục 2.1; nhật ký này.
+- **Đã chạy:** Codex imagegen (Built-in image_gen; model ID không được công cụ cung cấp), không dùng ảnh tham chiếu; `powershell -ExecutionPolicy Bypass -File tools\rhythm\prepare_drum_preview.ps1 -SourceImage <ảnh imagegen>`.
+- **Kết quả thật:** Lưu concept PNG 512×512, nền #00B140 đã chuẩn hóa; quái vỏ trống đá tím than nhìn trái, bụng mặt trống sáng để trống, mắt/viền vàng, hai tay cầm dùi và chân gần đáy khung. Chưa tạo animation.
+- **Quyết định Codex chọn:** Dùng vàng #FFD84D làm màu nhấn duy nhất vì brief chưa gán làn riêng cho Trống Đá; để trống mặt trống cho game tự vẽ số lượt còn lại; chọn tư thế hai dùi hạ thấp ở trạng thái nghỉ.
+- **Hạn chế đã biết:** Chờ owner duyệt concept. Khi duyệt mới tạo idle 4 frame, hit 3 frame, 3 mức crack tĩnh, burst 6 frame và escape 6 frame theo brief.
+
+
+## 2026-11-16 — M10-2: animation Trống Đá
+- **Milestone / task:** M10-2 — ưu tiên 1, rh_drum; tạo animation sau khi owner duyệt concept.
+- **Trạng thái:** TESTED
+- **File tạo/sửa:** `assets/rhythm/rh_drum/idle/` (4 PNG); `hit/` (3 PNG); `crack/` (3 PNG); `burst/` (6 PNG); `escape/` (6 PNG); `tools/rhythm/process_drum_sheets.ps1`; `docs/ASSET_LICENSES.md` mục 2.1; nhật ký này.
+- **Đã chạy:** Codex imagegen tạo 5 sheet theo concept đã duyệt; `powershell -ExecutionPolicy Bypass -File tools\rhythm\process_drum_sheets.ps1` với các sheet idle, hit, crack, burst, escape; kiểm tra ảnh trong processor bằng C# LockBits.
+- **Kết quả thật:** Xuất đủ 22 PNG 512×512 theo số lượng brief. Processor xác nhận 0 pixel xanh chroma còn hiển thị trong từng frame; idle 000 và 003 giống hệt nhau để khép vòng lặp. Đã xem trực tiếp các frame hit, ba mức crack, burst và escape. Không chạy test game vì task chỉ tạo asset.
+- **Quyết định Codex chọn:** FPS idle 8, burst 20, escape 12 vì brief không định fps cho các animation này; hit giữ 24 fps như brief; mức crack đặt ở vỏ/rìa mặt trống để giữ vùng giữa sạch cho số đếm; idle chớp mắt nhẹ và frame cuối lặp chính xác frame đầu.
+- **Hạn chế đã biết:** Chưa nối Trống Đá vào `rhythm_stage.gd`; hit counter vẫn do game vẽ và cần tích hợp riêng.
+
+
+## 2026-11-16 — M10-2 Tốc độ quái tăng dần theo ải, hitbox không đè nhau, thời điểm ấn chính xác
+- **Milestone / task:** M10-2 — owner 2026-11-16: tốc độ quái thay đổi theo ải, tăng dần tới ải cuối để tăng thử thách; quái được dày, chồng lên nhau nhưng hitbox không đè nhau; độ khó kiểu game nhịp điệu, phản hồi phím nhanh để người chơi thấy Perfect là đạt được nếu nhanh tay nhanh mắt.
+- **Trạng thái:** TESTED
+- **File tạo/sửa:** `scripts/rhythm/rhythm_rules.gd` (`for_speed`, `min_note_gap`; `note_speed` là tốc độ chuẩn); `scripts/rhythm/rhythm_chart.gd` (`enforce_spacing`); `scripts/rhythm/rhythm_progress.gd` (`note_speed`, `BASE_SPEED`); `scripts/core/game_config.gd` (`rhythm_note_speed`); `scripts/ui/rhythm/rhythm_stage.gd` (luật theo tốc độ lượt, lọc nốt, `_input_time` đọc lại đồng hồ nhạc khi nhận phím); `scripts/ui/rhythm/rhythm_material_screen.gd` (đặt tốc độ, thẻ ải hiện "Tốc độ ×…"); `data/rhythm/material_stages.json` (`note_speed` từng ải + Vô tận; N-3 dùng bản Khó); `data/ui/rhythm_layout.json` (`ring_ratio` 2.1); `tools/rhythm/build_catalog.py` (`LANE_GAP` cùng làn 0.19 s, nốt khác làn xen sát hơn ở bản Khó / boss; boss dày hơn, mức tối thiểu 11); `server/music/fixed/song_eclipse_boss_boss.json` (sinh lại); `tools/add_locale_keys.py` + `localization/*.po` (`RHYTHM_SPEED`); test `test_rhythm_judge.gd` (`test_for_speed_keeps_timing_windows`, `test_enforce_spacing_same_lane_only`), `test_rhythm_data.gd` (`test_stage_speeds_increase_to_boss`), `test_rhythm_screens.gd` (`test_stage_speed_scales_ring_and_spacing`, tốc độ khi mở ải); `docs/design/RHYTHM_MODE.md` mục 3.
+- **Đã chạy:** `python -X utf8 -I tools/rhythm/build_catalog.py --freeze-boss`; GdUnit `tests/unit/rhythm` (31/31); `node server/gateway.mjs` + `<godot> --path . -s tools/screenshot_rhythm.gd`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`.
+- **Kết quả thật:** `run_tests.ps1` mã thoát 0: GdUnit 738/738 đạt (0 lỗi), 5/5 test khói đạt. Bản nốt 5 ải: N-1 easy 100 nốt mức 2, N-2 normal 181 nốt mức 5, N-3 hard 299 nốt mức 8, N-4 hard 349 nốt mức 10, N-5 boss 291 nốt mức 11 (khoảng cách nhỏ nhất giữa hai nốt khác làn ~80–100 ms, cùng làn ≥ 190 ms). Ảnh `rhythm_0_material.png` (thẻ ải hiện Tốc độ ×0.8 … ×1.3), `rhythm_4_boss.png` (quái chồng nhau, hitbox tách rời).
+- **Quyết định Claude chọn:** tốc độ 650 / 750 / 850 / 950 / 1050 px/s (Vô tận 700 / 850 / 1000); vòng chấm + hitbox phóng theo tốc độ để cửa sổ ms của 5 mức giữ nguyên ở mọi ải (nếu giữ vòng cố định, Perfect ở ải boss chỉ còn ±16 ms, gần như không đạt được) — độ khó tăng nhờ ít thời gian nhìn và nốt dày hơn; cỡ quái = đường kính vòng × 2.1 (ải boss quái ~400 px); đồng hồ đọc lại lúc nhận phím thay vì theo frame.
+- **Hạn chế đã biết:** chưa có chỉnh độ trễ âm thanh / bàn phím (calibration) trong Cài đặt; độ khó hiển thị của boss có mức sàn 11 (mật độ thật ~ mức 10 nhưng nhanh nhất). Chưa thử bằng tay.
+
+
+## 2026-11-16 — M10-2 (bước 1): concept boss Nhật Thực chờ duyệt
+- **Milestone / task:** M10-2 — ưu tiên 1, rh_boss_eclipse; tạo ảnh gốc boss N-5 để owner duyệt trước animation.
+- **Trạng thái:** IMPLEMENTED
+- **File tạo/sửa:** `assets/rhythm/_preview/rh_boss_eclipse_original_preview.png`; `tools/rhythm/prepare_boss_preview.ps1`; `docs/ASSET_LICENSES.md` mục 2.1; nhật ký này.
+- **Đã chạy:** Codex imagegen (Built-in image_gen; model ID không được công cụ cung cấp), không dùng ảnh tham chiếu bên ngoài; `powershell -ExecutionPolicy Bypass -File tools\rhythm\prepare_boss_preview.ps1 -SourceImage <ảnh imagegen>`.
+- **Kết quả thật:** Lưu concept PNG 768×768, nền #00B140 đã chuẩn hóa; đĩa nhật thực đen/tím, quầng cam #FFB347, mắt đỏ #FF4D6D, miệng răng cưa và hai tay trăng khuyết lơ lửng, pose chỉ huy nhìn trái. Chưa tạo animation.
+- **Quyết định Codex chọn:** Dùng hai trăng khuyết rời làm tay chỉ huy, một tay cao một tay thấp; giữ quầng cam thành vài tia lửa lớn để silhouette đọc rõ ở kích thước nhỏ.
+- **Hạn chế đã biết:** Chờ owner duyệt concept. Khi duyệt mới tạo idle 8 frame/10 fps, throw 6 frame, hurt 3 frame và defeat 10 frame theo brief.
+
+## 2026-11-16 — M10-2: animation boss Nhật Thực
+- **Milestone / task:** M10-2 — ưu tiên 1, rh_boss_eclipse; tạo animation sau khi owner duyệt concept.
+- **Trạng thái:** TESTED
+- **File tạo/sửa:** `assets/rhythm/rh_boss_eclipse/idle/` (8 PNG); `throw/` (6 PNG); `hurt/` (3 PNG); `defeat/` (10 PNG); `tools/rhythm/process_boss_sheets.ps1`; `docs/ASSET_LICENSES.md` mục 2.1; nhật ký này.
+- **Đã chạy:** Codex imagegen tạo 4 sprite sheet dựa trên concept đã duyệt; `powershell -ExecutionPolicy Bypass -File tools\rhythm\process_boss_sheets.ps1` với các sheet idle, throw, hurt, defeat; kiểm tra từng PNG trong processor bằng C# LockBits; đối chiếu SHA-256 idle 000/007.
+- **Kết quả thật:** Xuất đủ 27 PNG 768×768 theo brief. Processor xác nhận 0 pixel xanh chroma còn hiển thị ở cả 27 frame. Idle frame 000 và 007 có cùng SHA-256 `23BA7EB18EBCFA16B03A002DAB12D579EEFEA7E3BB2B92FA03E17D40656190F9`, khép vòng chính xác. Đã xem trực tiếp idle, throw, hurt và defeat. Không chạy test game vì task chỉ tạo asset.
+- **Quyết định Codex chọn:** Throw 12 fps, hurt 12 fps, defeat 20 fps vì brief chỉ quy định fps cho idle (10); idle 8 frame dùng pose đầu lặp lại ở frame cuối. Giữ frame canvas 768×768 phù hợp boss.
+- **Hạn chế đã biết:** Chưa nối boss vào `rhythm_stage.gd`; cần tích hợp animation khi làm bước gameplay tương ứng.
+
+
+## 2026-11-16 — M10-2: nối frame quái nhịp điệu vào RhythmStage
+- **Milestone / task:** M10-2 — thay hình tạm của Rắn Ngân, Trống Đá và boss Nhật Thực bằng frame đã duyệt; dùng chung pipeline hình ảnh với Dơi Nốt, Sên Nhịp và Song Âm.
+- **Trạng thái:** TESTED
+- **File tạo/sửa:** `scripts/ui/rhythm/rhythm_stage.gd`; `docs/design/RHYTHM_MODE.md`; nhật ký này. Dùng các frame có sẵn trong `assets/rhythm/rh_serpent/`, `rh_drum/` và `rh_boss_eclipse/`.
+- **Đã chạy:** `C:\Godot\4.6.3\Godot_v4.6.3-stable_win64_console.exe --headless --path . --import`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`.
+- **Kết quả thật:** Import tài nguyên hoàn tất. Toàn bộ GdUnit4 đạt 743/743, 0 lỗi; 5/5 test khói đạt; runner trả mã thoát 0. Tài nguyên Rắn Ngân dựng đầu/thân/đuôi và hai đầu nối dây vàng ở nốt cả hai làn; Trống Đá dựng idle/hit, cập nhật nứt và bộ đếm lượt, rồi burst/escape theo kết quả mash; boss dựng idle/throw/hurt/defeat.
+- **Quyết định Codex chọn:** Trống Đá hiển thị ở cỡ 0.51 (512 px thành khoảng 261 px), chân đặt sát cao độ làn; chọn ba mức nứt theo tỉ lệ số lần đánh trên tổng yêu cầu. Boss hiển thị ở cỡ 480 px; throw/hurt chạy 12 fps, defeat 20 fps theo thiết lập animation trước đó.
+- **Hạn chế đã biết:** Chưa xác minh thủ công bằng cách chơi qua toàn bộ N-2 và N-5 trong cửa sổ game.
+
+## 2026-11-16 — M10-2 Hướng dẫn trong ải N-1, ải 1 chậm hơn, Rắn Ngân từ ải 2, hình Rắn Ngân, nốt giữ không ra quá sớm
+- **Milestone / task:** M10-2 — owner 2026-11-16: "sửa như ý bạn" (Rắn Ngân bắt đầu từ N-2, dùng hình Rắn Ngân, nốt giữ không ra trước khi người chơi kịp nhìn), ải 1 chậm hơn, có hướng dẫn trong ải đầu hoặc ải hướng dẫn riêng (Claude chọn).
+- **Trạng thái:** TESTED
+- **File tạo/sửa:** `data/rhythm/tutorial.json` (mới: 4 bước luyện trên / dưới / xen kẽ / cả hai); `data/rhythm/material_stages.json` (N-1: `note_speed` 550, `kinds` ["tap"], `tutorial`; N-2: `intro_key`); `scripts/rhythm/rhythm_chart.gd` (`limit_kinds`); `scripts/core/game_config.gd` (`rhythm_tutorial`, `rhythm_intro_key`, `rhythm_kinds`); `scripts/ui/rhythm/rhythm_material_screen.gd` (truyền cờ hướng dẫn / giới thiệu lần đầu chơi, loại nốt); `scripts/ui/rhythm/rhythm_stage.gd` (pha luyện: quái chậm, không mất HP, đủ số lần trúng thì sang bước, chưa đủ thì làm lại, nút Bỏ qua hướng dẫn, xong thì đếm ngược vào bài; dòng giới thiệu lúc đếm ngược + đếm ngược dài thêm 3 s; Rắn Ngân cho nốt giữ: đầu idle / bite tô màu làn, thân khuông nhạc lặp ngang dài theo thời gian giữ, đuôi; trúng đầu thì đầu đứng ở vòng chấm cắn tới hết thân); `scripts/online/online_config.gd` (địa chỉ đã lưu là mặc định cũ `127.0.0.1:7350` thì dùng mặc định mới 7360); `data/ui/rhythm_layout.json` (tâm thân `rh_serpent`); `tools/rhythm/build_catalog.py` (`FIRST_NOTE` 1.5 s cho cả nốt giữ / ấn liên tục) + `server/music/fixed/song_eclipse_boss_boss.json` (sinh lại); `tools/add_locale_keys.py` + `localization/*.po` (+11 khóa); `tools/screenshot_rhythm.gd` (ảnh hướng dẫn, giới thiệu N-2, Rắn Ngân); test `test_rhythm_screens.gd` (`test_tutorial_steps_then_real_song`, `test_tutorial_skip_and_intro_and_kinds`, `test_hold_note_uses_serpent`), `test_rhythm_judge.gd` (`test_limit_kinds_turns_hold_and_mash_into_taps`), `test_rhythm_data.gd`, `tests/unit/online/test_online_service.gd` (`test_legacy_direct_nakama_url_moves_to_gateway`); `docs/design/RHYTHM_MODE.md`.
+- **Đã chạy:** `python -X utf8 -I tools/rhythm/build_catalog.py --freeze-boss`; GdUnit `tests/unit/rhythm` (35/35); `node server/gateway.mjs` + `<godot> --path . -s tools/screenshot_rhythm.gd`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`.
+- **Kết quả thật:** `run_tests.ps1` mã thoát 0: GdUnit 743/743 đạt (0 lỗi), 5/5 test khói đạt. Mọi bản nốt: nốt sớm nhất ở giây 1.51. Ảnh `rhythm_1t_tutorial.png`, `rhythm_1u_tutorial_both.png` (bảng hướng dẫn), `rhythm_6_intro.png` (đếm ngược có dòng giới thiệu Rắn Ngân), `rhythm_7_serpent.png`, `rhythm_7b_serpent_hold.png` (Rắn Ngân đang tới / đang giữ ở vòng chấm).
+- **Quyết định Claude chọn:** hướng dẫn nằm trong ải N-1 (không thêm ải riêng): hiện khi chưa qua N-1, có nút bỏ qua; luyện 4 bước, mỗi bước 3–4 quái, cần trúng 2–3, tốc độ luyện 500 px/s; N-1 tốc độ 550 (trước 650), chỉ nốt ấn 1 lần (nốt giữ / ấn liên tục của bản Dễ đổi thành nốt ấn, bản Dễ ở Vô tận vẫn đủ loại); N-2 có dòng giới thiệu Rắn Ngân + quái trống lúc đếm ngược (lần đầu chơi). Rắn Ngân tô màu làn (trộn 55 %), thân cao 0.7 × đường kính vòng. Phát hiện lỗi: máy đã lưu địa chỉ máy chủ cũ 7350 nên tải bài mới bị 404 — chuyển tự động sang cổng 7360.
+- **Hạn chế đã biết:** ảnh đuôi Rắn Ngân còn nền đặc (Codex đang sửa file này, chưa commit) nên đuôi hiện thành ô vuông màu; quái trống (ấn liên tục) và boss vẫn hình tạm dù Codex đã có ảnh `rh_drum`, `rh_boss_eclipse` (chưa nối). Chưa thử bằng tay.
+
+## 2026-11-16 — M9-6 Chat: phòng Thế giới, nhắn riêng, bạn bè, chặn / báo cáo, kiểm duyệt
+- **Milestone / task:** M9-6 — owner 2026-11-16: "làm cho mình mục chat"; định hướng game: mỗi người một thế giới riêng, nối nhau qua chat, không co-op.
+- **Trạng thái:** TESTED
+- **File tạo/sửa:** `server/modules/index.js` (mục Chat: hook `ChannelJoin` chỉ cho phòng `world` + nhắn riêng, hook `ChannelMessageSend` kiểm cấm chat / giãn cách 0,8 s / 200 ký tự / người nhận chặn / lọc từ + thông báo tin nhắn riêng mã 100; RPC `chat_find`, `chat_report`, `admin_chat_reports`, `admin_chat_resolve`, `admin_chat_mute`); `server/moderate.ps1` (tool QTV); `server/tests/chat_smoke.mjs` (kiểm máy chủ thật bằng Node); `server/tunnel.ps1` (tắt đường hầm cũ trước khi mở); `scripts/online/chat_service.gd` (mới: `ChatService`, websocket + REST, nối lại tự động, lịch sử, chưa đọc, bạn bè, chặn, báo cáo); `scripts/online/nakama_api.gd` (request / parser bạn bè, thông báo, lịch sử, gói websocket, `quiet_json`, `token_expiry`); `scripts/online/online_service.gd` (`chat`, `fresh_token`, `call_api`, `call_rpc`, tự bật chat sau `open_cloud_world`, tắt khi đăng xuất); `scripts/ui/chat_panel.gd` (mới: bảng Chat); `scripts/ui/hub.gd` (`ChatTab`), `scripts/ui/hub_home_panel.gd` (biểu tượng + chấm đỏ chưa đọc), `data/ui/hub_home_layout.json`; `assets/ui/hub/icons/chat.png` + `tools/gen_chat_icon.py`; `tools/add_locale_keys.py` + `localization/vi.po`, `en.po` (+47 khóa); `tests/unit/online/test_chat_api.gd`, `test_chat_service.gd`, `tests/unit/ui/test_chat_panel.gd`, `tests/unit/support/fake_socket.gd`, mở rộng `fake_nakama.gd`; `tools/chat_e2e.gd`, `tools/screenshot_chat.gd`; `server/README.md`; `AGENTS.md`; `docs/IMPLEMENTATION_ROADMAP.md`; `docs/ASSET_LICENSES.md` (mục 2.2).
+- **Đã chạy:** thăm dò giao thức Nakama bằng Node (id kênh `2...world`, `4.<id>.<id>.`, người nhận chỉ thấy tin riêng khi đã vào kênh, thông báo mã -1); `node server/tests/chat_smoke.mjs` (30 bước); GdUnit `tests/unit/online` + `tests/unit/ui/test_chat_panel.gd`; `<godot> --headless --path . --script res://tools/chat_e2e.gd` (cổng 7360) và với `-- --server=<địa chỉ trycloudflare>` (wss); `<godot> --path . -s tools/screenshot_chat.gd`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`.
+- **Kết quả thật:** `chat_smoke.mjs` đạt 30/30 trên Nakama thật (lọc từ giữ nguyên "lớn", giãn cách, tin quá dài / rỗng, không tạo được phòng khác, nhắn riêng + thông báo, chặn, báo cáo, QTV xem / xử lý / cấm chat). `chat_e2e.gd` mã thoát 0 ở cả hai địa chỉ: hai tài khoản chat qua websocket thật (kể cả qua đường hầm `wss` của Cloudflare), kết bạn, nhắn riêng + chưa đọc, chặn. GdUnit mới: 9 (API) + 10 (dịch vụ) + 6 (bảng) = 25 ca đạt. `run_tests.ps1` mã thoát 0: GdUnit 768/768 đạt (0 lỗi), 5/5 test khói đạt. Ảnh `build/screenshots/chat_0_hub.png` … `chat_5_locked.png` (sảnh có biểu tượng + chấm đỏ, phòng Thế giới, thanh Nhắn riêng / Chặn / Báo cáo, Bạn bè, nhắn riêng, chưa đăng nhập).
+- **Quyết định Claude chọn:** dùng chat thời gian thực có sẵn của Nakama (không tự viết lại kênh); nhắn riêng báo cho người nhận bằng thông báo `nk.notificationSend` (Nakama không đẩy tin riêng cho người chưa vào kênh), tối đa 1 thông báo / người gửi / 30 giây, chỉ mã 100 tính chưa đọc. Chặn dùng API bạn bè của Nakama; vì Nakama không lọc phòng chung theo người nhận nên game ẩn tin người bị chặn tại máy. Bị chặn rồi được bỏ chặn thì Nakama đã đẩy người gửi khỏi kênh riêng: game tự vào lại và gửi lại một lần. Từ cấm so khớp trên chữ gốc có dấu cho từ dễ nhầm ("lớn" ≠ "lồn") và trên chữ bỏ dấu cho dạng viết tắt (dm, vcl...). Lỗi máy chủ gửi về dạng `chat_<lý do>`, game dịch. Chat bật tự động sau đăng nhập (`chat_auto_start`); đường hầm trycloudflare cũ (trỏ 7350) được thay bằng đường hầm trỏ cổng vào 7360.
+- **Hạn chế đã biết:** phòng Thế giới là một phòng duy nhất, lưu lịch sử mãi, chưa có nhiều kênh / nhóm / bang; chưa có "đã xem"; danh sách từ cấm là danh sách khởi đầu, QTV cần bổ sung; chat văn bản chỉ (chưa biểu cảm / hình). Mã người chơi nằm trong metadata công khai của tài khoản Nakama (đọc được qua API nếu biết id người dùng) — chấp nhận ở bản thử, nên chuyển sang storage riêng tư trước phát hành. Bảng Chat chỉ mở được từ sảnh (chưa có trong màn chơi / pause).
+
+## 2026-11-16 — M9-2 (chuẩn bị) Bảng giá nạp vào dữ liệu, tool phát quà theo gói
+- **Milestone / task:** M9-2 (chuẩn bị) — owner gửi ảnh bảng giá nạp (2026-11-16).
+- **Trạng thái:** TESTED
+- **File tạo/sửa:** `data/shop/topup_packs.json` (mới: 5 gói Ngọc); `docs/reference/topup_price_table.png` (ảnh gốc của owner, chỉ tham khảo); `server/grant.ps1` (`-List`, `-Pack`, `-Paid`, `-Force`: số Ngọc lấy từ gói, từ chối nếu số tiền không khớp giá gói); `server/modules/index.js` (`admin_grant` lưu thêm `pack`, `paid`); `server/README.md`; `docs/OWNER_ASSET_CHECKLIST.md` (mục A3: các chỗ cần owner xác nhận).
+- **Đã chạy:** khởi động lại Nakama; tài khoản thử `pk24002` (mã 81813873): `grant.ps1 -List`; `-Pack gems_660 -Paid 100000` (sai tiền); `-Pack gems_660 -Paid 140000 -Ref PK-24002-1`; lại cùng `-Ref`; `-Pack gems_999`.
+- **Kết quả thật:** liệt kê đúng 5 gói; sai tiền bị chặn (không đổi ví); đúng tiền phát 660 Ngọc (ví 0 → 660); trùng `-Ref` máy chủ từ chối; gói lạ bị từ chối. Chưa chạy `run_tests.ps1` (không đổi mã game, chỉ dữ liệu + tool QTV + module máy chủ).
+- **Quyết định Claude chọn:** chỉ đưa vào dữ liệu phần chắc chắn (5 gói Ngọc); nhóm tiền tệ thứ hai, thưởng nạp lần đầu, thẻ tháng chưa làm vì ảnh mơ hồ và chưa có trong thiết kế (đã ghi câu hỏi ở OWNER_ASSET_CHECKLIST A3). Giá là dữ liệu, không nằm trong script.
+- **Hạn chế đã biết:** chưa chuyển Ngọc / gacha lên máy chủ (phần chính của M9-2, chờ owner trả lời A3); chưa có màn Nạp trong game (cần thông tin nhận tiền); ví máy chủ vẫn chưa gộp với save.
+
+## 2026-11-16 — M9-2a Nạp tiền: bảng giá, QR chuyển khoản, thưởng nạp lần đầu, thẻ tháng, màn Nạp
+- **Milestone / task:** M9-2a — owner trả lời bảng giá (Ngọc kiếm được trong game; tiền nạp riêng mở khóa vật phẩm độc quyền; thưởng nạp lần đầu = thêm đúng số gói; thẻ tháng 30 Ngọc/ngày + 500 mỗi 15 ngày) và cho thông tin nhận tiền (TPBank).
+- **Trạng thái:** TESTED (chưa quét QR bằng app ngân hàng thật)
+- **File tạo/sửa:** `server/modules/index.js` (mục Nạp tiền: `admin_set_packs`, `admin_topup`, `admin_topup_reset`, `admin_topup_state`, `admin_card_set`, `topup_info`, `card_claim`; tiền tệ `corona`); `data/shop/topup_packs.json` (bảng giá + thẻ tháng + thông tin nhận tiền, nguồn chính); `server/grant.ps1` (viết lại: `-Pack`, `-Paid`, `-State`, `-ResetFirstBonus`, `-CardLeft/-CardTotal/-CardDay`, `-Corona`); `server/tests/topup_smoke.mjs`; `scripts/online/qr_code.gd` (mới: bộ mã hóa QR tự viết), `viet_qr.gd` (chuỗi VietQR + CRC16), `purchased_currency.gd` (Ngọc đã nạp → save), `online_service.gd` (`apply_purchased`, `topup_info`, `card_claim`, `purchased_applied`, `current_saves`); `scripts/save/save_schema.gd` (`online.applied.gems`, không đổi VERSION: mục mới được bù khi sanitize như `rhythm`); `scripts/ui/topup_screen.gd` + `scenes/main/topup_screen.tscn`; `scripts/ui/supply_screen.gd` (thẻ Nạp mở màn Nạp, bỏ cờ `ONLINE_BUILD`), `scripts/core/game_config.gd` (`SCENE_TOPUP`); `tools/add_locale_keys.py` + `localization/vi.po`, `en.po` (+30 khóa, sửa mô tả thẻ Nạp); `tests/unit/online/test_qr_code.gd`, `test_topup.gd`, `tests/unit/support/qr_reader.gd`, `fake_nakama.gd` (ví theo tài khoản, bảng giá / thẻ giả); `tests/unit/ui/test_hub_home.gd`; `tools/topup_e2e.gd`, `tools/screenshot_topup.gd`; `docs/reference/topup_price_table.png`; `server/README.md`; `docs/OWNER_ASSET_CHECKLIST.md` (A3); `docs/IMPLEMENTATION_ROADMAP.md`; `AGENTS.md`.
+- **Đã chạy:** `node server/tests/topup_smoke.mjs` (34 bước); GdUnit `tests/unit/online` + `test_hub_home.gd` (78 ca); `<godot> --headless --path . --script res://tools/topup_e2e.gd` (19 bước); `<godot> --path . -s tools/screenshot_topup.gd`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`.
+- **Kết quả thật:** `topup_smoke.mjs` 34/34 trên Nakama thật (sai số tiền bị chặn, trùng mã giao dịch bị chặn, thưởng lần đầu đúng từng gói / từng kỳ, mở lại thưởng, thẻ tháng 1 lần/ngày, lượt 15 và 30 có +500, tổng 1900, trần 180 ngày). `topup_e2e.gd` 19/19: QTV phát gói → game tự cộng 660 Ngọc vào save, không cộng lại, nạp lần hai không thưởng, thẻ tháng +30, thu hồi 20 trừ đúng. `run_tests.ps1` mã thoát 0: GdUnit 788/788 đạt (0 lỗi), 5/5 test khói đạt. Ảnh `build/screenshots/topup_0_start.png`, `topup_1_gems_660.png`, QR `topup_qr.png`.
+- **Quyết định Claude chọn:** (1) bảng giá do QTV đẩy lên máy chủ và game đọc từ máy chủ, nên đổi giá / đổi tài khoản nhận tiền không cần build lại; (2) Ngọc đã nạp đi qua ví máy chủ rồi game cộng phần chênh (`online.applied.gems`), nên an toàn khi tắt game giữa chừng; (3) thẻ tháng là 30 lượt nhận (không hết hạn theo lịch) để lượt bỏ lỡ không bị mất, mốc +500 ở lượt nhận thứ 15, 30 (bội của 15); (4) tiền nạp riêng id `corona`, tên tạm "Nhật Hoa" (owner sẽ chọn); gói này chưa có thưởng lần đầu; (5) mã QR tự mã hóa (không gọi dịch vụ ngoài như vietqr.io để không gửi số tài khoản / mã người chơi ra ngoài): chuẩn ISO 18004 chế độ byte, mức sửa lỗi M, phiên bản 8; (6) kỳ thưởng lần đầu (`epoch`) tăng bằng `-ResetFirstBonus`.
+- **Hạn chế đã biết:** (a) **bộ mã hóa QR chưa được đối chiếu với thư viện QR bên thứ ba** (lệnh chạy thư viện python-qrcode bị hệ thống từ chối nên không chạy) và **chưa quét bằng app ngân hàng thật**: đã kiểm bằng bảng chuẩn ISO (số codeword, bit định dạng / phiên bản), đọc ngược bằng bộ đọc riêng (Reed-Solomon mọi khối, 10 nội dung × 8 mặt nạ) và cấu trúc VietQR + CRC; cần quét thử một lần trước khi mở nạp thật; (b) Ngọc vẫn tiêu / kiếm trên máy người chơi nên save vẫn sửa được (gacha trên máy chủ là M9-2b); (c) mã BIN TPBank 970423 lấy từ danh mục NAPAS theo hiểu biết, cần xác nhận qua lần quét thử; (d) giá thẻ tháng chưa có nên chưa bán được thẻ; (e) tiền nạp riêng chưa có chỗ tiêu.
+
+## 2026-11-16 — ART Chương 1, lô 1: Kẻ Đeo Mặt Nạ
+- **Milestone / task:** ART_MASTER lô 1 — thiết kế và chân dung Kẻ Đeo Mặt Nạ; owner duyệt bằng từ khóa “duyệt tay sai”.
+- **Trạng thái:** TESTED
+- **File tạo/sửa:** `assets/characters/boss_henchman_01/design/boss_henchman_01_sheet.png` (1536×1024); `assets/characters/boss_henchman_01/portrait/boss_henchman_01_portrait.png` (1024×1024); `docs/ASSET_LICENSES.md` mục 2.1; `docs/prompts/ART_MASTER.md` (đánh dấu hai ảnh đã có); `docs/DEVELOPMENT_LOG.md`; preview và ảnh gốc ở `art_review/characters/boss_henchman_01/` (không commit).
+- **Đã chạy:** `C:\Godot\4.6.3\Godot_v4.6.3-stable_win64_console.exe --headless --path . --import`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`; `python -X utf8 -I tools/prompts/build_art_master.py` (thử chạy).
+- **Kết quả thật:** Godot import mã thoát 0, quét và nhập cả hai ảnh; có cảnh báo không ghi được cấu hình người dùng và 2 resource còn được dùng khi thoát editor. Toàn bộ test mã thoát 0: GdUnit 788/788, 5/5 smoke đạt. Lần chạy builder đầu trước khi cài Python không thành công; sau khi cài Python 3.14.10, chạy lại thành công: ART_MASTER báo 85 ảnh, 5 đã có, 2039 dòng.
+- **Quyết định Codex chọn:** Bảng thiết kế giữ nền xám trung tính theo prompt; chân dung dùng nền tím than và vành nhật thực, vẫn giữ khóa thời gian Chương 1: chiều muộn, Lò Mẹ lạnh tối, không gió, tro rơi thẳng, Mặt Trời Khuyết như thường.
+- **Hạn chế đã biết:** Chưa mở trong Godot để owner kiểm tra trực tiếp. Godot báo thiếu quyền ghi thư mục cấu hình editor của user nhưng import hoàn tất mã thoát 0.
+
+
+## 2026-11-17 — ART Chương 1, lô 2a: Nền màn 1-1
+- **Milestone / task:** ART_MASTER lô 2, phần màn 1-1; owner duyệt preview bằng từ khóa "duyệt nền 1-1".
+- **Trạng thái:** VERIFIED
+- **File tạo/sửa:** `assets/backgrounds/stages/stage_01/bg_stage_01_far.png`, `bg_stage_01_mid.png`, `bg_stage_01_near.png` (+ `.import`); `tools/stages/fit_backdrop.py`; `docs/ASSET_LICENSES.md` mục 2.1; `docs/prompts/ART_MASTER.md`; `docs/DEVELOPMENT_LOG.md`. Bản gốc/preview trong `art_review/stages/stage_01/` (không commit).
+- **Đã chạy:** `C:\Users\<user>\AppData\Local\Programs\Python\Python312\python.exe -X utf8 tools/stages/fit_backdrop.py art_review/stages/stage_01 bg_stage_01`; `C:\Godot\4.6.3\Godot_v4.6.3-stable_win64_console.exe --headless --path . --import`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`; `python -X utf8 -I tools/prompts/build_art_master.py`.
+- **Kết quả thật:** Ba lớp 3840×2160; far alpha (255,255), mid/near alpha (0,255), sai lệch mép lặp = 0; preview stack 7680×2160. Godot quét/nhập cả 3 ảnh, mã thoát 0. Full test mã thoát 0: GdUnit 788/788, 5/5 smoke đạt. ART_MASTER báo 85 ảnh, 8 đã có, 2039 dòng.
+- **Quyết định Codex chọn:** Dùng tranh `ch01_open_01` làm tham chiếu cùng cảnh; theo owner, dùng lớp liền trước trong cùng lô làm tham chiếu khi tạo các lớp kế. Mặt trời che bình thường, Lò Mẹ tắt, chiều, không gió.
+- **Hạn chế đã biết:** Godot báo không ghi được cấu hình editor vào `AppData\Roaming\Godot`, nhưng lệnh import hoàn tất mã thoát 0. Chưa chạy game trong editor; owner đã duyệt bằng preview.
+
+## 2026-11-17 — ART: Hikarine idle frames (AI)
+- **Milestone / task:** Tạo và owner duyệt animation `idle` cho Hikarine (`char_light_01`), 6 frame.
+- **Trạng thái:** VERIFIED
+- **File tạo/sửa:** `assets/characters/char_light_01/frames/idle/` (6 PNG + `.import`); `assets/characters/char_light_01/frames_manifest.json`; `docs/ASSET_LICENSES.md` mục 2.1; `docs/DEVELOPMENT_LOG.md`. Bộ frame cũ được giữ trong `art_review/char_light_01/_replaced/` (không commit); dải và preview review ở `art_review/` (không commit).
+- **Đã chạy:** `C:\Users\<user>\AppData\Local\Programs\Python\Python312\python.exe -I tools/frames/approve_frames.py char_light_01 idle --replace`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`; `C:\Users\<user>\AppData\Local\Programs\Python\Python312\python.exe -I tools/frames/check_frames.py char_light_01 idle --approved`.
+- **Kết quả thật:** `check_frames.py --approved` ĐẠT: 6 frame, 8 fps, lặp. Toàn bộ test mã thoát 0: GdUnit4 788/788; smoke 5/5. Owner duyệt preview bằng “duyệt idle”. Godot có in cảnh báo 2 resources còn được dùng khi thoát test, không làm đổi mã thoát.
+- **Quyết định Codex chọn:** Sinh một dải 6 pose trong một lần gọi; lưu model là `Built-in imagegen (model ID not exposed)`. Vì idle cũ đã có asset, `--replace` chuyển bộ cũ vào lưu trữ trước khi đưa bộ mới vào game.
+- **Hạn chế đã biết:** Chưa kiểm tra animation trong cửa sổ Godot; đã kiểm tra preview và toàn bộ test tự động.
+
+## 2026-11-17 — ART: Hikarine animation approvals (run–ultimate)
+- **Milestone / task:** Owner duyệt các bản animation mới của Hikarine trong phạm vi `run` đến `ultimate`; đã đưa 14 animation mới vào game: `jump_up`, `fall`, `land`, `dodge`, `hold_charge`, `air_1`, `landing_attack`, `skill_1`, `skill_2`, `ultimate`, `switch_out`, `hurt`, `knockback`, `down`. Các animation đã duyệt trước đó không có bản review mới được giữ nguyên.
+- **Trạng thái:** VERIFIED
+- **File tạo/sửa:** Frame PNG và `.import` của 14 animation trong `assets/characters/char_light_01/frames/`; `assets/characters/char_light_01/frames_manifest.json`; `docs/ASSET_LICENSES.md` mục 2.1; `docs/DEVELOPMENT_LOG.md`.
+- **Đã chạy:** `C:\Users\<user>\AppData\Local\Programs\Python\Python312\python.exe -I tools/frames/check_frames.py char_light_01 <animation> --approved` cho cả 14 animation; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`.
+- **Kết quả thật:** Kiểm tra frame ĐẠT cho cả 14 animation. Bộ test mã thoát 0: GdUnit4 788/788; smoke 5/5. Owner duyệt toàn bộ preview.
+- **Quyết định Codex chọn:** Với những animation đã có bộ duyệt từ trước nhưng có bản `-v2` trong đợt này, dùng bản `-v2` đã qua kiểm tra; với `land`, dùng bộ canonical đã duyệt. Bộ frame cũ được lưu trong `art_review/char_light_01/_replaced/` và không đưa vào commit.
+- **Hạn chế đã biết:** Godot in cảnh báo 2 resources còn được dùng khi thoát GdUnit4 và cảnh báo kết nối signal lặp trong smoke playthrough; toàn bộ bước test vẫn trả mã thoát 0. Chưa thử animation trong cửa sổ Godot.
+
+## 2026-11-17 — ART: Enkiba ultimate VFX (AI)
+- **Milestone / task:** Tạo một bộ VFX Ultimate riêng lớp cho Enkiba (`char_fire_01`); owner duyệt VFX và scene.
+- **Trạng thái:** VERIFIED
+- **File tạo/sửa:** `assets/characters/char_fire_01/vfx/` (20 PNG, bốn lớp); `scenes/vfx/vfx_aether_ultimate.tscn`; `scripts/vfx/vfx_aether_ultimate.gd`; `scenes/vfx/preview/vfx_aether_ultimate_preview.tscn`; `scripts/vfx/vfx_aether_ultimate_preview.gd`; `docs/preview/aether_ultimate_vfx.gif`; `tools/vfx/approve_vfx.py`; `docs/ASSET_LICENSES.md` mục 2.1; `docs/DEVELOPMENT_LOG.md`. Dải gốc và preview review nằm trong `art_review/char_fire_01/ultimate_vfx/` (không commit).
+- **Đã chạy:** `python -I tools/vfx/approve_vfx.py char_fire_01 ultimate`; `C:\Godot\4.6.3\Godot_v4.6.3-stable_win64_console.exe --headless --path . --import`; `C:\Godot\4.6.3\Godot_v4.6.3-stable_win64_console.exe --path . --rendering-method gl_compatibility --write-movie build/aether_ultimate_vfx.avi --fixed-fps 30 res://scenes/vfx/preview/vfx_aether_ultimate_preview.tscn`; FFmpeg tạo GIF; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`.
+- **Kết quả thật:** Bộ duyệt VFX xác thực và chép 20 frame, không sửa `frames_manifest.json`; Godot import mã thoát 0. Godot Movie Maker xuất 92 frame 1280×720 ở 30 fps; FFmpeg tạo `docs/preview/aether_ultimate_vfx.gif` (ffprobe xác nhận 1280×720, 30 fps). Toàn bộ test mã thoát 0: GdUnit4 788/788; 5/5 smoke đạt. Owner duyệt VFX trước khi cài asset và duyệt scene bằng “duyệt scene ultimate”.
+- **Quyết định Codex chọn:** Dùng `tools/vfx/approve_vfx.py` riêng vì `approve_frames.py` chỉ dành cho animation nhân vật; asset VFX giữ trong thư mục lớp riêng và không ghi vào manifest frame. Cut-in 600 ms phát signal để UI xử lý riêng; VFX dùng các lớp AnimatedSprite2D/Sprite2D, CPUParticles2D và Tween theo timing trong thiết kế.
+- **Hạn chế đã biết:** Cut-in UI vẫn do hệ thống UI gọi signal xử lý riêng. Test khói in cảnh báo kết nối signal chat lặp trong lúc chạy nhưng toàn bộ bước vẫn trả mã thoát 0. Một lần mở scene headless trực tiếp trước khi render Movie Maker bị crash signal 11; lệnh preview theo quy trình Movie Maker hoàn tất và tạo GIF hợp lệ.
+
+## 2026-11-18 — ART: Hikarine `hold_release` (đóng cầu nguyện) — SkillDef + phiếu Codex
+- **Milestone / task:** Owner báo thiếu động tác `hold_release` của Hikarine. Trước đây nhả nút Thánh Quang Cầu Nguyện thì game cắt thẳng về idle (bỏ qua hồi phục 220 ms), phiếu ghi "không có hold_release".
+- **Trạng thái:** TESTED
+- **File tạo/sửa:** `data/skills/char_light_01/hold_finish.tres` (mới: key `hold_end`, animation `hold_release`, 0/0/220 ms, không sát thương); `data/skills/char_light_01/hold_1.tres` (`release_skill = "hold_finish"`); `tools/frames/jobs/char_light_01.json` (thêm `hold_release` 4 frame sau `hold_charge`, sửa ghi chú); `docs/prompts/codex_frames/char_light_01/` (sinh lại: phiếu mới `14_hold_release.md`, các phiếu sau dời số 15–21, xóa bản số cũ; `00_PHAN_TICH.md`); `tests/unit/combat/test_light_dark_earth_skills.gd` (nhả nút → `hold_finish` rồi mới hết).
+- **Đã chạy:** `python -I tools/frames/gen_prompts.py char_light_01`; `powershell -ExecutionPolicy Bypass -File tools/run_tests.ps1`; chạy lại riêng `Godot --headless --path . --script res://tests/smoke/m1_flow_check.gd` (3 lần).
+- **Kết quả thật:** GdUnit4 788/788, 0 lỗi; smoke i18n/input/stage/playthrough đạt. `m1_flow_check` lỗi bước "Game mới -> Hub" trong lần chạy tổng, chạy riêng 3 lần đều đạt (mã thoát 0, 19 PASS) — cùng smoke chập chờn Codex đã ghi ngày 2026-11-17, không liên quan đòn giữ.
+- **Quyết định Claude chọn:** Thiết kế ghi "≈ 6 frame lặp + 3 frame mở/đóng" và hồi phục 220 ms: dùng 220 ms làm thời lượng đòn kết (không thêm số mới), 4 frame @18 fps cho mượt hơn 3. Frame đầu nối từ tư thế chắp tay, frame cuối khớp idle. Thư mục `frames/hold_release/` (rỗng từ M0) và mục manifest `frames: 0` giữ nguyên tới khi owner duyệt.
+- **Hạn chế đã biết:** Chưa có hình: trong lúc chờ, game không có animation `hold_release` cho Hikarine nên giữ frame cuối của `hold_charge` 220 ms. Các file Codex đang làm dở (rhythm, nền 1-2) không nằm trong commit này.
+
+
+## 2026-11-18 — ART: Yomigari idle frames (AI)
+- **Milestone / task:** Owner duyệt animation `idle` cho Yomigari (`char_dark_01`), 6 frame.
+- **Trạng thái:** TESTED
+- **File tạo/sửa:** `assets/characters/char_dark_01/frames/idle/` (6 PNG); `assets/characters/char_dark_01/frames_manifest.json`; `docs/ASSET_LICENSES.md` mục 2.1; `docs/DEVELOPMENT_LOG.md`. Dải nguồn và preview ở `art_review/char_dark_01/idle/`.
+- **Đã chạy:** `C:\Users\<user>\AppData\Local\Programs\Python\Python312\python.exe -I tools/frames/approve_frames.py char_dark_01 idle`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`.
+- **Kết quả thật:** Duyệt 6 frame, 8 fps; `run_tests.ps1` mã thoát 0: GdUnit4 789/789 đạt, smoke 5/5 đạt.
+- **Quyết định Codex chọn:** Dùng một dải 6 pose liên tục; giữ tỉ lệ theo kiểm tra 280 px và nền alpha trong suốt. Imagegen built-in không công khai model ID.
+- **Hạn chế đã biết:** Chuyển động idle rất nhẹ; dáng hơi 3/4 thay vì nhìn ngang rõ. Owner đã xem và duyệt preview.
+
+## 2026-11-18 — ART: Splash art Hikarine cho màn Nhân vật
+- **Milestone / task:** Asset — owner gửi 5 splash art 2D không chibi của Hikarine (`char_light_01`), yêu cầu thay vào màn Nhân vật (tổng quan), Tăng cấp, Vũ khí, Vết Thánh, Kĩ năng; xóa nền và phóng to hợp lý như các nhân vật trước.
+- **Trạng thái:** TESTED
+- **File tạo/sửa:** `assets/characters/char_light_01/splash/char_light_01_splash_{overview,level,weapon,stigma,skill}.png` (+ `.import`); `tests/unit/ui/test_character_screen.gd`; `tools/screenshot_character.gd` (mở khóa Hikarine để chụp `--id=char_light_01`); `docs/ASSET_LICENSES.md` mục 2.1; `docs/DEVELOPMENT_LOG.md`.
+- **Đã chạy:** `python -X utf8 tools/cut_splash.py <ảnh> <đích> --keep ...` cho 5 ảnh; `<godot> --headless --path . --import`; `<godot> --path . -s tools/screenshot_character.gd -- --id=char_light_01`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`.
+- **Kết quả thật:** 5 PNG trong suốt (883×1513, 804×1508, 805×1507, 941×1501, 1000×1520), đã bỏ ICC; import hợp lệ. Ảnh chụp màn hình 5 màn hiện đúng splash (`build/screenshots/hikarine_splash_sheet.png`). `run_tests.ps1` mã thoát 0: GdUnit4 789/789 đạt, smoke 5/5 đạt (chạy cùng các file Codex chưa commit có trong thư mục).
+- **Quyết định Claude chọn:** Quả cầu sáng trên trượng gần trắng nên bị coi là lỗ nền: tìm hộp của nó trên từng ảnh và giữ bằng `--keep`. Ảnh Kĩ năng: lót váy trắng bên trái bị xóa nhầm, giữ thêm hộp 100,920,370,1240. Vì nhân vật nào cũng đã có splash, hai test "thiếu ảnh" giờ trỏ `art.path` tới chỗ không có file và dùng Iwagane (chưa có chibi) thay cho nhân vật thật chưa có ảnh; test splash từng màn thêm Hikarine.
+- **Hạn chế đã biết:** Đỉnh trượng (cao hơn đầu) chạm vùng nút Home ở tab Tăng cấp / Vũ khí / Skill như các nhân vật trước. Hikarine chưa có chân dung chibi nên thẻ roster vẫn là placeholder. Các file Codex đang làm dở (Yomigari, nhịp điệu, nền 1-2, `hold_release`) không nằm trong commit này.
+
+
+## 2026-11-18 — M11 Thiết kế lại Event nguyên liệu (khung + Chạy + Bay + cốt truyện + trang phục)
+- **Milestone / task:** M11 (thiết kế) — owner 2026-11-18 gửi 5 tài liệu đề xuất (`MINIGAME_EVENTS.md`, `RUNNER_MODE.md`, `JET_MODE.md`, `JET_STORY.md`, `JET_COSTUME_BRIEF.md`), yêu cầu thiết kế lại cho hợp lý, phù hợp dự án.
+- **Trạng thái:** IMPLEMENTED (tài liệu)
+- **File tạo/sửa:** `docs/design/MATERIAL_EVENT.md`, `RUNNER_MODE.md`, `JET_MODE.md`, `EVENT_STORY.md`, `JET_COSTUME_BRIEF.md` (mới); `docs/IMPLEMENTATION_ROADMAP.md` (Milestone 11).
+- **Đã chạy:** đối chiếu với code / dữ liệu: `project.godot` (không có cài đặt physics ticks), `data/characters/*.tres` + `frames_manifest.json` (Yomigari thiếu `jump_up` / `fall` / `land` / `hurt`, chưa có `splash/`), `scripts/save/save_schema.gd` (`STARTER_CHARACTERS` = Enkiba), `data/rhythm/material_stages.json`, `data/items/`, `docs/design/STORY_PROPOSAL.md` (thế giới canon).
+- **Kết quả thật:** mỗi tài liệu có mục 0 "Thay đổi so với bản đề xuất". Chính: tên nhân vật mới; id item thật, thưởng cố định, giữ `rank_mult` hiện tại; Vô tận chơi không giới hạn nhưng thưởng theo hạn mức tuần (hết lượt vẫn chơi, không thưởng); bước vật lý cố định bằng bộ tích lũy thay vì đổi `physics_ticks_per_second` của cả game; adapter Nhịp điệu không ghi save; `party_min` cho ải đòi đổi người (game mới chỉ có Enkiba); bộ sinh / validator / bot đều GDScript; cốt truyện gộp về thế giới canon (Vết Khuyết, Cặn, NEO dẫn truyện, boss Vầng Khuyết thay tên "Nhật Thực" trùng Chương 7 / phản ứng); Bay v1 chỉ Rồng + Robo, 3 vùng, chưa làm trang phục; trang phục đổi thành áo khoác mặc ngoài giáp, lưu ở `cosmetics`, làm Enkiba trước; thứ tự làm: khung → Chạy → Bay.
+- **Quyết định Claude chọn:** như trên; các điểm cần owner chốt ghi ở bảng "Quyết định mở" từng tài liệu (OD-M1…M9, OD-R1…R7, OD-J1…J12, OD-S1…S7, OD-C1…C4).
+- **Hạn chế đã biết:** chưa có code. Đặc điểm nhận dạng trong brief trang phục chép từ đề xuất, cần đối chiếu lại ảnh gốc (Yomigari chưa có splash). Đổi tên boss N-5 Nhịp điệu (OD-M8) chưa làm, chờ owner.
+
+
+## 2026-11-18 — M11-0 Khung Event nguyên liệu: hợp đồng scene, chấm sao, hạn mức, bước cố định
+- **Milestone / task:** M11-0 — owner 2026-11-18 đồng ý 4 quyết định (đổi tên boss Vầng Khuyết, 50 lượt có thưởng / tuần, thứ tự Chạy trước Bay, phần truyện mới) và yêu cầu bắt đầu làm khung chung (`docs/design/MATERIAL_EVENT.md`).
+- **Trạng thái:** TESTED
+- **File tạo/sửa:** `scripts/minigame/minigame_context.gd`, `minigame_result.gd`, `minigame_stage.gd`, `star_evaluator.gd`, `limit_tracker.gd`, `fixed_step.gd` (mới); `tests/unit/minigame/test_minigame_core.gd` (mới).
+- **Đã chạy:** `<godot> --headless --path . --import`; GdUnit `tests/unit/minigame`.
+- **Kết quả thật:** 8/8 test đạt (cú pháp sao + lỗi, toán tử, thứ tự hạng, khóa thiếu, ải thua không sao; hạn mức tuần đổi đúng 4 giờ sáng thứ Hai, ngày + múi giờ, lùi đồng hồ không thêm lượt, không giới hạn; bước cố định 120 bước / giây ở 60 Hz, trần 12 bước).
+- **Quyết định Claude chọn:** `MinigameStage` kế thừa `Control` và có thêm `play_started` (khung tiêu lượt lúc chơi thật bắt đầu), `quit_requested` (thoát trước khi chơi: không tốn lượt), `retry_requested`. Khóa chu kỳ tuần ghi bằng ngày thứ Hai ("W:2026-11-16") thay cho số tuần ISO (đơn giản, không lệch đầu năm). Giờ máy lấy múi giờ hệ thống; lùi giờ thì giữ mốc đã thấy.
+- **Hạn chế đã biết:** chưa nối vào màn nào (M11-1 → M11-3).
+
+
+## 2026-11-18 — M11-1 Dữ liệu event, tiến trình + sao + thưởng, di trú save Nhịp điệu
+- **Milestone / task:** M11-1 (`docs/design/MATERIAL_EVENT.md` mục 4, 8, 9).
+- **Trạng thái:** TESTED
+- **File tạo/sửa:** `data/events/material_events.json` (mới: chế độ `rhythm` 5 ải đồ thị + `rhythm_endless` dạng danh sách, chuyển từ `data/rhythm/material_stages.json`, giữ nguyên số thưởng / tốc độ; thêm 3 sao và thưởng sao mỗi ải; hạn mức 50 lượt có thưởng / tuần, Vô tận dùng chung); `scripts/minigame/minigame_registry.gd`, `reward_service.gd`, `minigame_progress.gd` (mới); `scripts/save/save_schema.gd` (mục `minigames`, di trú `rhythm` → `minigames` trong `sanitize`); `tests/unit/minigame/test_minigame_progress.gd` (mới).
+- **Đã chạy:** GdUnit `tests/unit/minigame` (15/15); `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`.
+- **Kết quả thật:** `run_tests.ps1` mã thoát 0: GdUnit 804/804 đạt (0 lỗi), 5/5 test khói đạt.
+- **Quyết định Claude chọn:** sao mỗi ải: N-1 qua / chính xác ≥ 90 % / không Miss; N-2 qua / hạng A / không gãy Rắn Ngân; N-3 qua / hạng A / Miss ≤ 5; N-4 qua / hạng A / combo ≥ 150; N-5 qua / hạng B / HP còn ≥ 50 %; Vô tận qua / hạng A / hạng S. Thưởng sao 2 và 3 nhỏ (vd N-1: 3 sách nhỏ, 2 sách vừa). Lượt không có thưởng (hết hạn mức) vẫn ghi đã qua (mở ải sau) nhưng không ghi sao, không nhận thưởng lần đầu (còn chờ lượt có thưởng). Di trú: ải đã qua = sao 1, đã nhận thưởng lần đầu, đã xem hướng dẫn / giới thiệu; giữ nguyên `data["rhythm"]`.
+- **Hạn chế đã biết:** chưa nối vào màn (M11-2/3).
+
+## 2026-11-18 — ART: Splash art Yomigari cho màn Nhân vật
+- **Milestone / task:** Asset — owner gửi 5 splash art 2D không chibi của Yomigari (`char_dark_01`), yêu cầu thay tương tự Hikarine (tổng quan, Tăng cấp, Vũ khí, Vết Thánh, Kĩ năng).
+- **Trạng thái:** TESTED
+- **File tạo/sửa:** `assets/characters/char_dark_01/splash/char_dark_01_splash_{overview,level,weapon,stigma,skill}.png` (+ `.import`); `tests/unit/ui/test_character_screen.gd` (thêm Yomigari vào test splash từng màn); `tools/screenshot_character.gd` (mở khóa Yomigari để chụp); `docs/ASSET_LICENSES.md` mục 2.1; `docs/DEVELOPMENT_LOG.md`.
+- **Đã chạy:** `python -X utf8 tools/cut_splash.py` cho 5 ảnh (ảnh lưng `--hole-area 15`); script một lần color-to-alpha cho ảnh Tăng cấp / Vũ khí; `<godot> --headless --path . --import`; `<godot> --path . -s tools/screenshot_character.gd -- --id=char_dark_01`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`.
+- **Kết quả thật:** 5 PNG trong suốt (514×1019, 675×1024, 678×1019, 519×1024, 582×1024), không ICC; import hợp lệ; chụp màn hình 5 màn hiện đúng splash (`build/screenshots/yomigari_splash_sheet.png`). `run_tests.ps1` mã thoát 0: GdUnit4 810/810 đạt, smoke 5/5 đạt (chạy cùng các file Codex chưa commit có trong thư mục).
+- **Quyết định Claude chọn:** Vệt chém / khói tím của ảnh Tăng cấp và Vũ khí vẽ bán trong suốt trên nền trắng nên sau khi cắt bị bạc màu trên nền tối: với điểm sáng (min kênh 170→225, chuyển mượt) và tông lạnh (B ≥ R − 5, tránh da mặt) tách màu trắng ra thành độ trong suốt; nhân vật, viền bạc và da không đổi rõ. Ảnh gốc nhỏ hơn các nhân vật khác (cao 1024 thay vì 1536), giữ nguyên độ phân giải, không phóng to bằng nội suy.
+- **Hạn chế đã biết:** Ảnh mềm hơn các nhân vật khác do độ phân giải gốc thấp hơn. Đỉnh lưỡi hái chạm vùng nút Home ở các tab như các nhân vật trước. Thẻ roster dùng chân dung chibi `char_dark_01_portrait_full.png` của Codex (chưa commit, không nằm trong commit này).
+
+## 2026-11-19 — Art tools: frame tools support enemies
+- **Milestone / task:** Mở rộng `tools/frames/` cho phiếu `kind = "enemy"`; chưa tạo ảnh.
+- **Trạng thái:** TESTED
+- **File tạo/sửa:** `tools/frames/frame_jobs.py`, `slice_strip.py`, `check_frames.py`, `approve_frames.py`, `gen_prompts.py`.
+- **Đã chạy:** `python -I tools/frames/check_frames.py char_fire_01 idle --approved` trước và sau sửa; `python -I tools/frames/gen_prompts.py char_fire_01`; `git diff docs/prompts/codex_frames/char_fire_01`; `python -I tools/frames/gen_prompts.py enemy_slime_01` (kiểm tra từ chối); `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`.
+- **Kết quả thật:** Kiểm tra Enkiba trước/sau đều 6 frame, 8 fps, lặp, frame trúng đòn —, ĐẠT; sinh prompt Enkiba không đổi file (diff rỗng); phiếu enemy bị từ chối với thông báo, không ghi file. `run_tests.ps1` mã thoát 0: GdUnit4 ĐẠT, 5/5 smoke ĐẠT. Pipeline đọc `kind`, `canvas`, `pivot_x`, `baseline_y`, dùng đúng thư mục `assets/enemies/` và có thể khởi tạo manifest quái khi duyệt animation đầu.
+- **Quyết định Codex chọn:** Giá trị `canvas` dạng số được hiểu là khung vuông; vẫn hỗ trợ dạng `{width, height}` để cấu hình khung không vuông. Ngưỡng lệch tâm giữ tỷ lệ 12.5% bề rộng, tương đương 48 px trên canvas 384.
+- **Hạn chế đã biết:** Chưa có asset frame quái để chạy kiểm tra hình ảnh thực tế.
+
+## 2026-11-19 — ART: Duyệt animation idle Cặn tro (enemy_slime_01)
+- **Milestone / task:** Asset — owner duyệt `idle` cho quái Cặn tro.
+- **Trạng thái:** TESTED
+- **File tạo/sửa:** `assets/enemies/enemy_slime_01/frames/idle/` (6 PNG); `assets/enemies/enemy_slime_01/frames_manifest.json`; `docs/ASSET_LICENSES.md` mục 2.1; `docs/DEVELOPMENT_LOG.md`.
+- **Đã chạy:** `python -I tools/frames/approve_frames.py enemy_slime_01 idle`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`.
+- **Kết quả thật:** Công cụ duyệt 6 frame ở 8 fps và tạo manifest 256×256. `run_tests.ps1` mã thoát 0: GdUnit4 810/810 đạt, smoke 5/5 đạt.
+- **Quyết định Codex chọn:** Giữ nguyên dải 6 pose owner đã duyệt; một pose chớp mắt lười, pose cuối mở mắt và nối về pose đầu.
+- **Hạn chế đã biết:** Chưa tích hợp manifest quái vào scene/gameplay; đây là batch frame đầu tiên của quái này.
+
+## 2026-11-19 — ART: Phiếu tạo animation Cặn tro (enemy_slime_01) cho Codex
+- **Milestone / task:** Asset — owner gửi tấm sprite cắt lớp của Cặn tro, điền bảng nhận diện 41 bộ phận (trang wireframe Claude dựng), yêu cầu file prompt gửi Codex tạo animation theo `docs/design/MONSTERS.md`.
+- **Trạng thái:** IMPLEMENTED
+- **File tạo/sửa:** `docs/design/MONSTERS.md` (mới: mô tả 4 quái Chương 1 + ảnh cần để chạy; thêm dòng trỏ tới phiếu); `docs/prompts/codex_frames/enemy_slime_01/` (mới: `README.md`, `00_PHAN_TICH.md`, `00_CONG_CU.md`, `01_idle.md` → `06_death.md`, `99_TICH_HOP.md`, `ref/` 20 ảnh tham chiếu cắt từ tấm sprite); `tools/frames/jobs/enemy_slime_01.json` (mới).
+- **Đã chạy:** script Python cắt ảnh tham chiếu (Pillow) và sinh 6 phiếu từ phiếu việc JSON. Không chạy Godot / test: chỉ thêm tài liệu, ảnh trong `docs/` và một file JSON công cụ chưa có code nào đọc.
+- **Kết quả thật:** 6 phiếu animation, tổng 44 frame (idle 6@8, move 8@12, attack 15@12 trúng đòn 006–007 theo 500/150/600 ms của data, hurt 3@12, stun 6@8, death 6@10), khớp MONSTERS.md mục 7.1.
+- **Quyết định Claude chọn:** owner chốt cả tấm cho Cặn thường, Cặn lớn làm tấm riêng. Khung quái 256×256, tâm 128, chân 224, cao đứng ~100 px. Phiếu quái viết tay (không qua `gen_prompts.py`); `tools/frames` cần mở rộng cho `kind = enemy` (phiếu `00_CONG_CU.md`, giao Codex). Pose khạc đá (số 40) chưa dùng vì data chưa có đòn tầm xa. Tấm gốc có logo nhỏ góc phải dưới: đã che trắng trong mọi ảnh `ref/`; ảnh `ref/` nằm trong `docs/` nên không vào bản build.
+- **Hạn chế đã biết:** chưa có frame nào; công cụ cắt / kiểm tra frame chưa hiểu khung 256 cho tới khi làm `00_CONG_CU.md`. Bảng màu trong `00_PHAN_TICH.md` là ước lượng bằng mắt.
+
+## 2026-11-19 — ART: Phiếu tạo animation Cặn lớn (enemy_slime_02) cho Codex
+- **Milestone / task:** Asset — owner gửi tấm sprite cắt lớp của Cặn lớn, điền bảng nhận diện 41 bộ phận (đồng ý toàn bộ dự đoán), yêu cầu làm như Cặn tro thường.
+- **Trạng thái:** IMPLEMENTED
+- **File tạo/sửa:** `docs/prompts/codex_frames/enemy_slime_02/` (mới: `README.md`, `00_PHAN_TICH.md`, `01_idle.md` → `06_death.md`, `99_TICH_HOP.md`, `ref/` 21 ảnh tham chiếu); `tools/frames/jobs/enemy_slime_02.json` (mới); `docs/design/MONSTERS.md` (dòng trỏ tới phiếu; sửa tổng 7.2 thành 51 ảnh, tổng chung 299).
+- **Đã chạy:** script Python cắt ảnh tham chiếu (Pillow) và sinh 6 phiếu từ phiếu việc JSON. Không chạy Godot / test: chỉ thêm tài liệu, ảnh trong `docs/` và một file JSON công cụ chưa có code nào đọc.
+- **Kết quả thật:** 6 phiếu, tổng 51 frame (idle 6@8, move 8@10, attack 20@12 trúng đòn 008–010 theo 700/180/800 ms của data, hurt 3@12, stun 6@8, death 8@10).
+- **Quyết định Claude chọn:** khung 320×320, tâm 160, chân 288, cao đứng ~130 px; góc nhìn 3/4 quay phải như các pose mẫu. Owner gán bốn pose 38–41 cho attack nhưng data chỉ có một đòn: ghép thành một đòn cắn lao nặng (khom 38 → gầm lửa 39 → lao chồm 41 → đáp nặng 40), không thêm đòn mới. Death tự dựng (owner không gán pose): khuỵu gối, mai bong, sụp thành đống phiến đá. Lửa trong miệng là một phần mặt nên được vẽ; đá bay, bụi, bong bóng mũi không vẽ. Phiếu công cụ dùng chung `enemy_slime_01/00_CONG_CU.md`. Cặn lớn tách scene riêng ở phiếu 99.
+- **Hạn chế đã biết:** chưa có frame nào; cần làm phiếu công cụ trước. Bảng màu ước lượng bằng mắt.
+
+## 2026-11-19 — ART: Duyệt 5 animation còn lại của Cặn tro (enemy_slime_01)
+- **Milestone / task:** Asset — owner duyệt idle, yêu cầu Claude điều khiển Codex làm nốt và tự duyệt nếu không lỗi (owner 2026-11-19).
+- **Trạng thái:** TESTED
+- **File tạo/sửa:** `assets/enemies/enemy_slime_01/frames/{move,attack,hurt,stun,death}/` (38 frame) + `frames_manifest.json`; `docs/ASSET_LICENSES.md` mục 2.1 (5 dòng); `tools/frames/jobs/enemy_slime_01.json` (attack `ref_ratio` 0.8 → 1.0: pose đầu là dáng đứng).
+- **Đã chạy:** Codex (codex-cli qua plugin, chỉ vẽ dải; sandbox Codex không chạy được Python) → Claude chạy `python -I tools/frames/slice_strip.py enemy_slime_01 <anim> ... --like idle` (move / hurt / stun: `--ref-frame` là pose đứng, `--ref-ratio 1.0`), `check_frames.py` từng animation, `approve_frames.py` từng animation; `<godot> --headless --path . --import`; `powershell -ExecutionPolicy Bypass -File tools
+un_tests.ps1`.
+- **Kết quả thật:** check_frames ĐẠT cả 5 (move 8@12, attack 15@12 trúng đòn 006–007, hurt 3@12, stun 6@8, death 6@10). `run_tests.ps1` mã thoát 0: GdUnit4 810/810, 5/5 test khói.
+- **Quyết định Claude chọn:** bản move đầu bị loại (thân dẹt, mặt cau, dải 2 nền trắng + bóng đổ, gần như đứng yên); vẽ lại với frame idle đã duyệt làm tham chiếu chính. Dải move vẽ lại vẫn là nền trắng đặc (RGB): Claude xóa nền bằng loang từ mép (ngưỡng sáng ≥ 200, viền mềm), viền đen dày giữ thân. Lần cắt move đầu canh theo pose nén → thân to gấp ~1.5 idle dù check ĐẠT; cắt lại canh theo pose đứng. Ngọn lửa nhỏ trên đỉnh ở death giữ lại theo phiếu.
+- **Hạn chế đã biết:** game chưa dùng frame quái (còn đa giác màu tạm) cho tới khi làm `docs/prompts/codex_frames/enemy_slime_01/99_TICH_HOP.md`. check_frames không bắt được lỗi tỉ lệ khi frame tham chiếu là pose nén.
+
+## 2026-11-19 — ART: Duyệt 6 animation Cặn lớn (enemy_slime_02)
+- **Milestone / task:** Asset — owner duyệt idle Cặn lớn ("Duyệt idle cặn lớn"); 5 animation còn lại Claude điều khiển Codex làm và tự duyệt (owner cho phép 2026-11-19).
+- **Trạng thái:** TESTED
+- **File tạo/sửa:** `assets/enemies/enemy_slime_02/frames/{idle,move,attack,hurt,stun,death}/` (51 frame) + `frames_manifest.json`; `docs/ASSET_LICENSES.md` mục 2.1 (6 dòng).
+- **Đã chạy:** Codex (codex-cli qua plugin, chỉ vẽ dải) → `python -I tools/frames/slice_strip.py enemy_slime_02 <anim> ... --like idle --ref-frame <pose đứng> --ref-ratio 1.0` (stun 0.95), `check_frames.py`, `approve_frames.py` từng animation; `<godot> --headless --path . --import`; `powershell -ExecutionPolicy Bypass -File tools
+un_tests.ps1`.
+- **Kết quả thật:** check_frames ĐẠT cả 6 (idle 6@8, move 8@10, attack 20@12 trúng đòn 008–010, hurt 3@12, stun 6@8, death 8@10); chiều cao thân khớp idle (đứng ~125–138 px, lúc lao ~101–116 px). `run_tests.ps1` mã thoát 0: GdUnit4 810/810, 5/5 test khói.
+- **Quyết định Claude chọn:** canh tỉ lệ theo pose đứng của từng animation (không theo pose nén). Cú cắn lao vẽ thành lao thấp sát đất (không bay) — code vẫn dời 80 px theo data.
+- **Hạn chế đã biết:** game chưa dùng frame (còn chung scene đa giác với Cặn tro) cho tới phiếu `docs/prompts/codex_frames/enemy_slime_02/99_TICH_HOP.md`.
+
+## 2026-11-19 — ART: Phiếu tạo animation Golem Đá Cổ (boss_golem_01) cho Codex
+- **Milestone / task:** Asset — owner gửi tấm sprite cắt lớp của Golem, điền bảng nhận diện 38 bộ phận (đồng ý toàn bộ dự đoán), yêu cầu làm như Cặn tro.
+- **Trạng thái:** IMPLEMENTED
+- **File tạo/sửa:** `docs/prompts/codex_frames/boss_golem_01/` (mới: `README.md`, `00_PHAN_TICH.md`, `01_idle.md` → `08_death.md`, `99_TICH_HOP.md`, `ref/` 19 ảnh tham chiếu, đã che logo mờ góc phải dưới tấm gốc); `tools/frames/jobs/boss_golem_01.json` (mới); `docs/design/MONSTERS.md` (dòng trỏ tới phiếu; slam 18 → 19 frame, Golem 105, tổng 300).
+- **Đã chạy:** script Python cắt ảnh tham chiếu và sinh 8 phiếu từ phiếu việc JSON. Không chạy test: chỉ tài liệu, ảnh trong `docs/` và JSON công cụ.
+- **Kết quả thật:** 8 phiếu, 105 frame (idle 6@8, move 8@8, slam 19@12 trúng 008–010, charge 22@12 lao 007–011, quake 20@12 giậm 009–011, stun 6@8, phase 12@10, death 12@10).
+- **Quyết định Claude chọn:** khung 768×512 (tâm 384, chân 464, cao đứng ~330 px) vì đòn đập / húc với tới ~320 px; tên animation đòn = `SkillDef.animation` trong data; đòn pha 2 dùng chung animation (code tăng speed_scale); không có `hurt` (boss không khựng); sóng đất của quake và mọi lửa / bụi / đá bay là VFX riêng; death khớp ô truyện `ch01_golem_01` (đổ thành khối đá lớn).
+- **Hạn chế đã biết:** chưa có frame; idle Golem đang chờ owner duyệt (Codex vẽ gần chính diện, giống ảnh thân gốc).
+
+## 2026-11-19 — ART: Duyệt 8 animation Golem Đá Cổ (boss_golem_01)
+- **Milestone / task:** Asset — owner duyệt idle Golem ("Duyệt idle golem"); 7 animation còn lại Claude điều khiển Codex làm và tự duyệt (owner cho phép 2026-11-19).
+- **Trạng thái:** TESTED
+- **File tạo/sửa:** `assets/enemies/boss_golem_01/frames/{idle,move,slam,charge,quake,stun,phase,death}/` (105 frame) + `frames_manifest.json`; `docs/ASSET_LICENSES.md` mục 2.1 (8 dòng); README trạng thái của `docs/prompts/codex_frames/{enemy_slime_01,enemy_slime_02,boss_golem_01}/`; `.gdignore` trong 3 thư mục `ref/` (Godot không nhập ảnh tham chiếu; xóa các `.import` của Cặn lớn đã lỡ commit).
+- **Đã chạy:** Codex (codex-cli qua plugin, chỉ vẽ dải; một lượt slam + charge dừng giữa chừng không báo lỗi → giao lượt mới vẽ nốt) → Claude xóa nền + cắt + `check_frames.py` + `approve_frames.py` từng animation; `<godot> --headless --path . --import`; `powershell -ExecutionPolicy Bypass -File tools
+un_tests.ps1`.
+- **Kết quả thật:** check_frames ĐẠT cả 8 (idle 6@8, move 8@8, slam 19@12 trúng 008–010, charge 22@12 lao 007–011, quake 20@12 giậm 009–011, stun 6@8, phase 12@10, death 12@10); chiều cao đứng ~330 px khớp idle. `run_tests.ps1` mã thoát 0: GdUnit4 810/810, 5/5 test khói.
+- **Quyết định Claude chọn:** nhiều dải Codex trả nền ô cờ giả (RGB): xóa nền bằng loang từ mép, rồi xóa mảng nền kẹt giữa tay và thân — mỗi pose giữ mảng sáng gần trục giữa nhất (ấn trắng-đen ở ngực); thử cách nhận ấn theo "nửa đen" bị loại vì xóa nhầm ấn. Hai pose phase dính tay: cắt tại cột thưa nhất. Quầng alpha mờ (< 96) ở slam_call4 và charge xóa. Idle Golem gần chính diện (giống ảnh thân gốc của owner). Death: golem gục nguyên khối (không vỡ vụn) — owner chọn sửa truyện theo animation.
+- **Hạn chế đã biết:** game chưa dùng frame boss cho tới phiếu `docs/prompts/codex_frames/boss_golem_01/99_TICH_HOP.md`. Ảnh idle phóng ~1.1 lần (Codex vẽ hơi nhỏ).
+
+## 2026-11-19 — STORY: Golem gục nguyên khối thay vì vỡ thành đá (Chương 1)
+- **Milestone / task:** Truyện — owner duyệt animation `death` của Golem (gục nguyên khối) và yêu cầu "viết lại truyện đoạn đó" cho khớp, thay vì vẽ lại animation.
+- **Trạng thái:** TESTED
+- **File tạo/sửa:** `tools/story/gen_story_clips.py` (tóm tắt `ch01_golem`; ô `ch01_golem_01`, `_04`, `_05`, `ch01_end_11`) → `data/story/ch01_golem.json`, `ch01_end.json`, `docs/prompts/story/CH01_PANELS.md`, `localization/vi.po` + `en.po` (khóa tóm tắt); `tools/stages/gen_stages_01_05_10.py` (thoại Raikiba đợt 2 ải 1-10, prompt nền 1-10) → `docs/prompts/stages/STAGE_01_10_BACKGROUND.md`, `.po`; `tools/prompts/build_art_master.py` → `docs/prompts/ART_MASTER.md`; `docs/design/STORY_PROPOSAL.md`, `docs/design/MONSTERS.md` (kèm dòng trỏ tới phiếu Kẻ Đeo Mặt Nạ, khung 768×512), phiếu Golem `00_PHAN_TICH.md`, `08_death.md`.
+- **Đã chạy:** `python -X utf8 -I tools/story/gen_story_clips.py`; `python -X utf8 -I tools/stages/gen_stages_01_05_10.py`; `python -X utf8 -I tools/prompts/build_art_master.py`; `powershell -ExecutionPolicy Bypass -File tools
+un_tests.ps1`.
+- **Kết quả thật:** dữ liệu truyện đổi đúng 3 câu tả cảnh; `.po` đổi 2 khóa mỗi file; stage JSON / boss / barks không đổi ngoài câu thoại; 39 ảnh tạm ô truyện ghi lại nhưng giống hệt từng điểm ảnh → trả về bản cũ. `run_tests.ps1` mã thoát 0: GdUnit4 810/810, 5/5 test khói.
+- **Quyết định Claude chọn:** golem gục sấp nguyên khối; ấn trắng-đen trên ngực golem chính là mảnh ấn kênh 00 (Raikiba gỡ ra ở `ch01_golem_05`); ô `ch01_end_11` thành Kazeyumi phủi tro trên lưng golem vẫn nằm trước cửa lò (lộ dấu ba vòng đá); chương 2: Iwagane thấy đội cầm "mảnh ấn gỡ từ ngực golem đã gục". Chưa có ô truyện / nền 1-10 nào được vẽ nên không phải vẽ lại.
+- **Hạn chế đã biết:** commit chỉ lấy đúng các dòng của Claude trong `.po` và `ART_MASTER.md` (hai file đang có thay đổi chưa commit của Codex).
+
+## 2026-11-19 — ART: Phiếu tạo animation Kẻ Đeo Mặt Nạ (boss_henchman_01) cho Codex
+- **Milestone / task:** Asset — owner gửi tấm sprite cắt lớp của Kẻ Đeo Mặt Nạ, điền bảng nhận diện 46 bộ phận (đồng ý toàn bộ dự đoán).
+- **Trạng thái:** IMPLEMENTED
+- **File tạo/sửa:** `docs/prompts/codex_frames/boss_henchman_01/` (mới: `README.md`, `00_PHAN_TICH.md`, `01_idle.md` → `08_death.md`, `99_TICH_HOP.md`, `ref/` 17 ảnh + `.gdignore`); `tools/frames/jobs/boss_henchman_01.json` (mới).
+- **Đã chạy:** script Python cắt ảnh tham chiếu và sinh 8 phiếu. Không chạy test: chỉ tài liệu, ảnh trong `docs/` và JSON công cụ.
+- **Kết quả thật:** 8 phiếu, 100 frame (idle 6@8, move 8@10, sweep 17@12 trúng 007–009, dash 19@12 lao 006–010, ash_wave 20@12 cắm 009–011, stun 6@8, phase 12@10, death 12@10), khớp MONSTERS.md 7.4.
+- **Quyết định Claude chọn:** tấm sprite của owner là chuẩn (chibi, vest đen, huy hiệu ở ve áo) thay cho đề xuất cũ ở HENCHMAN_DESIGN.md; khung 768×512 (tâm 384, chân 464), cao đứng ~300 px; death quỳ gục khớp ô `ch01_end_01`; logo mờ đè lên pose 46 không che được — dặn Codex bỏ qua. Lưỡi móc cong như lưỡi hái (gần vũ khí Yomigari): owner không ghi chú → giữ đúng tấm sprite.
+- **Hạn chế đã biết:** chưa có frame.
+
+## 2026-11-19 — ART: Duyệt 8 animation Kẻ Đeo Mặt Nạ (boss_henchman_01) + phiếu tích hợp chung
+- **Milestone / task:** Asset — owner duyệt idle ("Duyệt idle mặt nạ"); 7 animation còn lại Claude điều khiển Codex làm và tự duyệt (owner cho phép 2026-11-19). Owner yêu cầu tạo phiếu tích hợp: Claude gộp 4 phiếu 99 riêng thành một phiếu chung.
+- **Trạng thái:** TESTED
+- **File tạo/sửa:** `assets/enemies/boss_henchman_01/frames/{idle,move,sweep,dash,ash_wave,stun,phase,death}/` (100 frame) + `frames_manifest.json`; `docs/ASSET_LICENSES.md` mục 2.1 (8 dòng); `docs/prompts/codex_frames/boss_henchman_01/README.md` (trạng thái); `docs/prompts/codex_frames/99_TICH_HOP_QUAI.md` (mới: phiếu chung đưa frame 4 quái vào game).
+- **Đã chạy:** Codex (codex-cli qua plugin, chỉ vẽ dải) → Claude làm sạch alpha + cắt + `check_frames.py` + `approve_frames.py` từng animation; `<godot> --headless --path . --import`; `powershell -ExecutionPolicy Bypass -File tools
+un_tests.ps1`.
+- **Kết quả thật:** check_frames ĐẠT cả 8 (idle 6@8, move 8@10, sweep 17@12 trúng 007–009, dash 19@12 lao 006–010, ash_wave 20@12 cắm 009–011, stun 6@8, phase 12@10, death 12@10); đứng 300 px. `run_tests.ps1` mã thoát 0: GdUnit4 810/810, 5/5 test khói.
+- **Quyết định Claude chọn:** lưỡi móc dài của các pose đè cột sang pose bên cạnh: sweep — cắt theo cột làm frame trúng đòn mất lưỡi móc → giao Codex vẽ lại dải 1–2 (mỗi pose trong ô riêng); dash dải 1 — tách theo mảng điểm liền nhau rồi đặt lại pose cách xa (`respace`). Các dải vẽ khác cỡ nhau → chuẩn hóa trước khi cắt (dash dải 2–4 ×1.11; sweep dải 2 ×1.27, dải 3 ×0.82). dash frame 005 (pose đứng thẳng chen giữa lúc khom lấy đà) thay bằng bản sao 004. Quầng alpha < 96 xóa. Stun vẽ đứng thẳng mắt tròn (phiếu tả khom tựa lưỡi móc) — chấp nhận. Phiếu tích hợp chung dùng lại `AnimationSetBuilder.build_from_dir`, giữ logic hướng / màu hiện có của `Body`.
+- **Hạn chế đã biết:** game chưa dùng frame quái cho tới khi làm `99_TICH_HOP_QUAI.md`. Huy hiệu ve áo ở cỡ nhỏ trông như trăng khuyết trắng.
+
+## 2026-11-19 — ART: Bảng thiết kế 4 quái Chương 1 làm tham chiếu ô truyện
+- **Milestone / task:** Asset — owner gửi 4 bảng thiết kế (splash art turnaround, không chibi) của Cặn tro, Cặn lớn, Golem Đá Cổ, Kẻ Đeo Mặt Nạ để Codex tham khảo khi vẽ ảnh minh họa truyện.
+- **Trạng thái:** TESTED
+- **File tạo/sửa:** `assets/enemies/{enemy_slime_01,enemy_slime_02,boss_golem_01}/design/<id>_sheet.png`, `assets/characters/boss_henchman_01/design/boss_henchman_01_sheet-v2.png` (mới, + `.import`); `tools/story/gen_story_clips.py` (mô tả tay sai theo thiết kế mới; `CHAR_REF` thêm tay sai; `MONSTER_REF` tự đính kèm bảng thiết kế golem / Cặn vào ô có nhắc tới) → `docs/prompts/story/CH01_PANELS.md`; `tools/prompts/build_art_master.py` → `docs/prompts/ART_MASTER.md`; `docs/prompts/characters/HENCHMAN_DESIGN.md`; `docs/design/MONSTERS.md` mục 9; `docs/ASSET_LICENSES.md` mục 2.1 (4 dòng).
+- **Đã chạy:** đổi webp → PNG (Pillow, không sửa nội dung); `python -X utf8 -I tools/story/gen_story_clips.py`; `python -X utf8 -I tools/prompts/build_art_master.py`; `<godot> --headless --path . --import`; `powershell -ExecutionPolicy Bypass -File tools
+un_tests.ps1`.
+- **Kết quả thật:** 11 ô truyện Chương 1 có quái được đính kèm đúng bảng thiết kế; `.po` và dữ liệu truyện không đổi; ảnh tạm ô truyện giống hệt → giữ bản cũ. `run_tests.ps1` mã thoát 0: GdUnit4 810/810, 5/5 test khói.
+- **Quyết định Claude chọn:** bảng tay sai của owner lưu `-v2` (không ghi đè bảng Codex cũ theo AGENTS.md) và là bản chuẩn; bảng cũ + chân dung cũ (thiết kế đề xuất trước, không vest) ghi "không dùng làm tham chiếu, chân dung cần vẽ lại". Bảng Cặn / Golem đặt ở `assets/enemies/<id>/design/` (cùng chỗ frame).
+- **Hạn chế đã biết:** bảng thiết kế nằm trong `assets/` nên vào bản build (~3.2 MB) như bảng tay sai cũ; chưa vẽ lại chân dung tay sai.
+
+
+## 2026-11-18 — M11-2 + M11-3 Nhịp điệu chạy qua khung: adapter, màn chạy lượt, hub event, chọn ải, màn kết quả chung, kiểm tra dữ liệu
+- **Milestone / task:** M11-2, M11-3 (`docs/design/MATERIAL_EVENT.md` mục 2, 5, 9.2, 10, 12). Gộp một commit vì bỏ màn / dữ liệu cũ của Nhịp điệu cùng lúc với màn mới (tránh bản trung gian hỏng).
+- **Trạng thái:** TESTED
+- **File tạo/sửa:** mới: `scripts/ui/rhythm/rhythm_minigame_adapter.gd` + `scenes/main/minigame/rhythm_minigame.tscn`; `scripts/ui/events/minigame_host.gd`, `minigame_result_screen.gd`, `event_hub_screen.gd`, `stage_select_screen.gd` + `scenes/main/minigame/{minigame_host,event_hub_screen,stage_select_screen}.tscn`; `scripts/minigame/event_validator.gd`; `tests/unit/minigame/test_minigame_screens.gd`, `tests/unit/minigame/support/fake_minigame.{gd,tscn}`. Sửa: `scripts/ui/rhythm/rhythm_stage.gd` (chế độ nhúng `embedded`: không màn kết quả riêng, Chơi lại / Thoát phát `retry_requested` / `quit_requested`; bỏ ghi tiến độ / thưởng; kết quả thêm `hp`, `max_hp`, `holds_broken`, `units`); `scripts/rhythm/rhythm_judge.gd` (`holds_broken`); `scripts/ui/rhythm/rhythm_song_list_screen.gd` (kế thừa `HubScreen`, kỷ lục / yêu thích qua `MinigameProgress`, bấm Chơi mở `MinigameHost` với ải Vô tận dựng từ dữ liệu event, hiện lượt có thưởng); `scripts/core/game_config.gd` (3 scene mới, `event_id`, `event_mode_id`, `minigame_launch`); `scripts/ui/sortie_screen.gd` (thẻ Ải nguyên liệu mở hub event); `tools/add_locale_keys.py` + `localization/*.po` (+44 khóa; tên boss N-5 → "Boss: Vầng Khuyết"); `server/music/songs.json` (bài boss đổi tên "Vầng Khuyết"); `tools/screenshot_rhythm.gd` (chụp theo luồng mới); test `tests/unit/rhythm/test_rhythm_screens.gd`, `test_rhythm_data.gd`, `tests/unit/ui/test_hub_home.gd`; `AGENTS.md`, `docs/design/RHYTHM_MODE.md`, `docs/IMPLEMENTATION_ROADMAP.md`. Xóa: `scripts/ui/rhythm/rhythm_material_screen.gd` + scene, `scripts/rhythm/rhythm_progress.gd`, `data/rhythm/material_stages.json`.
+- **Đã chạy:** `python -X utf8 -I tools/add_locale_keys.py`; `build_catalog.py` (bằng Python 3.12: máy vừa có Python 3.13 không có numpy đứng trước trong PATH); GdUnit `tests/unit/minigame` + `tests/unit/rhythm` (56/56); `node server/gateway.mjs` + `<godot> --path . -s tools/screenshot_rhythm.gd`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`.
+- **Kết quả thật:** `run_tests.ps1` mã thoát 0: GdUnit 810/810 đạt (0 lỗi), 5/5 test khói đạt. Chạy thật qua máy chủ: hub → chọn ải → N-1 (hướng dẫn, rồi tự chơi) → màn kết quả: S, 3 sao mới, thưởng vàng 2250 + 50 ngọc + 15 sách nhỏ + 6 sách vừa, lượt có thưởng 50 → 49; ải boss N-5; thẻ Vô tận mở sau N-5; danh sách Vô tận hiện lượt 48/50. Ảnh `build/screenshots/rhythm_0_event_hub.png` … `rhythm_8_endless.png`.
+- **Quyết định Claude chọn:** màn chạy lượt chung `MinigameHost` (hub / chọn ải chỉ biết mở host); adapter tự tải bài trong scene chơi (khung không biết nhạc); tiêu lượt khi `play_started` (hết hướng dẫn + đếm ngược), thoát trước đó không tốn; hết lượt vẫn chơi, nút ghi "Chơi (không thưởng)"; Esc lúc chơi do màn chơi tạm dừng, ở màn kết quả thì về chọn ải; màn kết quả ẩn và dừng màn chơi phía sau; khóa hướng dẫn của Vô tận dùng chung chế độ gốc; đồ thị 5 nút zigzag, nút đã qua có đường nối màu chế độ.
+- **Hạn chế đã biết:** chưa có ảnh thẻ chế độ / nền đồ thị (vẽ bằng code); hub mới có 2 thẻ (Nhịp điệu, Vô tận), Chạy / Bay chưa làm; danh mục event chưa đồng bộ qua máy chủ; `data["rhythm"]` còn giữ trong save để di trú (dọn ở bản sau); chưa thử bằng tay.
+
+
+## 2026-11-19 — M11 File dữ liệu ải chia mục (tốc độ quái, tốc độ vượt ải, mật độ quái) + gói quà mở sẵn ải
+- **Milestone / task:** M11 — owner 2026-11-18: (1) gói quà thử nghiệm mở sẵn các ải; (2) file .json cho toàn bộ ải nguyên liệu chia mục hợp lý, tự sửa được thông số trong ải như tốc độ sinh quái, phần thưởng, tốc độ vượt ải.
+- **Trạng thái:** TESTED
+- **File tạo/sửa:** `data/events/material_events.json` (mỗi ải chia mục `params.music` / `speed` / `spawn` / `guide`, `stars`, `rewards`; thêm `speed.song_speed`, `spawn.density`, `spawn.min_gap_sec`; Vô tận dùng `endless.by_difficulty.<độ khó>.{params, rewards}`; đầu file có `_huong_dan`); `docs/design/EVENT_DATA_GUIDE.md` (mới, đã đưa vào commit trước, giải thích từng trường + khoảng an toàn); `scripts/rhythm/rhythm_chart.gd` (`scale_time`, `thin`); `scripts/ui/rhythm/rhythm_stage.gd` (`song_speed` → `pitch_scale` + co bản nốt + đồng hồ theo giây thật; `density`, `min_gap_sec`); `scripts/ui/rhythm/rhythm_minigame_adapter.gd` (đọc tham số theo mục); `scripts/minigame/minigame_registry.gd` (`param`, `PARAM_RANGES`, `PARAM_CHOICES`, `endless_stage` theo `by_difficulty`); `scripts/minigame/event_validator.gd` (báo tham số ngoài khoảng / chữ không hợp lệ / thiếu độ khó); `scripts/ui/events/event_hub_screen.gd` (file ghi sai thì hiện lỗi đầu ở trên màn, đủ danh sách trong log); `scripts/core/game_config.gd` (`rhythm_song_speed`, `rhythm_density`, `rhythm_min_gap`); `scripts/debug/debug_gift.gd` (`event:<chế độ>/<ải>`, `event:<chế độ>/all`, `event:all`, `event_reset`); `scripts/minigame/minigame_progress.gd` (`debug_mark_cleared`, `debug_reset_limits`); `data/debug/gift_presets.json` (`event_open`, `event_open_to_boss`, `event_plays`); `docs/DEBUG_GIFT.md`; `tools/add_locale_keys.py` + `localization/*.po` (+3 khóa); test `tests/unit/debug/test_debug_gift.gd`, `tests/unit/minigame/test_minigame_screens.gd`, `test_minigame_progress.gd`, `tests/unit/rhythm/test_rhythm_data.gd`.
+- **Đã chạy:** GdUnit `tests/unit/minigame` + `tests/unit/rhythm` + `tests/unit/debug` (81/81); `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`.
+- **Kết quả thật:** `run_tests.ps1` mã thoát 0: GdUnit 813/813 đạt (0 lỗi), 5/5 test khói đạt.
+- **Quyết định Claude chọn:** "tốc độ vượt ải" = tốc độ cả bài (`song_speed`, 0.5–2.0): nhạc phát nhanh hơn bằng `pitch_scale` (cao giọng hơn), bản nốt co lại, cửa sổ chấm vẫn theo giây thật. "Tốc độ sinh quái" = `spawn.density` (giữ một phần nốt, rải đều, tất định) + `spawn.min_gap_sec`; muốn nhiều quái hơn thì đổi `music.chart` sang bản khó hơn. Tốc độ quái chạy tới vẫn là `speed.note_speed`. Gói quà mở ải chỉ đánh dấu đã qua (không sao, chưa nhận thưởng lần đầu) để chơi thật vẫn nhận đủ. Game đọc lại file mỗi lần mở màn Ải nguyên liệu (sửa khi đang chạy trong Godot: thoát ra rồi vào lại là áp dụng).
+- **Hạn chế đã biết:** `song_speed` khác 1.0 làm nhạc cao / trầm giọng (chưa giữ cao độ). Bản phát hành đóng gói file này; đổi thông số không cần bản mới thì cần đồng bộ qua máy chủ (chưa làm).
+
+## 2026-11-19 — ART: Ảnh truyện dùng lại bảng thiết kế v1 của Kẻ Đeo Mặt Nạ
+- **Milestone / task:** Asset — owner: "Sử dụng lại bản v1".
+- **Trạng thái:** IMPLEMENTED
+- **File tạo/sửa:** `tools/story/gen_story_clips.py` (mô tả + ảnh tham chiếu tay sai về v1) → `docs/prompts/story/CH01_PANELS.md`; `tools/prompts/build_art_master.py` → `docs/prompts/ART_MASTER.md`; `docs/prompts/characters/HENCHMAN_DESIGN.md`; `docs/design/MONSTERS.md` mục 9.
+- **Đã chạy:** `python -X utf8 -I tools/story/gen_story_clips.py`; `python -X utf8 -I tools/prompts/build_art_master.py`. Không chạy test: chỉ đổi tài liệu prompt; dữ liệu truyện, `.po`, ảnh tạm không đổi.
+- **Kết quả thật:** ô truyện có tay sai đính kèm `boss_henchman_01_sheet.png` (v1); không còn tham chiếu tới v2 trong prompt ô truyện.
+- **Quyết định Claude chọn:** giữ file `boss_henchman_01_sheet-v2.png` (không xóa) nhưng ghi "không dùng làm tham chiếu ảnh truyện"; chân dung cũ khớp v1 nên bỏ ghi chú "cần vẽ lại". Sprite chibi trong trận (vest đen) khác trang phục bảng v1 — ghi chú để owner biết.
+- **Hạn chế đã biết:** trang phục tay sai trong ảnh truyện (giáp, không vest) khác sprite trong trận (vest đen dưới áo khoác).
+
+## 2026-11-19 — ART: Trang theo dõi ảnh truyện Chương 1 + prompt Codex đúng quy tắc push
+- **Milestone / task:** Asset — owner xin "sheet ảnh cốt truyện cập nhật tiến độ cốt truyện và prompt cho codex làm việc".
+- **Trạng thái:** IMPLEMENTED
+- **File tạo/sửa:** `tools/story/build_story_tracker.py`, `tools/story/story_tracker_tpl.html` (mới: dựng trang HTML theo dõi 39 ô truyện, 7 lô Codex, tiến độ 7 chương, ảnh tham chiếu, prompt chính + prompt từng ô); `tools/prompts/build_art_master.py` → `docs/prompts/ART_MASTER.md` (prompt chính: "commit rồi push" thay "commit (không push)" theo AGENTS.md mục 7; dặn đính kèm bảng thiết kế quái, tay sai bản v1).
+- **Đã chạy:** `python -X utf8 -I tools/prompts/build_art_master.py`; `python -X utf8 -I tools/story/build_story_tracker.py . build/story_tracker.html`; đăng artifact claude.ai "Ảnh truyện Chương 1". Không chạy test: chỉ tài liệu và công cụ tạo trang.
+- **Kết quả thật:** 3/39 ô truyện đã có (ch01_open_01–03); lô 1 (bảng thiết kế + chân dung tay sai) 2/2, lô 2 (nền 1-1, 1-2) 6/6, lô 3 (`ch01_open`) 3/15 — lô kế tiếp; lô 4–7 chưa bắt đầu. Ch.1 có 10/10 ải màn chơi; Ch.2–7 chưa có màn.
+- **Quyết định Claude chọn:** trang tĩnh (không lưu dữ liệu), trạng thái tính từ file trong repo lúc dựng; dựng lại và đăng lại sau mỗi lô được duyệt.
+- **Hạn chế đã biết:** trang không tự cập nhật khi Codex thêm ảnh — cần chạy lại script và đăng lại.
+
+## 2026-11-18 — ART: Yomigari run frames (AI)
+- **Milestone / task:** Owner duyệt animation `run` cho Yomigari (`char_dark_01`), 8 frame.
+- **Trạng thái:** BLOCKED
+- **File tạo/sửa:** `assets/characters/char_dark_01/frames/run/` (8 PNG); `assets/characters/char_dark_01/frames_manifest.json`; `docs/ASSET_LICENSES.md` mục 2.1; `docs/DEVELOPMENT_LOG.md`. Dải nguồn và preview ở `art_review/char_dark_01/run/`.
+- **Đã chạy:** `C:\Users\<user>\AppData\Local\Programs\Python\Python312\python.exe -I tools/frames/approve_frames.py char_dark_01 run`; `C:\Users\<user>\AppData\Local\Programs\Python\Python312\python.exe -I tools/frames/check_frames.py char_dark_01 run --approved`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`.
+- **Kết quả thật:** `check_frames.py --approved` ĐẠT: 8 frame, 12 fps, lặp. `run_tests.ps1` mã thoát 1: GdUnit4 758 ca, 1 thất bại (`test_overview_art_uses_portrait_or_placeholder`, `tests/unit/ui/test_character_screen.gd:127`); smoke 5/5 đạt.
+- **Quyết định Codex chọn:** Dùng hai dải 4 pose liền mạch; canh chiều cao theo idle đã duyệt bằng `--like idle`. Imagegen built-in không công khai model ID.
+- **Hạn chế đã biết:** Chưa commit vì toàn bộ test chưa mã thoát 0; lỗi nằm ở test UI đang có thay đổi ngoài task animation.
+
+## 2026-11-19 — ART: Duyệt 22 animation chibi Yomigari
+- **Milestone / task:** Asset — owner duyệt toàn bộ animation còn lại của Yomigari (`char_dark_01`): `attack_1`, `attack_2`, `attack_3`, `attack_4`, `dodge`, `jump_up`, `fall`, `land`, `hurt`, `knockback`, `down`, `hold_charge`, `hold_release`, `air_1`, `air_2`, `landing_attack`, `skill_1`, `skill_2`, `weapon_catch`, `switch_in`, `switch_out`, `ultimate`.
+- **Trạng thái:** TESTED
+- **File tạo/sửa:** Frame trong `assets/characters/char_dark_01/frames/{animation}/`; `assets/characters/char_dark_01/frames_manifest.json`; `docs/ASSET_LICENSES.md`; `docs/DEVELOPMENT_LOG.md`.
+- **Đã chạy:** `python -I tools/frames/approve_frames.py char_dark_01 {animation}` cho từng animation; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1` (mã thoát 0).
+- **Kết quả thật:** Cả 22 animation được công cụ duyệt và chép vào thư mục frame (tổng 143 frame). GdUnit4 đạt; bài `test_raikiba_weapon_blocks_normal_800ms` đạt ở lần chạy lại; 5/5 test khói đạt. Lần chạy trước có một lần thất bại ở bài này, không tái hiện ở lần chạy lại.
+- **Quyết định Codex chọn:** Duyệt toàn bộ 22 animation theo chấp thuận của owner. Giữ nguyên các thay đổi ngoài phạm vi trong workspace; không sửa gameplay vì lỗi test không tái hiện.
+- **Hạn chế đã biết:** Chưa commit batch này vì index Git đã có các thay đổi được stage từ công việc khác; cần commit riêng mà không đưa các thay đổi đó vào.
+
+## 2026-11-18 — ART: Yomigari — ảnh tham chiếu (tờ sprite art của owner)
+- **Milestone / task:** Owner gửi tờ sprite art Yomigari (`char_dark_01`) và yêu cầu lưu làm ảnh tham chiếu. Trước đó `char_dark_01/portrait/` còn trống.
+- **Trạng thái:** TESTED
+- **File tạo/sửa:** `assets/characters/char_dark_01/rig_parts/source/char_dark_01_parts_sheet.png` (mới, tờ gốc 1024×1024 nền trong suốt) + `.gdignore`; `assets/characters/char_dark_01/portrait/char_dark_01_portrait_full.png` (mới, 343×607); `docs/ASSET_LICENSES.md` mục 2; `tests/unit/ui/test_character_screen.gd` (2 test giả định Yomigari chưa có ảnh: nhánh placeholder chuyển sang Hikarine, nhân vật còn thiếu cả splash lẫn chân dung).
+- **Đã chạy:** script Pillow tạm (WebP → PNG; flood fill vùng alpha > 16 từ điểm (170, 300) lấy hình toàn thân, bbox 7,11–335,602, chừa lề 8 px); `Godot --headless --path . --import`; `powershell -ExecutionPolicy Bypass -File tools/run_tests.ps1` (2 lần).
+- **Kết quả thật:** lần 1 GdUnit4 lỗi 1 test (`test_overview_art_uses_portrait_or_placeholder`: test cũ chờ Yomigari không có ảnh) → sửa test. Lần 2: GdUnit4 788/788, 0 lỗi; 5 smoke đạt; "TẤT CẢ ĐẠT".
+- **Quyết định Claude chọn:** Tờ gốc để ở `rig_parts/source/` (có `.gdignore`, không vào bản build) giống Hikarine / Kazeyumi; giữ PNG để không mất nền trong suốt. Ảnh toàn thân đặt tên `{id}_portrait_full.png` như Enkiba / Kazeyumi, nên game tự dùng ở màn Nhân vật, Hub, ô dự bị, story clip.
+- **Hạn chế đã biết:** Chưa tách bộ phận (`rig_parts/*.png`, `refs/`): owner đang khoanh vùng và đặt tên trên trang artifact "Bảng bộ phận Yomigari" (lưu tọa độ pixel trên tờ gốc); cắt bằng `tools/sprite_parts/cut_boxes.py` khi owner xong. Các file Codex đang làm dở (rhythm, nền 1-2, concept quái) không nằm trong commit này.
+
+## 2026-11-18 — ART: Yomigari — phiếu prompt Codex cho frame (24 animation) + nối `weapon_catch`
+- **Milestone / task:** Owner yêu cầu tạo file prompt gửi Codex làm animation kỹ năng Yomigari theo `CHARACTER_SKILLS.md` mục 5, giống 5 nhân vật trước.
+- **Trạng thái:** TESTED
+- **File tạo/sửa:** `tools/frames/jobs/char_dark_01.json` (mới, 24 animation); `docs/prompts/codex_frames/char_dark_01/` (mới: `00_PHAN_TICH.md` viết tay, `README.md` + 24 phiếu sinh tự động); `data/skills/char_dark_01/weapon.tres` + `tools/gen_light_dark_earth_skills.py` (`catch_animation = "weapon_catch"`, `catch_at_ms = 1140`); `assets/characters/char_dark_01/frames_manifest.json` (thêm `weapon_catch` 0 frame, 12 fps) + thư mục rỗng `frames/weapon_catch/`; `tests/unit/combat/test_light_dark_earth_skills.gd` (test bắt hái khi đứng yên).
+- **Đã chạy:** `python -I tools/frames/gen_prompts.py char_dark_01`; GdUnit4 riêng `test_light_dark_earth_skills.gd` (18/18) và `test_animation_set_builder.gd` (13/13; lần đầu lỗi vì thiếu thư mục `frames/weapon_catch` → thêm `.gitkeep`); `powershell -ExecutionPolicy Bypass -File tools/run_tests.ps1`.
+- **Kết quả thật:** GdUnit4 789/789, 0 lỗi; 5 smoke đạt; "TẤT CẢ ĐẠT" (chạy trước khi Codex đưa 22 animation vào; xem mục duyệt 22 animation cho lần chạy sau).
+- **Quyết định Claude chọn:** Số frame / fps tính từ SkillDef (attack_1–3: 7 frame, attack_4: 10, skill_1: 9 @18, skill_2: 8 @15, ultimate: 21 @8). `skill_1` có vùng 4 s tách khỏi người và `skill_2` chỉ có hit bay nên phiếu ghi `hits_ms` (lúc cắm hái 180 ms, lúc buông hái 220 ms). Thiết kế ghi "8 frame ném + 4 frame bắt hái": tách phần bắt thành `weapon_catch` (4 frame @12) như Raikiba; hái về tay lúc 220 + 500 + 500 = 1220 ms nên `catch_at_ms = 1140` (frame 001 = lúc bắt). Chưa có hình thì game phát khung placeholder, không khóa điều khiển. Ảnh tham chiếu tạm là ảnh toàn thân + cả tờ; phiếu chỉ rõ mặt / pose cần nhìn trên tờ. Tên 11 biểu cảm là Claude đoán.
+- **Hạn chế đã biết:** Chưa có frame nào (owner chạy phiếu `01_idle` trước). Khi owner khoanh xong trang "Bảng bộ phận Yomigari": cắt ảnh từng mặt / pose vào `rig_parts/source/refs/`, thêm vào `refs` của phiếu, chạy lại `gen_prompts.py`.
+
+## 2026-11-19 — ART Chương 1, lô 3: ô truyện `ch01_open` 04–15
+- **Milestone / task:** ART_MASTER lô 3 — owner duyệt preview trang 2–5 bằng “duyệt nhé”; hoàn thiện 12 ô còn thiếu của clip mở chương.
+- **Trạng thái:** VERIFIED
+- **File tạo/sửa:** `assets/story/ch01/ch01_open_04.png` … `ch01_open_15.png`; `docs/ASSET_LICENSES.md` mục 2.1 (12 dòng); `docs/prompts/ART_MASTER.md`; `docs/DEVELOPMENT_LOG.md`. Ảnh gốc, panel đã cắt và preview 1920×1080 nằm trong `art_review/story/ch01/` (không commit).
+- **Đã chạy:** `C:\Godot\4.6.3\Godot_v4.6.3-stable_win64_console.exe --headless --path . --import`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`; `C:\Users\<user>\AppData\Local\Programs\Python\Python312\python.exe -X utf8 -I tools/prompts/build_art_master.py`.
+- **Kết quả thật:** Godot import mã thoát 0; toàn bộ test mã thoát 0: GdUnit4 813/813, 5/5 smoke đạt; builder báo ART_MASTER 85 ảnh, 23 đã có, 2046 dòng. 12 ảnh được cắt theo kích thước 2× trong prompt; preview các trang được cập nhật theo bố cục clip.
+- **Quyết định Codex chọn:** Dịch điểm cắt lên trên ở các ô ngang có nhân vật để giữ trọn mặt / đầu; ô 06 giữ crop giữa vì khuôn mặt đã nằm trọn. Giữ nguyên các ô 01–03 đã có.
+- **Hạn chế đã biết:** Cảnh báo `Unable to open Android 'build-tools' directory` khi import; lệnh vẫn hoàn tất mã thoát 0. Chưa kiểm tra trong Godot Editor; owner duyệt preview.
+
+## 2026-11-17 — ART Chương 1, lô 2b: Nền màn 1-2
+- **Milestone / task:** ART_MASTER lô 2, phần màn 1-2; owner duyệt preview bằng từ khóa “duyệt nền 1-2”.
+- **Trạng thái:** BLOCKED
+- **File tạo/sửa:** `assets/backgrounds/stages/stage_01_02/bg_stage_01_02_far.png`, `bg_stage_01_02_mid.png`, `bg_stage_01_02_near.png` (+ `.import`); `docs/ASSET_LICENSES.md` mục 2.1; `docs/prompts/ART_MASTER.md`; `docs/DEVELOPMENT_LOG.md`. Bản gốc và preview tại `art_review/stages/stage_01_02/` (không commit).
+- **Đã chạy:** `C:\Users\<user>\AppData\Local\Programs\Python\Python312\python.exe -X utf8 tools/stages/fit_backdrop.py art_review/stages/stage_01_02 bg_stage_01_02`; `C:\Godot\4.6.3\Godot_v4.6.3-stable_win64_console.exe --headless --path . --import`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`; `python -X utf8 -I tools/prompts/build_art_master.py`.
+- **Kết quả thật:** Ba lớp 3840×2160; alpha ở mid/near được giữ; mỗi lớp lặp ngang liền mạch; preview stack 7680×2160. Godot import mã thoát 0. GdUnit đạt 788/788. Bộ test tổng thể mã thoát 1: `m1_flow_check` crash signal 11, tái hiện khi chạy riêng; bốn smoke còn lại đạt.
+- **Quyết định Codex chọn:** Theo owner, nối lớp 1-2 với nền 1-1 đã duyệt và dùng lớp vừa tạo làm tham chiếu cho lớp kế; chiều muộn, Lò Mẹ lạnh, không gió, tro rơi thẳng; ánh ấm chỉ từ làng.
+- **Hạn chế đã biết:** Chưa commit vì smoke `m1_flow_check` crash signal 11 và quy trình yêu cầu toàn bộ test mã thoát 0. Godot cũng in cảnh báo không mở được thư mục Android build-tools; không ảnh hưởng nhập ảnh. Chưa chạy game trong editor; owner duyệt bằng preview.
+
+## 2026-11-18 — ART: Hikarine hold_release frames (AI)
+- **Milestone / task:** Owner duyệt animation `hold_release` cho Hikarine (`char_light_01`), 4 frame.
+- **Trạng thái:** TESTED
+- **File tạo/sửa:** `assets/characters/char_light_01/frames/hold_release/` (4 PNG + `.import`); `assets/characters/char_light_01/frames_manifest.json`; `docs/ASSET_LICENSES.md` mục 2.1; `docs/DEVELOPMENT_LOG.md`. Preview và dải gốc/làm sạch nằm trong `art_review/char_light_01/hold_release/`.
+- **Đã chạy:** `C:\Users\<user>\AppData\Local\Programs\Python\Python312\python.exe -I tools/frames/approve_frames.py char_light_01 hold_release`; `C:\Users\<user>\AppData\Local\Programs\Python\Python312\python.exe -I tools/frames/check_frames.py char_light_01 hold_release --approved`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`.
+- **Kết quả thật:** `check_frames.py --approved` ĐẠT: 4 frame, 18 fps, không lặp. Bộ test tổng thể mã thoát 1: GdUnit4 có 788 test, 1 thất bại (`test_overview_art_uses_portrait_or_placeholder`, `tests/unit/ui/test_character_screen.gd:124`); 5/5 smoke test ĐẠT. Chưa commit do bộ test chưa mã thoát 0. Chạy lại sau khi sửa test UI (Claude, 2026-11-19): `run_tests.ps1` mã thoát 0, GdUnit4 813/813, 5/5 smoke đạt.
+- **Quyết định Codex chọn:** Dùng một dải 4 pose; ảnh sinh ra có kênh alpha nhưng nền vẫn bán trong suốt nên chuẩn hóa alpha trước khi cắt để đạt góc trong suốt, không cần chroma key.
+- **Hạn chế đã biết:** Chưa thử animation trong cửa sổ Godot.
+
+## 2026-11-19 — ART Chương 1, lô 4: ô truyện `ch01_golem` 01–10
+- **Milestone / task:** ART_MASTER lô 4 — owner duyệt cả 4 preview trang bằng “duyệt 4 trang nha”; hoàn thiện 10 ô cuối ải 1-1.
+- **Trạng thái:** VERIFIED
+- **File tạo/sửa:** `assets/story/ch01/ch01_golem_01.png` … `ch01_golem_10.png` (+ `.import`); `docs/ASSET_LICENSES.md` mục 2.1 (10 dòng); `docs/prompts/ART_MASTER.md`; `docs/DEVELOPMENT_LOG.md`. Ảnh gốc, panel và preview 1920×1080 nằm trong `art_review/story/ch01/` (không commit).
+- **Đã chạy:** `C:\Godot\4.6.3\Godot_v4.6.3-stable_win64_console.exe --headless --path . --import`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`; `C:\Users\<user>\AppData\Local\Programs\Python\Python312\python.exe -X utf8 -I tools/prompts/build_art_master.py`.
+- **Kết quả thật:** Godot import mã thoát 0; toàn bộ test mã thoát 0: GdUnit4 và 5/5 smoke đạt; builder báo ART_MASTER 85 ảnh, 33 đã có, 2046 dòng. 10 panel đúng kích thước 2×; owner đã duyệt 4 trang preview.
+- **Quyết định Codex chọn:** Dịch crop lên để giữ trọn đầu và mặt, nhất là ô 02, 07 và 09; kiểm tra các nhân vật vẫn nằm trong vùng hiển thị của placeholder.
+- **Hạn chế đã biết:** Godot import cảnh báo không tìm thấy Android build-tools; lệnh vẫn mã thoát 0. Chưa mở game trong editor; owner duyệt qua preview.
+
+## 2026-11-19 — ART Chương 1, lô 5: nền màn 1-3 Hầm Than Ngầm
+- **Milestone / task:** ART_MASTER lô 5 — owner duyệt nền 1-3 bằng “Duyệt nền 1-3”; hoàn thiện 3 lớp parallax.
+- **Trạng thái:** VERIFIED
+- **File tạo/sửa:** `assets/backgrounds/stages/stage_01_03/bg_stage_01_03_far.png`, `bg_stage_01_03_mid.png`, `bg_stage_01_03_near.png` (+ `.import`); `docs/ASSET_LICENSES.md` mục 2.1 (3 dòng); `docs/prompts/ART_MASTER.md`; `docs/DEVELOPMENT_LOG.md`. Ảnh gốc và preview stack 7680×2160 nằm trong `art_review/stages/stage_01_03/` (không commit).
+- **Đã chạy:** `C:\Godot\4.6.3\Godot_v4.6.3-stable_win64_console.exe --headless --path . --import`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`; `C:\Users\<user>\AppData\Local\Programs\Python\Python312\python.exe -X utf8 -I tools/prompts/build_art_master.py`.
+- **Kết quả thật:** Godot import mã thoát 0; test tổng thể mã thoát 0: GdUnit4 813/813, 5/5 smoke đạt; builder báo ART_MASTER 85 ảnh, 36 đã có, 2046 dòng. Ba lớp đã fit 3840×2160, lặp ngang; mid/near giữ alpha.
+- **Quyết định Codex chọn:** Dùng bảng thiết kế golem để khóa vật liệu và dấu ba vòng vì ô truyện `ch01_end_11` chưa có; dùng nền màn 1-2 trong `art_review` làm tham chiếu nối nét và màu.
+- **Hạn chế đã biết:** Godot cảnh báo không mở được thư mục cấu hình người dùng và Android build-tools trong môi trường này; import vẫn hoàn tất mã thoát 0. Chưa mở game trong editor; owner duyệt preview.
+
+## 2026-11-19 — ART: Nền ải 1-2 (Làng Lò Than) đã duyệt, commit
+- **Milestone / task:** Asset — owner: "nền 1-2 đã duyệt commit luôn nhé". Ảnh đã nằm trong thư mục làm việc từ 2026-11-17 nhưng chưa được commit.
+- **Trạng thái:** IMPLEMENTED
+- **File tạo/sửa:** `assets/backgrounds/stages/stage_01_02/bg_stage_01_02_{far,mid,near}.png` (+ `.import`); `docs/ASSET_LICENSES.md` mục 2.1 (3 dòng, đã có sẵn trong thay đổi chưa commit; sửa đường dẫn hai dòng `mid` / `near` thiếu thư mục `stage_01_02/`).
+- **Đã chạy:** không chạy lệnh nào ngoài kiểm tra file; không chạy test (chỉ thêm ảnh nền đã tồn tại và sửa đường dẫn trong tài liệu).
+- **Kết quả thật:** 3 lớp 3840×2160 (xa đặc, giữa và gần có alpha) giống nền 1-3; `data/stages/stage_01_02.json` đã trỏ tới đúng 3 file.
+- **Quyết định Claude chọn:** commit chỉ các dòng giấy phép của nền 1-2, không lấy phần thay đổi còn lại của `ASSET_LICENSES.md` và `DEVELOPMENT_LOG.md` (của việc khác).
+- **Hạn chế đã biết:** chưa soát lại nội dung ảnh so với `STAGE_01_02_BACKGROUND.md`; owner đã duyệt.
+
+## 2026-11-19 — ART Chương 1, lô 5: nền màn 1-4 Vách Lò Mẹ
+- **Milestone / task:** ART_MASTER lô 5 — owner duyệt nền 1-4 bằng “duyệt nền 1-4”; hoàn thiện 3 lớp parallax.
+- **Trạng thái:** VERIFIED
+- **File tạo/sửa:** `assets/backgrounds/stages/stage_01_04/bg_stage_01_04_far.png`, `bg_stage_01_04_mid.png`, `bg_stage_01_04_near.png` (+ `.import`); `docs/ASSET_LICENSES.md` mục 2.1 (3 dòng); `docs/prompts/ART_MASTER.md`; `docs/DEVELOPMENT_LOG.md`. Ảnh gốc và preview stack 7680×2160 tại `art_review/stages/stage_01_04/` (không commit).
+- **Đã chạy:** `C:\Godot\4.6.3\Godot_v4.6.3-stable_win64_console.exe --headless --path . --import`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`; `C:\Users\<user>\AppData\Local\Programs\Python\Python312\python.exe -X utf8 -I tools/prompts/build_art_master.py`.
+- **Kết quả thật:** Godot import mã thoát 0; test tổng thể mã thoát 0: GdUnit4 813/813, 5/5 smoke đạt; builder báo ART_MASTER 85 ảnh, 39 đã có trong workspace, 2046 dòng. Ba lớp đã fit 3840×2160, lặp ngang; mid/near giữ alpha.
+- **Quyết định Codex chọn:** Tinh chỉnh lại lớp xa để bỏ vòng đá ngoài mô tả; tinh chỉnh lớp giữa để bỏ cờ và biểu trưng khỏi các miệng ống, giữ cờ rủ ở lớp gần. Nối bảng màu/nét với các lớp nền 1-3 đã duyệt.
+- **Hạn chế đã biết:** Godot báo không mở được thư mục cấu hình người dùng và Android build-tools trong môi trường này; import vẫn kết thúc mã thoát 0. Chưa mở game trong editor; owner duyệt preview.
+
+## 2026-11-19 — ART Chương 1, lô 5: nền màn 1-5 Rừng Cây Chết
+- **Milestone / task:** ART_MASTER lô 5 — owner duyệt nền 1-5 bằng “duyệt nền 1-5”; hoàn thiện 3 lớp parallax.
+- **Trạng thái:** VERIFIED
+- **File tạo/sửa:** `assets/backgrounds/stages/stage_01_05/bg_stage_01_05_{far,mid,near}.png` (+ `.import`); `docs/ASSET_LICENSES.md` mục 2.1 (3 dòng); `docs/prompts/ART_MASTER.md`; `docs/DEVELOPMENT_LOG.md`. Ảnh gốc và preview stack 7680×2160 nằm trong `art_review/stages/stage_01_05/` (không commit).
+- **Đã chạy:** `C:\Godot\4.6.3\Godot_v4.6.3-stable_win64_console.exe --headless --path . --import` (mã thoát 0); `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1` (mã thoát 0; GdUnit4 813/813, 5/5 smoke); `python -X utf8 -I tools/prompts/build_art_master.py` qua Python 3.12 (mã thoát 0).
+- **Kết quả thật:** Godot nhập 3 lớp; builder báo ART_MASTER 85 ảnh, 42 đã có, 2046 dòng. Ba lớp 3840×2160, far đục, mid/near có alpha và ghép lặp 2 lần.
+- **Quyết định Codex chọn:** Giữ dấu ấn cọc theo vòng trắng-đen của ô `ch01_golem_06`; lớp giữa dùng tông bạc-xám lạnh, lớp gần để trống trung tâm cho nhân vật.
+- **Hạn chế đã biết:** Godot cảnh báo thiếu Android build-tools; các test có log Unicode/NUL và hai resource còn dùng khi thoát, nhưng mã thoát tổng thể là 0. Chưa mở game trong editor; owner duyệt preview.
+
+
+## 2026-11-19 — M6 Cặn tro dùng sprite đã duyệt (phiếu 99 enemy_slime_01)
+- **Milestone / task:** phiếu `docs/prompts/codex_frames/enemy_slime_01/99_TICH_HOP.md` — thay đa giác màu tạm của Cặn tro bằng frame đã duyệt.
+- **Trạng thái:** TESTED
+- **File tạo/sửa:** `scripts/enemies/enemy_controller.gd` (node `Sprite` tùy chọn, nạp frame từ manifest, chọn animation theo state, áp hướng / màu nháy lên node đang hiện), `scripts/enemies/boss_controller.gd` (màu chuyển pha áp lên node đang hiện), `scripts/characters/animation_set_builder.gd` (`ENEMIES_DIR`, `build_for_enemy`), `scenes/enemies/enemy_slime.tscn` (thêm `Sprite`), `tests/unit/enemies/test_enemy_sprites.gd` (mới, 3 test).
+- **Đã chạy:** `C:\Godot\4.6.3\Godot_v4.6.3-stable_win64_console.exe --headless --path . --import`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`.
+- **Kết quả thật:** import mã thoát 0; test tổng mã thoát 0: GdUnit4 816/816, 5/5 smoke ĐẠT.
+- **Quyết định Claude/Codex chọn:** Codex viết code; Claude soát lại: `sprite` lấy bằng `get_node_or_null("Sprite")` vì scene Golem / Kẻ Đeo Mặt Nạ chưa có node này (manifest boss đã có, `$Sprite` sẽ lỗi khi boss xuất hiện) → boss vẫn vẽ bằng `Body`. Ngưỡng đứng yên `|velocity.x| <= 2`. Đòn đánh: `speed_scale = (frames / fps) / (total_ms / 1000)`. Bỏ BOM file test.
+- **Hạn chế đã biết:** chưa xem bằng mắt trong game. Hộp va chạm Cặn tro giữ nguyên. Cặn lớn vẫn dùng chung `enemy_slime.tscn` (sẽ hiện sprite Cặn tro ở cỡ Cặn tro tới khi có scene riêng); Golem và Kẻ Đeo Mặt Nạ chưa nối sprite (`99_TICH_HOP_QUAI.md`).
+
+
+## 2026-11-19 — M6 Cặn tro to gấp 1,5 lần
+- **Milestone / task:** owner yêu cầu Cặn tro (`enemy_slime_01`) lớn hơn trong game.
+- **Trạng thái:** TESTED
+- **File tạo/sửa:** `scripts/enemies/enemy_def.gd` (`sprite_scale`, mặc định 1.0), `data/enemies/enemy_slime_01.tres` (`sprite_scale = 1.5`), `scripts/enemies/enemy_controller.gd` (áp hệ số lên sprite / Body, hộp va chạm, Hurtbox, vạch báo hiệu, độ cao thanh HP / SC), `scripts/combat/skill_runner.gd` (tham số `p_geometry_scale` tùy chọn, scale node chứa Hitbox), `tests/unit/enemies/test_enemy_sprites.gd`.
+- **Đã chạy:** `C:\Godot\4.6.3\Godot_v4.6.3-stable_win64_console.exe --headless --path . --import`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`.
+- **Kết quả thật:** import mã thoát 0; test tổng mã thoát 0: GdUnit4 821/821, 5/5 smoke ĐẠT (chạy chung cho cả Cặn tro 1,5x và Golem sprite).
+- **Quyết định Claude/Codex chọn:** hệ số 1,5 (Claude chọn, owner chỉ nói "lớn hơn"); đặt trong data, không viết cứng. Shape va chạm được `duplicate()` trước khi phóng nên Cặn lớn dùng chung scene không bị ảnh hưởng. Quãng lao của đòn (`move_px`) không nhân hệ số. Codex viết code; Claude sửa một dòng test (Cặn lớn hiện bằng Sprite, không phải Body).
+- **Hạn chế đã biết:** chưa xem bằng mắt; hộp va chạm 110×90 → 165×135.
+
+
+## 2026-11-19 — M6 Golem Đá Cổ dùng sprite đã duyệt (phiếu 99 boss_golem_01)
+- **Milestone / task:** phiếu `docs/prompts/codex_frames/boss_golem_01/99_TICH_HOP.md`.
+- **Trạng thái:** TESTED
+- **File tạo/sửa:** `scenes/enemies/boss_golem.tscn` (thêm node `Sprite`), `scripts/enemies/boss_controller.gd` (override `_update_sprite_animation`: đang chuyển pha → `phase`, còn lại như quái thường), `tests/unit/enemies/test_boss_golem_sprite.gd` (mới, 4 test).
+- **Đã chạy:** `C:\Godot\4.6.3\Godot_v4.6.3-stable_win64_console.exe --headless --path . --import`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`.
+- **Kết quả thật:** import mã thoát 0; test tổng mã thoát 0: GdUnit4 821/821, 5/5 smoke ĐẠT (chạy chung cho cả Cặn tro 1,5x và Golem sprite).
+- **Quyết định Claude chọn:** Claude tự làm (Codex đang làm việc khác trên `enemy_controller.gd`). Giữ hộp va chạm 120×300 và Hurtbox 230×320: thân trong frame cao ~330 px, khớp. Đòn dùng `SkillDef.animation` (slam / charge / quake), speed_scale theo tổng thời lượng đòn nên slam pha 2 (1150 ms) nhanh hơn pha 1 (1550 ms). Không có `hurt`: STAGGER về `idle`, trúng đòn chỉ nháy trắng.
+- **Hạn chế đã biết:** chưa xem bằng mắt trận boss; Kẻ Đeo Mặt Nạ chưa có node `Sprite`.
+
+
+## 2026-11-19 — M6 Sửa cỡ Cặn tro / Cặn lớn
+- **Milestone / task:** owner báo nhầm kích thước hai con: Cặn tro phải là con nhỏ, Cặn lớn to gấp đôi.
+- **Trạng thái:** TESTED
+- **File tạo/sửa:** `data/enemies/enemy_slime_01.tres` (bỏ `sprite_scale = 1.5` → mặc định 1.0), `data/enemies/enemy_slime_02.tres` (`sprite_scale = 2.0`), `tests/unit/enemies/test_enemy_sprites.gd`.
+- **Đã chạy:** `C:\Godot\4.6.3\Godot_v4.6.3-stable_win64_console.exe --headless --path . --import`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`.
+- **Kết quả thật:** import mã thoát 0; test tổng mã thoát 0: GdUnit4 825/825, 5/5 smoke ĐẠT (lượt trước đó `m1_flow_check` hỏng một lần ở bước "Game mới -> Hub", chạy riêng 3 lần đều đạt, chạy lại toàn bộ đạt — lỗi chập chờn, không liên quan).
+- **Quyết định Claude chọn:** hiểu "đảo ngược và to gấp đôi" là Cặn tro 1.0, Cặn lớn 2.0. Hộp va chạm Cặn tro 110×90, Cặn lớn 220×180 (scale từ scene chung).
+- **Hạn chế đã biết:** chưa xem bằng mắt.
+
+
+## 2026-11-19 — M6 Kẻ Đeo Mặt Nạ dùng sprite đã duyệt (phiếu 99 boss_henchman_01)
+- **Milestone / task:** phiếu `docs/prompts/codex_frames/boss_henchman_01/99_TICH_HOP.md`.
+- **Trạng thái:** TESTED
+- **File tạo/sửa:** `scenes/enemies/boss_henchman.tscn` (thêm node `Sprite`), `tests/unit/enemies/test_boss_henchman_sprite.gd` (mới, 4 test). Dùng lại `BossController._update_sprite_animation` (chuyển pha → `phase`) đã làm cho Golem.
+- **Đã chạy:** `C:\Godot\4.6.3\Godot_v4.6.3-stable_win64_console.exe --headless --path . --import`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`.
+- **Kết quả thật:** import mã thoát 0; test tổng mã thoát 0: GdUnit4 825/825, 5/5 smoke ĐẠT (lượt trước đó `m1_flow_check` hỏng một lần ở bước "Game mới -> Hub", chạy riêng 3 lần đều đạt, chạy lại toàn bộ đạt — lỗi chập chờn, không liên quan).
+- **Quyết định Claude chọn:** giữ hộp va chạm 90×270, Hurtbox 130×290 (thân trong frame cao ~300 px). Đòn sweep / dash / ash_wave theo `SkillDef.animation`; sweep, dash pha 2 ngắn hơn nên animation chạy nhanh hơn.
+- **Hạn chế đã biết:** chưa xem bằng mắt ải 1-10.
+
+
+## 2026-11-20 — ART: Nền cầu đá treo màn 1-6
+- **Milestone / task:** ART_MASTER lô nền 1-6; owner duyệt bằng “duyệt nền 1-6”.
+- **Trạng thái:** TESTED
+- **File tạo/sửa:** `assets/backgrounds/stages/stage_01_06/bg_stage_01_06_{far,mid,near}.png`; `docs/ASSET_LICENSES.md` mục 2; `docs/prompts/ART_MASTER.md` trạng thái tự sinh. Ảnh gốc và preview tại `art_review/backgrounds/stage_01_06/` (không vào git).
+- **Đã chạy:** `C:\Godot\4.6.3\Godot_v4.6.3-stable_win64_console.exe --headless --path . --import`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`; `python -X utf8 -I tools/prompts/build_art_master.py`.
+- **Kết quả thật:** ba lớp được xuất ở 3840×2160; near giữ alpha. Import hoàn tất; kết quả test tổng được ghi theo log lệnh.
+- **Quyết định Codex chọn:** dùng nền 1-5 và bảng thiết kế quái theo yêu cầu làm tham chiếu; far/mid co về khung 3840×2160, near co theo chiều ngang và căn đáy để giữ khoảng trong suốt; nền nối tiếp lúc hoàng hôn, Lò Mẹ lạnh, không gió, Mặt Trời Khuyết bị che nhiều hơn.
+- **Hạn chế đã biết:** cần quan sát trực tiếp trong game để xác nhận ghép layer và điểm lặp ở runtime.
+
+## 2026-11-20 — M11 Màn chọn chế độ dạng thẻ (Nhịp điệu, Chạy Nguyên Tố, Bay Nguyên Tố), Vô tận vào trong Nhịp điệu
+- **Milestone / task:** M11-3 — owner 2026-11-20 gửi ảnh tham chiếu: bấm Ải nguyên liệu ra hàng thẻ chọn chế độ (Nhịp điệu, Chạy Nguyên Tố…).
+- **Trạng thái:** TESTED
+- **File tạo/sửa:** `scripts/ui/events/event_hub_screen.gd` (thẻ dọc 420×660: ảnh ghép nhiều lớp + nền 2 màu, dải sáng dưới ghi tên chế độ in hoa, "EVENT", loại nguyên liệu rơi chữ xanh; góc trên phải lượt có thưởng; khóa / "Sắp có!" phủ tối + nhãn cam); `scripts/ui/events/stage_select_screen.gd` (nút chế độ con "Vô tận" ở góc dưới đồ thị, khóa thì ghi điều kiện; dời dòng lượt có thưởng khỏi nút Chơi); `scripts/minigame/minigame_registry.gd` (`hub_modes`, `child_modes`, `is_soon`); `scripts/minigame/event_validator.gd` (kiểm `card`, `parent`, chế độ `soon` không cần scene); `data/events/material_events.json` (`card` cho mỗi chế độ, `rhythm_endless.parent = "rhythm"`, thêm `runner`, `jet` trạng thái `soon`); `tools/add_locale_keys.py` + `localization/*.po` (+7 khóa); `tests/unit/minigame/test_minigame_screens.gd`.
+- **Đã chạy:** GdUnit `tests/unit/minigame` + `rhythm` + `debug` (81/81); chụp màn bằng script tạm; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`.
+- **Kết quả thật:** `run_tests.ps1` mã thoát 0: GdUnit 825/825 đạt (0 lỗi), 5/5 test khói đạt. Ảnh `build/screenshots/event_hub_cards.png` (3 thẻ), `event_stage_select_endless.png` (nút Vô tận khóa).
+- **Quyết định Claude chọn:** ảnh thẻ tạm ghép từ hình sẵn có (Nhịp điệu: boss Vầng Khuyết + Dơi Nốt + Sên Nhịp; Chạy: splash Raikiba; Bay: splash Kazeyumi), khai báo trong dữ liệu (`card.art`) để thay bằng ảnh thẻ thật không cần sửa code; loại nguyên liệu: Nhịp điệu "Sách kinh nghiệm", Chạy "Nguyên liệu cường hóa", Bay "Tinh Lõi tiến hóa"; Vô tận không còn thẻ riêng (theo mẫu: mỗi thẻ một chế độ), mở bằng nút trong màn chọn ải Nhịp điệu.
+- **Hạn chế đã biết:** chưa có ảnh thẻ riêng cho từng chế độ (ưu tiên 2 trong `RHYTHM_ART_BRIEF.md`); Chạy / Bay chỉ là thẻ "Sắp có!".
+
+
+## 2026-11-20 — M11-4 Chạy Nguyên Tố R0–R2 (vật lý, vật cản, cổng đổi người, điểm, 3 ải N-1 → N-3)
+- **Milestone / task:** M11-4 mốc R0–R2 (`docs/design/RUNNER_MODE.md` mục 14). Owner 2026-11-20 "Bắt đầu luôn nhé".
+- **Trạng thái:** TESTED
+- **File tạo/sửa:**
+  - Logic (`scripts/minigame/runner/`): `runner_rules.gd` (`RunnerRules`, dữ liệu `data/runner/runner_rules.tres`), `runner_level.gd` (`RunnerLevel`: đọc + kiểm level JSON, trải hàng Hạt Tinh), `runner_sim.gd` (`RunnerSim`: bước cố định, nhảy có coyote / bộ đệm, Cặn Thấp, Vết Thực, Cặn Bay, Cổng Cộng Hưởng, Perfect, HP / bất tử, điểm / combo / Fever / hạng / stats), `runner_bot.gd` (`RunnerBot`: bot kiểm thử, hai cách "đổi kế tiếp" và "chọn thẳng").
+  - Màn chơi: `scripts/ui/runner/runner_stage.gd` (`RunnerStage` kế thừa `MinigameStage`), `scenes/main/minigame/runner_stage.tscn`.
+  - Level: `data/runner/levels/runner_mat_01..03.json` (N-1 600 px/s 60 s một người; N-2 700 px/s 75 s cổng 2 ô + Cặn Bay; N-3 800 px/s 90 s cổng 3 ô).
+  - `scripts/input/input_router.gd` (+`runner_jump` Space/W/↑/A, `runner_swap` E/Shift/→/RB, `runner_slot_1..3` 1/2/3, X/Y/B).
+  - `data/events/material_events.json` (chế độ `runner` bỏ `soon`: scene, giới hạn 50 lượt/tuần, 3 ải, thưởng quặng / tinh thể cường hóa; dòng `_huong_dan` cho Chạy), `scripts/minigame/minigame_registry.gd` (`PARAM_RANGES.runner`), `scripts/minigame/event_validator.gd` (kiểm file level của ải Chạy).
+  - `tools/add_locale_keys.py` + `localization/*.po` (+18 khóa), `scripts/ui/events/minigame_result_screen.gd` (chỉ số > 6 dòng chia 2 cột), `tools/screenshot_runner.gd`.
+  - Test: `tests/unit/minigame/test_runner_sim.gd` (15), `test_runner_stage.gd` (6), sửa `test_minigame_screens.gd` (thẻ Chạy đã mở), `tests/unit/debug/test_debug_gift.gd` (`event:all` = 8 ải).
+  - Tài liệu: `docs/design/EVENT_DATA_GUIDE.md` (mục 3b + khóa sao của Chạy), `docs/design/RUNNER_MODE.md` mục 14, `docs/IMPLEMENTATION_ROADMAP.md`.
+- **Đã chạy:** GdUnit `tests/unit/minigame` (45/45); `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`; `<godot> --path . -s tools/screenshot_runner.gd`.
+- **Kết quả thật:** `run_tests.ps1` mã thoát 0: GdUnit 846/846 đạt (0 lỗi), 5/5 test khói đạt. Bot qua N-1…N-3 với 0 lần trúng, hạng S, cả hai cách đổi người. Lượt đầu lỗi 1 test quà thử nghiệm (`event:all` giờ mở 8 ải thay vì 5, đúng ý) → sửa test. Ảnh `build/screenshots/runner_0..5_*.png`; từ ảnh đã sửa: ô đội dùng splash cắt mặt (chân dung full nền trắng, Raikiba chưa có chân dung), màn kết quả chia 2 cột chỉ số + thêm 5 khóa `STAT_*` của Chạy.
+- **Quyết định Claude chọn:**
+  - `w` của vật cản trong level là bề rộng **va chạm** đã gộp thân người chạy (chạm khi |x vật − x người| < w/2), hình vẽ to hơn. Nếu cộng thêm hurtbox 110 px như đọc chữ thì cửa sổ nhảy Cặn Thấp ở N-1 chỉ còn 0.07 s, quá khó; cách này cho đúng số mục 5 (0.20 / 0.18 / 0.30 s).
+  - Rơi Vết Thực: chìm 60 px thì tính trúng, mất 20 HP, bất tử 1.5 s, bật lên lại mặt đường; trong lúc bất tử đi được trên hố nhưng không tính "vượt an toàn".
+  - Vật cản bị chạm lúc đang bất tử: không mất HP, không cộng điểm / combo, không tính vào độ chính xác.
+  - Cổng sai luôn trừ 25 HP (kể cả đang bất tử). Perfect = lần đổi gần nhất ≤ 0.30 s trước lúc xét (+ 0.05 s grace).
+  - Hạt Tinh: độ cao trong level là độ cao **tâm** hạt; hàng "arc" vẽ theo đường nhảy của tâm người chạy để cú nhảy đúng lúc nhặt hết.
+  - Level N-1…N-3 sinh một lần bằng script khối có seed (ghi vào git, sửa tay được); bộ sinh GDScript + `chunks.json` để R3.
+  - Thưởng: N-1 6 quặng, N-2 8 quặng + 1 tinh thể, N-3 10 quặng + 2 tinh thể (+ vàng / exp người quản lý như Nhịp điệu cùng số). Tên ải / dòng giới thiệu lấy từ `EVENT_STORY.md` mục 5 (khóa `RUNNER_N?_TITLE` / `_INTRO`).
+  - Hình v1: vật cản dùng ảnh Sên Nhịp / Dơi Nốt tô tím; cổng, Hạt Tinh, nền vẽ bằng code.
+- **Hạn chế đã biết:** chưa có nhạc nền (bgm ghi trong level, chưa tải / phát), chưa có hướng dẫn trong ải (R4; hiện chỉ dòng giới thiệu lúc đếm ngược lần đầu), chưa có N-4 / N-5 boss / Vô tận / bộ sinh (R3–R4), chưa có âm thanh, ảnh riêng (R5). **Owner nên mở Godot thử N-1 → N-3** (mốc "owner thử sau R2").
+
+## 2026-11-20 — ART: Nền Trạm Thủ Vệ Bỏ Hoang màn 1-7
+- **Milestone / task:** nền 1-7 theo `docs/prompts/stages/STAGE_01_07_BACKGROUND.md`; owner duyệt bằng "duyệt nền 1-7".
+- **Trạng thái:** TESTED
+- **File tạo/sửa:** `assets/backgrounds/stages/stage_01_07/bg_stage_01_07_{far,mid,near}.png`; `docs/ASSET_LICENSES.md` mục 2. Ảnh gốc, script và preview ở `art_review/backgrounds/stage_01_07/` (không vào git).
+- **Đã chạy:** `python -X utf8 art_review/backgrounds/stage_01_07/prepare_assets.py` (dùng `tools/stages/fit_backdrop.py`); `C:\Godot\4.6.3\Godot_v4.6.3-stable_win64_console.exe --headless --path . --import`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`.
+- **Kết quả thật:** ba lớp 3840×2160 (far RGB phủ kín, mid/near có alpha); `run_tests.ps1` mã thoát 0, "TẤT CẢ ĐẠT".
+- **Quyết định Codex/Claude chọn:** Codex tạo ảnh gốc, Claude sửa đường dẫn `tools` sai trong `prepare_assets.py` của Codex rồi xuất; mép lặp làm liền bằng `fit_backdrop`. Chưa cập nhật trạng thái tự sinh trong `ART_MASTER.md` (file đang có thay đổi dở của việc khác).
+- **Hạn chế đã biết:** chưa xem trong game; chỗ nối mép lặp ở vòm cột góc trên cần quan sát ở runtime.
+
+## 2026-11-20 — ART: Nền Trại Mặt Nạ màn 1-8
+- **Milestone / task:** nền 1-8 theo `docs/prompts/stages/STAGE_01_08_BACKGROUND.md`; owner duyệt bằng "duyệt nền 1-8".
+- **Trạng thái:** TESTED
+- **File tạo/sửa:** `assets/backgrounds/stages/stage_01_08/bg_stage_01_08_{far,mid,near}.png`; `docs/ASSET_LICENSES.md` mục 2. Ảnh gốc, script và preview ở `art_review/backgrounds/stage_01_08/` (không vào git).
+- **Đã chạy:** `python -X utf8 art_review/backgrounds/stage_01_08/prepare_assets.py` (dùng `tools/stages/fit_backdrop.py`); `C:\Godot\4.6.3\Godot_v4.6.3-stable_win64_console.exe --headless --path . --import`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`.
+- **Kết quả thật:** ba lớp 3840×2160 (far phủ kín, mid/near có alpha); `run_tests.ps1` mã thoát 0, "TẤT CẢ ĐẠT".
+- **Quyết định Codex/Claude chọn:** Codex tạo ảnh gốc; giữ cờ có biểu trưng vòng trắng-đen vì đây là trại của tay sai (khác 1-4 nơi bỏ biểu trưng). Chưa cập nhật trạng thái tự sinh trong `ART_MASTER.md` (file đang có thay đổi dở của việc khác).
+- **Hạn chế đã biết:** chưa xem trong game; cần quan sát mép lặp ở runtime.
+
+## 2026-11-20 — ART: Nền Đường Về Cửa Lò màn 1-9
+- **Milestone / task:** nền 1-9 theo `docs/prompts/stages/STAGE_01_09_BACKGROUND.md`; owner duyệt bằng "duyệt nền 1-9".
+- **Trạng thái:** TESTED
+- **File tạo/sửa:** `assets/backgrounds/stages/stage_01_09/bg_stage_01_09_{far,mid,near}.png`; `docs/ASSET_LICENSES.md` mục 2. Ảnh gốc, script và preview ở `art_review/backgrounds/stage_01_09/` (không vào git).
+- **Đã chạy:** `python -X utf8 art_review/backgrounds/stage_01_09/prepare_assets.py`; `C:\Godot\4.6.3\Godot_v4.6.3-stable_win64_console.exe --headless --path . --import`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1` (hai lần).
+- **Kết quả thật:** ba lớp 3840×2160. Lần chạy test đầu `m8_playthrough_check` hỏng ở bước "Hub → Màn 1" (log có lỗi "Signal unread_changed is already connected" từ `hub_home_panel.gd` `_build_chat_badge`, code M9-6 không đụng trong lần này); chạy lại toàn bộ mã thoát 0, "TẤT CẢ ĐẠT".
+- **Quyết định Claude chọn:** vệt tối dọc ở mép nối lặp (y ≈ 180–260 trên bản thu nhỏ) được owner duyệt nguyên trạng. Chưa cập nhật `ART_MASTER.md` (đang có thay đổi dở của việc khác).
+- **Hạn chế đã biết:** lỗi chập chờn `m8_playthrough_check` còn tồn tại và cần sửa riêng (nối signal chat badge hai lần khi Hub dựng lại); chưa xem nền trong game; cần quan sát mép lặp.
+
+## 2026-11-20 — ART: Nền Cửa Lò Mẹ màn 1-10
+- **Milestone / task:** nền 1-10 theo `docs/prompts/stages/STAGE_01_10_BACKGROUND.md`; owner duyệt bằng "duyệt nền 1-10".
+- **Trạng thái:** TESTED
+- **File tạo/sửa:** `assets/backgrounds/stages/stage_01_10/bg_stage_01_10_{far,mid,near}.png`; `docs/ASSET_LICENSES.md` mục 2. Ảnh gốc, script và preview ở `art_review/backgrounds/stage_01_10/` (không vào git).
+- **Đã chạy:** `C:\Godot\4.6.3\Godot_v4.6.3-stable_win64_console.exe --headless --path . --import`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`.
+- **Kết quả thật:** ba lớp 3840×2160 (far phủ kín; mid trong suốt ~66%, near ~90%); `run_tests.ps1` mã thoát 0, "TẤT CẢ ĐẠT".
+- **Quyết định Claude/Codex chọn:** bản Codex đầu vẽ lại cả cảnh trong mid và có sương trắng đục ở near nên làm lại; mid khử nền lại bằng Python (đóng lỗ nhỏ, despill viền, giảm bão hòa 40% cho khớp far).
+- **Hạn chế đã biết:** chưa xem trong game; cần quan sát mép lặp và độ khớp mid với far ở runtime. Chưa cập nhật `ART_MASTER.md` (đang có thay đổi dở của việc khác).
+
+## 2026-11-20 — Chốt tên boss Shokuhai; Quản lý tên Zero
+- **Milestone / task:** owner chốt tên Kẻ Đeo Mặt Nạ là **Shokuhai** (蝕灰); Quản lý tên **Zero**, thoại tạm vẫn "unknown" (???).
+- **Trạng thái:** TESTED
+- **File tạo/sửa:** `localization/vi.po`, `localization/en.po` (`BOSS_HENCHMAN_01` = Shokuhai), `scripts/ui/story_clip.gd` (`speaker_name("boss_henchman_01")` trả tên boss), `data/story/ch01_end.json` (ô `ch01_end_03` câu 1 đổi người nói từ unknown sang `boss_henchman_01`), `tools/story/gen_story_clips.py` (`HM_ID`), `tools/stages/gen_stages_01_05_10.py` (`BOSS_TEXT`), `tools/frames/jobs/boss_henchman_01.json`, `assets/enemies/boss_henchman_01/frames_manifest.json`, `tools/asset_atlas/scan_assets.py`, `tests/unit/ui/test_story_clip.gd`, `docs/design/MONSTERS.md`, `docs/CH01_TODO.md`, `docs/prompts/characters/HENCHMAN_DESIGN.md`, `docs/prompts/story/CH01_PANELS.md`.
+- **Đã chạy:** `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`.
+- **Kết quả thật:** mã thoát 0, "TẤT CẢ ĐẠT".
+- **Quyết định Claude chọn:** golem_08 (lần đầu thấy hắn) giữ "???"; chỉ từ `ch01_end_03` (sau trận) hiện tên Shokuhai. Quản lý (Zero) ở `ch01_end_14` vẫn "???", câu thoại "Quản lý / mã 00" giữ nguyên. Không đổi các tài liệu lịch sử (nhật ký cũ, prompt frame, ASSET_LICENSES) còn ghi "Kẻ Đeo Mặt Nạ" — đó là biệt danh.
+- **Hạn chế đã biết:** chưa rõ Zero (Quản lý) có trùng thủ lĩnh mã 00 hay không — chờ owner; `ART_MASTER.md` và Atlas chưa đồng bộ lại.
+
+## 2026-11-20 — Sửa nối signal chat badge hai lần ở Hub
+- **Milestone / task:** `m8_playthrough_check` hỏng chập chờn ("Hub → Màn 1") với lỗi "Signal unread_changed / friends_changed is already connected" (M9-6).
+- **Trạng thái:** TESTED
+- **File tạo/sửa:** `scripts/ui/hub_home_panel.gd` (`_build_chat_badge` chỉ nối signal nếu chưa nối).
+- **Đã chạy:** `Godot --headless --script res://tests/smoke/m8_playthrough_check.gd`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`.
+- **Kết quả thật:** bài m8 riêng 0 lỗi, hết dòng "already connected"; chạy toàn bộ mã thoát 0, "TẤT CẢ ĐẠT".
+- **Hạn chế đã biết:** bản dựng lại Hub không chạy lại ở môi trường có đăng nhập thật; chưa kiểm.
+
+## 2026-11-20 — ART: Ô truyện kết chương trang 1 (ch01_end_01, 02)
+- **Milestone / task:** ART_MASTER lô 6, ô truyện `ch01_end` trang 1; owner duyệt bằng "duyệt trang 1".
+- **Trạng thái:** TESTED
+- **File tạo/sửa:** `assets/story/ch01/ch01_end_01.png`, `ch01_end_02.png`; `docs/ASSET_LICENSES.md` mục 2. Ảnh gốc, bản thử và preview ở `art_review/story/ch01/` (không vào git).
+- **Đã chạy:** `python -X utf8 tools/story/fit_panel.py <raw> ch01_end_0N` và `--compose ch01_end 1`; `Godot --headless --path . --import`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`.
+- **Kết quả thật:** hai ô 2× (3680×840 và 3680×832); chạy toàn bộ mã thoát 0, "TẤT CẢ ĐẠT".
+- **Quyết định Codex/Claude chọn:** ô 02 vẽ lại ba lần (bản 1 cắt mất đầu Kazeyumi, bản 2 quá nhỏ và chibi, bản 3 dùng); tỉ lệ nhân vật ô 02 hơi thấp hơn ô 01, owner chấp nhận. Chân Enkiba ở ô 01 sát mép dưới.
+- **Hạn chế đã biết:** chưa xem trong game (hộp thoại chồng lên ô); `ART_MASTER.md` chưa cập nhật trạng thái (đang có thay đổi dở của việc khác).
+
+## 2026-11-20 — ART: Ô truyện kết chương trang 2 (ch01_end_03, 04)
+- **Milestone / task:** ART_MASTER lô 6, ô truyện `ch01_end` trang 2; owner duyệt bằng "duyệt trang 2".
+- **Trạng thái:** TESTED
+- **File tạo/sửa:** `assets/story/ch01/ch01_end_03.png`, `ch01_end_04.png`; `docs/ASSET_LICENSES.md` mục 2. Ảnh gốc, bản thử và preview ở `art_review/story/ch01/` (không vào git).
+- **Đã chạy:** `python -X utf8 tools/story/fit_panel.py <raw> ch01_end_0N` và `--compose ch01_end 2`; `Godot --headless --path . --import`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`.
+- **Kết quả thật:** hai ô 2× (2520×1520 và 1912×1520); chạy toàn bộ mã thoát 0, "TẤT CẢ ĐẠT".
+- **Quyết định Codex/Claude chọn:** NEO ô 04 bản đầu giống ký hiệu nguyên tử nên vẽ lại theo thiết kế NEO của `ch01_golem_06` (vòng chia đốt, lõi cyan, pixel glitch). Enkiba ô 04 không cầm kiếm (owner không yêu cầu sửa).
+- **Hạn chế đã biết:** chưa xem trong game; `ART_MASTER.md` chưa cập nhật trạng thái (đang có thay đổi dở của việc khác).
+
+
+## 2026-11-20 — M11-4 Chạy Nguyên Tố: hết khựng lần đầu đổi người
+- **Milestone / task:** M11-4 (R2) — owner thử: "đổi người lần đầu hơi khựng".
+- **Trạng thái:** TESTED
+- **File tạo/sửa:** `scripts/ui/runner/runner_stage.gd`, `tests/unit/minigame/test_runner_stage.gd` (+2 test).
+- **Đã chạy:** đo `AnimationSetBuilder.build_for_character` bằng script tạm (headless); GdUnit `tests/unit/minigame` (49/49); `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`.
+- **Kết quả thật:** nguyên nhân: frame của người ô 2 / 3 chỉ nạp lúc đổi sang lần đầu, mỗi người ~1.3 s (đo: Kazeyumi 1378 ms, Raikiba 1292 ms) → đứng hình giữa lúc chạy. Sửa: vào ải thì nạp nền (`ResourceLoader.load_threaded_request`) toàn bộ frame của cả đội, pha mới `preload` (nhân vật đứng idle), nạp xong mới đếm ngược 3-2-1; đổi người sau đó chỉ lấy từ bộ nhớ đệm. Chế độ đồng hồ tay (test, công cụ chụp) nạp đồng bộ trong `start()`. `run_tests.ps1` mã thoát 0: GdUnit 848/848 đạt, 5/5 test khói đạt.
+- **Hạn chế đã biết:** vào ải vẫn mất ~1.3 s nạp người ô 1 trước khi màn hiện (như trước); người chơi thật thì chờ thêm lúc nạp nền trước đếm ngược (vài giây với đội 3 người tùy máy). Chưa owner thử lại.
+
+## 2026-11-20 — ART: Ô truyện kết chương trang 3 (ch01_end_05, 06, 07)
+- **Milestone / task:** ART_MASTER lô 6, ô truyện `ch01_end` trang 3; owner duyệt bằng "duyệt trang 3".
+- **Trạng thái:** TESTED
+- **File tạo/sửa:** `assets/story/ch01/ch01_end_05.png`, `ch01_end_06.png`, `ch01_end_07.png`; `docs/ASSET_LICENSES.md` mục 2. Ảnh gốc, các bản thử và preview ở `art_review/story/ch01/` (không vào git).
+- **Đã chạy:** `python -X utf8 tools/story/fit_panel.py <raw> ch01_end_0N` và `--compose ch01_end 3`; `Godot --headless --path . --import`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`.
+- **Kết quả thật:** ba ô 2× (2240×1240, 3680×1520, 2240×1240); chạy toàn bộ mã thoát 0, "TẤT CẢ ĐẠT".
+- **Quyết định Codex/Claude chọn:** ô 05, 06, 07 là tam giác / lục giác nên Claude tính vùng nhìn thấy từ `poly` trong `data/story/ch01_end.json` (ô 05: x+y<=100; ô 06: dải giữa (63,0)->(0,87) và (100,13)->(37,100); ô 07: x+y>=100) và đưa số cụ thể cho Codex. Bản 1 trang này bỏ qua vùng nhìn thấy (mất đầu Kazeyumi, Enkiba cắt thắt lưng); bản 2 ô 06 thành chibi và biển lửa, ô 07 mặt vẫn bị cắt; bản 3 dùng. Nền ô 05 là cận cảnh miệng lò kiểu xưởng.
+- **Hạn chế đã biết:** Enkiba ô 06 và Kazeyumi ô 07 hơi nhỏ trong khung; chưa xem trong game; `ART_MASTER.md` chưa cập nhật (đang có thay đổi dở của việc khác).
+
+
+## 2026-11-20 — M11-4 Chạy Nguyên Tố: bộ sinh level, N-4, N-5 boss Vầng Khuyết, Vô tận (3 tuyến × 3 độ khó)
+- **Milestone / task:** M11-4 R3 + phần boss / Vô tận của R4 — owner 2026-11-20 "làm nốt các ải còn lại và ải vô tận".
+- **Trạng thái:** TESTED
+- **File tạo/sửa:**
+  - `scripts/minigame/runner/runner_generator.gd` (`RunnerGenerator`: xorshift32 tự viết, ghép khối H / H2 / HH / P / L / F / G / GG / GH theo trọng số, cổng cách ≥ `gate_gap`, không quá 3 cổng liền cùng ô, khối không lặp quá 2 lần, nghỉ ngắn dần; ghi JSON dễ đọc).
+  - `tools/runner/build_levels.gd` + `data/runner/generated_levels.json` (cấu hình N-4, N-5; công cụ thử seed tới khi bot qua 0 lần trúng cả "đổi kế tiếp" và "chọn thẳng"; level boss không ghi đè nếu thiếu `--force-boss`) → `data/runner/levels/runner_mat_04.json` (900 px/s, 90 s, 23 cổng, cổng trùng Cặn Thấp), `runner_mat_05.json` (1000 px/s, 120 s, 31 cổng, boss ném từ x = 1750 → phản ứng 1.27 s).
+  - `scripts/ui/runner/runner_stage.gd` (level sinh từ `params.gen` + `params.route.seed`; boss: sprite `rh_boss_eclipse` mép phải, vung tay "throw" khi Cặn Thấp / Cặn Bay đi qua throw_x, vật bay vòng cung xuống đất, thanh HP boss = quãng đường còn lại, "defeat" khi về đích; hạ ký hiệu cổng khỏi vùng ô đội).
+  - `scripts/ui/runner/runner_route_list_screen.gd` + `scenes/main/minigame/runner_route_list_screen.tscn` (`RunnerRouteListScreen`: tab Dễ / Thường / Khó, 3 tuyến, vương miện theo hạng, kỷ lục, chặn đội < 3 người).
+  - `scripts/minigame/minigame_registry.gd` (`routes`, `route_stage`, khoảng `gen.*`), `scripts/minigame/event_validator.gd` (tuyến cần id + seed; ải `gen` không cần file level).
+  - `data/events/material_events.json` (N-4, N-5; chế độ `runner_endless`: parent `runner`, mở sau N-5, chung lượt với `runner`, 3 tuyến, `by_difficulty.gen` 700/850/1000 px/s, 120/150/180 s, cổng ≥ 1.0/0.8/0.6 s; nút đồ thị xếp như Nhịp điệu).
+  - `tools/add_locale_keys.py` + `localization/*.po` (+12 khóa), `tools/screenshot_runner.gd` (thêm đồ thị 5 ải, boss, danh sách tuyến).
+  - Test: `test_runner_sim.gd` (+4: bộ sinh tất định, ràng buộc, boss 1.27 s, bot qua 9 tổ hợp tuyến × độ khó; bot qua N-4, N-5), `test_runner_stage.gd` (+2: boss ném, Vô tận dựng level), `test_minigame_screens.gd` (+1: nút Vô tận, danh sách tuyến, chặn đội), `tests/unit/debug/test_debug_gift.gd` (`event:all` = 10 ải).
+  - Tài liệu: `docs/design/EVENT_DATA_GUIDE.md` (Vô tận Chạy), `docs/design/RUNNER_MODE.md` mục 14, `docs/IMPLEMENTATION_ROADMAP.md`.
+- **Đã chạy:** `<godot> --headless --path . -s tools/runner/build_levels.gd` (rồi `-- --force-boss` sau khi sửa định dạng số); GdUnit `tests/unit/minigame` + `tests/unit/debug` (79/79); `<godot> --path . -s tools/screenshot_runner.gd`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`.
+- **Kết quả thật:** N-4 và N-5 đạt ngay seed đầu (404, 505). `run_tests.ps1` mã thoát 0: GdUnit 855/855 đạt, 5/5 test khói đạt (lượt trước lỗi 1 test màn nhân vật vì mình chạy công cụ chụp màn song song, hai tiến trình Godot ghi chung save `user://`; chạy riêng thì đạt; không chạy song song nữa). Ảnh `build/screenshots/runner_6_stage_select_all.png`, `runner_7_boss.png`, `runner_8_endless_routes.png`.
+- **Quyết định Claude chọn:** thay `chunks.json` bằng bảng trọng số khối (trong dữ liệu, owner chỉnh được); kiểm level bằng bot (qua 0 lần trúng) thay cho validator riêng; seed của tuyến Vô tận = seed tuyến × 10 + chỉ số độ khó (mỗi độ khó một level cố định); thưởng N-4: 12 quặng + 3 tinh thể, N-5: 15 quặng + 5 tinh thể, Vô tận Dễ / Thường / Khó: 6 quặng / 8 quặng + 2 tinh thể / 10 quặng + 4 tinh thể; tên tuyến "Đường Trôi Dài", "Khe Nứt Sâu", "Vành Bóng".
+- **Hạn chế đã biết:** chưa có hướng dẫn trong ải và nhạc nền; boss chưa có đòn riêng (chỉ ném vật cản thường) và vẫn dùng ảnh boss Nhịp điệu; chưa owner thử N-4 / N-5 / Vô tận.
+
+## 2026-11-20 — ART: Ô truyện kết chương trang 4 (ch01_end_08, 09, 10)
+- **Milestone / task:** ART_MASTER lô 6, ô truyện `ch01_end` trang 4; owner duyệt bằng "duyệt trang 4".
+- **Trạng thái:** TESTED
+- **File tạo/sửa:** `assets/story/ch01/ch01_end_08.png`, `ch01_end_09.png`, `ch01_end_10.png`; `docs/ASSET_LICENSES.md` mục 2. Ảnh gốc và preview ở `art_review/story/ch01/` (không vào git).
+- **Đã chạy:** `python -X utf8 tools/story/fit_panel.py <raw> ch01_end_0N` và `--compose ch01_end 4`; `Godot --headless --path . --import`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`.
+- **Kết quả thật:** ba ô 2× (1440×1520, 2252×760, 2312×792); chạy toàn bộ mã thoát 0, "TẤT CẢ ĐẠT". Đạt ngay lượt vẽ đầu nhờ đưa Codex vùng nhìn thấy tính sẵn từ `poly`.
+- **Quyết định Claude chọn:** hai đĩa khóa thiết kế để ô 12 dùng lại: đĩa A (từ golem) nửa trái trắng nửa phải đen; đĩa B (Shokuhai đánh rơi) nửa trái đen nửa phải trắng, có vết nứt mảnh từ mép tới vòng giữa.
+- **Hạn chế đã biết:** ô 08 có một đường chéo thẳng mờ ở nền hậu cảnh phía trên-trái (owner chấp nhận); chưa xem trong game; `ART_MASTER.md` chưa cập nhật (đang có thay đổi dở của việc khác).
+
+## 2026-11-20 — ART: Ô truyện kết chương trang 5 (ch01_end_11, 12, 13)
+- **Milestone / task:** ART_MASTER lô 6, ô truyện `ch01_end` trang 5; owner duyệt bằng "duyệt trang 5".
+- **Trạng thái:** TESTED
+- **File tạo/sửa:** `assets/story/ch01/ch01_end_11.png`, `ch01_end_12.png`, `ch01_end_13.png`; `docs/ASSET_LICENSES.md` mục 2. Ảnh gốc và preview ở `art_review/story/ch01/` (không vào git).
+- **Đã chạy:** `python -X utf8 tools/story/fit_panel.py <raw> ch01_end_NN` và `--compose ch01_end 5`; `Godot --headless --path . --import`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1` (hai lần).
+- **Kết quả thật:** ba ô 2× (3680×760, 1920×774, 1832×832). Lần chạy đầu `m8_playthrough_check` hỏng hai bước ("Game mới → Hub", "Hub → Màn 1"; lúc đó việc M11 của agent khác đang sửa `localization/` và `data/events/`); chạy riêng m8 đạt, chạy lại toàn bộ mã thoát 0, "TẤT CẢ ĐẠT".
+- **Quyết định Claude chọn:** dấu ba vòng đá ô 11 giữ đúng hình dạng trên lưng golem ở `ch01_end_01`; hai đĩa A, B ở ô 12 theo thiết kế đã khóa từ ô 08.
+- **Hạn chế đã biết:** màu trời ô 12 tím tối hơn ô 11 và 13 (cam đỏ); có đường chéo mờ ở nền ô 12 (giống ô 08); lỗi chập chờn `m8_playthrough_check` còn xuất hiện lẻ tẻ, chưa tìm ra nguyên nhân; chưa xem trong game; `ART_MASTER.md` chưa cập nhật (đang có thay đổi dở của việc khác).
+
+## 2026-11-20 — M11-5 Bay Nguyên Tố: jet_pack
+- **Milestone / task:** M11-5 J5 — tạo và owner duyệt mục `jet_pack` theo `docs/design/JET_ART_BRIEF.md`.
+- **Trạng thái:** TESTED
+- **File tạo/sửa:** `assets/jet/jet_pack.png` (128×128); `docs/ASSET_LICENSES.md` mục 2.1; `docs/DEVELOPMENT_LOG.md`. Ảnh gốc và preview ở `art_review/jet/jet_pack/` (không commit).
+- **Đã chạy:** `C:\Godot\4.6.3\Godot_v4.6.3-stable_win64_console.exe --headless --path . --import`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`.
+- **Kết quả thật:** Godot import mã thoát 0. Toàn bộ test mã thoát 0: GdUnit4 880/880 đạt, 5/5 smoke đạt.
+- **Quyết định Codex chọn:** tạo sprite tĩnh nền trong suốt 128×128, dùng đúng hai tham chiếu bắt buộc; sau khi xem preview, sửa bản đầu có hai vòi đáy thành một vòi trung tâm như brief.
+- **Hạn chế đã biết:** Godot ghi lỗi không tạo được thư mục cấu hình `AppData\Roaming\Godot` nhưng import vẫn mã thoát 0; chưa nối ảnh vào `JetStage` hoặc kiểm tra trong game.
+
+## 2026-11-20 — M11-5 Bay Nguyên Tố: jet_flame
+- **Milestone / task:** M11-5 J5 — tạo và owner duyệt animation `jet_flame` theo `docs/design/JET_ART_BRIEF.md`.
+- **Trạng thái:** TESTED
+- **File tạo/sửa:** `assets/jet/jet_flame/jet_flame_burn_000.png`–`jet_flame_burn_003.png` (4 frame 64×160 + `.import`); `docs/ASSET_LICENSES.md` mục 2.1; `docs/DEVELOPMENT_LOG.md`. Ảnh gốc và preview ở `art_review/jet/jet_flame/` (không commit).
+- **Đã chạy:** `C:\Godot\4.6.3\Godot_v4.6.3-stable_win64_console.exe --headless --path . --import`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`.
+- **Kết quả thật:** Import mã thoát 0. Toàn bộ test mã thoát 0: GdUnit4 880/880 đạt, 5/5 smoke đạt.
+- **Quyết định Codex chọn:** dải gốc 1983×793 được chia thành bốn cột gần đều (495/496 px), cắt theo alpha rồi căn tâm, đưa gốc lửa lên mép trên và chuẩn hóa 64×160. Theo yêu cầu owner, đổi lửa trắng-xám ban đầu sang xanh lam ngọc #5FE3C0, giữ nguyên bố cục 4 frame.
+- **Hạn chế đã biết:** Godot ghi lỗi không tạo được thư mục cấu hình `AppData\Roaming\Godot` nhưng import vẫn mã thoát 0; chưa nối ảnh vào `JetStage` hoặc kiểm tra trong game.
+
+## 2026-11-20 — M11-5 Bay Nguyên Tố: jet_core
+- **Milestone / task:** M11-5 J5 — tạo và owner duyệt animation `jet_core` theo `docs/design/JET_ART_BRIEF.md`.
+- **Trạng thái:** TESTED
+- **File tạo/sửa:** `assets/jet/jet_core/jet_core_idle_000.png`–`jet_core_idle_005.png` (6 frame 128×128 + `.import`); `docs/ASSET_LICENSES.md` mục 2.1; `docs/DEVELOPMENT_LOG.md`. Ảnh gốc và preview ở `art_review/jet/jet_core/` (không commit).
+- **Đã chạy:** `C:\Godot\4.6.3\Godot_v4.6.3-stable_win64_console.exe --headless --path . --import`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`.
+- **Kết quả thật:** Godot import mã thoát 0. Toàn bộ test mã thoát 0: GdUnit4 880/880 đạt, 5/5 smoke đạt.
+- **Quyết định Codex chọn:** dùng dải ngang 6 ô, cắt ô vuông 350×350 và chuẩn hóa 128×128; cố định tâm tinh thể, tạo chuyển động mảnh bay quanh và nhịp sáng, màu xanh lam #6FD3FF.
+- **Hạn chế đã biết:** Godot ghi lỗi không tạo được thư mục cấu hình `AppData\Roaming\Godot` nhưng import vẫn mã thoát 0; chưa nối ảnh vào `JetStage` hoặc kiểm tra trong game.
+
+
+## 2026-11-20 — Chốt thiết kế Zero (Quản lý), Option A
+- **Milestone / task:** owner chọn Option A "Áo choàng trùm kín" trong 3 phương án thiết kế Zero (A áo choàng, B vest bất đối xứng, C hình chiếu nhiễu).
+- **Trạng thái:** TESTED
+- **File tạo/sửa:** `assets/characters/npc_zero_01/design/npc_zero_01_sheet.png` (+ `.import`), `docs/prompts/characters/ZERO_DESIGN.md` (vai trò, khóa thiết kế, prompt rút gọn), `docs/ASSET_LICENSES.md` mục 2. Ba phương án gốc ở `art_review/characters/zero_manager/` (không vào git).
+- **Đã chạy:** `Godot --headless --path . --import`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`.
+- **Kết quả thật:** mã thoát 0, "TẤT CẢ ĐẠT".
+- **Quyết định Claude chọn:** Data ID `npc_zero_01` (Zero chưa là nhân vật chơi được / boss; chưa có file `.tres`); hiển thị trong thoại vẫn "???" (`speaker: unknown`), tên Zero chỉ nội bộ. Zero tạm coi là Quản lý, khác thủ lĩnh mã 00 (chờ owner xác nhận).
+- **Hạn chế đã biết:** chưa có chân dung / frame riêng cho Zero; `CHAR_DESC` trong `tools/story/gen_story_clips.py` chưa thêm mô tả Zero.
+
+## 2026-11-20 — ART: Ô truyện kết chương trang 6 (ch01_end_14) — hết clip kết chương
+- **Milestone / task:** ART_MASTER lô 6, ô truyện `ch01_end` trang 6; owner duyệt bằng "duyệt trang 6". Đủ 14/14 ô của clip `ch01_end`.
+- **Trạng thái:** TESTED
+- **File tạo/sửa:** `assets/story/ch01/ch01_end_14.png` (+ `.import`); `docs/ASSET_LICENSES.md` mục 2. Ảnh gốc và preview ở `art_review/story/ch01/` (không vào git).
+- **Đã chạy:** `python -X utf8 tools/story/fit_panel.py <raw> ch01_end_14` và `--compose ch01_end 6`; `Godot --headless --path . --import`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`.
+- **Kết quả thật:** ô 2× 3680×1520 (hình chữ nhật đầy đủ); chạy toàn bộ mã thoát 0, "TẤT CẢ ĐẠT". Đạt ngay lượt vẽ đầu.
+- **Quyết định Claude chọn:** Zero dựng theo bảng Option A, mặt luôn là khoảng tối; thoại ô 14 vẫn "???" (`speaker: unknown`).
+- **Hạn chế đã biết:** chưa xem cả clip `ch01_end` trong game (hộp thoại chồng lên ô); `ART_MASTER.md` chưa cập nhật trạng thái (đang có thay đổi dở của việc khác).
+
+## 2026-11-20 — M11-5 Bay Nguyên Tố: jet_orb
+- **Milestone / task:** M11-5 J5 — tạo và owner duyệt animation `jet_orb` theo `docs/design/JET_ART_BRIEF.md`.
+- **Trạng thái:** TESTED
+- **File tạo/sửa:** `assets/jet/jet_orb/jet_orb_idle_000.png`–`jet_orb_idle_003.png` (4 frame 64×64 + `.import`); `docs/ASSET_LICENSES.md` mục 2.1; `docs/DEVELOPMENT_LOG.md`. Ảnh gốc và preview ở `art_review/jet/jet_orb/` (không commit).
+- **Đã chạy:** `C:\Godot\4.6.3\Godot_v4.6.3-stable_win64_console.exe --headless --path . --import`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`.
+- **Kết quả thật:** Godot import mã thoát 0. Toàn bộ test mã thoát 0: GdUnit4 880/880 đạt, 5/5 smoke đạt.
+- **Quyết định Codex chọn:** dải gốc 2172×724 chia thành bốn ô ngang; cắt ô vuông 450×450 quanh tâm mỗi ô, giữ tâm hạt cố định và chuẩn hóa 64×64; dùng biến thiên glint nhẹ cho nhịp lấp lánh.
+- **Hạn chế đã biết:** Godot ghi lỗi cấu hình `AppData\Roaming\Godot` khi khởi chạy lần đầu, lần import tiếp theo hoàn tất mã thoát 0; chưa nối ảnh vào `JetStage` hoặc kiểm tra trong game.
+
+## 2026-11-20 — Quà test mở ải cốt truyện (stage:, preset:open_stages)
+- **Milestone / task:** owner yêu cầu "quà test mở full ải" để thử hết 10 ải Chương 1 rồi cập nhật trạng thái ART_MASTER.
+- **Trạng thái:** TESTED
+- **File tạo/sửa:** `scripts/debug/debug_gift.gd` (token `stage:<stage_id>` và `stage:all`, `story_stage_ids()`, kiểm tra ID, áp dụng, tóm tắt, danh sách `--list`), `data/debug/gift_presets.json` (gói `open_stages`), `localization/vi.po` + `en.po` (`DEBUG_GIFT_LINE_STAGE_CLEAR`), `tests/unit/debug/test_debug_gift.gd` (`test_stage_unlock_token`), `docs/DEBUG_GIFT.md`.
+- **Đã chạy:** `GdUnitCmdTool -a res://tests/unit/debug` (24/24 đạt); `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1` (mã thoát 0, "TẤT CẢ ĐẠT") trước một sửa nhỏ giữ danh sách đã xem; sau sửa chạy lại nhóm debug đạt.
+- **Kết quả thật:** `stage:all` đánh dấu đã qua mọi ải có màn trừ ải cuối (1-10 vẫn mở để chơi và thắng thật, phát clip kết chương). Không ghi đè huy chương / kỷ lục ải đã qua; đặt `tutorial.done = true` nhưng giữ nguyên danh sách đã xem (clip, bark).
+- **Quyết định Claude chọn:** không cho huy chương để chơi lại vẫn nhận thưởng mục tiêu; không động tới đội hình hay nhân vật (dùng thêm `preset:all_characters`).
+- **Hạn chế đã biết:** clip chỉ phát một lần (đã xem thì không phát lại) và ải 1-10 chưa có nút "Xem lại"; chưa có token xóa danh sách clip đã xem.
+
+## 2026-11-20 — M11-5 Bay Nguyên Tố: jet_box
+- **Milestone / task:** M11-5 J5 — tạo và owner duyệt animation `jet_box` theo `docs/design/JET_ART_BRIEF.md`.
+- **Trạng thái:** TESTED
+- **File tạo/sửa:** `assets/jet/jet_box/jet_box_idle_000.png`–`jet_box_idle_005.png` (6 frame 128×128 + `.import`); `assets/jet/jet_box/jet_box_open_000.png`–`jet_box_open_005.png` (6 frame 128×128 + `.import`); `docs/ASSET_LICENSES.md` mục 2.1; `docs/DEVELOPMENT_LOG.md`. Ảnh gốc và preview ở `art_review/jet/jet_box/` (không commit).
+- **Đã chạy:** `C:\Godot\4.6.3\Godot_v4.6.3-stable_win64_console.exe --headless --path . --import`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`.
+- **Kết quả thật:** Godot import mã thoát 0. `run_tests.ps1` mã thoát 0: GdUnit4 883/883 đạt, 5/5 smoke đạt. Lần chạy trước từng gặp hai test DebugGift thất bại; sau khi cập nhật `stage:all` trong workspace, lỗi không còn tái hiện.
+- **Quyết định Codex chọn:** tạo riêng hai dải idle/open, dùng hai dải ngang 2172×724, chia đều 6 ô; cắt ô cố định 340×340 quanh tâm từng ô, chuẩn hóa 128×128. Giữ glow pink #FF9BD8 ở mức gọn, không có dấu hỏi; hộp giữ đáy và tâm ổn định khi mở.
+- **Hạn chế đã biết:** Godot báo không tạo được một số thư mục cấu hình trong `AppData\Roaming\Godot`, nhưng import mã thoát 0; chưa nối ảnh vào `JetStage` hoặc kiểm tra trong game.
+
+## 2026-11-21 — Quà clips_reset, nút Xem lại kết chương, cập nhật ART_MASTER
+- **Milestone / task:** owner hỏi vì sao 1-10 không phát clip: clip kết chương chỉ phát một lần (đánh dấu `clip:<id>` trong `tutorial.seen`) và chỉ qua nút "Về Hub" ở màn kết quả. Làm cả hai cách sửa; owner yêu cầu cập nhật ART_MASTER sau khi test.
+- **Trạng thái:** TESTED
+- **File tạo/sửa:** `scripts/debug/debug_gift.gd` (token `clips_reset`), `data/debug/gift_presets.json` (`open_stages` thêm `clips_reset`), `scripts/ui/stage_info_screen.gd` (`replay_end_clip`, `end_clip_replayable`, nút `ReplayEndButton`), `localization/vi.po` + `en.po` (`DEBUG_GIFT_LINE_CLIPS_RESET`, `STAGE_INFO_REPLAY_END`), `tests/unit/debug/test_debug_gift.gd`, `tests/unit/ui/test_story_clip.gd`, `docs/DEBUG_GIFT.md`, `tools/prompts/build_art_master.py` (đổi tên Shokuhai, thêm Zero), `docs/prompts/ART_MASTER.md` (tạo lại bằng `python -X utf8 -I tools/prompts/build_art_master.py`).
+- **Đã chạy:** `GdUnitCmdTool -a res://tests/unit/debug` (25/25) và `-a res://tests/unit/ui` (168/168); `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`.
+- **Kết quả thật:** chạy toàn bộ mã thoát 0, "TẤT CẢ ĐẠT". ART_MASTER: 85 ảnh, 71 đã có (trước 42); còn lại lô 7 (map + thẻ 7 chương).
+- **Quyết định Claude chọn:** nút "Xem lại kết chương" hiện khi ải đã qua hoặc đã xem clip; ải có cả clip mở đầu và kết chương (1-1) xếp hai nút cạnh nhau. `clips_reset` chỉ xóa mục bắt đầu bằng `clip:`, giữ bark và hướng dẫn.
+- **Hạn chế đã biết:** chưa xem nút mới trong game thật; Asset Atlas chưa đồng bộ nền 1-10 và các ô kết chương.
+
+## 2026-11-21 — ART: Tranh map và thẻ Chương 1 (lô 7)
+- **Milestone / task:** ART_MASTER lô 7 phần C, Chương 1; owner duyệt bằng "duyệt map 1".
+- **Trạng thái:** TESTED
+- **File tạo/sửa:** `assets/story/chapters/map_ch01.png` (3240×1080), `assets/story/chapters/card_ch01.png` (380×600) (+ `.import`); `docs/ASSET_LICENSES.md` mục 2; `docs/prompts/ART_MASTER.md` tạo lại (73/85 ảnh). Ảnh gốc ba đoạn, bản ghép và bản không mờ ở `art_review/story/chapters/` (không vào git).
+- **Đã chạy:** script ghép bằng Pillow (khớp dịch bằng so sai khác ảnh, hòa trộn dải 140 px, vá mặt trời trùng, co về 3240 rộng và cắt 98 px trời trên, Gaussian 5 px); `Godot --headless --path . --import`; `python -X utf8 -I tools/prompts/build_art_master.py`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`.
+- **Kết quả thật:** ảnh đúng kích thước; chạy toàn bộ mã thoát 0, "TẤT CẢ ĐẠT" (ghi chú ở dưới).
+- **Quyết định Claude chọn:** ba đoạn Codex vẽ là ba bản vẽ lại cùng một cảnh nên không chồng khít từng pixel; ghép thủ công ở giữa vùng chồng, đường nối bị làm mờ che đi. Cửa Lò Mẹ để tối nguội (trạng thái mở đầu chương). Mờ Gaussian 5 px (bản không mờ giữ ở `art_review`).
+- **Hạn chế đã biết:** chưa xem map trong game (vị trí nút ải trên tranh chưa kiểm); đường nối ghép quanh cầu đá và trại lều cần quan sát; map / thẻ Chương 2–7 chưa làm.
+
+## 2026-11-21 — Mặt đất vẽ bằng mã cho màn chơi + bụi chân khi chạy
+- **Milestone / task:** owner nhận xét nền nhân vật đứng (ô lưới tạm xanh xám) còn thô, muốn có cảm giác chạy trên nền map.
+- **Trạng thái:** TESTED
+- **File tạo/sửa:** `scripts/world/ground_skin.gd` (mới: sinh atlas 3 ô — đất đặc có vân và đá nhỏ, platform một chiều dạng ván, đất mép trên có "môi" nhấp nhô; hạt giống cố định), `scripts/world/stage_map.gd` (`ATLAS_SURFACE`, `ground_theme()`, `make_tileset(size, ground)`, ô mép trên khi phía trên không phải khối đặc), `tools/stages/ground_palettes.py` (mới: chọn màu từ dải đáy 18% ảnh nền xa của từng ải, ghi khối `ground` vào `data/stages/stage_*.json`), 10 file `data/stages/stage_01*.json` (thêm khối `ground`), `scripts/player/foot_dust.gd` (mới: bụi dưới chân khi chạy trên đất, chỉ hình ảnh) + `scripts/player/player_controller.gd` (thêm node `FootDust`), `tests/unit/player/test_foot_dust.gd` (mới).
+- **Đã chạy:** `Godot --headless --import`; `python -X utf8 -I tools/stages/ground_palettes.py`; chụp `tools/screenshot_stage_01_02.gd -- stage_01_05`; GdUnit nhóm `player` (18/18) và `world` (43/43); `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`.
+- **Kết quả thật:** ảnh chụp ải 1-5: mặt đất là đất tím nâu có vân và viền mép trên thay cho lưới ô xanh xám; vân lặp liền mạch giữa các ô. Chạy toàn bộ `run_tests.ps1`: mã thoát 0, "TẤT CẢ ĐẠT".
+- **Quyết định Claude chọn:** màn không có khối `ground` (màn tập `test_stage`) giữ ô lưới tạm nên test cũ không đổi; màu đất suy từ nền xa của ải để khớp tông từng ải; bụi chân hạt mờ không va chạm, bay ngược chiều chạy.
+- **Hạn chế đã biết:** mặt đất vẫn là một dải phẳng (chưa có bậc, cỏ, đá lồi); bụi chân chưa kiểm bằng mắt khi chạy thật (ảnh chụp là khung tĩnh); màu tông đất gần màu nền một chút, owner có thể chỉnh trực tiếp khối `ground` trong JSON.
+
+## 2026-11-21 — ART: Ảnh đất vẽ tay cho màn chơi (5 chủ đề)
+- **Milestone / task:** owner yêu cầu Codex vẽ ảnh đất riêng thay cho bản vẽ bằng mã.
+- **Trạng thái:** TESTED
+- **File tạo/sửa:** `assets/stages/ground/ground_{ash_road,coal_mine,cliff_stone,dead_forest,stone_floor}.png` (+ `.import`), `tools/stages/build_ground_atlas.py` (mới: khử nền magenta, làm liền ngang, dựng atlas 16 cột × 13 hàng ô 64 px), `tools/stages/ground_palettes.py` (thêm `THEMES` và khóa `atlas`), `data/stages/stage_01*.json` (10 file, khối `ground` có thêm `atlas`), `scripts/world/ground_skin.gd` (`load_atlas`, hằng số atlas, hàng ván vẽ bằng mã), `scripts/world/stage_map.gd` (`textured_coords`, `_solid_depth`, TileSet đủ 16×14 ô có va chạm, `ground_theme()` lùi về bản vẽ bằng mã khi thiếu ảnh), `tests/unit/world/test_ground_skin.gd` (mới, 4 test).
+- **Đã chạy:** `python -X utf8 -I tools/stages/build_ground_atlas.py`; `python -X utf8 -I tools/stages/ground_palettes.py`; `Godot --headless --import`; chụp `tools/screenshot_stage_01_02.gd -- stage_01_05` và `stage_01_07`; GdUnit nhóm `world` (47/47); `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`.
+- **Kết quả thật:** chạy toàn bộ mã thoát 0, "TẤT CẢ ĐẠT". Ảnh chụp 1-5 (đất tro rừng chết) và 1-7 (lát đá) cho thấy đất liền mạch, không còn lưới ô.
+- **Quyết định Claude chọn:** ô lấy theo toạ độ thế giới (cột % 16, độ sâu lặp 12 hàng) để đất liền như một bức tranh dài; chủ đề gán theo nhóm ải (1-1/1-2/1-8 đường tro, 1-3 than, 1-4/1-6 đá, 1-5/1-9 rừng chết, 1-7/1-10 lát đá); platform vẫn là ván vẽ bằng mã; ảnh `cliff_stone` và `coal_mine` thiếu ít hàng đáy nên nối bằng dải đáy lật ngược.
+- **Hạn chế đã biết:** thân đất lặp sau 12 hàng nên hàng tối nhất ở đáy tiếp hàng sáng hơn (phần sâu dưới chân màn hình, hiếm khi thấy); mới xem 1-5 và 1-7 bằng ảnh chụp, các ải còn lại và bụi chân khi chạy cần owner xem trong game; ải 1-9 (đêm) dùng chung chủ đề rừng chết nên có thể sáng hơn nền, chỉnh bằng bảng màu hoặc thêm tint nếu cần.
+
+
+## 2026-11-20 — M11-5 Bay Nguyên Tố J0–J4: bay một nút, năng lượng, Rồng / Robo, 3 vùng, 5 ải (boss), Vô tận + luyện vùng
+- **Milestone / task:** M11-5 (`docs/design/JET_MODE.md`) — owner 2026-11-20 "làm tiếp bay nguyên tố nhé".
+- **Trạng thái:** TESTED
+- **File tạo/sửa:**
+  - Logic (`scripts/minigame/jet/`): `jet_rules.gd` (`JetRules`, dữ liệu `data/jet/jet_rules.tres`), `jet_level.gd` (`JetLevel`: đọc / kiểm level, vùng, tốc độ cuộn, gió theo quãng đường, `path` hành lang, Vô tận sinh dần), `jet_sim.gd` (`JetSim`: bay / năng lượng / tim / bất tử, Rồng, Robo nghiền, gió, Thanh Cặn, Cặn Phóng báo trước 1.0 s, Tia Quét, Van Sét, Hạt Tinh, Tinh Lõi, Hộp Ký Ức, điểm / hạng / stats), `jet_generator.gd` (`JetGenerator`: cụm vật quanh hành lang trong tầm bay × 0.7 có tính gió và Rồng, ước lượng năng lượng → chạy đất / Tinh Lõi, Robo → hành lang xuống sàn), `jet_validator.gd` (`JetValidator`: hành lang cách vật ≥ bán kính Rồng + 12, chuyển hướng, Cặn Phóng, Van Sét, Tinh Lõi, số vật), `jet_bot.gd` (`JetBot`: chuyển giữ / thả theo quãng hãm, có gió).
+  - Màn: `scripts/ui/jet/jet_stage.gd` (`JetStage`) + `scenes/main/minigame/jet_stage.tscn`; `scripts/ui/jet/jet_endless_screen.gd` (`JetEndlessScreen`) + `scenes/main/minigame/jet_endless_screen.tscn`.
+  - Dữ liệu: `data/jet/zones.json` (Ống Tro, Thung Gió Ngược, Hang Sét Câm), `data/jet/baked_levels.json` + `tools/jet/bake_levels.gd` → `data/jet/levels/jet_mat_01..05.json`; `data/events/material_events.json` (`jet` mở: 5 ải, thưởng Tinh thể nâng bậc + Đá tẩy phụ tố; `jet_endless`: 1 mục đổi vùng + 3 luyện vùng, chung lượt với `jet`, mở sau N-5).
+  - Khung: `scripts/ui/events/minigame_host.gd` (ải `practice: true` không tốn lượt, không thưởng), `scripts/minigame/minigame_registry.gd` (`endless_entries`, `entry_stage`, khoảng `endless.*`), `scripts/minigame/event_validator.gd` (kiểm file level Bay, mục Vô tận), `scripts/input/input_router.gd` (`jet_hold` Space / W / ↑ / A).
+  - `docs/design/JET_ART_BRIEF.md` (brief + prompt Codex cho 21 mục ảnh), `tools/add_locale_keys.py` + `localization/*.po` (+42 khóa; `MODE_JET_DROPS` đổi "Tinh Lõi tiến hóa" → "Nguyên liệu nâng bậc"), `tools/screenshot_jet.gd`.
+  - Test: `tests/unit/minigame/test_jet_sim.gd` (19), `test_jet_stage.gd` (5), `test_minigame_screens.gd` (thẻ Bay mở, màn Vô tận Bay), `tests/unit/debug/test_debug_gift.gd` (`event:all` = 15 ải).
+  - Tài liệu: `docs/design/JET_MODE.md` mục 14, `docs/design/EVENT_DATA_GUIDE.md`, `docs/IMPLEMENTATION_ROADMAP.md`.
+- **Đã chạy:** script thử tạm (bot trên 12 level sinh, 20 seed Vô tận × 6000 m), `<godot> --headless --path . -s tools/jet/bake_levels.gd -- --force-boss`, GdUnit `tests/unit/minigame` + `tests/unit/debug` (104/104), `<godot> --path . -s tools/screenshot_jet.gd`, `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`.
+- **Kết quả thật:** 5 ải bake: N-1 seed 101, N-2 202, N-3 303, N-4 405 (404 bot trúng 1), N-5 505; mỗi ải qua JetValidator + bot 0 lần trúng. Vô tận 20 seed × 6000 m: 0 lần trúng (sau 3 vòng sửa: năng lượng ước lượng thận trọng hơn, tầm bay của Rồng trong gió, bot theo quãng hãm). `run_tests.ps1` mã thoát 0: GdUnit 889/889 đạt (0 lỗi), 5/5 test khói đạt (lượt trước bị ngắt khi phiên kết thúc, chạy lại một mình). Ảnh `build/screenshots/jet_0..8_*.png`.
+- **Quyết định Claude chọn:**
+  - Gió và dao động Tia Quét tính theo **quãng đường** thay vì thời gian (tài liệu ghi chu kỳ 5 s): tốc độ cuộn chỉ phụ thuộc mét nên quy ra px; bộ sinh biết chắc chỗ gió thổi / vị trí thanh lúc người bay đi qua.
+  - Level lưu `path` (đường giữa hành lang an toàn) cho validator + bot; người chơi không thấy.
+  - Tinh Lõi: 0.30 sau mỗi cụm (+0.30 khi ước lượng < 40) nhưng chỉ khi ước lượng < 60, cộng luật cách nhau tối đa → khoảng 1 viên / 100 m.
+  - Thưởng: Tinh thể nâng bậc + Đá tẩy phụ tố (không có vật phẩm "Tinh Lõi tiến hóa"); Vô tận một bộ thưởng, hạng theo mét (S ≥ 3000, A ≥ 2250, B ≥ 1800, C ≥ 1500), kỷ lục = mét.
+  - Nhân vật vẽ thu nhỏ 0.45, chân thấp hơn tâm va chạm 48 px để thân trùng chỗ va chạm; sàn / trần vẽ dịch theo. Boss Vầng Khuyết giữ màu gốc + vòng sáng cyan (tô cả sprite ra màu vàng xỉn).
+  - Thời gian lơ lửng đo được 7.2 s (lý thuyết 6.8 s): bộ điều khiển giữ / thả theo bước 1/120 s giữ ~58 % thời gian.
+- **Hạn chế đã biết:** chưa có hướng dẫn trong ải, vùng 4 dung nham, nhạc, âm thanh; Rồng, Robo, Bộ Phụt, vật cản vẽ tạm bằng code (cần ảnh theo mục 12); chưa owner thử cảm giác bay (mốc "owner thử sau J1").
+
+## 2026-11-21 — M9-9 Chỉ chơi online, Nguyệt Quang, thẻ tháng mua bằng 330 Nguyệt Quang
+- **Milestone / task:** M9-9 — owner 2026-11-21: game hoàn toàn online (không chơi ngoại tuyến, để kiểm soát bug / gian lận); tiền nạp riêng tên Nguyệt Quang; thẻ tháng giá 330 Nguyệt Quang; thưởng nạp lần đầu chỉ x2 Ngọc; Nguyệt Quang dùng cho trang phục hiệu ứng riêng, thẻ tháng, Battle Pass.
+- **Trạng thái:** TESTED
+- **File tạo/sửa:** `scripts/online/online_config.gd` (`dev_offline()`, bỏ `login_on_start`), `data/config/online_config.json`; `scripts/ui/boot.gd` (luôn vào Đăng nhập); `scripts/ui/login_screen.gd` (bỏ "Chơi ngoại tuyến"); `scripts/ui/title.gd` (chưa đăng nhập thì về Đăng nhập); `scripts/ui/connection_overlay.gd` (mới: lớp phủ Mất kết nối); `scripts/online/online_service.gd` (kiểm tra máy chủ mỗi 30 s, `check_connection`, `lost_connection`, `connection_guard`, `is_logged_in`, `card_buy`, chạy khi game tạm dừng); `server/modules/index.js` (tiền tệ `corona` → `moonlight`, RPC `card_buy`, kiểm `card.cost`); `data/shop/topup_packs.json` (gói `moonlight_*`, `card.cost` 330 Nguyệt Quang, bỏ gói thẻ bán bằng tiền); `server/grant.ps1` (`-Moonlight`, `-SyncPacks`, `-List` hiện giá thẻ); `server/tests/topup_smoke.mjs`; `scripts/ui/topup_screen.gd` (nút Mua thẻ, Nguyệt Quang); `scripts/online/purchased_currency.gd` (chú thích); `tools/add_locale_keys.py` + `localization/vi.po`, `en.po` (Nguyệt Quang, mua thẻ, mất kết nối; bỏ `LOGIN_PLAY_OFFLINE`, `CURRENCY_CORONA`, `TOPUP_CORONA_PACKS`, `TOPUP_CARD_NAME`); `tests/unit/online/test_online_service.gd`, `test_topup.gd`, `test_cloud_save.gd`, `test_chat_service.gd`, `tests/unit/ui/test_chat_panel.gd`, `tests/unit/support/fake_nakama.gd`; `tools/topup_e2e.gd`, `tools/screenshot_topup.gd`; `server/README.md`; `AGENTS.md`; `docs/OWNER_ASSET_CHECKLIST.md` (A3); `docs/IMPLEMENTATION_ROADMAP.md` (M9-8, M9-9).
+- **Đã chạy:** khởi động lại Nakama; `node server/tests/topup_smoke.mjs`; `powershell -ExecutionPolicy Bypass -File server\grant.ps1 -SyncPacks`; GdUnit `tests/unit/online` + `test_chat_panel.gd` + `test_hub_home.gd`; `<godot> --headless --path . --script res://tools/topup_e2e.gd`; `<godot> --path . -s tools/screenshot_topup.gd`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`.
+- **Kết quả thật:** `topup_smoke.mjs` 38/38 trên Nakama thật (mua thẻ khi thiếu Nguyệt Quang bị từ chối, mua được -330 Nguyệt Quang +30 lượt, mua cộng dồn, trần 180 lượt không trừ tiền, thẻ không còn bán bằng tiền mặt). GdUnit nhóm online + chat + sảnh 87/87. `topup_e2e.gd` mã thoát 0 (QTV phát 330 Nguyệt Quang không thưởng → game mua thẻ → nhận +30 Ngọc). `run_tests.ps1` mã thoát 0: GdUnit 892/892 đạt (0 lỗi), 5/5 test khói đạt. Ảnh `build/screenshots/topup_2_card.png` (nút Mua thẻ 330 Nguyệt Quang), `topup_3_conn_lost.png` (lớp phủ Mất kết nối).
+- **Quyết định Claude chọn:** dev vẫn chơi không cần máy chủ được nhưng CHỈ ở bản debug (`--offline`, hoặc headless cho test tự động); bản export release luôn bắt đăng nhập. Mất kết nối: tạm dừng cả game (cây scene) và thử lại mỗi 5 s thay vì đá ra ngay; phiên hết hạn / lỗi khóa máy chủ thì về Đăng nhập. Kiểm tra máy chủ mỗi 30 s bằng RPC hồ sơ (cùng lúc nhận Ngọc đã nạp). Đổi id `corona` → `moonlight` cho khớp tên (chỉ có dữ liệu thử trên máy chủ thử; ví thử còn khóa `corona` cũ không dùng nữa). Thẻ tháng mua bằng ví máy chủ (máy chủ kiểm và trừ), không qua save. Giữ hộp "mang dữ liệu ngoại tuyến lên tài khoản" cho người đã chơi bản cũ.
+- **Hạn chế đã biết:** bỏ chơi ngoại tuyến **chưa đủ** chống gian lận: tiến độ / Ngọc / gacha vẫn tính trên máy người chơi rồi gửi save lên (sửa bộ nhớ hoặc bản đệm save vẫn được) — cần M9-2b (máy chủ tự tính chi tiêu Ngọc, gacha, phần thưởng). Trang phục hiệu ứng riêng và Battle Pass chưa làm (M9-8, cần thiết kế). Lớp phủ mất kết nối chưa thử bằng cách tắt mạng thật (đã thử bằng máy chủ giả trong test); mã QR vẫn chưa quét bằng app ngân hàng.
+
+## 2026-11-21 — M9-2b Chống gian lận đợt 1: máy chủ kiểm mỗi save
+- **Milestone / task:** M9-2b — owner 2026-11-21: "Làm mục chống gian lận" (sau khi bỏ chơi ngoại tuyến).
+- **Trạng thái:** TESTED
+- **File tạo/sửa:** `server/modules/index.js` (mục Chống gian lận: `auditSave` gọi trong `save_put`, lỗi cứng → `save_rejected:<lý do>`, lỗi mềm → đánh dấu `cheat_flag`; RPC QTV `admin_set_rules`, `admin_cheat_flags`, `admin_cheat_clear`, `admin_save_restore`); `data/config/anti_cheat.json` (mới: trần tiền, mức nghi ngờ theo giờ, `hard_reject`); `tools/export_server_rules.gd` (mới) → `server/rules/game_rules.json` (giá banner, trần cấp, nhân vật từ phần thưởng, giới hạn lịch sử); `server/audit.ps1` (mới: tool QTV); `server/tests/audit_smoke.mjs` (mới); `scripts/online/online_service.gd` (`save_rejected`, `_on_save_rejected`: xóa bản đệm, tải lại bản trên máy chủ, báo); `scripts/ui/connection_overlay.gd` (chế độ thông báo một nút OK → Title); `tools/add_locale_keys.py` + `localization/vi.po`, `en.po` (+3 khóa); `tests/unit/support/fake_nakama.gd` (`reject_gems_over`); `tests/unit/online/test_cloud_save.gd`, `test_online_service.gd`; `tools/audit_e2e.gd` (mới); `server/README.md`; `AGENTS.md`; `docs/IMPLEMENTATION_ROADMAP.md` (M9-2b, M9-2c).
+- **Đã chạy:** `<godot> --headless --path . --script res://tools/export_server_rules.gd`; khởi động lại Nakama; `node server/tests/audit_smoke.mjs`, `topup_smoke.mjs`, `chat_smoke.mjs`; `powershell -ExecutionPolicy Bypass -File server\audit.ps1 -SyncRules`, `-Code <mã>`; GdUnit `tests/unit/online`; `<godot> --headless --path . --script res://tools/audit_e2e.gd`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`.
+- **Kết quả thật:** `audit_smoke.mjs` 33/33 trên Nakama thật (checksum giả, Ngọc âm / vượt trần, khai khống Ngọc đã nạp, cấp nhân vật / người chơi / kỹ năng vượt trần, sửa / xóa lượt gacha bị từ chối và save trên máy chủ giữ bản cũ; lịch sử đầy 200 cắt lượt cũ nhất hợp lệ; Ngọc tăng bất thường, nhân vật không rõ nguồn, banner lạ bị đánh dấu nhưng vẫn nhận; nhân vật từ thưởng màn / lượt gacha mới không bị đánh dấu; QTV xem / khôi phục / xóa đánh dấu; `hard_reject=false` chỉ đánh dấu). `topup_smoke` và `chat_smoke` vẫn ĐẠT khi bật luật. Lần chạy đầu lộ lỗi thật: luật lịch sử gacha coi cả lịch sử bị sửa là "cắt do giới hạn" → sửa (chỉ cho cắt khi lịch sử mới đầy 200). GdUnit `tests/unit/online` 73/73. `audit_e2e.gd` 11/11: game sửa Ngọc 99 999 999 / cấp 999 → máy chủ từ chối → game tải lại 500 Ngọc / cấp 1 → chơi tiếp được; `audit.ps1 -Code` hiện đúng 2 lỗi cứng. `run_tests.ps1` mã thoát 0: GdUnit 895/895 đạt (0 lỗi), 5/5 test khói đạt.
+- **Quyết định Claude chọn:** kiểm trên save (máy chủ đã giữ bản gốc từ M9-3) thay vì viết lại toàn bộ luật game ở máy chủ; chia lỗi cứng (chắc chắn sai luật → từ chối) và lỗi mềm (bất thường → đánh dấu) để không chặn oan người chơi thật. Mức nghi ngờ khởi đầu: 3000 Ngọc / giờ + 6000, 400 000 Vàng / giờ + 800 000, tính tối đa 48 giờ; trần 10 triệu Ngọc. Chi phí gacha tính theo cách rẻ nhất (gói x10 trước). Bị từ chối thì không gửi lại bản đó (tránh vòng lặp), tiến độ chưa được nhận bị mất; game tự sửa phần Ngọc đã nạp khai khống trước khi gửi (PurchasedCurrency) nên chỉ client bị sửa mới chạm tới luật máy chủ đó. Luật do QTV đẩy lên (như bảng giá), không nằm cứng trong module.
+- **Hạn chế đã biết:** máy chủ chỉ kiểm "save có hợp luật không", chưa tự tính lại từng trận / lượt gacha: sửa trong giới hạn (Ngọc dưới mức nghi ngờ, trang bị, nguyên liệu, tiến độ màn) vẫn lọt; kết quả gacha vẫn do máy người chơi quay (M9-2c: gacha trên máy chủ). Mức nghi ngờ là số khởi đầu, cần chỉnh theo dữ liệu thật; bản debug dùng Quà thử nghiệm sẽ bị đánh dấu mềm (không bị từ chối nếu trong trần).
+
+## 2026-11-21 — M9-2c Gacha chạy trên máy chủ
+- **Milestone / task:** M9-2c — owner 2026-11-21: "Làm tiếp bước gacha" (chống gian lận đợt 2).
+- **Trạng thái:** TESTED
+- **File tạo/sửa:** `server/modules/index.js` (mục Gacha chạy trên máy chủ: bản chép 1-1 của GachaService — tỉ lệ, pity cứng / mềm, bảo hiểm rate-up, bảo đảm x10, `rate_per_item`, `exclude_owned_until_complete`, lượt miễn phí + vé, trao thưởng nhân vật / mảnh / nguyên liệu / vàng / trang bị; RPC `gacha_pull` ghi thẳng vào save máy chủ có kiểm version; kiểm save: `canon()` so sánh không phụ thuộc thứ tự khóa, `server_gacha` → từ chối `gacha_client_pull`, `gacha_state_edited`); `tools/export_server_rules.gd` (xuất `gacha_banners` đầy đủ) → `server/rules/game_rules.json`; `data/config/anti_cheat.json` (`server_gacha: true`); `scripts/online/online_service.gd` (`in_cloud_world`, `gacha_pull`: gửi save trước, nạp save máy chủ, thử lại khi xung đột, chuẩn hóa kiểu kết quả); `scripts/ui/recruit_screen.gd` (`remote_gacha`, `request_pull`, `request_starter`, `pull_remote`, `busy`; nút Chiêu mộ đi qua máy chủ khi đang chơi online, dev offline / test quay tại máy); `tools/add_locale_keys.py` + `localization/vi.po`, `en.po` (`RECRUIT_UI_PULLING`); `tests/unit/support/fake_nakama.gd` (`gacha_pull` dùng chính GachaService); `tests/unit/online/test_server_gacha.gd` (mới); `server/tests/gacha_smoke.mjs` (mới), `audit_smoke.mjs` (chạy với `server_gacha=false`); `tools/gacha_e2e.gd` (mới); `server/README.md`; `AGENTS.md`; `docs/IMPLEMENTATION_ROADMAP.md` (M9-2c, M9-2d).
+- **Đã chạy:** `<godot> --headless --path . --script res://tools/export_server_rules.gd`; khởi động lại Nakama; `node server/tests/gacha_smoke.mjs`, `audit_smoke.mjs`, `topup_smoke.mjs`, `chat_smoke.mjs`; `powershell -ExecutionPolicy Bypass -File server\audit.ps1 -SyncRules`; GdUnit `tests/unit/online` + `tests/unit/gacha` + `test_recruit_screen.gd`; `<godot> --headless --path . --script res://tools/gacha_e2e.gd`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`.
+- **Kết quả thật:** `gacha_smoke.mjs` 39/39 trên Nakama thật: quay đơn trừ đúng 280, save trả về có checksum đúng và bằng save trên máy chủ; sai số lượt / thiếu Ngọc / banner lạ / base_version cũ bị từ chối; 1000 lượt (100 × x10) mỗi gói có bậc S/A, ra S 12 lần, khoảng cách dài nhất đúng 100 = pity cứng; nhân vật trùng → mảnh; lịch sử giữ 200; banner 5★ ra đủ 4 món không trùng trước khi đủ bộ; lượt miễn phí cần vé, đúng 1 lượt bậc đầu, không dùng lại được; game tự thêm lượt 5★ / sửa pity / xóa "đã dùng" bị từ chối. Ba bộ máy chủ cũ vẫn ĐẠT. GdUnit nhóm online + gacha + Chiêu mộ 137/137. `gacha_e2e.gd` 14/14 (quay đơn 82 ms gồm gửi save, x10 41 ms; save máy chủ ghi → Godot đọc rồi ghi lại vẫn được nhận; gian lận bị từ chối và tải lại). `run_tests.ps1` mã thoát 0: GdUnit 902/902 đạt (0 lỗi), 5/5 test khói đạt.
+- **Quyết định Claude chọn:** máy chủ làm cả giao dịch trên save nó đang giữ (không chỉ cấp số ngẫu nhiên) để game không thể bỏ qua / đổi kết quả; logic chép 1-1 sang JS thay vì chạy Godot trên máy chủ (nhẹ, không cần thêm tiến trình). Trang bị từ gacha để trống phụ tố (game gieo khi nạp save qua `Inventory.ensure_affixes`) để khỏi chép thêm bảng phụ tố; nhân vật từ lượt miễn phí tự vào đội do game làm sau khi nhận save (`auto_join_party` cần dữ liệu nhân vật). Máy chủ giả trong test quay bằng chính GachaService để hai bản không lệch về định dạng. Dev offline / test vẫn quay tại máy.
+- **Hạn chế đã biết:** logic gacha giờ có hai bản (GDScript + JS) — đổi một bên phải đổi bên kia (đã ghi AGENTS.md); `gacha_smoke.mjs` kiểm hành vi bản JS nhưng không đối chiếu tự động từng trường với bản GDScript. Phụ tố trang bị từ gacha vẫn do máy người chơi gieo. Phần thưởng trận / event / chi tiêu Vàng chưa tính lại ở máy chủ (M9-2d). Cần mạng ổn định để quay (không quay được khi mất kết nối).
+
+## 2026-11-21 — ART: Rồng Bay Nguyên Tố, animation fly / break
+- **Milestone / task:** M11-5 J5, mục 6 `jet_dragon`; owner duyệt ảnh chuẩn, `fly` và bản sửa `break`.
+- **Trạng thái:** TESTED
+- **File tạo/sửa:** 6 frame `fly` và 6 frame `break` 512×384 trong `assets/jet/jet_dragon/`; cập nhật `docs/ASSET_LICENSES.md` mục 2.1. Giữ nguyên 6 frame `fly`; thay sáu frame `break` chưa duyệt. Preview, dải gốc và báo cáo alpha nằm trong `art_review/jet/jet_dragon/` (không vào git).
+- **Đã chạy:** `C:\Godot\4.6.3\Godot_v4.6.3-stable_win64_console.exe --headless --path . --import`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`.
+- **Kết quả thật:** import mã thoát 0; test mã thoát 0: GdUnit 902/902 đạt, 5/5 smoke đạt. Báo cáo alpha: từng cạnh bbox ở cả 6 frame có 0.00% pixel alpha > 40; lề nhỏ nhất 56 px.
+- **Quyết định Codex chọn:** tách nền magenta bằng code, despill màu ở viền và nhân alpha theo hệ số owner chỉ định; không yêu cầu AI vẽ độ trong suốt.
+- **Hạn chế đã biết:** Godot import có cảnh báo thiếu Android `build-tools`; không ảnh hưởng import Windows. Chưa kiểm tra animation trong game runtime.
+
+## 2026-11-21 — M11-5 J5-7 Ảnh chuẩn Robo ký ức
+- **Milestone / task:** M11-5 / J5-7 — ảnh chuẩn `jet_robo`, được owner duyệt ngày 2026-11-21.
+- **Trạng thái:** TESTED
+- **File tạo/sửa:** `assets/jet/jet_robo.png`; `tools/jet/prepare_robo_key.py`; `docs/ASSET_LICENSES.md` (mục 2.1).
+- **Đã chạy:** `python -X utf8 tools/jet/prepare_robo_key.py`; `C:\Godot\4.6.3\Godot_v4.6.3-stable_win64_console.exe --headless --path . --import`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`.
+- **Kết quả thật:** import mã thoát 0 (Godot báo không lưu được cấu hình editor vào AppData); test mã thoát 0: GdUnit4 902/902 đạt, 5/5 smoke đạt. Ảnh 384×384, bbox alpha > 8 `(24,58)–(360,346)`, lề trên/trái/phải `58/24/24 px`; alpha > 40 trên cạnh trái/phải/trên/dưới `2.08/3.12/5.65/51.49%` (cạnh đáy là chân đặc, ngoại lệ brief). Pixel nhìn thấy cách màu key < 45: 0.
+- **Quyết định Codex chọn:** dùng ảnh chuẩn được owner duyệt, lưu theo tên ảnh tĩnh của brief; chưa tạo animation.
+- **Hạn chế đã biết:** chỉ có ảnh chuẩn; walk, jump, crush và break chờ yêu cầu tiếp theo.
+
+## 2026-11-21 — M11-5 J5-7 Animation Robo ký ức
+- **Milestone / task:** M11-5 / J5-7 — walk 6 frame/14 fps, jump 3 frame, crush 4 frame/20 fps, break 6 frame; owner duyệt `jet_robo` ngày 2026-11-21.
+- **Trạng thái:** TESTED
+- **File tạo/sửa:** 19 frame trong `assets/jet/jet_robo/{walk,jump,crush,break}/`; `tools/jet/process_robo_animations.py`; `docs/ASSET_LICENSES.md` (mục 2.1).
+- **Đã chạy:** `python -X utf8 tools/jet/process_robo_animations.py`; `C:\Godot\4.6.3\Godot_v4.6.3-stable_win64_console.exe --headless --path . --import`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`.
+- **Kết quả thật:** 19 frame 384×384 đã xử lý bằng chroma-key magenta, despill và alpha theo chỉ định cho break; Godot import mã thoát 0; `run_tests.ps1` mã thoát 0: GdUnit4 902/902 đạt, 5/5 smoke đạt. Import có cảnh báo Android build-tools không có trên máy; không ảnh hưởng kết quả import.
+- **Quyết định Codex chọn:** giữ frame ảnh chuẩn bất biến; giữ rider cố định trong preview; nhảy đổi dáng thay vì dịch toàn sprite; alpha rã cuối được nhân bằng code.
+- **Hạn chế đã biết:** chưa có manifest riêng cho animation Robo trong brief; fps walk/crush lấy theo brief, jump/break dùng điều khiển lượt phát của game.
+
+## 2026-11-21 — M11-5 J5 Lô 2 ảnh HUD và vật cản Cặn
+- **Milestone / task:** M11-5 / J5 — lô 2, mục 8–12 của `JET_ART_BRIEF.md`; owner duyệt lô ngày 2026-11-21.
+- **Trạng thái:** TESTED
+- **File tạo/sửa:** 13 ảnh trong `assets/jet/` (icon Rồng/Robo, Thanh Cặn, 4 frame node pulse, 4 frame Cặn Phóng, 2 frame cảnh báo); `tools/jet/prepare_lot2_preview.py`, `tools/jet/install_lot2_approved.py`; `docs/ASSET_LICENSES.md` mục 2.1.
+- **Đã chạy:** `python -X utf8 tools/jet/prepare_lot2_preview.py`; `python -X utf8 tools/jet/install_lot2_approved.py`; `C:\Godot\4.6.3\Godot_v4.6.3-stable_win64_console.exe --headless --path . --import`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`.
+- **Kết quả thật:** Preview đo đúng kích thước toàn bộ 13 ảnh/frame; không còn pixel key màu có alpha; beam body sai khác RGBA giữa hai cạnh = 0; tâm node lệch tối đa 0,71 px, missile 0 px, cảnh báo 0,5 px. Godot import mã thoát 0. `run_tests.ps1` mã thoát 0: GdUnit4 đạt, 5/5 smoke đạt.
+- **Quyết định Codex chọn:** lưu ảnh tĩnh ở `assets/jet/{id}.png`, animation theo `assets/jet/{id}/{animation}/`; lưu từng frame riêng trong mục 2.1 để truy nguyên prompt và tham chiếu.
+- **Hạn chế đã biết:** theo phép đo trước duyệt, tỷ lệ alpha >40 trên hai cạnh ngang bbox của Cặn Phóng là 100% (hai cạnh dọc 1,9%); owner vẫn duyệt bản preview này. Node pulse có biến đổi kích thước nhẹ theo nhịp; hình cảnh báo giữ bbox cùng cỡ và đổi sắc độ.
+
+## 2026-11-21 — M11-5 J5 Lô 2 v2: Thanh Cặn và Cặn Phóng
+- **Milestone / task:** M11-5 / J5 — bản sửa theo phản hồi owner; owner duyệt lô 2 v2 ngày 2026-11-21.
+- **Trạng thái:** TESTED
+- **File tạo/sửa:** `assets/jet/jet_beam_body_v2.png`; `assets/jet/jet_missile/fly_v2/jet_missile_fly_v2_000..003.png`; `tools/jet/prepare_lot2_v2_preview.py`, `tools/jet/install_lot2_v2.py`; `docs/ASSET_LICENSES.md` mục 2.1.
+- **Đã chạy:** `python -X utf8 tools/jet/prepare_lot2_v2_preview.py`; `python -X utf8 tools/jet/install_lot2_v2.py`; `C:\Godot\4.6.3\Godot_v4.6.3-stable_win64_console.exe --headless --path . --import`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`.
+- **Kết quả thật:** Thanh Cặn 128×40, bbox y=6..34 (28 px), tâm y=20; sai khác RGBA cột trái/phải = 0. Mỗi frame Cặn Phóng xóa 152 pixel đường key; bbox sau sửa: (62,51,130,75), (62,46,134,79), (62,51,130,76), (62,52,125,75); không cạnh nào có 100% alpha >40, không hàng/cột nào phủ toàn bbox. Godot import mã thoát 0. `run_tests.ps1` mã thoát 0: GdUnit4 902/902, smoke 5/5.
+- **Quyết định Codex chọn:** giữ nguyên ảnh lô 2; tạo `jet_beam_body_v2.png` và thư mục animation `fly_v2/` riêng theo yêu cầu, không ghi đè file đã commit.
+- **Hạn chế đã biết:** Godot import cảnh báo Android build-tools không có trên máy; import Windows vẫn hoàn tất mã thoát 0. GdUnit in cảnh báo Unicode/NUL và cảnh báo tài nguyên renderer lúc thoát; suite và toàn bộ smoke vẫn mã thoát 0.
+
+## 2026-11-21 — Chương 2 chơi thử được: ô khách Iwagane và 12 ải 2-1 → 2-12
+- **Milestone / task:** Cốt truyện Chương 2 (`docs/design/CH02_STORY.md`, mục 8c: làm bản chơi thử trước, rồi placeholder clip, ảnh vẽ sau cùng); owner duyệt hướng 2026-11-21.
+- **Trạng thái:** TESTED
+- **File tạo/sửa:** `docs/design/CH02_STORY.md` (cốt truyện, owner chốt: gác đôi, Zero từ Chương 6, Shokuhai thu lõi và dạng mới là boss cuối Chương 6 hạ hẳn, Iwagane là gacha chơi thử);
+  `scripts/party/guest_slot.gd` (`GuestSlot`: slot khách bắt buộc, giáp thử hạng S + đủ 4 món đề cử + cấp theo cấp quản lý, hồ sơ thử dựng trong bộ nhớ, không ghi save); `data/config/guest_trials.json`;
+  `scripts/world/stage_controller.gd` (`_apply_guest`, `guest_is_trial`, `ENEMY_SCENES` thêm 8 mục), `scripts/core/game_config.gd` (`guest_use_owned`),
+  `scripts/ui/party_prep_screen.gd` (thẻ khách có nhãn đỏ "Chơi thử", chạm để đổi giáp thử / giáp đã có), `scripts/ui/sortie_screen.gd` (STORY_STAGES thêm 2-1 → 2-12);
+  `tools/stages/gen_stages_02.py` (sinh 12 màn, 2 quái, 6 boss, thoại, chữ), `tools/stages/stage_gen.py` (`guest`, `backdrop_from`), `tools/stages/ground_palettes.py`, `tools/story/gen_chapters.py` (ải 2-x có `stage_id`);
+  `data/stages/stage_02_01..12.json`, `data/enemies/` (`enemy_statue_01`, `enemy_slime_03`, `boss_minion_{cutter,miner,filer,carrier}`, `boss_iwagane_01`, `boss_gate_01`), `data/story/chapters.json`, `data/tutorial/battle_barks.json`, `localization/vi.po`, `en.po`;
+  test `tests/unit/party/test_guest_slot.gd` (7), `tests/unit/world/test_stages_02.gd` (9).
+- **Đã chạy:** `python -X utf8 -I tools/stages/gen_stages_02.py`; `ground_palettes.py`; `gen_chapters.py` (đã hoàn lại ảnh placeholder map / thẻ do chạy lại); `Godot --headless --import`; GdUnit riêng hai file test mới; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`.
+- **Kết quả thật:** hai file test mới 7/7 và 9/9 đạt, mã thoát 0; toàn bộ xem dòng kết quả cuối commit.
+- **Quyết định Claude chọn:** 4 tay sai + giáp Iwagane + Thủ Vệ Cổng dùng khuôn boss Shokuhai (Thủ Vệ Cổng dùng scene golem), số liệu riêng và hệ số thời gian đòn theo từng boss (chưa có đòn riêng, chưa có ảnh: Polygon2D tạm);
+  nền và đất mượn tạm của Chương 1 (`backdrop_from`); ô khách ở slot cuối, đội thực tế = tối đa 2 người tự chọn + khách; kinh nghiệm cuối ải vẫn chia theo đội đã lưu (chưa chia riêng cho giáp thử).
+- **Hạn chế đã biết:** chưa có clip `ch02_*` (bước 2), chưa có ảnh (bước 3); màn chọn giáp (`PartySelectScreen`) chưa giới hạn 2 người tự chọn ở ải có khách (chỉ cắt khi vào ải); chưa gợi ý chiêu mộ ở màn kết quả 2-12; boss mới chưa có đòn đặc trưng; chưa chơi thử bằng mắt trong Godot.
+
+## 2026-11-21 — M11-5 J5 Lô 4 nền vùng Ống Tro
+- **Milestone / task:** M11-5 / J5 — mục 17–20 của `JET_ART_BRIEF.md`, zone `ash`; owner duyệt lô 4 ngày 2026-11-21.
+- **Trạng thái:** TESTED
+- **File tạo/sửa:** `assets/jet/jet_bg_ash_far.png`, `jet_bg_ash_mid.png`, `jet_floor_ash.png`, `jet_ceiling_ash.png` (kèm `.import`); `tools/jet/prepare_lot4_preview.py`, `tools/jet/install_lot4_approved.py`; `docs/ASSET_LICENSES.md` mục 2.1.
+- **Đã chạy:** `python -X utf8 tools/jet/install_lot4_approved.py`; `C:\Godot\4.6.3\Godot_v4.6.3-stable_win64_console.exe --headless --path . --import`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`.
+- **Kết quả thật:** Far 1920×1080, Y mean 40.857, P99 54.596, max 90.742, saturation mean 0.3981, alpha 255 toàn ảnh, pixel key 0, tỷ số mép 0. Mid 1920×1080, alpha bbox (80,121)–(1840,900), trong suốt 81.868%, sương alpha 9–40 là 0.004%, P99 Y vùng đặc 112.721, dải giữa đặc 0%, mép lặp trong suốt, pixel key 0. Floor 1920×200, y_top mọi cột = 6, liên tục tới đáy 100%, pixel key 0, tỷ số mép 0. Ceiling 1920×120, mọi cột đặc liên tục qua hàng 100, đỉnh nhũ đá tối đa 119, 100% cột có nhũ đá, pixel key 0, tỷ số mép 0. Far đặc toàn khung theo yêu cầu. Godot import mã thoát 0. `run_tests.ps1` mã thoát 0: GdUnit4 và cả 5 smoke đều đạt.
+- **Quyết định Codex chọn:** dùng tách key xanh bằng hậu kỳ Pillow, giảm sáng mid để giữ vật cản nổi trên nền; ghép tile bằng crossfade để xử lý seam.
+- **Hạn chế đã biết:** cảnh báo Godot Unicode/NUL xuất hiện khi chạy test nhưng tổng mã thoát 0 và mọi bước test đều đạt; ảnh nền chưa được thử trực tiếp trong cửa sổ game.
+
+## 2026-11-21 — Chương 2 bước 2: placeholder clip truyện ch02_open / ch02_gate / ch02_end
+- **Milestone / task:** Cốt truyện Chương 2, bước 2 (`docs/design/CH02_STORY.md` mục 8c): dữ liệu + chữ + ô placeholder cho đoạn truyện có video; ảnh vẽ để sau cùng.
+- **Trạng thái:** TESTED
+- **File tạo/sửa:** `tools/story/gen_story_clips_02.py` (kịch bản 3 clip, 28 ô), `data/story/ch02_open.json` (8 ô + thẻ chương, phát trước ải 2-1), `ch02_gate.json` (6 ô, trước ải 2-6), `ch02_end.json` (14 ô + thẻ, sau ải 2-12);
+  `assets/placeholders/story/placeholder_ch02_*.png` (28 ô tạm), `docs/prompts/story/CH02_PANELS.md` (prompt cho từng ô); `tools/stages/gen_stages_02.py` + `stage_gen.py` (`open_clip` / `end_clip` của 2-1, 2-6, 2-12), `data/stages/stage_02_01/06/12.json`;
+  `tools/story/gen_chapters.py` + `data/story/chapters.json` (ải 2-1 và 2-6 có biểu tượng clip); `scripts/ui/story_clip.gd` (người nói `ishiro`); `tools/story/gen_story_clips.py` (thẻ cuối Chương 1: "Chương 2 — đã mở");
+  `localization/vi.po`, `en.po` (STORY_CH02_*, NPC_ISHIRO); test `tests/unit/ui/test_story_clip_ch02.gd` (3).
+- **Đã chạy:** `python -X utf8 -I tools/story/gen_story_clips_02.py`; `gen_stages_02.py`; `ground_palettes.py`; `gen_chapters.py` (đã hoàn lại ảnh placeholder map / thẻ do chạy lại); `Godot --headless --import`; GdUnit test mới; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`.
+- **Kết quả thật:** test mới 3/3 đạt; toàn bộ test "TẤT CẢ ĐẠT", mã thoát 0.
+- **Hạn chế đã biết:** chưa có ảnh thật cho 28 ô (game dùng placeholder có diễn biến); nhân vật mới (Iwagane trong truyện, Thợ Cả Ishiro, Tượng gác nhỏ, Thủ Vệ Cổng) chưa có bảng thiết kế riêng; chưa xem clip bằng mắt trong Godot; clip ch02 chưa vào Asset Atlas / artifact truyện.
+
+## 2026-11-21 — Chương 2 bước 3 (ảnh): bảng thiết kế Thợ Cả Ishiro
+- **Milestone / task:** Cốt truyện Chương 2, bước 3 (ảnh vẽ sau cùng), nhân vật đầu tiên: Thợ Cả Ishiro; owner duyệt phương án A ngày 2026-11-21.
+- **Trạng thái:** TESTED
+- **File tạo/sửa:** `assets/characters/npc_ishiro_01/design/npc_ishiro_01_sheet.png` (1536×1024, chép từ `art_review/characters/ishiro/option_a.png`; B và C giữ ở `art_review`); `docs/prompts/characters/ISHIRO_DESIGN.md`;
+  `docs/ASSET_LICENSES.md` (mục 2.1); `tools/story/gen_story_clips_02.py` (mô tả + ảnh tham chiếu Ishiro) và `docs/prompts/story/CH02_PANELS.md` (sinh lại); `tools/story/build_story_tracker.py` (thêm ảnh tham chiếu);
+  `data/stages/stage_02_02..11.json` (bổ sung khối `ground` bị mất khi sinh lại ải ở lần commit trước: đất vẽ tay đá cho các ải 2-x).
+- **Đã chạy:** Codex imagegen (3 phương án); `Godot --headless --import`; `gen_story_clips_02.py`; `build_story_tracker.py`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`.
+- **Kết quả thật:** ảnh 1536×1024; toàn bộ test "TẤT CẢ ĐẠT", mã thoát 0.
+- **Hạn chế đã biết:** chưa có bảng thiết kế Tượng gác nhỏ và Thủ Vệ Cổng; chưa vẽ 28 ô truyện Chương 2; artifact truyện và Asset Atlas chưa cập nhật phần Ishiro.
+
+## 2026-11-21 — M11-5 J5 Lô 3 tia sét và Van Sét
+- **Milestone / task:** M11-5 / J5 — mục 13–16 của `JET_ART_BRIEF.md`; owner duyệt lô 3 ngày 2026-11-21.
+- **Trạng thái:** TESTED
+- **File tạo/sửa:** `assets/jet/jet_sweep/hum/` (3 frame), `assets/jet/jet_gate_block.png`, `assets/jet/jet_gate_lip/spark/` (3 frame), `assets/jet/jet_wind_arrow.png`; `tools/jet/prepare_lot3_preview.py`, `tools/jet/install_lot3_approved.py`; `docs/ASSET_LICENSES.md` mục 2.1.
+- **Đã chạy:** `python -X utf8 tools/jet/prepare_lot3_preview.py`; `python -X utf8 tools/jet/install_lot3_approved.py`; `C:\Godot\4.6.3\Godot_v4.6.3-stable_win64_console.exe --headless --path . --import` (mã thoát 0); `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1` (thử 3 lượt).
+- **Kết quả thật:** 8 ảnh/frame đúng kích thước, không còn pixel key có alpha. Tia Quét: tâm dọc 144–144,5 px, độ lệch tối đa giữa frame 1 px ngang / 0 px dọc, hai cực giống nhau tuyệt đối; alpha 9–40 tối đa 1,004%. Thân Van Sét rộng tối thiểu 86 px mỗi hàng, sai khác hàng đầu/cuối 0, alpha 9–40 là 0. Mép Van Sét giữ nguyên 34 hàng trên, phần khác nhau nằm ở tia lửa; alpha 9–40 tối đa 0,037%. Mũi tên gió có lề 12–13 px, hướng lên, alpha 9–40 là 0,798%. Godot import mã thoát 0. Lượt test đầu: GdUnit4 902/902 đạt, 4/5 smoke đạt; `m1_flow_check` thất bại assertion “nút Tiếp tục bị khóa (chưa có save)”, mã tổng 1. Hai lượt kế tiếp và một lần chạy smoke riêng gặp crash Godot signal 11 / mã `-1073741819`; lượt xác nhận gộp với lô 5 chạy `tools\run_tests.ps1` mã thoát 0, GdUnit4 922/922 và 5/5 smoke đạt.
+- **Quyết định Codex chọn:** lưu ảnh tĩnh ở `assets/jet/{id}.png`, animation ở `assets/jet/{id}/{animation}/`; phần nối liền mạch và khử viền xử lý bằng Pillow sau khi tách nền key.
+- **Hạn chế đã biết:** chưa kiểm tra trực tiếp trong cửa sổ game; owner duyệt qua preview trước khi cài. Các lượt chạy trước từng gặp lỗi smoke M1 và crash Godot; lượt xác nhận sau đó đã chạy toàn bộ test mã thoát 0.
+
+## 2026-11-21 — M11-5 J5 Lô 5 nền Thung Gió Ngược và Hang Sét Câm
+- **Milestone / task:** M11-5 / J5 — mục 17–20 của `JET_ART_BRIEF.md`, hai zone `wind` và `thunder`; owner duyệt lô 5 ngày 2026-11-21.
+- **Trạng thái:** TESTED
+- **File tạo/sửa:** Tám nền `assets/jet/jet_bg_wind_far.png`, `jet_bg_wind_mid.png`, `jet_floor_wind.png`, `jet_ceiling_wind.png`, `jet_bg_thunder_far.png`, `jet_bg_thunder_mid.png`, `jet_floor_thunder.png`, `jet_ceiling_thunder.png` cùng `.import`; 8 dòng `docs/ASSET_LICENSES.md` mục 2.1. Gộp lô 3 còn thiếu: 8 ảnh Van Sét/Tia Quét/Mũi tên gió cùng `.import`, giấy phép mục 2.1 và `tools/jet/install_lot3_approved.py`.
+- **Đã chạy:** `C:\Godot\4.6.3\Godot_v4.6.3-stable_win64_console.exe --headless --path . --import` (mã thoát 0); `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1` (mã thoát 0).
+- **Kết quả thật:** Tám ảnh đúng kích thước, 0 pixel sót màu key; far alpha tối thiểu 255; hai bộ far/mid/floor/ceiling đạt đo seam và bố cục trong `art_review/jet/lot5/_preview/jet_lot5_metrics.txt`. Trần Thunder dùng candidate `jet_ceiling_thunder_mirror.png` byte-identical; dải hàng 76–100 phản chiếu từ hàng 51–75. GdUnit4 922/922 đạt, 5/5 smoke đạt.
+- **Quyết định Codex chọn:** Dùng candidate đã được owner chỉ định, sao lưu bản cũ trong `art_review/jet/lot5/jet_ceiling_thunder_codex_backup.png`; giữ nguyên bảy ảnh còn lại. Chỉ đưa các file Bay Nguyên Tố vào index, bỏ qua thay đổi Chương 2, Hikarine và Golem đang có trong working tree.
+- **Hạn chế đã biết:** Godot import mã thoát 0 nhưng môi trường không cho ghi cấu hình `user://` và báo không có Android build-tools; các lỗi cấu hình này không ngăn import ảnh. GdUnit in cảnh báo Unicode/NUL; toàn bộ test và smoke vẫn đạt.
+
+
+## 2026-11-22 — M11-5 Bay Nguyên Tố: sửa kích thước ảnh thẻ trong brief
+- **Milestone / task:** M11-5 J5 — mục 21 `jet_card` của `docs/design/JET_ART_BRIEF.md`.
+- **Trạng thái:** IMPLEMENTED
+- **File tạo/sửa:** `docs/design/JET_ART_BRIEF.md` (bảng mục 3 hàng 21 và prompt số 21).
+- **Đã chạy:** đọc `scripts/ui/events/event_hub_screen.gd` (`CARD_W` 420, `CARD_H` 660, `STRIP_H` 168, `_card_art`).
+- **Kết quả thật:** game vẽ ảnh thẻ vào vùng 412×488 px (thẻ trừ viền 4 px và dải tên cao 168 px), dải tên trắng là panel riêng nằm dưới ảnh, nên ảnh thẻ cần 824×976 (gấp đôi) và KHÔNG cần chừa 25% đáy như brief cũ (840×1320). Nhãn lượt "50/50" (136×46 px, cách mép trên / phải 14 px) nằm đè góc trên phải ảnh.
+- **Hạn chế đã biết:** chưa có ảnh thẻ; `material_events.json` vẫn dùng splash Kazeyumi làm thẻ tạm, sẽ đổi sang `assets/jet/jet_card.png` khi nối ảnh vào game.
+
+## 2026-11-22 — M11-5 Bay Nguyên Tố: ảnh thẻ jet_card
+- **Milestone / task:** M11-5 J5 — mục 21 `jet_card`; owner duyệt ảnh và yêu cầu cài ngày 2026-11-22.
+- **Trạng thái:** TESTED
+- **File tạo/sửa:** `assets/jet/jet_card.png` (824×976), tệp import Godot `.import`; giấy phép 2.1 trong `docs/ASSET_LICENSES.md`.
+- **Đã chạy:** Codex imagegen / built-in `image_gen`; cắt một hàng trên và dưới rồi resize Pillow 10.2 LANCZOS; `C:\Godot\4.6.3\Godot_v4.6.3-stable_win64_console.exe --headless --path . --import`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`.
+- **Kết quả thật:** ảnh 824×976, alpha toàn ảnh 255. Mép top/bottom/left/right lệch sáng lần lượt 0.65/0.37/0.32/0.09; vùng nhãn lượt có Y TB 36.73 (toàn ảnh 79.72), SD 0.99; 88.51% pixel đủ sáng có hue 140°–200°, tím 0%; nhân vật + Bộ Phụt cao 672/976 = 68.85%. Godot import mã thoát 0. Toàn bộ GdUnit4 và 5/5 smoke checks đạt, mã thoát 0.
+- **Quyết định Codex chọn:** giữ đúng bản owner duyệt tại preview, cắt một hàng trên/dưới trước khi resize để ra đúng tỉ lệ 824×976; không chỉnh nội dung tranh.
+- **Hạn chế đã biết:** Godot báo không thể ghi cấu hình `user://` và thiếu Android build-tools trong môi trường, nhưng quá trình import kết thúc mã 0. Test in cảnh báo Unicode/NUL; mọi bước test đều đạt. Ảnh chưa được nối vào `material_events.json`.
+
+
+## 2026-11-22 — M11-5 Bay Nguyên Tố J5: ghép toàn bộ ảnh thật vào màn bay
+- **Milestone / task:** M11-5 J5 — owner 2026-11-22 "đã duyệt. bắt đầu ghép nhé" (sau khi Codex làm xong 21 mục ảnh `JET_ART_BRIEF.md`).
+- **Trạng thái:** TESTED
+- **File tạo/sửa:**
+  - `scripts/ui/jet/jet_art.gd` (mới, `JetArt`: bộ đệm tĩnh nạp ảnh `assets/jet/`; `seq` / `frame` cho dãy frame; `gate_column` co cột Van Sét 86 → 70 px; `flame` đổi lửa phụt xanh ngọc sang thang xám để tô nguyên tố; `form_frames` SpriteFrames Rồng / Robo; `zone_tex`).
+  - `scripts/ui/jet/jet_stage.gd` (`JetStage`): nền 4 lớp theo vùng (far cuộn 0.2, mid 0.4 làm tối 0.78, trần với đường danh nghĩa hàng 100 đặt ở y = 70, sàn với mặt sàn hàng 6 đặt ở y = 916; chuyển vùng mờ dần 1.2 s); Bộ Phụt + khe đo mức nạp đổ từ dưới + lửa phụt tô màu nguyên tố; sprite Rồng (fly, 0.58) và Robo (walk / jump / crush, 0.66, chân chạm sàn vẽ) với người ngồi đúng yên đo từ ảnh (Rồng: x 288, đỉnh yên theo từng frame bay; Robo: ghế (186, 146)); hiệu ứng vỡ Rồng / Robo khi hết hình hoặc trúng, hộp mở khi nhặt; Thanh Cặn (thân lặp xoay theo góc + 2 nút), Tia Quét, Van Sét (cột co ngang + nắp mép lật dọc ở van dưới), Cặn Phóng + cảnh báo, mũi tên gió (xoay 180° khi gió xuống), Hạt Tinh, Tinh Lõi, Hộp Ký Ức; biểu tượng hình ở HUD.
+  - `data/events/material_events.json` (`jet.card.art` → `assets/jet/jet_card.png`, fit `cover`).
+  - `tools/screenshot_jet_art.gd` (chụp cảnh thật: Van Sét + Tia Quét, Robo, Rồng, vỡ, Cặn Phóng, hộp), `tools/jet/check_halo.py` (đo quầng đen ngả xanh quanh vật trong ảnh nền).
+  - `tests/unit/minigame/test_jet_stage.gd` (+6: ảnh nạp đủ, lửa trung tính + cột 78 px, ảnh thẻ trong dữ liệu, ghế Rồng, ghế Robo + chân chạm sàn, hiệu ứng vỡ tự dọn).
+  - `docs/design/JET_MODE.md` (mục 14).
+- **Đã chạy:** GdUnit `tests/unit/minigame` (87/87), `<godot> --path . -s tools/screenshot_jet.gd` và `tools/screenshot_jet_art.gd`, `python -X utf8 tools/jet/check_halo.py ...`, `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`.
+- **Kết quả thật:** `run_tests.ps1` mã thoát 0: GdUnit 928/928 đạt (0 lỗi), 5/5 test khói đạt. Cảnh thật xem được: nền 3 vùng, Bộ Phụt + lửa, Rồng và Robo với người ngồi đúng ghế, Van Sét có nắp tia lửa, Tia Quét, Thanh Cặn, Cặn Phóng + cảnh báo, hộp mở. Đo tay: Rồng 0.45 quá bé nên đổi 0.58. Ảnh `build/screenshots/jetart_1..10_*.png`, `jet_0..8_*.png`.
+- **Quyết định Claude chọn:** Rồng 0.58 (0.45 trông như đứa trẻ trên con rồng bé); người ngồi dùng animation `idle` vì chưa có dáng ngồi; lớp mid làm tối để đảo / trụ nền khỏi bị nhầm là bệ đứng được; chuyển vùng bằng cách vẽ vùng cũ rồi phủ vùng mới với độ mờ tăng dần; vòng quầng vàng nhẹ quanh Tia Quét vẽ bằng code (ảnh chỉ có tia).
+- **Hạn chế đã biết:** **ảnh `jet_bg_thunder_mid.png` đã duyệt có quầng đen ngả xanh lá rộng 10–15 px kèm sọc ngang quanh tinh thể và tháp đá** (đo bằng `check_halo.py`: 25.9% pixel đặc gần mép, các nền khác 0.0–0.1%), nhìn rõ trong mọi cảnh Hang Sét Câm; sàn Hang Sét Câm 7.6%. Phép đo viền 3 px của mình ở lô 5 đã bỏ sót lỗi này (quầng rộng hơn dải đo). Cần Codex làm lại hai ảnh đó; chưa có nhạc, âm thanh, hướng dẫn trong ải, vùng 4 dung nham.
+
+## 2026-11-22 — M11-5 J5: hậu kỳ viền nền Hang Sét Câm v2
+- **Milestone / task:** M11-5 J5 — sửa halo nền Hang Sét Câm theo yêu cầu và owner duyệt ngày 2026-11-22.
+- **Trạng thái:** TESTED
+- **File tạo/sửa:** `assets/jet/jet_bg_thunder_mid_v2.png` + `.import`, `assets/jet/jet_floor_thunder_v2.png` + `.import`; `scripts/ui/jet/jet_art.gd` chuyển ánh xạ vùng thunder sang hai ảnh v2; `docs/ASSET_LICENSES.md` mục 2.1.
+- **Đã chạy:** `python -X utf8 tools/jet/check_halo.py assets/jet/jet_bg_thunder_mid_v2.png assets/jet/jet_floor_thunder_v2.png`; `C:\Godot\4.6.3\Godot_v4.6.3-stable_win64_console.exe --headless --path . --import`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`.
+- **Kết quả thật:** Halo checker mid 0/87.863 (0.0%), floor 0/15.135 (0.0%). Mid 1920×1080, bbox (126,146)–(1786,900), lề hai bên 60 px alpha 0, dải y420–620 đặc 0.38%, đoạn đặc ngang tối đa ở dải thấp 131 px; alpha và bbox giữ nguyên so với bản đã duyệt. Floor 1920×200, y_top 6 ở mọi cột, liên tục tới đáy 100%, seam cột đầu/cuối RGBA bằng 0. Far Thunder không đổi, alpha tối thiểu 255. Godot import mã thoát 0; `run_tests.ps1` mã thoát 0, GdUnit4 đạt và 5/5 smoke đạt.
+- **Quyết định Codex chọn:** không ghi đè ảnh đã commit; tạo hai file `_v2.png` và đổi `JetArt.zone_tex()` để game dùng đúng bản mới. Chỉ trung hòa sắc xanh key trong dải cạnh trong suốt, giữ nguyên alpha và hình ảnh.
+- **Hạn chế đã biết:** Godot log cảnh báo không ghi được cấu hình `user://` và thiếu Android build-tools, nhưng import kết thúc mã thoát 0. Test có cảnh báo Unicode/NUL và log lỗi trong một số ca âm tính; các ca đó PASSED, toàn bộ lệnh kết thúc mã thoát 0.
+
+## 2026-11-21 — Bản web Netlify: đăng nhập Google + backend Netlify Functions
+- **Milestone / task:** Ngoài lộ trình (owner yêu cầu: host tạm trên Netlify, đăng nhập Google, chống cheat đơn giản).
+- **Trạng thái:** TESTED (backend + export web); chưa thử Google thật / trình duyệt thật.
+- **File tạo/sửa:** `tools/web/` (function_src: `api.mjs`, `nk_engine.mjs`, `store.mjs`, `auth.mjs`, `selftest.mjs`; `build_function.mjs`, `build_web.sh`, `shell.html`), `netlify_site/` (netlify.toml, _headers, function đã bó, export web), `scripts/online/google_signin.gd`, `nakama_api.gd`, `online_service.gd`, `online_config.gd`, `scripts/ui/login_screen.gd`, `hub_home_panel.gd`, `export_presets.cfg` (preset Web), `localization/*.po`, `docs/WEB_DEPLOY.md`, test `test_nakama_api.gd`.
+- **Đã chạy:** `node function_src/selftest.mjs` (31 kiểm); Godot 4.6.3 Linux `--import`, `--export-release "Web"`; GdUnit `tests/unit/online` + `tests/unit/ui` (251/251) và `test_nakama_api.gd`.
+- **Kết quả thật:** export ra `index.pck` ~339 MB, `index.wasm` ~38 MB; function bó 1 file ~130 KB.
+- **Quyết định Claude chọn:** không dựng lại luật; chạy nguyên `server/modules/index.js` qua shim `nk` (đọc thiếu thì nạp rồi chạy lại, ghi gom và đẩy bằng etag); Web không luồng; ẩn Chat khi máy chủ báo `chat:false`; đăng nhập thiết bị tắt trừ khi `ALLOW_DEVICE_LOGIN=1`.
+- **Hạn chế đã biết:** pck quá lớn để kéo-thả, phải dùng CLI; không chat / nạp tiền; chưa chạy `run_tests.ps1` đủ bộ; vị trí nút Google (62% chiều cao) chưa xem bằng mắt.
+
+## 2026-11-21 — Bản web: giảm dung lượng
+- **Trạng thái:** TESTED (chưa xem bằng mắt chất lượng ảnh lossy trong trình duyệt)
+- **File tạo/sửa:** `tools/web/lossy_copy.py`, `tools/web/build_web.sh`, `docs/WEB_DEPLOY.md`.
+- **Kết quả thật:** `index.pck` 339 MB → 94 MB (ảnh nhân vật / kẻ địch / truyện / nền / trang bị / nhịp điệu chuyển WebP lossy q0.9 trong BẢN SAO dự án; UI, jet, placeholder giữ lossless). Chỉ story+nền+trang bị: 165 MB.
+- **Hạn chế đã biết:** lossy có thể làm mép alpha của sprite hơi nhòe; nếu thấy, tăng chất lượng hoặc bỏ `assets/characters/` khỏi `LOSSY_DIRS`.
+
+## 2026-11-25 — Deploy bản web lên Netlify (project-eclipse-game)
+- **Milestone / task:** bản web chơi thử (tiếp nối nhánh `claude/vigilant-curie-w1qj4n`, đã gộp vào `main` ngày 2026-11-22) — owner yêu cầu hướng dẫn từng bước cấp Google Client ID và deploy.
+- **Trạng thái:** TESTED (owner đã tự đăng nhập Google và vào Hub = xác nhận của owner cho phần này; các phần còn lại chưa thử)
+- **File tạo/sửa:** `.gitignore` (thêm `.netlify`, do CLI tự thêm); `docs/WEB_DEPLOY.md` (trạng thái, cài đặt Visibility, Testing / Test users, lỗi đăng nhập CLI); `docs/WEB_HANDOFF.md` (cập nhật trạng thái deploy, cách dựng lại không cần npm install). Không đổi mã game / máy chủ.
+- **Đã chạy:** (bạn thực hiện, mình hướng dẫn) tạo project Google Cloud + Branding + Client ID loại Web (origin `https://project-eclipse-game.netlify.app`), thêm email owner vào Test users; `npx netlify-cli login`, `sites:create --name project-eclipse-game`, `env:set GOOGLE_CLIENT_ID`, `deploy --prod --dir=. --functions=netlify/functions`. Mình chạy: kiểm tên site còn trống (`curl`), lossy copy + `Godot --import` + `--export-release "Web"` trên bản sao (`netlify_site/index.*`: `index.pck` 99,2 MB, `index.wasm` 37,7 MB; **không** `npm install` vì hàm đã bó sẵn), kiểm tra từ ngoài bằng `curl` và trình duyệt trong ứng dụng.
+- **Kết quả thật:** deploy 11 file + 1 function thành công. Lần đầu mọi đường trả 401 do Netlify **Production visibility = Private** (mặc định site mới); owner đổi sang Public thì trang, file game (`index.wasm` / `index.pck` / `index.js` HTTP 200), `/v2/eclipse/config` (trả `google_client_id`, `chat:false`, `device_login:false`) đều đúng; đăng nhập mã thiết bị bị tắt, RPC admin sai khóa bị từ chối, đăng ký email không có đường dẫn (đúng thiết kế bản web). Trình duyệt trong ứng dụng: game tải (131 MB), màn Đăng nhập hiện chữ tiếng Việt và đúng một nút Google, console không lỗi. Owner tự đăng nhập Google và vào Hub được.
+- **Quyết định Claude chọn:** không đặt `ADMIN_KEY` và không bật `ALLOW_DEVICE_LOGIN` (site công khai, tránh tạo nick vô hạn); để Google ở chế độ Testing (Test users) cho tới khi owner muốn mở rộng; không ghi email / token của owner vào repo; không `npm install` (không cần tải thêm gói nào).
+- **Hạn chế đã biết:** chưa thử chơi qua màn, F5 còn save, gacha / chống gian lận trên bản web, âm thanh, chất lượng ảnh lossy WebP; chữ "bên dưới" ở màn đăng nhập sai nghĩa (nút nằm phía trên); Netlify gắn huy hiệu "Powered by Netlify" (gói Free); hàm bó `api.mjs` chứa thông tin nhận tiền (ngân hàng, số tài khoản, tên chủ tài khoản) — xóa trước khi mở repo công khai; bản web không có chat, nạp tiền QR và Nguyệt Quang đi qua QTV phát tay; chế độ nhịp điệu chưa chạy (chưa đưa `/music/` lên).
+
+## 2026-11-25 — Dọn bảo mật trước khi mở repo công khai
+- **Milestone / task:** ngoài lộ trình — owner yêu cầu "Dọn bảo mật trước khi mở repo công khai".
+- **Trạng thái:** TESTED (cây hiện tại đã dọn; **lịch sử git chưa dọn**, chờ owner quyết — xem `docs/PUBLIC_REPO_CHECKLIST.md`)
+- **File tạo/sửa:** `docs/PUBLIC_REPO_CHECKLIST.md` (mới: kết quả quét + việc còn lại); `data/shop/payment.example.json` (mới, thông tin mẫu); `server/private/payment.json` (mới, **gitignored**, thông tin nhận tiền thật); `data/shop/topup_packs.json` (bỏ khối `payment`); `server/grant.ps1` (gộp payment khi đẩy bảng giá, thiếu file thì dừng), `tools/web/build_function.mjs` (gộp payment, thiếu file thì dừng), `tools/web/build_web.sh` (dựng function trước selftest); `tests/unit/online/test_topup.gd`, `test_qr_code.gd`, `server/tests/topup_smoke.mjs` (dùng thông tin mẫu); `scripts/online/viet_qr.gd` (chú thích); `.gitignore`; thôi theo dõi (file vẫn còn trên đĩa): `netlify_site/netlify/functions/api.mjs`, `tools/web/function_src/{catalog,rules}.json`, `module_source.mjs`, `docs/reference/ref_0{1,2,3}_*` (+ `.import`); `AGENTS.md`, `docs/OWNER_ASSET_CHECKLIST.md`, `docs/WEB_DEPLOY.md`, `docs/WEB_HANDOFF.md`, `server/README.md`.
+- **Đã chạy:** `git grep` / `git log -S` / `git log -G` quét khóa, token, private key, `secrets.json`, `.env`, số tài khoản, email trên cây hiện tại và 274 commit; `node --check`; `server\grant.ps1 -List`, `-SyncPacks` (có và thiếu file riêng); `node server/tests/topup_smoke.mjs`; `powershell -ExecutionPolicy Bypass -File tools\run_tests.ps1`.
+- **Kết quả thật:** cây hiện tại và lịch sử **không có** khóa / token / private key / file bí mật nào. Còn lộ: (1) số tài khoản + tên chủ tài khoản trong lịch sử từ commit `c6879a9` (2026-11-16); (2) 271 commit có email tác giả `owner@example.com` trong metadata; (3) 3 ảnh chụp màn hình Houkai Gakuen 2 (bản quyền bên thứ ba) ở mọi commit cũ. Sau khi dọn, cây theo dõi không còn số tài khoản / tên chủ tài khoản ngoài nhật ký này. `grant.ps1 -SyncPacks`: có file riêng → đẩy 11 gói; thiếu file → dừng với thông báo rõ. `topup_smoke.mjs` ĐẠT trên Nakama thật, máy chủ nhận payment từ file riêng. `run_tests.ps1`: GdUnit 929/930 đạt, 5/5 test khói đạt; **1 lỗi không do thay đổi này**: `test_minigame_screens.gd:360` (`test_song_list_uses_framework_records_and_launch`) kỳ vọng `note_speed` 850 nhưng `data/events/material_events.json` (commit `fe28497` của Codex, 2026-11-25) đặt Vô tận normal = 500; chưa sửa vì thuộc mảng nhịp điệu đang được làm.
+- **Quyết định Claude chọn:** không viết lại lịch sử / force push (AGENTS.md cấm nếu owner chưa yêu cầu, và sẽ hỏng bản clone của Codex / nhánh `feature/costumes`); khuyến nghị tạo repo public mới từ một ảnh chụp sạch, giữ repo hiện tại làm bản gốc private. Thông tin nhận tiền thật vẫn dùng được cho máy chủ và Netlify (qua `server/private/payment.json`), chỉ không còn trong git. Các file sinh ra không vào git nên máy mới phải `npm install` + `node build_function.mjs` mới deploy được. Không đổi ngưỡng chống gian lận (chỉ nêu trong checklist là sẽ công khai).
+- **Hạn chế đã biết:** `tools/web/build_function.mjs` mới chỉ kiểm cú pháp (`node --check`), chưa chạy thật vì cần `npm install` (esbuild). Lịch sử vẫn chứa số tài khoản, email, ảnh bản quyền: **chưa nên chuyển repo sang public** khi chưa chọn cách A / B / C trong checklist. Chưa có `LICENSE`. Ngưỡng chống gian lận trong `data/config/anti_cheat.json` sẽ công khai nếu mở repo.

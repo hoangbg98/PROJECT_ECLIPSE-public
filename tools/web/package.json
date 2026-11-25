@@ -1,0 +1,16 @@
+{
+  "name": "eclipse-web-backend",
+  "private": true,
+  "type": "module",
+  "description": "Backend Netlify Functions cho PROJECT ECLIPSE (bản web tạm). Build: node build_function.mjs",
+  "scripts": {
+    "build": "node build_function.mjs",
+    "test": "node function_src/selftest.mjs"
+  },
+  "dependencies": {
+    "@netlify/blobs": "^11.1.9"
+  },
+  "devDependencies": {
+    "esbuild": "^0.25.0"
+  }
+}

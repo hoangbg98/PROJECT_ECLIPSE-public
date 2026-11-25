@@ -1,0 +1,28 @@
+{
+	"_huong_dan": "Phiếu việc tạo frame cho boss Kẻ Đeo Mặt Nạ (boss_henchman_01). kind = enemy, khung 768×512 (tâm x = 384, chân y = 464; ngang rộng cho đường quét lưỡi móc ~340 px, cao đủ chỗ giơ lưỡi móc qua đầu), asset ở assets/enemies/boss_henchman_01/. Tên animation đòn = SkillDef.animation trong data/enemies/boss_henchman_01.tres (sweep, dash, ash_wave); thời gian lấy từ đòn pha 1. Phiếu Markdown ở docs/prompts/codex_frames/boss_henchman_01/ viết tay (Claude 2026-11-19) từ docs/design/MONSTERS.md mục 5, 7.4 và bảng bộ phận owner đã điền.",
+	"kind": "enemy",
+	"character_id": "boss_henchman_01",
+	"display_name": "Shokuhai",
+	"suit_name": "",
+	"canvas": {"width": 768, "height": 512},
+	"pivot_x": 384,
+	"baseline_y": 464,
+	"standing_height_px": 300,
+	"default_weapon_state": "drawn",
+	"design_en": "The masked henchman, a chibi anime boss (big head, compact body, about 2.5 heads tall): a smooth rounded dark charcoal-grey helmet-hood made of armored plates with thin glowing orange cracks, covering the whole head; a faceless glossy black visor (no eyes, no mouth) whose eye glow appears only when angry; a dark scarf around the neck; a black three-piece suit (vest, shirt and tie) under an open dark coat; ONE large dark armored pauldron on the shoulder nearest the viewer, with orange cracks; a small round emblem half white and half black on the lapel; armored dark gauntlets; black trousers; dark armored greaves and boots with orange cracks; a long tattered charcoal cloak. Weapon: a long black hooked glaive (a pole with a large curved dark blade with glowing orange cracks), always held in the hand.",
+	"refs_always": [
+		["docs/prompts/codex_frames/boss_henchman_01/ref/boss_henchman_01_ref_p01_than_day_du.png", "Thân đầy đủ (số 01): trang phục, giáp, mặt nạ, lưỡi móc, màu, nét viền"],
+		["docs/prompts/codex_frames/boss_henchman_01/ref/boss_henchman_01_ref_p41_pose_dung.png", "Pose đứng (số 41): tỉ lệ chibi, góc nhìn, cách cầm lưỡi móc"]
+	],
+	"order": ["idle", "move", "sweep", "dash", "ash_wave", "stun", "phase", "death"],
+	"animations": {
+		"idle": {"target_frames": 6, "fps": 8, "loop": true, "grounded": true},
+		"move": {"target_frames": 8, "fps": 10, "loop": true, "grounded": true, "ref_frame": 0, "ref_ratio": 1.0},
+		"sweep": {"target_frames": 17, "timing_ms": [600, 160, 650], "hits_ms": [[600, 160]], "loop": false, "grounded": true, "ref_frame": 0, "ref_ratio": 1.0},
+		"dash": {"target_frames": 19, "timing_ms": [550, 350, 700], "hits_ms": [[550, 350]], "loop": false, "grounded": true, "ref_frame": 0, "ref_ratio": 1.0},
+		"ash_wave": {"target_frames": 20, "timing_ms": [800, 200, 700], "hits_ms": [[800, 200]], "loop": false, "grounded": true, "ref_frame": 0, "ref_ratio": 1.0},
+		"stun": {"target_frames": 6, "fps": 8, "loop": true, "grounded": true, "ref_frame": 0, "ref_ratio": 0.8},
+		"phase": {"target_frames": 12, "fps": 10, "loop": false, "grounded": true, "ref_frame": 0, "ref_ratio": 1.0},
+		"death": {"target_frames": 12, "fps": 10, "loop": false, "grounded": true, "ref_frame": 0, "ref_ratio": 1.0}
+	}
+}

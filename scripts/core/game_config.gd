@@ -1,0 +1,136 @@
+extends Node
+## Cấu hình toàn cục chỉ-đọc. Sau này nạp combat_rules.tres / link_rules.tres.
+## Không giữ state của trận (xem docs/ARCHITECTURE.md mục 3).
+
+const BASE_RESOLUTION := Vector2i(1920, 1080)
+const SCENE_BOOT := "res://scenes/main/boot.tscn"
+const SCENE_TITLE := "res://scenes/main/title.tscn"
+const SCENE_HUB := "res://scenes/main/hub.tscn"
+const SCENE_TEST_STAGE := "res://scenes/stages/test_stage.tscn"
+const SCENE_STAGE := "res://scenes/stages/stage.tscn"
+const SCENE_CHARACTER := "res://scenes/main/character_screen.tscn"
+const SCENE_RECRUIT := "res://scenes/main/recruit_screen.tscn"
+const SCENE_DEBUG_GIFT := "res://scenes/main/debug_gift_screen.tscn"
+const SCENE_ONLINE := "res://scenes/main/online_screen.tscn"
+const SCENE_TOPUP := "res://scenes/main/topup_screen.tscn"
+const SCENE_LOGIN := "res://scenes/main/login_screen.tscn"
+## Màn mở từ cụm nút lục giác của Hub (owner 2026-11-14).
+const SCENE_BAG := "res://scenes/main/bag_screen.tscn"
+const SCENE_SUPPLY := "res://scenes/main/supply_screen.tscn"
+const SCENE_SORTIE := "res://scenes/main/sortie_screen.tscn"
+const SCENE_COMPANION := "res://scenes/main/companion_screen.tscn"
+const SCENE_PLAYER := "res://scenes/main/player_screen.tscn"
+## Chuỗi vào màn (owner 2026-11-14): thông tin màn + mục tiêu → đội hình (splash) → chọn giáp.
+const SCENE_STAGE_INFO := "res://scenes/main/stage_info_screen.tscn"
+const SCENE_PARTY_PREP := "res://scenes/main/party_prep_screen.tscn"
+const SCENE_PARTY_SELECT := "res://scenes/main/party_select_screen.tscn"
+## Clip dẫn truyện dạng truyện tranh (owner 2026-11-14): phát `story_clip_id`, xong thì sang `story_clip_next`.
+const SCENE_STORY_CLIP := "res://scenes/main/story_clip.tscn"
+## Cốt truyện chính (owner 2026-11-14): chọn chương (nhóm chương + thẻ) → map chương cuộn ngang.
+const SCENE_CHAPTERS := "res://scenes/main/chapter_select_screen.tscn"
+const SCENE_CHAPTER_MAP := "res://scenes/main/chapter_map_screen.tscn"
+## Chế độ nhịp điệu (M10): ải nguyên liệu, danh sách bài (vô tận), màn chơi.
+## Event nguyên liệu (M11): hub chế độ, chọn ải dạng đồ thị, màn chạy một lượt.
+const SCENE_EVENT_HUB := "res://scenes/main/minigame/event_hub_screen.tscn"
+const SCENE_STAGE_SELECT := "res://scenes/main/minigame/stage_select_screen.tscn"
+const SCENE_MINIGAME_HOST := "res://scenes/main/minigame/minigame_host.tscn"
+const SCENE_RHYTHM_SONGS := "res://scenes/main/rhythm_song_list_screen.tscn"
+const SCENE_RHYTHM_STAGE := "res://scenes/main/rhythm_stage.tscn"
+
+## Màn sẽ chơi khi mở SCENE_STAGE (data/stages/{id}.json).
+var selected_stage_id := "stage_01"
+## Nhân vật mở sẵn khi vào màn Nhân vật (rỗng = nhân vật đầu đội).
+var selected_character_id := ""
+## Món trang bị (uid) mở thẳng bảng thông tin khi vào màn Nhân vật (bấm thẻ ở Túi đồ); màn đọc xong thì xóa.
+var inspect_equipment_uid := ""
+## Tab Hub mở sẵn lần vào Hub kế tiếp (vd "BattleTab" từ thẻ Đội hình ở màn Xuất kích); rỗng = Trang chủ. Hub đọc rồi xóa.
+var hub_start_tab := ""
+## Màn đội hình: true = có nút Khai chiến vào `selected_stage_id` (mở từ thông tin màn); false = chỉ sửa đội.
+var prep_launch_stage := false
+## Ải có ô khách (GuestSlot): true = dùng giáp đã có của người chơi, false = giáp thử. Chưa sở hữu thì luôn là giáp thử.
+var guest_use_owned := false
+## Clip truyện sẽ phát khi mở SCENE_STORY_CLIP (data/story/{id}.json) và scene mở khi clip xong.
+var story_clip_id := ""
+var story_clip_next := ""
+## Map chương sẽ mở và phần cuộn tới (0 = ải đang tới).
+var selected_chapter := 1
+var selected_part := 0
+## Lượt chơi nhịp điệu sẽ mở bằng SCENE_RHYTHM_STAGE: bài, bản nốt (easy/normal/hard/boss), khóa kỷ lục
+## (rỗng khi chạy trong khung Event nguyên liệu: MinigameHost lo kỷ lục), ải boss hay không.
+var rhythm_song_id := ""
+var rhythm_chart_key := ""
+var rhythm_record_key := ""
+var rhythm_boss := false
+## Tốc độ quái của lượt (px / giây, 0 = chuẩn), lấy từ params của ải (data/events/material_events.json).
+var rhythm_note_speed := 0.0
+## Tốc độ cả bài, mật độ quái, khoảng cách tối thiểu giữa hai quái (params.speed / params.spawn của ải).
+var rhythm_song_speed := 1.0
+var rhythm_density := 1.0
+var rhythm_min_gap := 0.0
+## Event nguyên liệu (M11): event và chế độ đang xem; lượt sẽ chạy ở SCENE_MINIGAME_HOST {event_id, mode_id, stage}.
+var event_id := "evt_material"
+var event_mode_id := ""
+var minigame_launch: Dictionary = {}
+## Hướng dẫn trong ải (lần đầu chơi N-1), dòng giới thiệu lúc đếm ngược, loại nốt cho phép (rỗng = tất cả).
+var rhythm_tutorial := false
+var rhythm_intro_key := ""
+var rhythm_kinds: Array = []
+
+## Thời gian chuyển cảnh (giây), trong khoảng 150-250 ms theo UI_UX_SPEC.
+const TRANSITION_TIME := 0.2
+
+
+## Ngôn ngữ hỗ trợ (mã locale). Màn Cài đặt (M7) sẽ gọi set_language.
+const LANGUAGES: Array[String] = ["vi", "en"]
+## Mặc định tiếng Việt, không theo ngôn ngữ của hệ điều hành (owner quyết định 2026-11-11).
+const DEFAULT_LANGUAGE := "vi"
+## Đổi khi chạy để thử: godot --path . -- --lang=en
+const LANG_ARG_PREFIX := "--lang="
+
+
+const COMBAT_RULES_PATH := "res://data/config/combat_rules.tres"
+
+## Luật chiến đấu chung (chỉ đọc).
+var combat_rules: CombatRules
+## Các StatusDef trong data/statuses/.
+var statuses: StatusLibrary
+
+
+func _ready() -> void:
+	set_language(startup_language(OS.get_cmdline_user_args()))
+	load_data()
+
+
+## Nạp dữ liệu tĩnh; lỗi được báo ra log, không chặn game.
+func load_data() -> void:
+	combat_rules = load(COMBAT_RULES_PATH) as CombatRules
+	if combat_rules == null:
+		push_error("GameConfig: không nạp được %s" % COMBAT_RULES_PATH)
+	else:
+		for e in combat_rules.validate():
+			push_error("GameConfig combat_rules: %s" % e)
+	statuses = StatusLibrary.load_dir()
+	for e in statuses.errors:
+		push_error("GameConfig statuses: %s" % e)
+
+
+## Ngôn ngữ lúc khởi động: tham số `--lang=xx` nếu hợp lệ, không thì mặc định.
+## Sau này: ngôn ngữ đã lưu trong cài đặt (M5-1 SaveService / M7 Settings).
+static func startup_language(user_args: PackedStringArray) -> String:
+	for a in user_args:
+		if a.begins_with(LANG_ARG_PREFIX):
+			var code := a.trim_prefix(LANG_ARG_PREFIX)
+			if code in LANGUAGES:
+				return code
+	return DEFAULT_LANGUAGE
+
+
+func set_language(code: String) -> bool:
+	if code not in LANGUAGES:
+		return false
+	TranslationServer.set_locale(code)
+	return true
+
+
+func get_version() -> String:
+	return str(ProjectSettings.get_setting("application/config/version", "dev"))
